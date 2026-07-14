@@ -1,0 +1,10 @@
+/* ============================================================
+   Mesh Finance — Webfonts
+   NOTE: The brand's exact font files were not supplied. The logo
+   is a geometric uppercase sans; Montserrat is the closest match
+   and is used for display/headings. Work Sans handles body copy.
+   These are loaded from Google Fonts (substitution — flagged to
+   the user; swap these @import / @font-face rules for the licensed
+   brand fonts when available).
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');

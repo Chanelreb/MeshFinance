@@ -1,0 +1,1057 @@
+/* Mesh Finance, real site copy, structured for reuse across screens.
+   Pulled from meshfinance.com.au (see _research/site-content.md). Plain JS, no JSX. */
+window.MeshContent = {
+
+  nav: [
+    { id: "financial-toolkit", label: "What We Finance", children: [
+      { id: "home-loans", label: "Home Loans" },
+      { id: "investment-home-loans", label: "Investment Home Loans" },
+      { id: "bad-credit-home-loans", label: "Bad Credit Home Loans" },
+      { id: "personal-loans", label: "Personal Loans" },
+      { id: "car-loans", label: "Car Loans" },
+      { id: "first-home-buyers", label: "First Home Buyers" },
+      { id: "ato-debt", label: "ATO Debt" },
+    ]},
+    { id: "who-we-help", label: "Who We Help", children: [
+      { id: "cs-families-consolidate-debt", label: "Families Consolidate Debt" },
+      { id: "cs-first-home-buyers-get-ready", label: "First Home Buyers Get Ready" },
+      { id: "cs-refinance-with-confidence", label: "Clients Refinance With Confidence" },
+      { id: "cs-upgrade-their-home", label: "Clients Upgrade Their Home" },
+      { id: "cs-self-employed-find-options", label: "Self-Employed Clients Find Options" },
+      { id: "cs-after-a-bank-says-no", label: "Clients After a Bank Says No" },
+    ]},
+    { id: "knowledge-centre", label: "Guides and Tools", children: [
+      { id: "calculator-hub", label: "Calculator Hub" },
+      { id: "faqs", label: "FAQ's" },
+      { id: "knowledge-centre", label: "Knowledge Centre" },
+      { id: "property-profile-report", label: "Property Profile Report" },
+    ]},
+    { id: "contact", label: "Connect With Us", children: [
+      { id: "referral-hub", label: "Referral Hub" },
+      { id: "contact", label: "Contact Us" },
+    ]},
+  ],
+
+  whoWeHelp: {
+    eyebrow: "Who We Help",
+    title: "Real people, real results.",
+    intro: "Behind every loan is a person, a family, or a goal. These are real stories of clients we've helped, shared to show what's possible when you have the right lender, the right structure, and someone in your corner. Names and identifying details are kept private.",
+    order: [
+      "cs-families-consolidate-debt",
+      "cs-first-home-buyers-get-ready",
+      "cs-refinance-with-confidence",
+      "cs-upgrade-their-home",
+      "cs-self-employed-find-options",
+      "cs-after-a-bank-says-no",
+    ],
+  },
+
+  caseStudies: {
+    "cs-families-consolidate-debt": {
+      navLabel: "Families Consolidate Debt",
+      cardTitle: "How We Help Perth Families Consolidate Debt",
+      seoTitle: "Debt Consolidation Loans Perth | Mesh Finance",
+      seoDescription: "Juggling a home loan, car loan and credit cards? Mesh Finance helps Perth families consolidate debt into one manageable repayment, even with missed payments on file.",
+      urlSlug: "/how-we-help/debt-consolidation-perth",
+      tag: "Debt Consolidation",
+      teaser: "A young Perth family juggling a home loan, car loan, Afterpay and a credit card, with arrears on file, rolled everything into one manageable repayment.",
+      title: "How We Help Perth Families Consolidate Debt",
+      lead: [
+        "When life gets busy, repayments can quickly start to feel messy, especially for families juggling kids, work, bills, and unexpected changes along the way.",
+        "This story is about a young Perth family who came to Mesh Finance feeling overwhelmed, behind, and unsure whether anyone could help.",
+      ],
+      sections: [
+        { h: "The Situation", blocks: [
+          { p: "This family had a few different repayments happening at once, including:" },
+          { list: ["A home loan", "A car loan", "Afterpay commitments", "A small credit card"] },
+          { p: "On their own, each repayment felt manageable at first. But together, they were starting to put pressure on the household budget." },
+          { p: "Around six months earlier, their home loan had also been paused after they needed to take unplanned leave to care for their sick baby. Once repayments started again, they felt like they were constantly playing catch-up." },
+        ]},
+        { h: "The Challenge", blocks: [
+          { p: "Because there had been missed repayments and financial hardship listed on their credit file, they thought they may not have any options." },
+          { p: "Their existing bank had not offered a solution that helped them move forward, so they assumed they would simply need to keep pushing through." },
+          { p: "After speaking with a friend, they decided it was worth having a chat with Mesh Finance, even if just to understand where they stood." },
+        ]},
+        { h: "How We Helped", blocks: [
+          { p: "We reviewed their overall position and looked at the bigger picture, not just the credit file." },
+          { p: "Instead of focusing only on the missed repayments, we considered what had caused the hardship, how their situation had changed, and what structure could help make their monthly commitments easier to manage." },
+          { p: "We were able to assist them with a home loan through a more understanding lender who could consider their situation, even with arrears and missed repayments showing on their credit file." },
+          { p: "The new loan allowed them to consolidate their:" },
+          { list: ["Credit card", "Afterpay commitments", "Car loan"] },
+          { p: "This meant they could roll multiple repayments into one simpler, more manageable monthly repayment." },
+        ]},
+        { h: "The Outcome", blocks: [
+          { p: "By restructuring their debts, the family walked away feeling more organised, more in control, and relieved to have a clear plan in place." },
+          { p: "Instead of juggling multiple repayment dates, balances, and providers, they had one main repayment to manage." },
+          { p: "Most importantly, they had more breathing room in their monthly budget, giving them a little more surplus to enjoy life with their family." },
+        ]},
+        { h: "Why This Mattered", blocks: [
+          { p: "This was not just about consolidating debt." },
+          { p: "It was about helping a young family reset after a difficult period, reduce the pressure on their household budget, and feel confident that they had a way forward." },
+          { p: "Sometimes, financial hardship can make people feel like they are out of options. But the right lender, the right structure, and the right guidance can make a big difference." },
+          { p: "At Mesh Finance, we help clients across Perth understand what is possible, even when things have not gone perfectly." },
+        ]},
+        { h: "Debt Consolidation Help in Perth", blocks: [
+          { p: "If you are a Perth family with a home loan, car loan, credit cards or buy now pay later commitments, you do not need everything sorted before reaching out. We can help you understand:" },
+          { list: [
+            "Whether your repayments could be restructured into one",
+            "How much equity you may have to work with",
+            "Whether missed repayments or arrears rule out a new loan",
+            "What a more manageable monthly repayment could look like",
+            "Which Perth lenders may suit your situation",
+          ]},
+          { p: "The sooner you understand your options, the sooner you can start feeling in control again." },
+        ]},
+      ],
+      callout: {
+        h: "Could This Be You?",
+        blocks: [
+          { p: "If you are a Perth family juggling a home loan, car loan, credit cards, buy now pay later accounts, or other repayments, it may be worth reviewing whether your current setup is still working for your family." },
+          { p: "You do not need to have everything perfectly organised before reaching out. That is what we are here to help with." },
+        ],
+      },
+      faqs: [
+        { question: "Can debt consolidation help if I have missed repayments on my credit file?", answer: "Often, yes. We work with lenders across Perth and WA who look at your overall situation, not just a missed payment, and can consider hardship or arrears as part of a bigger picture." },
+        { question: "Can I consolidate my car loan and credit cards into my home loan?", answer: "If you have equity in your home, this is often possible. Rolling short-term debts into your home loan can lower your combined repayment, though we will structure it so short-term debt does not linger over your full loan term." },
+        { question: "Does Mesh Finance help with debt consolidation across Perth and WA?", answer: "Yes. We help clients across Perth and Western Australia review their repayments and restructure their finance with a lender suited to their situation." },
+        { question: "Will consolidating my debts hurt my credit score?", answer: "Done well, it usually helps over time. One managed repayment is easier to keep on track than several separate ones, and we compare lenders on your behalf so you avoid unnecessary credit enquiries." },
+      ],
+      relatedLinks: [
+        { label: "Debt Consolidation Loans", id: "debt-consolidation-loans" },
+        { label: "Bad Credit Home Loans", id: "bad-credit-home-loans" },
+        { label: "Extra Repayment Calculator", id: "calc-extra-repayment" },
+      ],
+      closing: "Mesh Finance, your finance partner through every stage of life.",
+    },
+    "cs-first-home-buyers-get-ready": {
+      navLabel: "First Home Buyers Get Ready",
+      cardTitle: "How We Help First Home Buyers in Perth Get Ready",
+      seoTitle: "First Home Buyer Mortgage Broker Perth | Mesh Finance",
+      seoDescription: "Buying your first home in Perth? Mesh Finance helps first home buyers understand borrowing capacity, deposit goals, pre-approval, home loans and the buying process in WA.",
+      urlSlug: "/how-we-help/first-home-buyers-perth",
+      tag: "First Home Buyers",
+      teaser: "A young couple thought they were too early to speak with a mortgage broker. Speaking early was exactly what helped them get ready faster.",
+      title: "How We Help First Home Buyers in Perth Get Ready",
+      lead: [
+        "Buying your first home in Perth can feel exciting, overwhelming, and completely confusing all at once.",
+        "There is advice coming from everywhere, Instagram, TikTok, parents, friends, colleagues, and people who genuinely mean well. But when everyone is saying something different, it can be hard to know what actually applies to you.",
+        "At Mesh Finance, we help first home buyers in Perth and across WA understand their numbers, make a clear plan, and feel more confident before they start looking seriously at properties.",
+        "This story is about a young couple who thought they were too early to speak with a mortgage broker. As it turned out, speaking early was exactly what helped them get ready faster.",
+      ],
+      sections: [
+        { h: "The Situation", blocks: [
+          { p: "This couple had moved in with their parents so they could save money towards their first home deposit." },
+          { p: "They were doing the right things, but they still felt unsure about the bigger picture. They did not know:" },
+          { list: [
+            "How much deposit they actually needed",
+            "How much they could borrow",
+            "What purchase price they should be aiming for",
+            "Whether they were months away or years away",
+            "What steps they needed to take before buying a home in Perth",
+          ]},
+          { p: "They also did not think they had saved enough to speak with us yet. And this is something we hear all the time." },
+          { p: "Many first home buyers think they need to have the full deposit saved before they speak to a mortgage broker. But we actually love speaking with first home buyers early, because that is when we can help the most." },
+        ]},
+        { h: "The Challenge", blocks: [
+          { p: "The hardest part for this couple was not that they were doing anything wrong. It was that they did not have a clear target." },
+          { p: "Saving for a first home deposit can feel frustrating when you do not know how much you need, what your borrowing capacity looks like, or what price range you should be watching in the Perth property market." },
+          { p: "Without a clear plan, it is easy to feel like you are just saving into the unknown." },
+        ]},
+        { h: "How We Helped", blocks: [
+          { p: "We sat down with them and talked through their position, income, savings, goals, and what kind of home they hoped to buy." },
+          { p: "From there, we helped them understand their borrowing capacity and what deposit they would likely need." },
+          { p: "We also helped them with budgeting and planning, so they knew exactly what they were aiming for." },
+          { p: "As Perth mortgage brokers, we also helped explain the home loan process in simple terms, including what lenders look for, how pre-approval works, and what first home buyers should consider before making an offer." },
+          { p: "Once they had a clear target, things started to feel much more achievable. They realised they were already well on their way, they just needed the right information and a plan to follow." },
+        ]},
+        { h: "The Outcome", blocks: [
+          { p: "Within a few short months, they had finished saving their deposit and were ready to start looking at Perth properties seriously." },
+          { p: "Because they had done the planning early, they knew what kind of homes were realistic for their budget and what they could expect to get for their money." },
+          { p: "When they were ready, we helped them secure their home loan pre-approval and guided them through the next steps. That included helping them understand:" },
+          { list: [
+            "What to look for at home opens",
+            "How to approach making an offer",
+            "What to consider in a WA contract of sale",
+            "What the settlement agent would help with",
+            "What to expect when signing loan documents",
+            "What happens between finance approval and settlement",
+          ]},
+          { p: "We stayed with them through the process, right through to settlement." },
+        ]},
+        { h: "Why This Mattered", blocks: [
+          { p: "This was not just about getting a home loan approved. It was about helping a young couple feel confident, prepared, and clear on what they needed to do next." },
+          { p: "Once they knew their numbers, the whole process became less overwhelming." },
+          { p: "They went from feeling unsure and not ready, to having a clear plan, a realistic budget, and the confidence to start looking for their first home." },
+          { p: "At Mesh Finance, we love helping first home buyers early, before the stress kicks in, before the guesswork gets too much, and before they feel pressured to make big decisions without the right guidance." },
+        ]},
+        { h: "First Home Buyer Help in Perth", blocks: [
+          { p: "If you are a first home buyer in Perth, you do not need to wait until everything is perfect before speaking with a mortgage broker. We can help you understand:" },
+          { list: [
+            "How much you may be able to borrow",
+            "How much deposit you may need",
+            "What lenders may look for",
+            "Whether you may be eligible for first home buyer support",
+            "What repayments could look like",
+            "How to prepare for pre-approval",
+            "What happens after you find a property",
+          ]},
+          { p: "The earlier you understand your numbers, the easier it is to make confident decisions." },
+        ]},
+      ],
+      callout: {
+        h: "Could This Be You?",
+        blocks: [
+          { p: "If you are saving for your first home in Perth but do not know how much deposit you need, how much you could borrow, or where to start, you do not need to figure it all out alone." },
+          { p: "A first home buyer chat can help you understand your position, set a clear goal, and make a plan that actually feels achievable." },
+          { p: "The earlier you know what you are aiming for, the easier it is to get there." },
+        ],
+      },
+      faqs: [
+        { question: "When should I speak to a mortgage broker as a first home buyer?", answer: "You can speak to a mortgage broker before you have finished saving your deposit. In fact, speaking early can help you understand your borrowing capacity, deposit target, budget, and next steps before you start looking at homes." },
+        { question: "Do I need a full deposit before getting advice?", answer: "No. Many first home buyers speak with us while they are still saving. This can help you work out how much more you may need and what price range could be realistic." },
+        { question: "Can Mesh Finance help first home buyers in Perth?", answer: "Yes. Mesh Finance helps first home buyers in Perth and across WA understand their home loan options, prepare for pre-approval, and move through the buying process with more confidence." },
+        { question: "What does pre-approval mean?", answer: "Pre-approval gives you an indication of how much a lender may be willing to lend, based on your current financial position. It can help you shop for properties with more confidence, but final approval is still subject to lender assessment and the property being acceptable." },
+        { question: "What should first home buyers in WA know before making an offer?", answer: "Before making an offer, it is important to understand your borrowing capacity, deposit position, loan approval conditions, contract terms, finance clause, settlement process, and any costs involved with buying a property in WA." },
+      ],
+      relatedLinks: [
+        { label: "Home Loans", id: "home-loans" },
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+        { label: "Stamp Duty Calculator", id: "calc-stamp-duty" },
+      ],
+      closing: "Mesh Finance, we make your financial dreams a reality.",
+    },
+    "cs-refinance-with-confidence": {
+      navLabel: "Clients Refinance With Confidence",
+      cardTitle: "How We Help Clients Refinance With Confidence",
+      seoTitle: "Refinance Mortgage Broker Perth | Refinance With Confidence | Mesh Finance",
+      seoDescription: "Thinking about refinancing your home loan? Mesh Finance helps Perth homeowners compare rates, fees, offset accounts, redraw features and the true cost of changing lenders.",
+      urlSlug: "/how-we-help/refinance-with-confidence",
+      tag: "Refinancing",
+      teaser: "A lower rate does not always mean a better outcome. We help Perth homeowners weigh up the true cost of refinancing before they move lenders.",
+      title: "How We Help Clients Refinance With Confidence",
+      lead: [
+        "Refinancing your home loan can sound simple on the surface. Find a lower rate, move lenders, save money. But in reality, there is a bit more to it than that.",
+        "At Mesh Finance, we help Perth homeowners look beyond the headline interest rate and understand whether refinancing actually makes sense once the full picture is considered.",
+      ],
+      sections: [
+        { h: "The Situation", blocks: [
+          { p: "Many clients come to us wondering if their current home loan is still competitive." },
+          { p: "Sometimes their fixed rate has ended. Sometimes their repayments have increased. Sometimes they have seen another lender advertising a lower rate and want to know whether it is worth moving." },
+          { p: "The big question is usually: should I refinance, or should I stay where I am? And the answer depends on more than just the interest rate." },
+        ]},
+        { h: "The Challenge", blocks: [
+          { p: "A lower rate does not always mean a better outcome." },
+          { p: "When reviewing a refinance, it is important to factor in the full cost of moving lenders, including things like:" },
+          { list: [
+            "Discharge fees from the current lender",
+            "Application or setup fees with the new lender",
+            "Valuation or settlement fees",
+            "Government registration costs",
+            "Annual package fees",
+            "Monthly account fees",
+            "Cashback offers, where available",
+            "The value of offset or redraw features",
+          ]},
+          { p: "Without reviewing these properly, it can be easy to move for a lower rate and later realise the overall saving was not as strong as expected." },
+        ]},
+        { h: "How We Helped", blocks: [
+          { p: "When clients come to Mesh Finance for a refinance review, we run the figures properly." },
+          { p: "We compare the current loan against the new options and factor in the costs involved in changing lenders. This helps clients understand the true saving, not just the advertised rate difference." },
+          { p: "We also compare different product types, because not every client needs the same loan structure. For example, we may look at:" },
+          { list: [
+            "Package home loans with offset accounts",
+            "Basic home loans with lower fees",
+            "Loans with redraw access",
+            "Loans with annual package fees",
+            "Loans with no annual fee",
+            "Cashback refinance offers",
+            "Split loan options",
+          ]},
+          { p: "A package loan with an offset account can be a great option for some clients, especially if they keep savings sitting in offset and want more flexibility." },
+          { p: "But for other clients, a basic product with a lower rate and redraw access may work out better, especially if they do not hold much money in offset." },
+          { p: "That is why we do not just compare rates. We compare structure." },
+        ]},
+        { h: "Package Loan vs Basic Loan", blocks: [
+          { p: "One of the biggest things we help clients understand is whether they are actually getting value from a package home loan." },
+          { p: "Package loans can come with helpful features, such as an offset account, credit card options, or multiple accounts. But they can also come with annual package fees." },
+          { p: "Basic home loans may have fewer bells and whistles, but they often come with lower fees and a sharper rate. The right option depends on how the client uses their money day to day." },
+          { p: "If they keep a decent balance in offset, the interest savings may outweigh the package fee. If they do not use an offset account much, a basic product with redraw may be the cleaner and cheaper option." },
+          { p: "You can use our Offset vs Redraw Calculator to compare the difference:" },
+          { link: { label: "Offset vs Redraw Calculator", id: "calc-offset-vs-redraw" } },
+        ]},
+        { h: "The Outcome", blocks: [
+          { p: "By running the numbers clearly, clients can make a confident decision about whether refinancing is worth it." },
+          { p: "Sometimes the result is a clear yes. Sometimes the savings are there, but the client needs to decide whether the effort of moving lenders is worth the benefit. And sometimes, staying with the current lender or negotiating a better rate may make more sense." },
+          { p: "The goal is not just to refinance for the sake of it. The goal is to make sure the loan still suits the client's life, budget, goals, and cash flow." },
+        ]},
+        { h: "Why This Mattered", blocks: [
+          { p: "For many clients, refinancing can feel confusing because there are so many rates, fees, products, and features to compare. We help simplify that process." },
+          { p: "At Mesh Finance, we show clients the numbers in a clear way so they can understand:" },
+          { list: [
+            "What they are paying now",
+            "What they could pay with another lender",
+            "What the cost of moving would be",
+            "Whether the savings are worth it",
+            "Whether an offset account is actually useful for them",
+            "Whether a basic loan may be a better fit",
+            "What their repayments could look like after refinancing",
+          ]},
+          { p: "When clients can see the full picture, they can make decisions with more confidence." },
+        ]},
+      ],
+      callout: {
+        h: "Could This Be You?",
+        blocks: [
+          { p: "If you have had your home loan for a while, your fixed rate has ended, or you are wondering whether your current lender is still competitive, it may be worth reviewing your options." },
+          { p: "A refinance review can help you understand whether there is a better structure available, whether moving lenders is worthwhile, and whether your current loan is still working for you." },
+          { p: "At Mesh Finance, we help Perth homeowners refinance with clarity, confidence, and a proper understanding of the numbers." },
+        ],
+      },
+      faqs: [
+        { question: "Is refinancing always worth it?", answer: "Not always. Refinancing may be worthwhile if the savings outweigh the costs of moving lenders and the new loan structure suits your needs. That is why it is important to compare the full cost, not just the interest rate." },
+        { question: "What costs should I consider when refinancing?", answer: "Common refinance costs can include discharge fees, application fees, settlement fees, valuation fees, government registration costs, annual package fees, and any other lender-specific charges." },
+        { question: "Is a package home loan better than a basic home loan?", answer: "It depends on how you use the loan. A package loan may suit clients who want an offset account and extra features. A basic loan may suit clients who want a simpler structure, lower fees, and redraw access." },
+        { question: "What is the difference between offset and redraw?", answer: "An offset account is a transaction account linked to your home loan. Money sitting in offset can reduce the interest charged on your loan. Redraw allows you to access extra repayments you have made into the loan, subject to lender rules." },
+        { question: "Can Mesh Finance help me compare offset and redraw?", answer: "Yes. We can help you compare whether an offset account or redraw feature is likely to suit your situation. You can also use our Offset vs Redraw Calculator to get a clearer starting point." },
+      ],
+      relatedLinks: [
+        { label: "Home Loans", id: "home-loans" },
+        { label: "Offset vs Redraw Calculator", id: "calc-offset-vs-redraw" },
+        { label: "Loan Repayment Calculator", id: "calc-loan-repayment" },
+      ],
+      closing: "Mesh Finance, we make your financial dreams a reality.",
+    },
+    "cs-upgrade-their-home": {
+      navLabel: "Clients Upgrade Their Home",
+      cardTitle: "Helping Clients Upgrade Their Home",
+      tag: "Upgrading",
+      teaser: "A family wondered if they could afford a bigger home. With the right structure, they bought their new house and kept their old one as an investment.",
+      title: "How We Help Clients Upgrade Their Home",
+      lead: [
+        "Sometimes the idea of upgrading feels exciting, but also a little out of reach.",
+        "This family came to Mesh Finance wanting to understand whether they could move into a bigger home that better suited their lifestyle. They were not sure what was possible, so we helped them look at the full picture before making any decisions.",
+      ],
+      sections: [
+        { h: "The Situation", blocks: [
+          { p: "The family wanted to upgrade their home, but they also wanted to understand what would happen with their current property." },
+          { p: "The original question was simple: could they afford to buy a new home?" },
+          { p: "But as we worked through the numbers, we also explored a second option: could they buy a new home and keep their current home as an investment property?" },
+        ]},
+        { h: "The Challenge", blocks: [
+          { p: "There were a few moving parts to consider. We needed to look at:" },
+          { list: [
+            "The estimated value of their current home",
+            "Their borrowing capacity based on their income",
+            "The potential rental income from their current property",
+            "Whether they could afford the new home loan",
+            "Whether keeping the existing property as an investment would still work",
+          ]},
+          { p: "For many families, upgrading can feel like it has to be one path or the other, sell the current home to buy the next one, or stay where you are." },
+          { p: "But sometimes, with the right structure, there may be more options available than expected." },
+        ]},
+        { h: "How We Helped", blocks: [
+          { p: "We ran valuations on their current home, reviewed their income position, and assessed their borrowing capacity." },
+          { p: "We also looked at the potential rental return on their existing property to see whether it could be kept and converted into an investment." },
+          { p: "From there, we helped them understand what the numbers looked like across both options, selling the current home or keeping it." },
+          { p: "This gave them clarity before they started making bigger decisions." },
+        ]},
+        { h: "The Outcome", blocks: [
+          { p: "Much to their surprise, they were able to do both." },
+          { p: "They purchased a new family home and kept their existing property as an investment." },
+          { p: "Just before Christmas, they moved into their new home, complete with a pool, which was a very popular feature with the whole family." },
+          { p: "We also helped structure the finance so they had funds available to tidy up their previous home and prepare it for the rental market." },
+        ]},
+        { h: "Why This Mattered", blocks: [
+          { p: "This was not just about buying a bigger house." },
+          { p: "It was about helping the family understand their options clearly, make a confident decision, and take the next step without guessing." },
+          { p: "They were able to upgrade their lifestyle, keep an asset for the future, and create a new investment opportunity at the same time." },
+          { p: "At Mesh Finance, we help clients look beyond the obvious option and understand what may be possible with the right structure." },
+        ]},
+      ],
+      callout: {
+        h: "Could This Be You?",
+        blocks: [
+          { p: "If you are thinking about upgrading your home, you may have more options than you realise." },
+          { p: "You might be able to sell and buy, keep your current home as an investment, or compare both options side by side before deciding." },
+          { p: "We can help you work through the numbers and understand what makes sense for your situation." },
+        ],
+      },
+      relatedLinks: [
+        { label: "Investment Home Loans", id: "investment-home-loans" },
+        { label: "Home Loans", id: "home-loans" },
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+      ],
+      closing: "Mesh Finance, your finance partner through every stage of life.",
+    },
+    "cs-self-employed-find-options": {
+      navLabel: "Self-Employed Clients Find Options",
+      cardTitle: "Helping Self-Employed Clients Improve Cash Flow",
+      tag: "Self-Employed",
+      teaser: "A café owner's business loans and equipment leases were costing $12,000 a month. Restructuring against his home cut that to $3,500.",
+      title: "How We Help Self-Employed Clients Improve Cash Flow",
+      lead: [
+        "Running a business often means making quick decisions to get things moving.",
+        "For this client, opening a caf\u00e9 had been a big step. The business was going well, customers were coming through the door, and the caf\u00e9 had strong momentum.",
+        "But behind the scenes, the monthly repayments were starting to put pressure on the business cash flow.",
+      ],
+      sections: [
+        { h: "The Situation", blocks: [
+          { p: "The client had opened his caf\u00e9 around 12 months earlier." },
+          { p: "Like many new business owners, he had used a range of finance options to get the caf\u00e9 set up and operating, including:" },
+          { list: ["Equipment leases", "Coffee machine finance", "Chef and kitchen equipment funding", "Short-term business cash flow loans"] },
+          { p: "These types of products can be really helpful when a business is getting started. They can allow a business owner to access the equipment and cash flow they need quickly." },
+          { p: "But over time, the repayments can become expensive and hard to manage." },
+        ]},
+        { h: "The Challenge", blocks: [
+          { p: "The caf\u00e9 itself was performing well, but the client had multiple small loans and leases running at the same time." },
+          { p: "This included equipment finance through providers such as Silver Chef, as well as smaller cash flow facilities through lenders such as Prospa." },
+          { p: "Combined, the repayments were adding up to around $12,000 per month." },
+          { p: "That level of outgoing was making it harder for the business to keep cash available for growth, stock, staffing, and day-to-day flexibility." },
+        ]},
+        { h: "How We Helped", blocks: [
+          { p: "We reviewed the business position, the existing finance commitments, and the client's overall lending structure." },
+          { p: "Because the client owned a home, we were able to look at whether some of the higher-cost business debts could be refinanced into cheaper funding using the home as security." },
+          { p: "This allowed us to consolidate the smaller business loans and equipment finance into a more manageable structure." },
+          { p: "The goal was not just to reduce the number of repayments, it was to improve monthly cash flow so the business had more room to move." },
+        ]},
+        { h: "The Outcome", blocks: [
+          { p: "By restructuring the debts, the client's monthly repayments reduced from approximately $12,000 per month to around $3,500 per month." },
+          { p: "That created a significant improvement in monthly cash flow." },
+          { p: "Instead of so much of the caf\u00e9's income going straight back out to loan and lease repayments, the client had more breathing room to reinvest into the business and support future growth." },
+        ]},
+        { h: "Why This Mattered", blocks: [
+          { p: "This was not about the caf\u00e9 struggling." },
+          { p: "It was about helping a good business move into a better finance structure once it had become more established." },
+          { p: "The finance products that help get a business started are not always the best long-term solution. As the business grows, it can be worth reviewing whether the current repayments, rates, and loan structure are still working." },
+          { p: "At Mesh Finance, we help self-employed clients look at the bigger picture, not just what they owe, but how the structure affects their monthly cash flow and future plans." },
+        ]},
+      ],
+      callout: {
+        h: "Could This Be You?",
+        blocks: [
+          { p: "If you are self-employed and juggling multiple business loans, equipment leases, or short-term cash flow facilities, it may be worth reviewing whether your current setup is still the right fit." },
+          { p: "A restructure may help reduce pressure, simplify repayments, and create more breathing room in the business." },
+          { p: "Using your home as security is a big decision and will not suit every situation, but it can be an option worth exploring with the right advice." },
+        ],
+      },
+      relatedLinks: [
+        { label: "Debt Consolidation Loans", id: "debt-consolidation-loans" },
+        { label: "Home Loans", id: "home-loans" },
+        { label: "Extra Repayment Calculator", id: "calc-extra-repayment" },
+      ],
+      closing: "Mesh Finance, your finance partner through every stage of life.",
+    },
+    "cs-after-a-bank-says-no": {
+      navLabel: "Clients After a Bank Says No",
+      cardTitle: "Helping Clients After a Bank Says No",
+      tag: "Specialist Lending",
+      teaser: "A young family with a past debt agreement thought home ownership was off the table. With the right plan and lender, they bought the home they were renting.",
+      title: "How We Help Clients After a Bank Says No",
+      lead: [
+        "Sometimes a \u201Cno\u201D from the bank can feel final.",
+        "For this young family, home ownership felt out of reach because of a past credit issue. They were renting, raising their family, and hoping to one day buy a home of their own, but they were worried their history would stop them from getting there.",
+      ],
+      sections: [
+        { h: "The Situation", blocks: [
+          { p: "The husband had experienced financial difficulty several years earlier after a couple of credit cards became unmanageable." },
+          { p: "At the time, they received advice that led them down a formal debt pathway. They completed the required period, paid what was required, and moved forward with their lives." },
+          { p: "But even years later, that history still felt like a barrier." },
+          { p: "They were renting and wanted the stability of owning their own home, but they were unsure whether any lender would consider them because of the previous bankruptcy or debt agreement history." },
+        ]},
+        { h: "The Challenge", blocks: [
+          { p: "They had already been made to feel like their options were limited." },
+          { p: "For many clients, a past credit issue can make the lending process feel intimidating. It can be easy to assume that because one bank says no, every lender will say the same thing." },
+          { p: "But not all lenders assess applications the same way." },
+          { p: "Some lenders are more willing to look at the full story, including how long ago the issue happened, what has changed since then, current income, savings habits, deposit position, and overall affordability." },
+        ]},
+        { h: "How We Helped", blocks: [
+          { p: "We took the time to understand what had happened, where the family was now, and what needed to be done to put them in the best possible position." },
+          { p: "Rather than rushing straight into an application, we helped them put a plan in place." },
+          { p: "This included building their savings a little further so we could approach a lender that was more suited to their situation and more willing to consider applicants with a past bankruptcy or debt agreement history." },
+          { p: "Once they were ready, we helped them apply with a lender who could look beyond the old credit issue and assess their current position." },
+        ]},
+        { h: "The Outcome", blocks: [
+          { p: "The family ended up buying the home they were already renting from their landlord." },
+          { p: "This meant they could stay in the place they already knew, avoid the stress of moving, and finally have a home of their own." },
+          { p: "It was a huge milestone, not just financially, but emotionally." },
+          { p: "Since then, their position has continued to grow. They have sold that first home, upgraded into a larger family home, and we have also helped them finance a new car and a boat as their lifestyle changed and they moved closer to the water." },
+        ]},
+        { h: "Why This Mattered", blocks: [
+          { p: "This story is a reminder that your past does not always have to define your future lending options." },
+          { p: "A previous credit issue, bankruptcy, or debt agreement can make finance more complex, but it does not always mean home ownership is off the table." },
+          { p: "The right plan, the right timing, and the right lender can make a real difference." },
+          { p: "At Mesh Finance, we help clients understand what may be possible, even when they have been told no before." },
+        ]},
+      ],
+      callout: {
+        h: "Could This Be You?",
+        blocks: [
+          { p: "If a bank has said no, or you are worried that something from your past may stop you from buying a home, it may still be worth having a conversation." },
+          { p: "You do not need to know which lender to speak to or what your options are. That is what we help with." },
+        ],
+      },
+      relatedLinks: [
+        { label: "Bad Credit Home Loans", id: "bad-credit-home-loans" },
+        { label: "Home Loans", id: "home-loans" },
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+      ],
+      closing: "Mesh Finance, your finance partner through every stage of life.",
+    },
+  },
+
+  loans: {
+    "home-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Home Loans in Perth, Compared and Tailored to You",
+      metaTitle: "Home Loan Broker Perth | Compare Home Loans | Mesh Finance",
+      metaDescription: "Compare home loans across a wide panel of lenders with Mesh Finance, your Perth mortgage broker. First home buyers, upgraders and refinancers welcome. Our service is free.",
+      imgAlt: "Perth couple reviewing home loan options with their mortgage broker",
+      intro: "Purchasing a home is one of the most significant decisions you'll make, and the right loan matters as much as the right property. As a Perth home loan broker with over a decade in the Australian mortgage industry, Mesh Finance compares home loans across a wide panel of lenders and guides you through the process with expertise, empathy, and the personalised support you deserve.",
+      blocks: [
+        { h: "Why Use a Mortgage Broker in Perth?", body: "Every homebuyer has unique goals and financial circumstances, and no single bank suits everyone. As your mortgage broker, we compare home loans from a wide range of lenders on your behalf, so you see options a branch will never show you, without the credit-score damage of applying to lenders one by one. Our non-judgemental approach, tailored solutions and deep knowledge of the Perth property market set us apart." },
+        { h: "Loan Features to Consider", list: [
+          "Offset Accounts, reduce the interest on your mortgage by linking it to your savings.",
+          "Redraw Facilities, access extra repayments if you need funds in the future.",
+          "Range of Loan Terms, choose a term that aligns with your financial strategy.",
+          "Principal and Interest Repayments, pay down your loan's principal with each repayment.",
+          "Interest-Only Repayments, lower monthly payments for a period, focusing only on interest.",
+          "Fixed Interest Rates, lock in your rate for predictability.",
+          "Variable Interest Rates, benefit from rate changes over time.",
+          "Split Loans, combine fixed and variable rates to balance stability and flexibility.",
+        ]},
+        { h: "Who We Help Across Perth and WA", list: [
+          "Perth First Home Buyers, guiding you from deposit to purchase, including WA grants and stamp duty concessions.",
+          "Growing Families, assisting with refinancing and ensuring your loan supports your lifestyle.",
+          "Investors, finding competitive loans tailored to your property goals.",
+          "Clients Needing Debt Solutions, offering solutions like debt consolidation.",
+        ]},
+      ],
+      faqs: [
+        { q: "How does a mortgage broker compare home loans?", a: "We assess your income, deposit and goals, then compare loan features and rates across our panel of lenders to shortlist the options that genuinely fit. You get one clear recommendation instead of dozens of confusing product pages." },
+        { q: "What help is available for Perth first home buyers?", a: "WA first home buyers may be eligible for the First Home Owner Grant, stamp duty concessions and the Home Guarantee Scheme. We check every scheme against your situation before you commit." },
+        { q: "Does using a home loan broker cost me anything?", a: "No. Our service is free to you, the lender pays us a commission once your loan settles, and we disclose it upfront." },
+      ],
+      links: [
+        { label: "First Home Buyers Guide", id: "first-home-buyers" },
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+        { label: "Try Our Online Calculators", id: "calculator-hub" },
+        { label: "Check My Credit Score", id: "my-credit-file" },
+        { label: "What's My Property Worth?", id: "property-profile-report" },
+      ],
+    },
+
+    "investment-home-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Investment Home Loans for Perth Property Investors",
+      metaTitle: "Investment Home Loans Perth | Mesh Finance",
+      metaDescription: "Build your property portfolio with investment home loans compared across multiple lenders by Mesh Finance, Perth mortgage brokers. Interest-only, equity release and more.",
+      imgAlt: "Investor inspecting a Perth rental property",
+      intro: "Investing in property is one of the most effective ways to build wealth over time, and as Perth mortgage brokers we're here to guide you on your journey. With our expert support, flexible investment loan options, and strategies tailored to your financial goals, we'll help you maximise your opportunities in the property market.",
+      blocks: [
+        { h: "Why Invest in Property with Mesh Finance?", numbered: [
+          { t: "Build Your Investment Portfolio", b: "Whether you're purchasing your first investment property or adding to an existing portfolio, we'll create a financing plan that supports your long-term vision, rental income, capital growth, or both." },
+          { t: "Leverage Equity for Greater Opportunities", b: "If you already own property, you may have built up equity you can leverage toward a new investment, growing your portfolio without a large cash deposit." },
+          { t: "Flexible Loan Structures to Suit Your Strategy", b: "From interest-only loans that boost cash flow to principal and interest options for long-term debt reduction. Loan terms from 3 to 30 years." },
+          { t: "Access to Competitive Rates and Diverse Lenders", b: "We partner with a wide range of lenders to bring you competitive rates and exclusive deals, often better than a single bank." },
+        ]},
+        { h: "How Mesh Finance Simplifies Your Investment Experience", body: "Investment loans can be more complex than standard home loans, but that's where our expertise shines, bank-beating deals and specialised investment advice. We handle the research and loan applications for you, so you avoid multiple credit inquiries, and with pre-approval you can confidently search for your next property." },
+      ],
+      faqs: [
+        { q: "How much deposit do I need for an investment property?", a: "Many lenders want 10 to 20 percent, but if you own property already you may be able to use equity instead of cash. We'll model both paths for you." },
+        { q: "Should I choose interest-only or principal and interest?", a: "Interest-only boosts short-term cash flow while principal and interest reduces debt faster. The right choice depends on your strategy, tax position and how long you plan to hold." },
+        { q: "Can you compare investment loans across lenders?", a: "Yes. We compare rates, structures and investor policies across our lender panel, which often turns up sharper deals than any single bank offers." },
+      ],
+      links: [
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+        { label: "Interest Only Calculator", id: "calc-interest-only" },
+        { label: "Home Loans", id: "home-loans" },
+      ],
+      closing: "🏘️ Ready to Build Your Wealth? Contact Mesh Finance today to discuss your investment home loan options and start building a profitable property portfolio.",
+    },
+
+    "bad-credit-home-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Bad Credit Home Loans in Perth: Helping You Move Forward",
+      metaTitle: "Bad Credit Home Loans Perth | Mesh Finance",
+      metaDescription: "Bad credit, arrears or tax debt? Mesh Finance are Perth home loan brokers who work with specialist lenders to find bad credit home loans, judgement-free.",
+      imgAlt: "Perth homeowner getting a fresh start after credit difficulties",
+      intro: "At Mesh Finance, we understand that life can be unpredictable. Unexpected expenses, job changes, or health issues can sometimes impact your credit history. If you have a less-than-perfect credit score, you're not alone, and you're certainly not out of options.",
+      blocks: [
+        { h: "How Can We Help? We've assisted clients with:", list: [
+          "Bad Repayment History, we work to find lenders who understand your unique situation.",
+          "Current Arrears, even if you're behind on current payments, we have options.",
+          "Tax Debt, owing money to the ATO? Many of our clients have been in the same position.",
+          "Multiple Credit Cards and Liabilities, we consider all your obligations.",
+          "Part IV Debt Agreements, we work with lenders willing to offer support.",
+          "Self-Employed Clients, we work with lenders who appreciate self-employed Australians.",
+        ]},
+        { h: "Our Approach: Compassionate, Non-Judgmental, and Solution-Oriented", body: "We believe that everyone deserves a second chance. Our approach is simple: we listen to your story, understand your financial hurdles, and work tirelessly to find solutions. No judgment, no assumptions, just dedicated support." },
+        { h: "Why Choose Mesh Finance?", list: [
+          "Personalised Solutions, we analyse your unique situation and goals.",
+          "Clear, Honest Communication, we explain each step.",
+          "Ongoing Support, we're here well after settlement.",
+        ]},
+      ],
+      faqs: [
+        { q: "Can I get a home loan in Perth with bad credit?", a: "Often, yes. We work with specialist lenders who look past a credit score to your current income, equity and story. Defaults, arrears and even Part IV agreements don't automatically rule you out." },
+        { q: "Will applying hurt my credit score further?", a: "Going through a broker protects your score. We match you to the right lender first, so you avoid the multiple credit enquiries that come from applying bank by bank." },
+        { q: "What interest rate will I pay with bad credit?", a: "Specialist lenders usually charge a premium, but many clients refinance to a mainstream rate after 12 to 24 months of clean repayments. We plan that exit path with you from day one." },
+      ],
+      links: [
+        { label: "Debt Consolidation Loans", id: "debt-consolidation-loans" },
+        { label: "ATO Tax Debt Loans", id: "ato-debt" },
+        { label: "Check My Credit Score", id: "my-credit-file" },
+      ],
+      closing: "Ready for a Fresh Start? 🙋‍♀️ You don't have to navigate this alone. With Mesh Finance, you'll have a team by your side, ready to find opportunities and open doors.",
+    },
+
+    "personal-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Personal Loans for Perth Borrowers",
+      metaTitle: "Personal Loans Perth | Compare Lenders | Mesh Finance",
+      metaDescription: "Personal loans for weddings, renovations, medical costs and more. Mesh Finance compares Perth personal loan options across lenders while protecting your credit score.",
+      imgAlt: "Perth couple planning a renovation funded by a personal loan",
+      intro: "When life calls for a financial lift, whether for a wedding, holiday, home renovation, or unexpected medical expense, Mesh Finance is here to help. As Perth finance brokers we compare personal loan options across lenders, with a straightforward approach that prioritises your financial wellbeing and peace of mind.",
+      blocks: [
+        { h: "Why Choose a Broker for Your Personal Loan?", body: "Using a broker isn't just convenient, it's one of the best ways to protect your credit score. Applying through a broker helps you avoid the pitfalls of multiple credit checks. With access to a variety of lenders and personalised guidance, we always act in your best interest." },
+        { h: "Flexible Loan Solutions for Every Need", list: [
+          "Medical Procedures, covering health costs so you can focus on recovery, not the bill.",
+          "Holidays, fund your dream getaway without financial stress.",
+          "Weddings, finance the perfect day without compromise.",
+          "Home Renovations, a loan tailored to your renovation plans.",
+          "Cars & Bikes, terms that make repayments manageable.",
+          "Debt Consolidation, combine multiple debts into a single, easy-to-manage payment.",
+        ]},
+        { h: "Personalised Loan Terms from 3 to 7 Years", body: "Choose a repayment schedule that fits your budget and lifestyle, you're never locked into an option that doesn't suit your situation." },
+        { h: "No Early Termination Fees", body: "Make extra payments or clear your balance sooner without penalty, saving on interest and giving you complete control." },
+      ],
+      faqs: [
+        { q: "How fast can a personal loan be approved?", a: "Straightforward applications are often approved within a couple of business days, sometimes faster. We prepare your application so it goes to the right lender first time." },
+        { q: "Secured or unsecured, which is better?", a: "Secured loans usually mean lower rates but need an asset behind them. Unsecured loans are faster and more flexible. We'll compare both against your situation." },
+        { q: "Will comparing personal loans hurt my credit score?", a: "Not through us. We compare lenders before anything hits your file, so there's a single enquiry with the lender you actually proceed with." },
+      ],
+      links: [
+        { label: "Loan Repayment Calculator", id: "calc-loan-repayment" },
+        { label: "Car Loans", id: "car-loans" },
+        { label: "Debt Consolidation Loans", id: "debt-consolidation-loans" },
+      ],
+      closing: "With Mesh Finance, personal loans are more than a transaction, they're a pathway to achieve your goals.",
+    },
+
+    "car-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Car Loans in Perth, New, Used, Dealer or Private",
+      metaTitle: "Car Loans Perth | New & Used Vehicle Finance | Mesh Finance",
+      metaDescription: "Get behind the wheel sooner with car loans compared across lenders by Mesh Finance, Perth finance brokers. New or used, dealer or private sale, pre-approval available.",
+      imgAlt: "New car buyer collecting keys at a Perth dealership",
+      intro: "Looking to purchase a car in Perth? Whether it's a new or used vehicle, from a dealership or a private seller, Mesh Finance makes it easy to get behind the wheel with tailored car loan options compared across lenders, secured or unsecured, we have you covered.",
+      blocks: [
+        { h: "Why Choose Mesh Finance for Your Car Loan?", numbered: [
+          { t: "Secured and Unsecured Car Loans", b: "Secured loans can often mean lower interest rates, while unsecured loans provide flexibility." },
+          { t: "Options for Any Seller, Dealer or Private", b: "Confidently buy from either a car yard or private seller." },
+          { t: "Get Pre-Approved and Shop with Confidence", b: "Know your budget before you step onto the lot, pre-approval gives you negotiating power." },
+          { t: "Fleet Discounts on New Cars", b: "Ask us about fleet discounts and exclusive deals on new cars." },
+        ]},
+        { h: "Flexible Loan Terms and Low Repayments", list: [
+          "Loan Terms from 3 to 7 Years.",
+          "Balloons and Residuals Available, keep monthly payments low.",
+          "All-Aged Vehicles Accepted, finance cars of any age.",
+        ]},
+      ],
+      faqs: [
+        { q: "Can I get a car loan for a private sale?", a: "Yes. We arrange finance for private-seller purchases as well as dealership buys, and we handle the extra paperwork private sales involve." },
+        { q: "What is a balloon payment on a car loan?", a: "A balloon is a lump sum left to the end of the loan, which lowers your monthly repayments. It suits buyers who upgrade regularly or expect a future payout, and we'll model whether it works for you." },
+        { q: "Should I get pre-approved before car shopping?", a: "It's the strongest position to buy from. Pre-approval sets your budget, speeds up settlement and gives you real negotiating power at the dealership." },
+      ],
+      links: [
+        { label: "Loan Repayment Calculator", id: "calc-loan-repayment" },
+        { label: "Leisure Loans", id: "leisure-loans" },
+        { label: "Personal Loans", id: "personal-loans" },
+      ],
+      closing: "Reach out today to explore your car loan options and start your journey toward owning your dream car.",
+    },
+
+    "leisure-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Caravan, Boat and Leisure Loans in Perth",
+      metaTitle: "Caravan & Boat Loans Perth | Leisure Finance | Mesh Finance",
+      metaDescription: "Finance your caravan, motorhome, boat or jetski with leisure loans compared across lenders by Mesh Finance, Perth finance brokers. New or used, flexible terms.",
+      imgAlt: "Family towing a caravan out of Perth for a WA road trip",
+      intro: "Ready to hit the road or the water? Whether it's a caravan, motorhome, boat or jetski, Mesh Finance makes financing your next adventure simple, comparing leisure loan options across lenders with flexible terms built around how you'll actually use it.",
+      blocks: [
+        { h: "Why Choose Mesh Finance for Your Leisure Loan?", list: [
+          "Caravans & Motorhomes, flexible finance so you can get exploring sooner.",
+          "Boats & Jetskis, secured and unsecured options depending on your circumstances.",
+          "Any Age, New or Used, we finance leisure assets bought from dealers or private sellers.",
+          "Pre-Approval Available, shop with confidence and negotiating power.",
+        ]},
+        { h: "Flexible Loan Terms", body: "Choose a term that suits your budget, with balloon or residual payment options available to keep regular repayments manageable." },
+        { h: "Bank-Beating Deals from a Range of Lenders", body: "We partner with multiple lenders to find competitive rates and terms, and by comparing on your behalf, we help protect your credit score from unnecessary enquiries." },
+      ],
+      faqs: [
+        { q: "Can I finance a used caravan or boat from a private seller?", a: "Yes. We finance leisure assets of any age from dealers or private sellers, and we sort the inspection and paperwork requirements lenders attach to private sales." },
+        { q: "Are caravan loan rates higher than car loan rates?", a: "They're often similar for secured loans on newer assets. Rates vary with the asset's age and the loan structure, which is exactly what we compare across lenders for you." },
+        { q: "Can I keep repayments low with a balloon payment?", a: "Usually, yes. Balloon and residual options are available on most leisure loans, trading a lump sum at the end for lower regular repayments." },
+      ],
+      links: [
+        { label: "Loan Repayment Calculator", id: "calc-loan-repayment" },
+        { label: "Car Loans", id: "car-loans" },
+      ],
+      closing: "Ready to get started? Reach out and let's find the right finance for your next adventure.",
+    },
+
+    "debt-consolidation-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Debt Consolidation Loans in Perth",
+      metaTitle: "Debt Consolidation Loans Perth | Mesh Finance",
+      metaDescription: "Roll credit cards, personal loans and other debts into one repayment. Mesh Finance are Perth brokers who compare debt consolidation loans across lenders, judgement-free.",
+      imgAlt: "Perth borrower simplifying multiple debts into a single repayment",
+      intro: "Managing multiple debts is costly and stressful. Mesh Finance helps Perth borrowers combine outstanding balances into one simplified loan, making it easier to track and manage your finances, and often cheaper too.",
+      blocks: [
+        { h: "Streamlined Debt Consolidation", body: "A single monthly repayment at a potentially lower interest rate can make a world of difference in keeping your finances under control." },
+        { h: "What We Help Consolidate", list: [
+          "Multiple credit cards and store cards.",
+          "Personal loans and buy-now-pay-later balances.",
+          "Car loans and other liabilities.",
+          "Tax debt and other arrears, where lenders allow.",
+        ]},
+        { h: "No Early Termination Fees", body: "We believe in giving our clients the freedom to pay off their loans when it suits them, without penalty." },
+      ],
+      faqs: [
+        { q: "Does debt consolidation hurt my credit score?", a: "Done well, it usually helps over time. One managed repayment is easier to keep clean than five separate ones, and going through a broker avoids unnecessary credit enquiries along the way." },
+        { q: "Can I consolidate debt into my home loan?", a: "If you have equity, yes. Rolling debts into a home loan usually means a much lower rate, though we'll structure it so short-term debt doesn't quietly become 30-year debt." },
+        { q: "Can ATO or tax debt be included?", a: "Often, yes. We work with lenders who accept ATO debt in consolidation, see our ATO Tax Debt Loans page for the details." },
+      ],
+      links: [
+        { label: "ATO Tax Debt Loans", id: "ato-debt" },
+        { label: "Bad Credit Home Loans", id: "bad-credit-home-loans" },
+        { label: "Extra Repayment Calculator", id: "calc-extra-repayment" },
+      ],
+      closing: "Ready to simplify your finances? Reach out and let's build a consolidation plan that works for you.",
+    },
+  },
+
+  atoDebt: {
+    eyebrow: "How We Help",
+    title: "ATO Tax Debt Loans",
+    subtitle: "Debt Consolidation for ATO, Private and Solicitor Debt",
+    intro: "Struggling with ATO tax debt or juggling multiple debts from private or solicitor sources? Our tailored ATO tax debt loan solutions are designed to help you consolidate debt, streamline repayments, and get your finances back on track. Whether you're dealing with arrears, defaults, or credit challenges, we have a solution for you.",
+    seoIntro: "Mesh Finance helps WA business owners and individuals refinance ATO tax debt through a personal loan, home loan refinance, or debt consolidation loan, so a single, manageable repayment replaces mounting interest and penalties from the tax office.",
+    features: [
+      { title: "Up to 90% LVR", body: "Unlock the value of your property with a high loan-to-value ratio, giving you the funding you need to manage your debts effectively." },
+      { title: "Unlimited Cash Out", body: "Access unlimited cash out for working capital, allowing you to cover additional expenses and consolidate your debt with ease." },
+      { title: "Credit-Impaired Solutions", body: "Our loans are designed to support those with less-than-perfect credit, helping you rebuild and recover financially." },
+      { title: "Non-Standard Income Earners", body: "Whether you're self-employed, working in a non-standard role, or have irregular income streams, our flexible criteria make you eligible." },
+      { title: "Arrears & Defaults Acceptable", body: "Don't let past financial difficulties hold you back. We understand that circumstances change, and arrears or defaults are acceptable." },
+      { title: "100% Offset Available", body: "Benefit from our 100% offset facility, helping you reduce interest and manage your repayments more efficiently." },
+    ],
+    howItWorks: [
+      { t: "Personal Loans", b: "A straightforward way to clear smaller ATO debts fast, without touching your property." },
+      { t: "Home Loan Refinance", b: "Roll your ATO debt into your existing home loan and replace multiple repayments with one, often at a lower rate." },
+      { t: "Debt Consolidation Loans", b: "Combine ATO, private, and solicitor debts into a single facility, structured around your income and equity." },
+    ],
+    faqs: [
+      { q: "Can I get a loan with an ATO debt on my credit file?", a: "Yes. We work with lenders who specialise in credit-impaired and arrears situations, including outstanding ATO debt." },
+      { q: "Will refinancing my home loan clear my ATO debt?", a: "It can. By increasing your home loan and using the equity, you can pay out the ATO in full and repay it as part of your regular mortgage." },
+      { q: "I don't have up-to-date tax returns or completed financials for the current year, does that rule me out?", a: "No, we still have options. Our lender panel includes low-doc and alternative-income solutions for self-employed and non-standard income earners, so outdated or incomplete financials don't have to hold you back." },
+    ],
+    closing: "Apply for your ATO tax debt loan today and start the journey towards financial stability. Our experienced team is here to help you navigate the process and tailor a solution that fits your unique needs.",
+  },
+
+  familyGuarantee: {
+    title: "Using a Parent's Property as a Security Guarantee",
+    subtitle: "What First Home Buyers Need to Know",
+    intro: "Buying your first home can feel like a massive leap, especially when saving a big enough deposit is holding you back. But what if your family could help fast-track the process without gifting cash? Welcome to the world of security guarantor loans, a strategy where a parent (or close family member) offers their property as additional security for your home loan.",
+    sections: [
+      { h: "🔍 What Is a Security Guarantee?", body: "A security guarantee is when a family member (usually a parent) uses the equity in their own property to help secure your loan. This doesn't mean they're giving you money. Instead, they're offering the lender extra reassurance by putting part of their home up as collateral, so you can borrow more, sooner, and possibly avoid Lender's Mortgage Insurance (LMI)." },
+      { h: "👨‍👩‍👧‍👦 Who Can Be a Guarantor?", list: ["Parents or step-parents.", "Occasionally siblings or grandparents, depending on the lender.", "They must own property in Australia, usually with solid equity and a good credit history."] },
+      { h: "✅ Benefits", list: ["Buy sooner, no need to wait for a 20% deposit.", "Avoid LMI.", "Boost your borrowing power.", "Keep your savings."] },
+      { h: "⚠️ Risks and Responsibilities", list: ["Guarantors are liable if repayments are missed.", "A limited guarantee is possible, often only 20%, not the full amount.", "It can impact the guarantor's own borrowing capacity while active."] },
+      { h: "🔓 When Can the Guarantee Be Removed?", list: ["Refinance the loan and release the guarantor.", "Request the lender reassess and remove the guarantee, subject to conditions."] },
+      { h: "🛠 How We Can Help", body: "At Mesh Finance, we'll guide you through the entire guarantor loan process, from assessing whether it's the right fit, to working with the lender, and helping your parents understand their commitment. We compare lenders that offer family guarantee loans, ensure the guarantor only covers the minimum amount necessary, and support both buyer and guarantor with clear communication." },
+    ],
+    closing: "Ready to explore a family guarantee loan? Get in touch for a no-obligation chat. We'll help you unlock the door to homeownership, sooner than you think.",
+  },
+
+  financialToolkit: {
+    title: "Our Financial Toolkit",
+    intro: "At Mesh Finance, we make borrowing simple, tailored, and supportive. Whether you're dreaming of a new home, expanding your business, hitting the road in a new car or caravan, or consolidating debt for a fresh start, our loan options are designed to mesh with your life goals.",
+    items: [
+      { title: "Home Loans", body: "Make homeownership a reality with competitive rates and personalised support.", id: "home-loans" },
+      { title: "Investment Home Loans", body: "Grow your portfolio with the right structure and lender.", id: "investment-home-loans" },
+      { title: "Bad Credit Home Loans", body: "A compassionate, non-judgmental approach when life got complicated.", id: "bad-credit-home-loans" },
+      { title: "Personal Loans", body: "Cover life's expenses or pursue a dream with a loan that's all about you.", id: "personal-loans" },
+      { title: "Car Loans", body: "Drive away with confidence, our car loans are quick, easy, and affordable.", id: "car-loans" },
+      { title: "Leisure Loans", body: "Ready to explore? Get the freedom to travel with a flexible caravan or boat loan.", id: "leisure-loans" },
+      { title: "Debt Consolidation Loans", body: "Simplify your finances and lower your stress by merging your debts into one manageable payment.", id: "debt-consolidation-loans" },
+    ],
+    closing: "With Mesh Finance, you're never just another application. We're here to support you with expert advice, straightforward terms, and a commitment to helping you find the perfect loan for your journey.",
+  },
+
+  calculatorHub: {
+    title: "Welcome to Mesh Finance's Calculator Hub",
+    intro: "When it comes to making smart financial decisions, having the right tools at your fingertips makes all the difference. That's why we've created a suite of user-friendly calculators designed to help you take control of your mortgage, savings, and budget.",
+    items: [
+      { emoji: "🧮", title: "What Could I Borrow?", name: "Borrowing Power Calculator", id: "calc-borrowing-power", body: "Estimate your maximum borrowing capacity based on income, expenses and commitments, with living expense figures kept up to date." },
+      { emoji: "🏠", title: "Crunch My Repayments", name: "Loan Repayment Calculator", id: "calc-loan-repayment", body: "Estimate your monthly or fortnightly repayments based on your loan amount, interest rate, and repayment period." },
+      { emoji: "📄", title: "Interest Only, Explained", name: "Interest Only Mortgage Calculator", id: "calc-interest-only", body: "See how repayments compare during an interest-only period versus principal and interest." },
+      { emoji: "💸", title: "Stamp Duty Decoder", name: "Stamp Duty Calculator", id: "calc-stamp-duty", body: "Know exactly how much you'll need to budget for based on your state, property value, and buyer type." },
+      { emoji: "🐷", title: "Grow My Savings", name: "Saving Calculator", id: "calc-savings", body: "See how a regular deposit and interest rate can grow your savings balance over time." },
+      { emoji: "💵", title: "Extra Payments, Big Savings", name: "Extra Repayment Calculator", id: "calc-extra-repayment", body: "See how making additional repayments on your loan can save you money and reduce your loan term." },
+      { emoji: "💰", title: "Put a Lump Sum to Work", name: "Lump Sum Repayment Calculator", id: "calc-lump-sum", body: "See how a one-off lump sum payment can cut your loan term and interest bill." },
+      { emoji: "⏳", title: "How Long to Repay?", name: "How Long to Repay Calculator", id: "calc-how-long", body: "Find out how long it'll take to pay off your loan at a given repayment amount." },
+      { emoji: "⚖️", title: "Offset or Redraw?", name: "Offset vs Redraw Calculator", id: "calc-offset-vs-redraw", body: "Compare a loan with an offset account against a cheaper redraw-only loan, and find your break-even offset balance." },
+    ],
+    closing: "Start Calculating Today! Our calculators are free, easy to use, and designed to help you make better financial decisions.",
+  },
+
+  offsetVsRedraw: {
+    howItWorks: [
+      { h: "1. Offset option", body: "Your effective loan balance is your full loan minus both your savings and everyday balances, since both sit in the offset account and reduce the balance interest is calculated on. We then add the annual fee." },
+      { h: "2. Redraw option", body: "Interest is calculated on the full loan balance at the cheaper redraw rate. Your savings and everyday balances don't reduce this balance, they're not offsetting anything, so redraw interest is based on the full amount owing. Any annual fee is added." },
+      { h: "3. Compare and break even", body: "We show the cheaper option, the monthly difference, and the exact offset balance you'd need to keep for the offset loan to break even against the redraw loan." },
+    ],
+    whatNumbersMean: [
+      { t: "Estimated annual cost", b: "The total interest plus fees for one year at the rates and balances you entered." },
+      { t: "Monthly difference", b: "The annual saving divided by 12 to make it easy to picture in your budget." },
+      { t: "Break-even offset balance", b: "The average offset balance you'd need so both options cost roughly the same. If this number is higher than your loan, the offset option may not reach break-even." },
+    ],
+    offset: {
+      title: "What is an offset account?",
+      body: "An offset account is a transaction account linked to your home loan. Money sitting in the offset account reduces the loan balance used to calculate interest. For example, if your loan is $600,000 and you have $30,000 in offset, you're generally only charged interest as if the loan balance was $570,000.",
+      list: [
+        "Can reduce the interest you pay",
+        "Can help pay the loan off faster if repayments stay the same",
+        "Money usually remains accessible day-to-day",
+        "Offset loans can have higher rates or annual package fees",
+      ],
+    },
+    redraw: {
+      title: "What is redraw?",
+      body: "Redraw lets you access extra repayments you've made into your home loan, depending on the lender's rules. Instead of parking money in a separate offset account, you pay extra into the loan and may be able to redraw those funds later.",
+      list: [
+        "Can be useful when the loan has a lower rate",
+        "May suit people who don't need daily access to the money",
+        "Some lenders have redraw limits, delays or rules",
+        "Redraw isn't always the same as having cash in a bank account",
+      ],
+    },
+    suits: {
+      offset: { title: "Offset account", list: [
+        "Better if you keep regular savings in your account",
+        "Good if you want easy, daily access to your money",
+        "Suits people who use multiple accounts or budgeting buckets",
+        "May come with higher rates or annual package fees",
+      ]},
+      redraw: { title: "Redraw", list: [
+        "Better if you want a cheaper interest rate",
+        "Good if you're disciplined with extra repayments",
+        "May suit people with lower everyday savings balances",
+        "Access to funds may depend on lender rules",
+      ]},
+    },
+    considerations: [
+      { t: "The difference in interest rate", b: "Even 0.10% can add up over 25\u201330 years." },
+      { t: "Annual and package fees", b: "Factor these in, they eat into offset savings." },
+      { t: "How much you keep in offset", b: "Be realistic about your average balance, not the peak." },
+      { t: "Everyday access to funds", b: "Do you need to move money in and out often?" },
+      { t: "Future investment use", b: "If the property may become an investment, offset can protect tax deductibility." },
+      { t: "Lender redraw rules", b: "Some lenders limit redraw amounts, timing or frequency." },
+    ],
+    disclaimer: "This calculator provides a general estimate only and does not take into account daily interest calculations, changing balances, repayments, lender policy, tax treatment, future use of the property or your personal circumstances. Please speak with Mesh Finance before making a decision.",
+  },
+
+  faqs: [
+    { question: "Why should I use a mortgage broker?", answer: "Our job as your broker is to provide you with a range of loan options, not limited to one bank or finance company. Our number-crunching software teamed with our expert knowledge means we can provide unbiased guidance for all your finance needs." },
+    { question: "Do you charge a fee?", answer: "Yes, we charge a $440 fee for our services. This includes access to our client application portal (property reports and credit checks), pre-approvals and a Letter of Eligibility, yearly home loan health checks and lender pricing reviews, and a one-on-one consult with our Financial Planning team." },
+    { question: "Can you help if I have bad credit?", answer: "Absolutely! Life is full of ups and downs, and we understand a credit default, missed repayments or hardship can be a direct result of it. We have a range of lenders that provide solutions to help clients purchase a home or refinance their debt." },
+    { question: "Do I need to have saved a deposit before starting the process with a mortgage broker?", answer: "There is no wrong time to reach out for a chat. Clients get a lot of value meeting with us before they're ready to purchase, we can assist with saving plans and options that might not require the deposit you think you need." },
+    { question: "I work 9 to 5, how can I make an appointment?", answer: "We have flexible ways to start your journey with us: appointments in our office, Zoom appointments outside regular office hours, or we can meet in the comfort of your home after hours." },
+  ],
+
+  knowledgeCentre: [
+    { title: "Property Profile Report", body: "CoreLogic valuation reports to understand what your property, or your next one, is really worth.", id: "property-profile-report", icon: "Home", cta: "Get a report" },
+    { title: "My Credit File", body: "What's in your credit file, and how to keep it healthy.", id: "my-credit-file", icon: "Shield", cta: "Learn more" },
+    { title: "Helpful Articles", body: "Guides on schemes, grants and lending, kept current.", id: "helpful-articles", icon: "Star", cta: "Read articles" },
+    { title: "FAQ's", body: "Quick, plain-English answers to the questions we hear most.", id: "faqs", icon: "Quote", cta: "Browse FAQs" },
+  ],
+
+  helpfulArticles: [
+    { slug:"help-to-buy-wa", title: "Help to Buy WA | Buy a Home with a 2% Deposit", date: "14 June 2026", body: "Learn how the Australian Government's Help to Buy Scheme can help eligible WA buyers purchase a home with as little as a 2% deposit. Check eligibility, income limits, property caps and more." },
+    { slug:"ato-debt-lending-solutions-business-owners", title: "ATO Debt Lending Solutions for Australian Business Owners", date: "1 June 2026", body: "ATO debt is becoming more expensive for business owners. Learn how lending solutions may help pay out, consolidate or manage ATO debt more effectively than a payment arrangement." },
+    { slug:"using-parents-property-as-security-first-home-buyer", title: "Using a Parent's Property as Security to Buy Your First Home", date: "1 May 2026", body: "Saving a deposit can be one of the biggest hurdles for first home buyers. A family security guarantee may allow parents to use equity in their property to help their child buy sooner, without gifting cash directly." },
+    { slug:"wa-new-home-guarantee-scheme", title: "WA New Home Guarantee Scheme Oct 2025", date: "12 October 2025", body: "WA First Home Guarantee Scheme changes coming October 1st, 2025." },
+    { slug:"protect-your-credit-file", title: "How to Protect your Credit File", date: "12 September 2025", body: "How to protect your credit file by placing and removing a credit ban (credit freeze)." },
+  ],
+
+  myCreditFile: {
+    title: "What is a Credit File?",
+    intro: "Think of your credit file like a financial report card. It's a record that shows how you've handled credit over time, giving lenders a snapshot of your borrowing and payment habits.",
+    items: [
+      { title: "Basic Info", body: "Your name, address, birth date, and work history." },
+      { title: "Your Credit Accounts", body: "A list of credit cards, loans, and other accounts, plus your balances and payment record." },
+      { title: "Who's Been Checking?", body: "A list of companies or lenders that have recently looked at your credit." },
+      { title: "Public Records", body: "Major financial events like bankruptcies that could impact your credit." },
+      { title: "Collections/Defaults", body: "Details on overdue loans or bills that have been sent to collections." },
+    ],
+    closing: "Lenders use this file to see how reliable you are with credit. A healthy credit file can mean better loan offers, lower interest rates, and more options when you need them. If you'd like a copy of your Equifax credit file, just let us know, we'll walk you through it step by step!",
+  },
+
+  propertyProfileReport: {
+    title: "Property Valuation Services with CoreLogic Reports",
+    subtitle: "Empowering Your Property Decisions with Accurate Valuation Insights",
+    intro: "At Mesh Finance, we believe that informed decisions lead to better financial outcomes. That's why, as part of our service, we provide you with comprehensive property valuation reports from CoreLogic.",
+    items: [
+      { title: "For Existing Homeowners", body: "Ensure your property's value aligns with your financial goals and explore opportunities for refinancing or equity release." },
+      { title: "For Buyers", body: "Gain an edge when making offers by understanding the market value of the property you're interested in." },
+    ],
+    included: ["Estimated Property Value", "Market Trends", "Comparable Sales", "Suburb Insights"],
+    closing: "Let Us Take the Guesswork Out of Property Valuations. Start Making Confident Decisions Today.",
+  },
+
+  referralHub: {
+    title: "Refer & Win with Mesh Finance",
+    intro: "We truly appreciate the trust you place in us when you recommend our services to friends, family, and colleagues. That's why we want to give back, not just with a heartfelt thanks, but with something extra!",
+    headline: "💸 Refer a Friend & You BOTH Get a Chance to Win $1,000 Cash!",
+    headlineBody: "It's simple: send someone our way. Once we've had a chat with them, you're both in the draw!",
+    prizes: [
+      { label: "Grand Prize", value: "$1,000 Cash" },
+      { label: "Runner-Up Prizes", value: "$500 Cash" },
+      { label: "Most Referrals Award", value: "$250 Crown Gift Voucher" },
+    ],
+    dates: [
+      { label: "Promotion Starts", value: "01 July 2026" },
+      { label: "Entries Close", value: "20 June 2027" },
+      { label: "Draw Date", value: "28 June 2027" },
+    ],
+    howToEnter: [
+      "Know someone who'd be a great fit for our services? Ask them to reach out or send us their details.",
+      "Follow us on Instagram @mesh_finance.",
+      "We'll pop both of you into the draw after we've had our first chat.",
+    ],
+  },
+
+  // Full article bodies, block-structured like the loan pages (h/body/list).
+  articles: {
+    "help-to-buy-wa": {
+      title: "Help to Buy WA: Buy a Home with as Little as a 2% Deposit",
+      subtitle: "The Australian Government's Help to Buy Scheme Has Arrived in Western Australia",
+      date: "14 June 2026",
+      intro: "Saving a large deposit is one of the biggest challenges facing first home buyers. The Australian Government's Help to Buy Scheme aims to make home ownership more accessible by allowing eligible buyers to purchase a home with as little as a 2% deposit. Under the scheme, the Government contributes up to 30% of the purchase price for an existing home or 40% for a newly built home, helping reduce the amount you need to borrow and potentially eliminating the need for Lenders Mortgage Insurance (LMI).",
+      blocks: [
+        { h: "How Does the Help to Buy Scheme Work?", body: "The Help to Buy Scheme is a shared equity arrangement between you and the Australian Government. You contribute a minimum 2% deposit, obtain a home loan from a participating lender, and the Government contributes up to 30% (existing home) or 40% (new home). You own and live in the property as your principal place of residence." },
+        { h: "The Government's contribution:", list: ["Is interest-free.", "Does not require regular repayments.", "Can be bought back over time if your circumstances improve.", "Is repaid when you sell the property or refinance out of the scheme."] },
+        { h: "Key Benefits of the Help to Buy Scheme", list: [
+          "⌛ Buy Sooner, many buyers can enter the property market years earlier by needing only a 2% deposit.",
+          "↘️ Borrow Less, the Government contribution reduces the amount you need to borrow from the bank.",
+          "🛟 Avoid Lenders Mortgage Insurance, by lowering your effective loan-to-value ratio, many participants may avoid costly LMI premiums.",
+          "✨ No Interest on the Government Contribution, unlike traditional borrowing, the Government's equity contribution is interest-free.",
+        ]},
+        { h: "Who Is Eligible?", list: [
+          "Citizenship, an Australian citizen, at least 18 years old.",
+          "Income Limits, single applicants: taxable income of $100,000 or less; couples and single parents: combined taxable income of $160,000 or less.",
+          "Property Ownership, not currently own any property in Australia or overseas (some exceptions for single parents).",
+          "Occupancy, the property must be your principal place of residence; investment properties are not eligible.",
+          "Property Price Caps, for WA, Perth and major regional centres up to $850,000; other areas up to $600,000.",
+        ]},
+        { h: "What Properties Can Be Purchased?", list: ["Established homes.", "Newly built homes.", "Townhouses.", "Units and apartments.", "Duplexes.", "Vacant land combined with a qualifying construction contract."] },
+        { h: "What Costs Are Not Covered?", list: ["Stamp duty (if applicable).", "Settlement and conveyancing costs.", "Building and pest inspections.", "Valuation fees.", "Mortgage registration fees.", "Home and building insurance.", "Any other purchase-related expenses."] },
+        { h: "Important Things to Know", body: "The Help to Buy Scheme has a limited number of places available each year. Applicants cannot participate in multiple government shared equity schemes simultaneously. Before making offers on properties or attending auctions, buyers should obtain both lender and scheme approval." },
+        { h: "Is Help to Buy Right for You?", body: "The Help to Buy Scheme can be an excellent solution for buyers who have a stable income but are struggling to save a traditional deposit. However, because the Government shares in future property value growth, it's important to understand both the benefits and long-term implications before proceeding." },
+      ],
+      closing: "Ready to Find Out If You Qualify? Contact the Mesh Finance team today, we'll assess your situation, explain your options, and help you determine the most suitable path into home ownership.",
+    },
+
+    "ato-debt-lending-solutions-business-owners": {
+      title: "ATO Debt Is Getting More Expensive: Why Business Owners Should Review Their Lending Options",
+      subtitle: "If you have an ATO debt, a payment arrangement may not be your only option.",
+      date: "1 June 2026",
+      intro: "ATO debt has become a growing pressure point for many Australian business owners. Between cash flow gaps, rising costs, tax obligations, BAS payments and business loan repayments, it can be easy for tax debt to build up quietly in the background. For a long time, many businesses have treated an ATO payment arrangement as the default solution, but it is not always the most cost-effective or finance-friendly way to manage tax debt.",
+      blocks: [
+        { h: "Why ATO debt needs attention sooner rather than later", body: "From 1 July 2025, interest charged by the ATO on late payments and underpayments is no longer tax deductible, the real cost of carrying ATO debt may be higher than many business owners realise. Unpaid tax debt can also create issues when applying for finance, and for some businesses may impact their credit profile." },
+        { h: "Is an ATO payment arrangement always the best option?", body: "Not always. A payment arrangement can be useful for short-term, manageable debt, but it can place pressure on monthly cash flow and may make future finance applications more difficult. In some cases, a lending solution may provide a cleaner, more structured way to manage the debt." },
+        { h: "How lending solutions may help with ATO debt", list: [
+          "Paying out overdue ATO debt, clear the balance and replace it with a structured loan repayment.",
+          "Paying out an existing ATO payment arrangement, consolidate into a loan for more predictable repayments.",
+          "Allowing an ATO payment plan to remain in place, some lenders accept this while addressing other lending needs.",
+          "Payout of Small Business Restructure debt, a pathway forward after a formal restructure.",
+        ]},
+        { h: "Flexible income verification options", body: "Business financials aren't always straightforward. Depending on the lender and scenario, options may include 1 year of financials signed by an accountant, 6 months of BAS printed from the ATO portal, 6 months of business bank statements, or an accountant's letter." },
+        { h: "Who may benefit from an ATO debt lending review?", list: [
+          "Have an overdue ATO debt.",
+          "Are currently on an ATO payment arrangement.",
+          "Are struggling with cash flow because of ATO repayments.",
+          "Have business tax debt that is making it harder to access finance.",
+          "Want to consolidate tax debt into a more structured repayment.",
+          "Have recently completed, or are working through, a Small Business Restructure.",
+          "Need flexible income verification options because your financials are not straightforward.",
+        ]},
+      ],
+      closing: "Get in touch with Mesh Finance for a confidential, no-obligation chat about your ATO debt options.",
+    },
+
+    "using-parents-property-as-security-first-home-buyer": {
+      title: "Using a Parent's Property as a Security Guarantee: What First Home Buyers Need to Know",
+      date: "1 May 2026",
+      intro: "Buying your first home can feel like a massive leap, especially when saving a big enough deposit is holding you back. For some first home buyers, a family security guarantee may help them enter the property market sooner, without needing a parent to gift cash directly.",
+      blocks: [
+        { h: "What is a security guarantee?", body: "A security guarantee is when a family member uses the equity in their property to help support your home loan application. This does not usually mean they are handing over money, instead, they're offering the lender additional security, which may help you borrow with a smaller deposit and reduce or avoid Lender's Mortgage Insurance." },
+        { h: "Who can be a guarantor?", body: "Most lenders prefer an immediate family member, commonly a parent or step-parent. Depending on the lender, siblings or grandparents may also be considered. The guarantor will usually need to own property in Australia with enough available equity." },
+        { h: "Why first home buyers consider a guarantor loan", list: ["Buy sooner, rather than waiting years to save a larger deposit.", "Avoid Lender's Mortgage Insurance, saving thousands of dollars.", "Keep more of your own savings for moving costs, furniture or an emergency buffer.", "Access a loan structure that wouldn't otherwise be available with your current deposit."] },
+        { h: "What are the risks?", body: "If the borrower can't meet loan repayments, the lender may seek repayment from the guarantor for the guaranteed portion. It may also affect the guarantor's future borrowing capacity. It's important the guarantee is limited where possible, and guarantors should get independent legal advice." },
+        { h: "Can the guarantee be removed later?", body: "Yes, in many cases, once there's enough equity in the property (from loan reduction, value growth, or both), the borrower may refinance or ask the lender to reassess and release the guarantor, subject to approval." },
+      ],
+      closing: "A family security guarantee can be a helpful way to enter the property market sooner, but it needs to be set up carefully. Get in touch with Mesh Finance for a no-obligation chat.",
+    },
+
+    "wa-new-home-guarantee-scheme": {
+      title: "Perth First-Home Buyers: What the New Home Guarantee Scheme Changes Mean for You",
+      date: "12 October 2025",
+      intro: "From 1 October 2025, the Australian Government rolled out major updates to the Home Guarantee Scheme, aiming to make buying your first home more achievable, particularly in areas where prices have crept beyond previous limits. For buyers in Perth's eastern corridor, suburbs like Maida Vale, Forrestfield, High Wycombe, and Kalamunda, this could be the perfect chance to finally get into the property market.",
+      blocks: [
+        { h: "The Big Changes", list: [
+          "Unlimited places available, the guarantee is open to every eligible buyer who qualifies, no waiting lists.",
+          "Income caps removed, dual-income families and professionals who previously earned \"too much\" can now use the scheme.",
+          "Higher property price caps, Perth's limit rises from around $600,000 to $850,000 for capital city and regional centre locations.",
+          "Simplified regional rules, the separate regional scheme is folded into the main program, making eligibility clearer.",
+        ]},
+        { h: "What This Means in Perth's Eastern Suburbs", body: "Rising prices had made it tough to buy in family-friendly suburbs like Maida Vale, Forrestfield, High Wycombe, and Kalamunda under the old $600,000 cap. With the new $850,000 cap, a much larger range of established homes and even some new builds now qualify, more choice near family and established schools, and the ability to buy in leafy, hillside suburbs like Kalamunda." },
+        { h: "Why This Matters", numbered: [
+          { t: "Lower deposit hurdle", b: "You can still buy with just a 5% deposit, avoiding Lenders Mortgage Insurance (LMI), which can save tens of thousands of dollars." },
+          { t: "More homes qualify", b: "The higher cap finally reflects real Perth market conditions, particularly in growth areas near the foothills and airport corridor." },
+          { t: "No risk of missing out on a spot", b: "Unlimited places mean you won't lose eligibility simply because the scheme allocation has run dry." },
+          { t: "Better access for families", b: "Removing income caps means more households in dual-income suburbs like High Wycombe and Kalamunda are now eligible." },
+        ]},
+        { h: "How to Prepare", list: [
+          "Start saving now, the more you save, the stronger your position with lenders.",
+          "Research your target suburbs, Maida Vale, Forrestfield, High Wycombe and Kalamunda under the new $850,000 limit.",
+          "Work with a broker early, not every bank participates in the scheme.",
+          "Plan your timing, applications need to be lodged after 1 October 2025 to use the higher cap.",
+        ]},
+      ],
+      closing: "For Perth buyers, these changes to the Home Guarantee Scheme are a game-changer. If you've been holding off because prices were too high, this may be the perfect time to revisit your buying plans.",
+    },
+
+    "protect-your-credit-file": {
+      title: "How to Place (and Remove) a Credit Ban in Australia",
+      date: "12 September 2025",
+      intro: "Protecting your personal information is more important than ever. If your identity has been stolen or you're worried about fraud, you can request a credit ban on your file. A ban prevents credit providers from accessing your credit report, making it much harder for someone to use your identity to take out loans or credit in your name.",
+      blocks: [
+        { h: "What is a Credit Ban?", body: "A credit ban (also called a credit freeze) temporarily restricts access to your credit report, banks, lenders, or utility companies can't see your credit file while it's active. In Australia, bans are free of charge and initially last 21 days, with extensions of up to 12 months available if you can show evidence of risk (such as a police or cyber fraud report)." },
+        { h: "How to Place a Credit Ban", list: [
+          "Equifax, complete the online Credit Ban Request Form, upload proof of identity, and submit. Equifax will confirm once the ban is active.",
+          "Experian, visit the Credit Ban Request Page, fill out the request form with your personal information and ID documents. Experian will confirm when the ban is placed.",
+          "Tip: when you request a ban with one bureau you can ask them to notify the others, but it's best to check both have applied the ban.",
+        ]},
+        { h: "How to Remove a Credit Ban", body: "You can lift a ban at any time. With Equifax, use the online removal form and verify your identity. With Experian, submit a lift request via their online form, once verified, it may be lifted overnight. Removal is typically processed within a business day." },
+        { h: "What a Credit Ban Does (and Doesn't Do)", list: [
+          "✅ Stops new credit applications in your name while active.",
+          "❌ Doesn't affect existing accounts, your cards, loans and repayments continue as normal.",
+          "❌ May delay legitimate credit applications, you'll need to lift the ban before a lender can assess a new application.",
+        ]},
+        { h: "Tips to Stay Protected", list: ["Monitor your credit report regularly with all agencies.", "Use ID protection tools that alert you to data breaches.", "Report fraud quickly, file a police report and notify your bank immediately."] },
+      ],
+      closing: "Placing a credit ban is free, quick, and one of the most effective steps you can take to protect yourself from identity theft. If your situation changes, you can easily remove the ban online.",
+    },
+  },
+};

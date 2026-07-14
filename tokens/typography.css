@@ -1,0 +1,48 @@
+/* ============================================================
+   Mesh Finance — Typography tokens
+   Display: Montserrat (geometric, matches the wordmark)
+   Body:    Work Sans (warm, highly readable grotesque)
+   ============================================================ */
+:root {
+  /* Families */
+  --font-display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Work Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SFMono-Regular", ui-monospace, "Menlo", monospace;
+
+  /* Weights */
+  --fw-regular: 400;  /* @kind font */
+  --fw-medium: 500;   /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold: 700;     /* @kind font */
+  --fw-extrabold: 800;/* @kind font */
+
+  /* Type scale (1.25 major-third-ish, tuned) */
+  --text-2xs: 0.6875rem; /* 11 */
+  --text-xs:  0.75rem;   /* 12 */
+  --text-sm:  0.875rem;  /* 14 */
+  --text-base: 1rem;     /* 16 */
+  --text-md:  1.125rem;  /* 18 */
+  --text-lg:  1.25rem;   /* 20 */
+  --text-xl:  1.5rem;    /* 24 */
+  --text-2xl: 1.875rem;  /* 30 */
+  --text-3xl: 2.25rem;   /* 36 */
+  --text-4xl: 3rem;      /* 48 */
+  --text-5xl: 3.75rem;   /* 60 */
+
+  /* Line heights */
+  --leading-tight: 1.12;
+  --leading-snug: 1.28;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.12em; /* the "FINANCE" lockup tracking */
+
+  /* Semantic roles */
+  --font-heading: var(--font-display);
+  --weight-heading: var(--fw-bold);
+  --font-eyebrow: var(--font-display);
+}
