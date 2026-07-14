@@ -7,6 +7,23 @@ function LoanScreen({ onNav, slug }) {
   const { Check: CheckIcon, ArrowRight } = window.MeshIcons;
   const d = window.MeshContent.loans[slug];
   const isMobile = window.useIsMobile();
+  const { useState } = React;
+  const [sideStatus, setSideStatus] = useState("idle"); // idle | sending | sent | error
+
+  const submitSideForm = async (e) => {
+    e.preventDefault();
+    setSideStatus("sending");
+    try {
+      const ok = await window.MeshSubmitForm(e.target);
+      setSideStatus(ok ? "sent" : "error");
+    } catch {
+      setSideStatus("error");
+    }
+  };
+
+  /* LoanScreen is reused for every loan slug without remounting, so reset the
+     sidebar form's state when navigating between loan pages via related links. */
+  React.useEffect(() => { setSideStatus("idle"); }, [slug]);
 
   /* SEO: per-page title, meta description, and FAQPage JSON-LD. */
   React.useEffect(() => {
@@ -115,14 +132,26 @@ function LoanScreen({ onNav, slug }) {
 
           <aside style={loanS.aside}>
             <Card elevation="shadow" style={{position:"sticky", top:90, padding:0}}>
-              <h3 style={loanS.sideH}>Reach out for a chat 👋</h3>
-              <p style={loanS.sideP}>No obligation. We'll get back to you fast.</p>
-              <div style={{display:"grid", gap:12}}>
-                <Field label="Name" required><Input placeholder="Your name"/></Field>
-                <Field label="Email" required><Input type="email" placeholder="you@email.com"/></Field>
-                <Field label="Phone" required><Input type="tel" placeholder="04xx xxx xxx"/></Field>
-                <Button block size="md" onClick={(e)=>{e.preventDefault();onNav("contact");}}>Send 📩</Button>
-              </div>
+              {sideStatus === "sent" ? (
+                <div style={loanS.sideThanks}>
+                  <div style={loanS.sideTick}>✓</div>
+                  <h3 style={loanS.sideH}>Thanks, that's sent!</h3>
+                  <p style={loanS.sideP}>We'll get back to you fast.</p>
+                </div>
+              ) : (
+                <React.Fragment>
+                  <h3 style={loanS.sideH}>Reach out for a chat 👋</h3>
+                  <p style={loanS.sideP}>No obligation. We'll get back to you fast.</p>
+                  <form onSubmit={submitSideForm} style={{display:"grid", gap:12}}>
+                    <input type="hidden" name="_subject" value={`New enquiry — ${d.title} page`}/>
+                    <Field label="Name" required><Input name="name" required placeholder="Your name"/></Field>
+                    <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
+                    <Field label="Phone" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
+                    {sideStatus === "error" && <p style={loanS.sideError}>Something went wrong, please try again or call us.</p>}
+                    <Button block size="md" type="submit" disabled={sideStatus==="sending"}>{sideStatus==="sending" ? "Sending…" : "Send 📩"}</Button>
+                  </form>
+                </React.Fragment>
+              )}
             </Card>
           </aside>
         </div>
@@ -174,6 +203,10 @@ const loanS = {
   aside: {},
   sideH: { fontFamily:"var(--font-display)", fontSize:19, margin:"20px 22px 4px", color:"var(--navy-700)", fontWeight:700 },
   sideP: { fontSize:13.5, color:"var(--text-muted)", margin:"0 22px 16px", lineHeight:1.5 },
+  sideError: { fontSize:13, color:"var(--color-danger)", margin:0 },
+  sideThanks: { textAlign:"center", padding:"12px 4px" },
+  sideTick: { width:48, height:48, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
+    fontSize:24, display:"flex", alignItems:"center", justifyContent:"center", margin:"20px auto 0" },
 };
 
 Object.assign(window, { MeshLoanScreen: LoanScreen });
