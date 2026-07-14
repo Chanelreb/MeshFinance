@@ -9,7 +9,17 @@ function Header({ onNav, current }) {
   const nav = window.MeshContent.nav;
   const isMobile = window.useIsMobile();
 
-  const go = (id) => { onNav(id); setMenuOpen(false); setMobileOpenId(null); };
+  /* Grace period before closing, so the dropdown survives the cursor
+     travelling from the trigger link into the panel (and brief overshoots). */
+  const closeTimer = React.useRef(null);
+  const openMenu = (id) => { clearTimeout(closeTimer.current); setOpenId(id); };
+  const scheduleClose = (id) => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenId(o => (o === id ? null : o)), 160);
+  };
+  React.useEffect(() => () => clearTimeout(closeTimer.current), []);
+
+  const go = (id) => { onNav(id); setOpenId(null); setMenuOpen(false); setMobileOpenId(null); };
 
   return (
     <header style={hdr.bar}>
@@ -22,17 +32,19 @@ function Header({ onNav, current }) {
           <nav style={hdr.nav}>
             {nav.map(item => (
               <div key={item.id} style={hdr.navItem}
-                onMouseEnter={()=>setOpenId(item.id)} onMouseLeave={()=>setOpenId(o=>o===item.id?null:o)}>
+                onMouseEnter={()=>openMenu(item.id)} onMouseLeave={()=>scheduleClose(item.id)}>
                 <a href="#" onClick={(e)=>{e.preventDefault();go(item.id);}}
                   style={{...hdr.link, ...(current===item.id?hdr.linkActive:{})}}>
                   {item.label}
                 </a>
                 {item.children && openId===item.id && (
-                  <div style={hdr.dropdown}>
-                    {item.children.map(ch => (
-                      <a key={ch.id} href="#" onClick={(e)=>{e.preventDefault();go(ch.id);}}
-                        style={{...hdr.dropLink, ...(current===ch.id?hdr.dropLinkActive:{})}}>{ch.label}</a>
-                    ))}
+                  <div style={hdr.dropdownWrap}>
+                    <div style={hdr.dropdown}>
+                      {item.children.map(ch => (
+                        <a key={ch.id} href="#" onClick={(e)=>{e.preventDefault();go(ch.id);}}
+                          style={{...hdr.dropLink, ...(current===ch.id?hdr.dropLinkActive:{})}}>{ch.label}</a>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -106,9 +118,13 @@ const hdr = {
   link: { fontFamily:"var(--font-body)", fontSize:14, fontWeight:600, color:"var(--text-muted)",
     textDecoration:"none", padding:"8px 12px", borderRadius:"var(--radius-sm)", display:"inline-block" },
   linkActive: { color:"var(--color-primary)" },
-  dropdown: { position:"absolute", top:"calc(100% + 4px)", left:0, background:"#fff",
+  /* Wrapper starts flush with the trigger (top:100%) and carries the visual
+     4px offset as padding, so there is no dead zone the cursor can fall into
+     between the link and the panel. */
+  dropdownWrap: { position:"absolute", top:"100%", left:0, paddingTop:4, zIndex:30 },
+  dropdown: { background:"#fff",
     border:"1px solid var(--border-subtle)", borderRadius:"var(--radius-md)", boxShadow:"var(--shadow-md)",
-    padding:8, display:"flex", flexDirection:"column", minWidth:220, zIndex:30 },
+    padding:8, display:"flex", flexDirection:"column", minWidth:220 },
   dropLink: { fontSize:13.5, fontWeight:500, color:"var(--text-body)", textDecoration:"none",
     padding:"9px 12px", borderRadius:"var(--radius-sm)", whiteSpace:"nowrap" },
   dropLinkActive: { color:"var(--color-primary)", background:"var(--blue-50)" },
