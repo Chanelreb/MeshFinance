@@ -1,0 +1,13 @@
+{
+  "name": "mesh-finance-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mesh Finance marketing website — static site served by a small Node.js server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
