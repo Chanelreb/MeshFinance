@@ -34,8 +34,24 @@ function ContactScreen({ onNav }) {
   const { Phone, Mail, MapPin, Clock } = window.MeshIcons;
   const { useState } = React;
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
   const [tab, setTab] = useState("book");
   const isMobile = window.useIsMobile();
+
+  const submitMessage = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    setError(false);
+    try {
+      const ok = await window.MeshSubmitForm(e.target);
+      if (ok) setSent(true); else setError(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <div style={ct.page}>
@@ -83,15 +99,16 @@ function ContactScreen({ onNav }) {
               <Button variant="secondary" onClick={()=>setSent(false)}>Send another</Button>
             </div>
           ) : (
-            <div style={{display:"grid", gap:15}}>
+            <form onSubmit={submitMessage} style={{display:"grid", gap:15}}>
+              <input type="hidden" name="_subject" value="New message — Mesh Finance contact page"/>
               <h3 style={{fontFamily:"var(--font-display)",fontSize:20,color:"var(--navy-700)",margin:0,fontWeight:700}}>Reach out for a chat 👋</h3>
-              <Field label="Name" required><Input placeholder="Your name"/></Field>
+              <Field label="Name" required><Input name="name" required placeholder="Your name"/></Field>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-                <Field label="Email" required><Input type="email" placeholder="you@email.com"/></Field>
-                <Field label="Phone" required><Input type="tel" placeholder="04xx xxx xxx"/></Field>
+                <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
+                <Field label="Phone" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
               </div>
               <Field label="Finance Required">
-                <Select placeholder="Select Loan Type" defaultValue="">
+                <Select name="financeRequired" placeholder="Select Loan Type" defaultValue="">
                   <option>Home Loan</option><option>Car Loan</option><option>Caravan Loan</option>
                   <option>Debt Consolidation</option><option>Personal Loan</option><option>Bad Credit Loan</option>
                 </Select>
@@ -99,15 +116,16 @@ function ContactScreen({ onNav }) {
               <div>
                 <div style={ct.legend}>Best time to call</div>
                 <div style={{display:"flex",gap:20, flexWrap:"wrap"}}>
-                  <Radio name="time" label="Morning" defaultChecked/>
-                  <Radio name="time" label="Afternoon"/>
-                  <Radio name="time" label="Evening"/>
+                  <Radio name="bestTime" label="Morning" value="Morning" defaultChecked/>
+                  <Radio name="bestTime" label="Afternoon" value="Afternoon"/>
+                  <Radio name="bestTime" label="Evening" value="Evening"/>
                 </div>
               </div>
-              <Field label="Additional message"><Textarea rows={3} placeholder="Tell us a bit about your situation…"/></Field>
-              <Checkbox label="I'd like occasional rate & scheme updates"/>
-              <Button block size="lg" onClick={(e)=>{e.preventDefault();setSent(true);}}>Send 📩</Button>
-            </div>
+              <Field label="Additional message"><Textarea name="message" rows={3} placeholder="Tell us a bit about your situation…"/></Field>
+              <Checkbox name="updatesOptIn" value="yes" label="I'd like occasional rate & scheme updates"/>
+              {error && <p style={ct.formError}>Something went wrong, please try again or call us.</p>}
+              <Button block size="lg" type="submit" disabled={sending}>{sending ? "Sending…" : "Send 📩"}</Button>
+            </form>
           )}
           </div>
         </Card>
@@ -138,6 +156,7 @@ const ct = {
   tabActive: { color:"var(--color-primary)", borderBottomColor:"var(--color-primary)" },
   tabHead: { fontFamily:"var(--font-display)", fontSize:20, color:"var(--navy-700)", margin:"0 0 4px", fontWeight:700 },
   tabSub: { fontSize:14, color:"var(--text-muted)", margin:"0 0 16px" },
+  formError: { fontSize:13.5, color:"var(--color-danger)", margin:0 },
   thanks: { textAlign:"center", padding:"30px 10px" },
   tick: { width:56, height:56, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     fontSize:28, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" },

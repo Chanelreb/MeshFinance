@@ -3,7 +3,20 @@ function HomeScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Button, Card, ServiceCard, StatCard, Field, Input, Select, Badge } = DS;
   const { Home, Building, Key, Coins, Car, Refi, Caravan, Shield, Star, Quote, ArrowRight } = window.MeshIcons;
+  const { useState } = React;
   const isMobile = window.useIsMobile();
+  const [heroStatus, setHeroStatus] = useState("idle"); // idle | sending | sent | error
+
+  const submitHero = async (e) => {
+    e.preventDefault();
+    setHeroStatus("sending");
+    try {
+      const ok = await window.MeshSubmitForm(e.target);
+      setHeroStatus(ok ? "sent" : "error");
+    } catch {
+      setHeroStatus("error");
+    }
+  };
 
   const services = [
     { icon:<Home/>, title:"Home Loans", desc:"Competitive rates and personalised support for your purchase.", id:"home-loans" },
@@ -34,22 +47,34 @@ function HomeScreen({ onNav }) {
             </div>
           </div>
           <Card elevation="shadow-lg" className="" style={h.formCard}>
-            <h3 style={h.formTitle}>Reach out for a chat 👋</h3>
-            <p style={h.formSub}>No obligation. We'll get back to you fast.</p>
-            <div style={{display:"grid", gap:13, marginTop:4}}>
-              <Field label="Name" required><Input placeholder="Your name"/></Field>
-              <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
-                <Field label="Email" required><Input type="email" placeholder="you@email.com"/></Field>
-                <Field label="Phone" required><Input type="tel" placeholder="04xx xxx xxx"/></Field>
+            {heroStatus === "sent" ? (
+              <div style={h.formThanks}>
+                <div style={h.formTick}>✓</div>
+                <h3 style={h.formTitle}>Thanks, that's sent!</h3>
+                <p style={h.formSub}>We'll get back to you fast.</p>
               </div>
-              <Field label="Finance Required">
-                <Select placeholder="Select Loan Type" defaultValue="">
-                  <option>Home Loan</option><option>Investment Loan</option><option>First Home Buyer</option>
-                  <option>Debt Consolidation</option><option>Car / Caravan Loan</option><option>Personal Loan</option>
-                </Select>
-              </Field>
-              <Button block size="lg" onClick={(e)=>e.preventDefault()}>Send 📩</Button>
-            </div>
+            ) : (
+              <React.Fragment>
+                <h3 style={h.formTitle}>Reach out for a chat 👋</h3>
+                <p style={h.formSub}>No obligation. We'll get back to you fast.</p>
+                <form onSubmit={submitHero} style={{display:"grid", gap:13, marginTop:4}}>
+                  <input type="hidden" name="_subject" value="New enquiry — Mesh Finance homepage"/>
+                  <Field label="Name" required><Input name="name" required placeholder="Your name"/></Field>
+                  <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:12}}>
+                    <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
+                    <Field label="Phone" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
+                  </div>
+                  <Field label="Finance Required">
+                    <Select name="financeRequired" placeholder="Select Loan Type" defaultValue="">
+                      <option>Home Loan</option><option>Investment Loan</option><option>First Home Buyer</option>
+                      <option>Debt Consolidation</option><option>Car / Caravan Loan</option><option>Personal Loan</option>
+                    </Select>
+                  </Field>
+                  {heroStatus === "error" && <p style={h.formError}>Something went wrong, please try again or call us.</p>}
+                  <Button block size="lg" type="submit" disabled={heroStatus==="sending"}>{heroStatus==="sending" ? "Sending…" : "Send 📩"}</Button>
+                </form>
+              </React.Fragment>
+            )}
           </Card>
         </div>
       </section>
@@ -133,6 +158,10 @@ const h = {
   formCard: { padding:0 },
   formTitle: { fontFamily:"var(--font-display)", fontSize:22, margin:"0", color:"var(--navy-700)", fontWeight:700 },
   formSub: { fontSize:14, color:"var(--text-muted)", margin:"4px 0 0" },
+  formThanks: { textAlign:"center", padding:"12px 4px" },
+  formTick: { width:48, height:48, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
+    fontSize:24, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 12px" },
+  formError: { fontSize:13.5, color:"var(--color-danger)", margin:0 },
 
   statsBand: { background:"var(--navy-700)" },
   statsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"10px 28px",

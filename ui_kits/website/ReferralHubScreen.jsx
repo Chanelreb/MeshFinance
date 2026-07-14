@@ -4,6 +4,19 @@ function ReferralHubScreen({ onNav }) {
   const { Badge, Card, Button, Field, Input, Textarea } = DS;
   const d = window.MeshContent.referralHub;
   const isMobile = window.useIsMobile();
+  const { useState } = React;
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  const submitReferral = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const ok = await window.MeshSubmitForm(e.target);
+      setStatus(ok ? "sent" : "error");
+    } catch {
+      setStatus("error");
+    }
+  };
   return (
     <div style={refS.page}>
       <div style={{...refS.inner, ...(isMobile ? refS.innerMobile : {})}}>
@@ -39,15 +52,28 @@ function ReferralHubScreen({ onNav }) {
         </div>
 
         <Card elevation="shadow-lg" style={{padding:28}}>
-          <h3 style={refS.formH}>Client Referral Form 🙌🏼</h3>
-          <div style={{display:"grid", gap:14, marginTop:10}}>
-            <Field label="Your Name" required><Input placeholder="Your name"/></Field>
-            <Field label="Friend's Name" required><Input placeholder="Their name"/></Field>
-            <Field label="Friend's Email"><Input type="email" placeholder="their@email.com"/></Field>
-            <Field label="Friend's Number"><Input type="tel" placeholder="04xx xxx xxx"/></Field>
-            <Field label="Comment or Message"><Textarea rows={3} placeholder="Anything we should know?"/></Field>
-            <Button block size="lg" onClick={(e)=>e.preventDefault()}>Refer a Friend</Button>
-          </div>
+          {status === "sent" ? (
+            <div style={refS.thanks}>
+              <div style={refS.tick}>✓</div>
+              <h3 style={refS.formH}>Thanks for the referral!</h3>
+              <p style={refS.thanksP}>We'll be in touch with your friend shortly.</p>
+              <Button variant="secondary" onClick={()=>setStatus("idle")}>Refer another friend</Button>
+            </div>
+          ) : (
+            <React.Fragment>
+              <h3 style={refS.formH}>Client Referral Form 🙌🏼</h3>
+              <form onSubmit={submitReferral} style={{display:"grid", gap:14, marginTop:10}}>
+                <input type="hidden" name="_subject" value="New referral — Mesh Finance"/>
+                <Field label="Your Name" required><Input name="referrerName" required placeholder="Your name"/></Field>
+                <Field label="Friend's Name" required><Input name="friendName" required placeholder="Their name"/></Field>
+                <Field label="Friend's Email"><Input name="friendEmail" type="email" placeholder="their@email.com"/></Field>
+                <Field label="Friend's Number"><Input name="friendPhone" type="tel" placeholder="04xx xxx xxx"/></Field>
+                <Field label="Comment or Message"><Textarea name="message" rows={3} placeholder="Anything we should know?"/></Field>
+                {status === "error" && <p style={refS.formError}>Something went wrong, please try again or call us.</p>}
+                <Button block size="lg" type="submit" disabled={status==="sending"}>{status==="sending" ? "Sending…" : "Refer a Friend"}</Button>
+              </form>
+            </React.Fragment>
+          )}
         </Card>
       </div>
     </div>
@@ -71,5 +97,10 @@ const refS = {
   steps: { paddingLeft:20, display:"grid", gap:8, fontSize:15, color:"var(--text-body)", lineHeight:1.55 },
   stepItem: {},
   formH: { fontFamily:"var(--font-display)", fontSize:19, color:"var(--navy-700)", margin:0, fontWeight:700 },
+  formError: { fontSize:13.5, color:"var(--color-danger)", margin:0 },
+  thanks: { textAlign:"center", padding:"20px 6px" },
+  tick: { width:56, height:56, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
+    fontSize:28, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" },
+  thanksP: { color:"var(--text-muted)", margin:"0 0 18px" },
 };
 Object.assign(window, { MeshReferralHubScreen: ReferralHubScreen });
