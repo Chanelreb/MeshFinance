@@ -1,10 +1,40 @@
-/* Contact / Book Now, split layout: details + booking form. */
+/* Contact / Book Now, split layout: details + tabbed card (Calendly booking / message form). */
+
+const CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro-to-mesh-finance-clone";
+
+/* Live Calendly inline embed. Loads Calendly's widget.js once, then mounts the
+   scheduler into this div. Bookings land directly in Chanel's calendar. */
+function CalendlyEmbed() {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    const init = () => {
+      if (window.Calendly && el && !el.hasChildNodes()) {
+        window.Calendly.initInlineWidget({ url: CALENDLY_URL, parentElement: el });
+      }
+    };
+    if (window.Calendly) { init(); return; }
+    let s = document.getElementById("calendly-widget-js");
+    if (!s) {
+      s = document.createElement("script");
+      s.id = "calendly-widget-js";
+      s.src = "https://assets.calendly.com/assets/external/widget.js";
+      s.async = true;
+      document.head.appendChild(s);
+    }
+    s.addEventListener("load", init);
+    return () => s.removeEventListener("load", init);
+  }, []);
+  return <div ref={ref} style={{ minWidth: 280, height: 660 }} aria-label="Book a time with Mesh Finance" />;
+}
+
 function ContactScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Card, Button, Field, Input, Select, Textarea, Checkbox, Radio, Badge } = DS;
   const { Phone, Mail, MapPin, Clock } = window.MeshIcons;
   const { useState } = React;
   const [sent, setSent] = useState(false);
+  const [tab, setTab] = useState("book");
   const isMobile = window.useIsMobile();
 
   return (
@@ -22,7 +52,29 @@ function ContactScreen({ onNav }) {
           </ul>
         </div>
 
-        <Card elevation="shadow-lg" style={{padding:32}}>
+        <Card elevation="shadow-lg" style={{padding:"24px 32px 32px"}}>
+          <div style={ct.tabRow} role="tablist" aria-label="Contact options">
+            <button type="button" role="tab" aria-selected={tab==="book"}
+              onClick={()=>setTab("book")}
+              style={{...ct.tab, ...(tab==="book" ? ct.tabActive : {})}}>
+              📅 Book a time
+            </button>
+            <button type="button" role="tab" aria-selected={tab==="message"}
+              onClick={()=>setTab("message")}
+              style={{...ct.tab, ...(tab==="message" ? ct.tabActive : {})}}>
+              ✉️ Send a message
+            </button>
+          </div>
+
+          {/* Both panels stay mounted so the Calendly widget doesn't reload on
+              every tab switch; the inactive one is hidden. */}
+          <div style={{display: tab==="book" ? "block" : "none"}} role="tabpanel">
+            <h3 style={ct.tabHead}>Book straight into the calendar 📅</h3>
+            <p style={ct.tabSub}>Pick a time that suits you — free, no obligation.</p>
+            <CalendlyEmbed/>
+          </div>
+
+          <div style={{display: tab==="message" ? "block" : "none"}} role="tabpanel">
           {sent ? (
             <div style={ct.thanks}>
               <div style={ct.tick}>✓</div>
@@ -57,6 +109,7 @@ function ContactScreen({ onNav }) {
               <Button block size="lg" onClick={(e)=>{e.preventDefault();setSent(true);}}>Send 📩</Button>
             </div>
           )}
+          </div>
         </Card>
       </div>
     </div>
@@ -78,6 +131,13 @@ const ct = {
   rowL: { fontSize:12.5, color:"var(--text-subtle)", textTransform:"uppercase", letterSpacing:".08em", fontWeight:600 },
   rowV: { fontSize:15.5, color:"var(--text-strong)", fontWeight:500, lineHeight:1.4, maxWidth:340 },
   legend: { fontFamily:"var(--font-body)", fontWeight:600, fontSize:14, color:"var(--text-strong)", marginBottom:9 },
+  tabRow: { display:"flex", gap:4, borderBottom:"1px solid var(--border-subtle)", marginBottom:20 },
+  tab: { appearance:"none", background:"none", border:"none", cursor:"pointer", fontFamily:"var(--font-body)",
+    fontWeight:600, fontSize:15, color:"var(--text-muted)", padding:"12px 16px",
+    borderBottomWidth:2, borderBottomStyle:"solid", borderBottomColor:"transparent", marginBottom:-1 },
+  tabActive: { color:"var(--color-primary)", borderBottomColor:"var(--color-primary)" },
+  tabHead: { fontFamily:"var(--font-display)", fontSize:20, color:"var(--navy-700)", margin:"0 0 4px", fontWeight:700 },
+  tabSub: { fontSize:14, color:"var(--text-muted)", margin:"0 0 16px" },
   thanks: { textAlign:"center", padding:"30px 10px" },
   tick: { width:56, height:56, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     fontSize:28, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" },
