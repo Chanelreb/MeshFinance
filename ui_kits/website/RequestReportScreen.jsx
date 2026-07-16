@@ -5,20 +5,23 @@ function RequestReportScreen({ onNav }) {
   const { Mail, Clock } = window.MeshIcons;
   const { useState } = React;
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", address: "", ownership: "", loanBalance: "" });
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const subject = encodeURIComponent("Property Report Request, " + form.name);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nProperty address: ${form.address}\n` +
-      `Ownership: ${form.ownership === "mine" ? "Their own property" : "Property they're looking to buy"}\n` +
-      (form.ownership === "mine" && form.loanBalance ? `Loan balance: ${form.loanBalance}\n` : "")
-    );
-    window.location.href =
-      `mailto:hello@meshfinance.com.au?cc=processing@meshfinance.com.au&subject=${subject}&body=${body}`;
-    setSent(true);
+    setSending(true);
+    setError(false);
+    try {
+      const ok = await window.MeshSubmitForm(e.target);
+      if (ok) setSent(true); else setError(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -44,28 +47,30 @@ function RequestReportScreen({ onNav }) {
             </div>
           ) : (
             <form style={{ display: "grid", gap: 16 }} onSubmit={submit}>
+              <input type="hidden" name="_subject" value="New property report request — Mesh Finance" />
               <Field label="Name" required>
-                <Input required placeholder="Your name" value={form.name} onChange={set("name")} />
+                <Input name="name" required placeholder="Your name" value={form.name} onChange={set("name")} />
               </Field>
               <Field label="Email address" required>
-                <Input required type="email" placeholder="you@email.com" value={form.email} onChange={set("email")} />
+                <Input name="email" required type="email" placeholder="you@email.com" value={form.email} onChange={set("email")} />
               </Field>
               <Field label="Property address" required>
-                <Input required placeholder="123 Example Street, Suburb WA" value={form.address} onChange={set("address")} />
+                <Input name="propertyAddress" required placeholder="123 Example Street, Suburb WA" value={form.address} onChange={set("address")} />
               </Field>
               <div>
                 <div style={rr.legend}>Is this your property, or one you're looking to buy?</div>
                 <div style={{ display: "flex", gap: 20 }}>
-                  <Radio name="ownership" label="My property" checked={form.ownership === "mine"} onChange={() => setForm((f) => ({ ...f, ownership: "mine" }))} />
-                  <Radio name="ownership" label="One I'm looking to buy" checked={form.ownership === "buying"} onChange={() => setForm((f) => ({ ...f, ownership: "buying" }))} />
+                  <Radio name="ownership" value="My property" label="My property" checked={form.ownership === "mine"} onChange={() => setForm((f) => ({ ...f, ownership: "mine" }))} />
+                  <Radio name="ownership" value="Looking to buy" label="One I'm looking to buy" checked={form.ownership === "buying"} onChange={() => setForm((f) => ({ ...f, ownership: "buying" }))} />
                 </div>
               </div>
               {form.ownership === "mine" && (
                 <Field label="Would you like to give us your loan balance? We can tell you the usable equity you currently have for renovations, purchasing another property, and more.">
-                  <Input placeholder="Current loan balance (optional)" value={form.loanBalance} onChange={set("loanBalance")} />
+                  <Input name="loanBalance" placeholder="Current loan balance (optional)" value={form.loanBalance} onChange={set("loanBalance")} />
                 </Field>
               )}
-              <Button block size="lg" type="submit">Request report 📩</Button>
+              {error && <p style={rr.error}>Something went wrong, please try again or call us.</p>}
+              <Button block size="lg" type="submit" disabled={sending}>{sending ? "Sending…" : "Request report 📩"}</Button>
               <div style={rr.note}>
                 <Clock width={15} height={15} style={{ flex: "none", marginTop: 1 }} />
                 <span>We aim to send reports within two hours on business days, check your junk folder if it doesn't land in your inbox.</span>
@@ -86,6 +91,7 @@ const rr = {
   card: { padding: 32 },
   note: { display: "flex", gap: 8, fontSize: 13, color: "var(--text-subtle)", lineHeight: 1.5 },
   legend: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--text-strong)", marginBottom: 9 },
+  error: { fontSize: 13.5, color: "var(--color-danger)", margin: 0 },
   thanks: { textAlign: "center", padding: "20px 6px" },
   tick: { width: 56, height: 56, borderRadius: "50%", background: "var(--color-success)", color: "#fff",
     fontSize: 28, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" },
