@@ -35,16 +35,17 @@ const server = http.createServer((req, res) => {
     return res.end("Bad request");
   }
 
-  if (urlPath === "/") {
-    res.writeHead(302, { Location: "/ui_kits/website/" });
-    return res.end();
-  }
-  if (urlPath.endsWith("/")) urlPath += "index.html";
-
   /* Never serve dotfiles or dot-directories (.git, .claude, .gitignore, …). */
   if (urlPath.split("/").some((seg) => seg.startsWith("."))) {
     res.writeHead(404);
     return res.end("Not found");
+  }
+
+  /* SPA routing: the app owns every extension-less path (/, /home-loans,
+     /contact, …) — serve the single-page app and let the client-side router
+     pick the screen from the URL. Paths with a file extension are real files. */
+  if (!path.extname(urlPath)) {
+    urlPath = "/ui_kits/website/index.html";
   }
 
   const filePath = path.normalize(path.join(ROOT, urlPath));

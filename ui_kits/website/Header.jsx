@@ -1,4 +1,10 @@
 /* Site header, sticky nav with dropdown menus matching the real site's grouping. */
+
+/* Real per-page URL for a route id, so crawlers can follow nav links.
+   Clicks are still intercepted for client-side navigation. */
+function meshHref(id) { return id === "home" ? "/" : "/" + id; }
+Object.assign(window, { meshHref });
+
 function Header({ onNav, current }) {
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { Phone, Menu, Close, ChevronDown } = window.MeshIcons;
@@ -24,7 +30,7 @@ function Header({ onNav, current }) {
   return (
     <header style={hdr.bar}>
       <div style={hdr.inner}>
-        <a href="#" onClick={(e)=>{e.preventDefault();go("home");}} style={hdr.logoWrap}>
+        <a href="/" onClick={(e)=>{e.preventDefault();go("home");}} style={hdr.logoWrap}>
           <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:38,display:"block"}}/>
         </a>
 
@@ -33,7 +39,7 @@ function Header({ onNav, current }) {
             {nav.map(item => (
               <div key={item.id} style={hdr.navItem}
                 onMouseEnter={()=>openMenu(item.id)} onMouseLeave={()=>scheduleClose(item.id)}>
-                <a href="#" onClick={(e)=>{e.preventDefault();go(item.id);}}
+                <a href={meshHref(item.id)} onClick={(e)=>{e.preventDefault();go(item.id);}}
                   style={{...hdr.link, ...(current===item.id?hdr.linkActive:{})}}>
                   {item.label}
                 </a>
@@ -41,7 +47,7 @@ function Header({ onNav, current }) {
                   <div style={hdr.dropdownWrap}>
                     <div style={hdr.dropdown}>
                       {item.children.map(ch => (
-                        <a key={ch.id} href="#" onClick={(e)=>{e.preventDefault();go(ch.id);}}
+                        <a key={ch.id} href={meshHref(ch.id)} onClick={(e)=>{e.preventDefault();go(ch.id);}}
                           style={{...hdr.dropLink, ...(current===ch.id?hdr.dropLinkActive:{})}}>{ch.label}</a>
                       ))}
                     </div>
@@ -74,7 +80,7 @@ function Header({ onNav, current }) {
           {nav.map(item => (
             <div key={item.id} style={hdr.mobileItem}>
               <div style={hdr.mobileRow}>
-                <a href="#" onClick={(e)=>{e.preventDefault();go(item.id);}}
+                <a href={meshHref(item.id)} onClick={(e)=>{e.preventDefault();go(item.id);}}
                   style={{...hdr.mobileLink, ...(current===item.id?hdr.linkActive:{})}}>{item.label}</a>
                 {item.children && (
                   <button aria-label="Toggle submenu"
@@ -87,7 +93,7 @@ function Header({ onNav, current }) {
               {item.children && mobileOpenId===item.id && (
                 <div style={hdr.mobileSub}>
                   {item.children.map(ch => (
-                    <a key={ch.id} href="#" onClick={(e)=>{e.preventDefault();go(ch.id);}}
+                    <a key={ch.id} href={meshHref(ch.id)} onClick={(e)=>{e.preventDefault();go(ch.id);}}
                       style={{...hdr.mobileSubLink, ...(current===ch.id?hdr.dropLinkActive:{})}}>{ch.label}</a>
                   ))}
                 </div>

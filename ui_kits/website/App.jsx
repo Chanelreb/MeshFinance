@@ -1,8 +1,66 @@
-/* App shell, routes between screens via simple state. */
+/* App shell, routes between screens via the URL (History API), so every screen
+   has a real address for indexing, sharing, reload, and back/forward. */
+
+/* "/home-loans" -> "home-loans"; "/" -> "home". Tolerates being served from
+   the app's file path (/ui_kits/website/...) as well as clean root routes. */
+function meshRouteFromLocation() {
+  let p = window.location.pathname.replace(/\/+$/, "");
+  p = p.replace(/^.*\/ui_kits\/website/, "").replace(/\/index\.html$/, "");
+  return p.replace(/^\//, "") || "home";
+}
+
+/* Default titles for screens that don't set their own (LoanScreen and
+   CaseStudyScreen manage document.title themselves). */
+const MESH_TITLES = {
+  "home": "Mesh Finance | Perth Mortgage & Finance Broker",
+  "financial-toolkit": "Financial Toolkit | Mesh Finance",
+  "who-we-help": "Who We Help | Mesh Finance",
+  "first-home-buyers": "WA First Home Buyers | Mesh Finance",
+  "family-guarantee": "Family Guarantee Home Loans | Mesh Finance",
+  "ato-debt": "ATO Debt Loans | Mesh Finance",
+  "calculator-hub": "Calculator Hub | Mesh Finance",
+  "calc-loan-repayment": "Loan Repayment Calculator | Mesh Finance",
+  "calc-interest-only": "Interest Only Calculator | Mesh Finance",
+  "calc-stamp-duty": "Stamp Duty Calculator | Mesh Finance",
+  "calc-borrowing-power": "Borrowing Power Calculator | Mesh Finance",
+  "calc-savings": "Saving Calculator | Mesh Finance",
+  "calc-extra-repayment": "Extra Repayment Calculator | Mesh Finance",
+  "calc-lump-sum": "Lump Sum Repayment Calculator | Mesh Finance",
+  "calc-how-long": "How Long to Repay Calculator | Mesh Finance",
+  "calc-offset-vs-redraw": "Offset vs Redraw Calculator | Mesh Finance",
+  "faqs": "FAQs | Mesh Finance",
+  "knowledge-centre": "Knowledge Centre | Mesh Finance",
+  "helpful-articles": "Helpful Articles | Mesh Finance",
+  "my-credit-file": "My Credit File | Mesh Finance",
+  "property-profile-report": "Property Profile Report | Mesh Finance",
+  "request-report": "Request a Property Report | Mesh Finance",
+  "referral-hub": "Refer a Friend | Mesh Finance",
+  "contact": "Book Now | Mesh Finance",
+};
+
 function App() {
-  const { useState } = React;
-  const [route, setRoute] = useState("home");
-  const onNav = (id) => { setRoute(id); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const { useState, useEffect } = React;
+  const [route, setRoute] = useState(meshRouteFromLocation());
+
+  const onNav = (id) => {
+    setRoute(id);
+    const path = id === "home" ? "/" : "/" + id;
+    if (window.location.pathname !== path) window.history.pushState({}, "", path);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  /* Back/forward buttons re-read the route from the URL. */
+  useEffect(() => {
+    const onPop = () => setRoute(meshRouteFromLocation());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  /* Per-page titles. Self-titling screens (loans, case studies, articles) are
+     deliberately absent from MESH_TITLES so this effect never fights theirs. */
+  useEffect(() => {
+    if (MESH_TITLES[route]) document.title = MESH_TITLES[route];
+  }, [route]);
 
   const loanSlugs = ["home-loans","investment-home-loans","bad-credit-home-loans","personal-loans","car-loans","leisure-loans","debt-consolidation-loans"];
   const caseStudySlugs = window.MeshContent.caseStudies || {};

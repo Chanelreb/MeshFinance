@@ -10,8 +10,13 @@ CDN and compile in the browser, so there is no build step.
 npm start
 ```
 
-Then open http://localhost:3000 (redirects to the site). Requires Node.js 18+.
+Then open http://localhost:3000. Requires Node.js 18+.
 No `npm install` needed — the server ([server.js](server.js)) has zero dependencies.
+
+Every screen has a real URL (`/home-loans`, `/contact`, `/calc-stamp-duty`, …):
+the server hands any extension-less path to the single-page app, which picks
+the screen from the URL. Deep links, reloads, back/forward, and per-page
+titles all work, and header/footer links carry real hrefs for crawlers.
 
 ## Deploy to Node.js hosting (cPanel "Setup Node.js App")
 
