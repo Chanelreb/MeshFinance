@@ -5,6 +5,18 @@
 function meshHref(id) { return id === "home" ? "/" : "/" + id; }
 Object.assign(window, { meshHref });
 
+/* Hover highlight for dropdown menu items. The links carry inline base styles,
+   so the hover state needs !important to take effect over them. */
+(function injectHeaderNavCss() {
+  if (document.getElementById("mesh-headernav-css")) return;
+  const s = document.createElement("style");
+  s.id = "mesh-headernav-css";
+  s.textContent = `
+.mesh-drop-link:hover{ background:var(--blue-50)!important; color:var(--color-primary)!important; text-decoration:none; }
+`;
+  document.head.appendChild(s);
+})();
+
 function Header({ onNav, current }) {
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { Phone, Menu, Close, ChevronDown } = window.MeshIcons;
@@ -47,7 +59,8 @@ function Header({ onNav, current }) {
                   <div style={hdr.dropdownWrap}>
                     <div style={hdr.dropdown}>
                       {item.children.map(ch => (
-                        <a key={ch.id} href={meshHref(ch.id)} onClick={(e)=>{e.preventDefault();go(ch.id);}}
+                        <a key={ch.id} href={meshHref(ch.id)} className="mesh-drop-link"
+                          onClick={(e)=>{e.preventDefault();go(ch.id);}}
                           style={{...hdr.dropLink, ...(current===ch.id?hdr.dropLinkActive:{})}}>{ch.label}</a>
                       ))}
                     </div>
@@ -93,7 +106,8 @@ function Header({ onNav, current }) {
               {item.children && mobileOpenId===item.id && (
                 <div style={hdr.mobileSub}>
                   {item.children.map(ch => (
-                    <a key={ch.id} href={meshHref(ch.id)} onClick={(e)=>{e.preventDefault();go(ch.id);}}
+                    <a key={ch.id} href={meshHref(ch.id)} className="mesh-drop-link"
+                      onClick={(e)=>{e.preventDefault();go(ch.id);}}
                       style={{...hdr.mobileSubLink, ...(current===ch.id?hdr.dropLinkActive:{})}}>{ch.label}</a>
                   ))}
                 </div>
