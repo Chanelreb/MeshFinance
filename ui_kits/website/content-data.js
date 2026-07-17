@@ -779,11 +779,13 @@ window.MeshContent = {
     items: [
       { title: "Home Loans", body: "Make homeownership a reality with competitive rates and personalised support.", id: "home-loans" },
       { title: "Investment Home Loans", body: "Grow your portfolio with the right structure and lender.", id: "investment-home-loans" },
+      { title: "First Home Buyer Scheme Loans", body: "Grants, guarantee schemes and stamp-duty concessions to get you into your first home sooner, with a smaller deposit.", id: "first-home-buyers" },
       { title: "Bad Credit Home Loans", body: "A compassionate, non-judgmental approach when life got complicated.", id: "bad-credit-home-loans" },
       { title: "Personal Loans", body: "Cover life's expenses or pursue a dream with a loan that's all about you.", id: "personal-loans" },
       { title: "Car Loans", body: "Drive away with confidence, our car loans are quick, easy, and affordable.", id: "car-loans" },
       { title: "Leisure Loans", body: "Ready to explore? Get the freedom to travel with a flexible caravan or boat loan.", id: "leisure-loans" },
       { title: "Debt Consolidation Loans", body: "Simplify your finances and lower your stress by merging your debts into one manageable payment.", id: "debt-consolidation-loans" },
+      { title: "ATO Tax Debt Loans", body: "Clear or consolidate outstanding tax debt with lending that takes the pressure off your business and cash flow.", id: "ato-debt" },
     ],
     closing: "With Mesh Finance, you're never just another application. We're here to support you with expert advice, straightforward terms, and a commitment to helping you find the perfect loan for your journey.",
   },
