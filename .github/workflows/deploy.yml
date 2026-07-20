@@ -1,1 +1,64 @@
+name: Deploy
 
+on:
+workflow_dispatch:
+push:
+branches:
+- main
+
+jobs:
+deploy:
+runs-on: ubuntu-latest
+
+```
+steps:
+  - name: Checkout
+    uses: actions/checkout@v4
+
+  - name: Setup SSH key
+    run: |
+      mkdir -p ~/.ssh
+      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      chmod 600 ~/.ssh/id_rsa
+      ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+  - name: Deploy via rsync
+    run: |
+      rsync -avz --delete \
+        --exclude='.git' \
+        --exclude='.github' \
+        --exclude='.claude' \
+        --exclude='.gitignore' \
+        -e "ssh -i ~/.ssh/id_rsa" \
+        ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ vars.DEPLOY_PATH }}/
+
+  - name: Install dependencies and restart Node.js
+    run: |
+      ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+
+        cd "${{ vars.DEPLOY_PATH }}"
+
+        # Load common shell profiles (helps when Node is installed via NVM)
+        [ -f ~/.profile ] && source ~/.profile
+        [ -f ~/.bashrc ] && source ~/.bashrc
+        [ -f ~/.bash_profile ] && source ~/.bash_profile
+
+        # Find npm
+        NPM_BIN=$(command -v npm)
+
+        if [ -z "$NPM_BIN" ]; then
+          echo "ERROR: npm not found in PATH"
+          echo "PATH=$PATH"
+          exit 1
+        fi
+
+        echo "Using npm: $NPM_BIN"
+
+        "$NPM_BIN" install
+
+        echo "Restarting Node.js application..."
+        pkill node || true
+
+      EOF
+```
+ 
