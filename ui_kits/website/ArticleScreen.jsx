@@ -90,7 +90,7 @@ const artS = {
   numT: { fontWeight:700, color:"var(--navy-700)", marginBottom:3, fontSize:15 },
   numB: { fontSize:14, color:"var(--text-body)", lineHeight:1.5 },
   closingCard: { display:"flex", flexDirection:"column", gap:44, alignItems:"flex-start", padding:"26px 28px", background:"#fff", marginTop:32 },
-  closingP: { fontFamily:"var(--font-display)", fontSize:17, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:0 },
+  closingP: { fontFamily:"var(--font-display)", fontSize:17, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px" },
 
   aside: {},
   sideH: { fontFamily:"var(--font-display)", fontSize:15, textTransform:"uppercase", letterSpacing:".04em",

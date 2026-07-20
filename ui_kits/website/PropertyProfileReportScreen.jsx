@@ -30,7 +30,7 @@ function PropertyProfileReportScreen({ onNav }) {
         </ul>
 
         <Card elevation="shadow" style={pprS.closingCard}>
-          <p style={pprS.closingP}>{d.closing}<br/><br/></p>
+          <p style={pprS.closingP}>{d.closing}</p>
           <Button size="lg" onClick={()=>onNav("request-report")}>Request a report</Button>
         </Card>
       </div>
@@ -54,6 +54,6 @@ const pprS = {
   checkIcon: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)",
     color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
   closingCard: { display:"flex", flexDirection:"column", gap:24, alignItems:"flex-start", padding:"28px 32px", background:"#fff" },
-  closingP: { fontFamily:"var(--font-display)", fontSize:17, lineHeight:1.5, color:"var(--navy-700)", fontWeight:600, margin:0 },
+  closingP: { fontFamily:"var(--font-display)", fontSize:17, lineHeight:1.5, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px" },
 };
 Object.assign(window, { MeshPropertyProfileReportScreen: PropertyProfileReportScreen });

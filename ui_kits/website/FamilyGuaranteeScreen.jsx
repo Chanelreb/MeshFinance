@@ -73,7 +73,7 @@ const fgS = {
   checkIcon: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)",
     color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
   closingCard: { display:"flex", flexDirection:"column", gap:44, alignItems:"flex-start", padding:"28px 32px", background:"#fff" },
-  closingP: { fontFamily:"var(--font-display)", fontSize:18, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:0 },
+  closingP: { fontFamily:"var(--font-display)", fontSize:18, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px" },
 };
 
 Object.assign(window, { MeshFamilyGuaranteeScreen: FamilyGuaranteeScreen });

@@ -74,7 +74,7 @@ const wwh = {
   readLink: { display:"inline-flex", alignItems:"center", gap:6, fontSize:15, fontWeight:600, color:"var(--color-primary)", textDecoration:"none" },
 
   ctaCard: { display:"flex", flexDirection:"column", gap:20, alignItems:"flex-start", padding:"32px 36px", background:"#fff" },
-  ctaP: { fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:0, maxWidth:680 },
+  ctaP: { fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px", maxWidth:680 },
 };
 
 Object.assign(window, { MeshWhoWeHelpScreen: WhoWeHelpScreen });

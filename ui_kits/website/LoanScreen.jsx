@@ -115,7 +115,7 @@ function LoanScreen({ onNav, slug }) {
 
             {d.closing && (
               <Card elevation="shadow" style={loanS.closingCard}>
-                <p style={loanS.closingP}>{d.closing}<br/><br/></p>
+                <p style={loanS.closingP}>{d.closing}</p>
                 <Button size="lg" onClick={()=>onNav("contact")}>Book a chat</Button>
               </Card>
             )}
@@ -195,7 +195,7 @@ const loanS = {
   numB: { fontSize:14.5, color:"var(--text-body)", lineHeight:1.55 },
 
   closingCard: { display:"flex", flexDirection:"column", gap:32, alignItems:"flex-start", padding:"28px 32px", background:"#fff" },
-  closingP: { fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.4, color:"var(--navy-700)", fontWeight:600, margin:0 },
+  closingP: { fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.4, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px" },
   linkRow: { display:"flex", gap:16, flexWrap:"wrap", marginTop:20, alignItems:"center" },
   linkRowLabel: { fontSize:14, fontWeight:600, color:"var(--text-muted)" },
   linkBtn: { fontSize:14.5, fontWeight:600, color:"var(--color-primary)", textDecoration:"none" },

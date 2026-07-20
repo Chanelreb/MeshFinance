@@ -34,7 +34,7 @@ function FinancialToolkitScreen({ onNav }) {
           </div>
 
           <Card elevation="shadow" style={toolkitS.closingCard}>
-            <p style={toolkitS.closingP}>{d.closing}<br/><br/></p>
+            <p style={toolkitS.closingP}>{d.closing}</p>
             <Button size="lg" onClick={()=>onNav("contact")} iconRight={<ArrowRight width={18} height={18}/>}>Reach out 👋</Button>
           </Card>
         </div>
@@ -58,7 +58,7 @@ const toolkitS = {
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20, marginBottom:44 },
   gridMobile: { gridTemplateColumns:"1fr" },
   closingCard: { display:"flex", flexDirection:"column", gap:24, alignItems:"flex-start", padding:"32px 36px", background:"#fff" },
-  closingP: { fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:0, maxWidth:680 },
+  closingP: { fontFamily:"var(--font-display)", fontSize:19, lineHeight:1.45, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px", maxWidth:680 },
 };
 
 Object.assign(window, { MeshFinancialToolkitScreen: FinancialToolkitScreen });

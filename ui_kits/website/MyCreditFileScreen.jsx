@@ -37,6 +37,6 @@ const mcfS = {
   cardTitle: { fontFamily:"var(--font-display)", fontSize:16.5, color:"var(--navy-700)", margin:"0 0 6px", fontWeight:700 },
   cardBody: { fontSize:14.5, color:"var(--text-body)", lineHeight:1.5, margin:0 },
   closingCard: { display:"flex", flexDirection:"column", gap:24, alignItems:"flex-start", padding:"28px 32px", background:"#fff" },
-  closingP: { fontFamily:"var(--font-display)", fontSize:17, lineHeight:1.5, color:"var(--navy-700)", fontWeight:600, margin:0 },
+  closingP: { fontFamily:"var(--font-display)", fontSize:17, lineHeight:1.5, color:"var(--navy-700)", fontWeight:600, margin:"0 0 16px" },
 };
 Object.assign(window, { MeshMyCreditFileScreen: MyCreditFileScreen });

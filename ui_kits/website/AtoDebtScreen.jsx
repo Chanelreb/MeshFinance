@@ -110,7 +110,7 @@ const aS = {
 
   closingCard: { display:"flex", flexDirection:"column", gap:20, alignItems:"flex-start", padding:"28px 32px", background:"#fff", marginTop:44 },
   closingH: { fontFamily:"var(--font-display)", fontSize:20, color:"var(--navy-700)", margin:"0 0 6px", fontWeight:700 },
-  closingP: { fontSize:16, lineHeight:1.5, color:"var(--text-body)", margin:0 },
+  closingP: { fontSize:16, lineHeight:1.5, color:"var(--text-body)", margin:"0 0 16px" },
 };
 
 Object.assign(window, { MeshAtoDebtScreen: AtoDebtScreen });
