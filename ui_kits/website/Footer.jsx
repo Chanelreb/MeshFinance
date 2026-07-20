@@ -19,8 +19,14 @@ function Footer({ onNav }) {
           <img src="../../assets/mesh-logo-white.png" alt="Mesh Finance" style={{height:46}}/>
           <p style={ft.licence}>Credit Representative Number 506123 is authorised under Australian Credit Licence Number 384704.</p>
           <div style={ft.social}>
-            {[Facebook,Instagram,Linkedin].map((Ic,i)=>(
-              <a key={i} href="#" style={ft.soc}><Ic width={18} height={18}/></a>
+            {[
+              { Ic: Facebook, href: "https://www.facebook.com/meshfinance", label: "Mesh Finance on Facebook" },
+              { Ic: Instagram, href: "https://www.instagram.com/mesh_finance/", label: "Mesh Finance on Instagram" },
+              { Ic: Linkedin, href: "https://www.linkedin.com/in/chanel-rebello-financebroker/", label: "Mesh Finance on LinkedIn" },
+            ].map(({ Ic, href, label }, i) => (
+              <a key={i} href={href} aria-label={label}
+                {...(href !== "#" ? { target: "_blank", rel: "noopener noreferrer" } : { onClick: (e)=>e.preventDefault() })}
+                style={ft.soc}><Ic width={18} height={18}/></a>
             ))}
           </div>
         </div>
