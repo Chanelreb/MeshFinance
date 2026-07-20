@@ -33,18 +33,14 @@ jobs:
 
       - name: Install dependencies and restart Node.js
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
-
+          ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash -l << 'EOF'
+            set -e
             cd "${{ vars.DEPLOY_PATH }}"
 
-            # Load common shell profiles (helps when Node is installed via NVM)
-            [ -f ~/.profile ] && source ~/.profile
-            [ -f ~/.bashrc ] && source ~/.bashrc
-            [ -f ~/.bash_profile ] && source ~/.bash_profile
+            export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+            [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 
-            # Find npm
             NPM_BIN=$(command -v npm)
-
             if [ -z "$NPM_BIN" ]; then
               echo "ERROR: npm not found in PATH"
               echo "PATH=$PATH"
@@ -52,10 +48,8 @@ jobs:
             fi
 
             echo "Using npm: $NPM_BIN"
-
             "$NPM_BIN" install
 
             echo "Restarting Node.js application..."
             pkill node || true
-
           EOF
