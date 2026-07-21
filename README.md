@@ -43,5 +43,6 @@ The host's Passenger/proxy sets the `PORT` environment variable automatically;
 
 - The Contact page embeds Calendly (event: `chanel-fqxz/intro-to-mesh-finance-clone`);
   bookings go straight into the connected calendar.
-- Four large photos (hero, toolkit, first-home-buyers, ATO debt) are not yet in
-  `assets/` — export them from Canva and drop them in to fill the placeholders.
+- The page heroes are image-free by design — the site uses only the logos,
+  brand colours, and icons (no photography). If you later want hero photos,
+  the single-column hero sections are the natural place to add them back.
