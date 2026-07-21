@@ -31,7 +31,6 @@ function HomeScreen({ onNav }) {
     <div>
       {/* HERO */}
       <section style={h.hero}>
-        <div style={h.heroOverlay}/>
         <div style={{...h.heroInner, ...(isMobile ? h.heroInnerMobile : {})}}>
           <div style={h.heroCopy}>
             <Badge color="blue" dot>Perth, Western Australia</Badge>
@@ -138,12 +137,10 @@ function GoogleReviews() {
 }
 
 const h = {
-  hero: { position:"relative", background:"url(../../assets/hero-home.jpg) center/cover no-repeat" },
+  hero: { background:"var(--blue-50)" },
   reviewsBand: { background:"#fff", borderBottom:"1px solid var(--border-subtle)" },
   reviewsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px" },
-  heroOverlay: { position:"absolute", inset:0,
-    background:"linear-gradient(90deg, var(--surface-page) 0%, var(--surface-page) 34%, rgba(255,255,255,.86) 55%, rgba(255,255,255,.55) 75%, rgba(255,255,255,.2) 100%)" },
-  heroInner: { position:"relative", maxWidth:"var(--container-max)", margin:"0 auto", padding:"60px 28px 64px",
+  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"60px 28px 64px",
     display:"grid", gridTemplateColumns:"1.05fr .95fr", gap:48, alignItems:"center" },
   heroInnerMobile: { gridTemplateColumns:"1fr", padding:"36px 20px 40px", gap:32 },
   heroCopy: { display:"flex", flexDirection:"column", gap:18, alignItems:"flex-start" },

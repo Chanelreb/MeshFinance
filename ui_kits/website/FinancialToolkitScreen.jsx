@@ -18,9 +18,6 @@ function FinancialToolkitScreen({ onNav }) {
             <h1 style={toolkitS.h1}>{d.title}</h1>
             <p style={toolkitS.lead}>{d.intro}</p>
           </div>
-          <div style={toolkitS.headImg}>
-            <img src="../../assets/toolkit-photo.png" alt="Client reviewing finances at home" style={toolkitS.headImgTag}/>
-          </div>
         </div>
       </section>
 
@@ -45,13 +42,10 @@ function FinancialToolkitScreen({ onNav }) {
 
 const toolkitS = {
   head: { background:"var(--blue-50)" },
-  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px",
-    display:"grid", gridTemplateColumns:"1.1fr .9fr", gap:40, alignItems:"center" },
-  headInnerMobile: { gridTemplateColumns:"1fr", padding:"20px 20px 32px", gap:24 },
-  headCopy: { display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start", maxWidth:640 },
-  headImg: { aspectRatio:"4/3", borderRadius:16, overflow:"hidden" },
-  headImgTag: { width:"100%", height:"100%", objectFit:"cover", display:"block" },
-  h1: { fontSize:40, lineHeight:1.15, margin:"0 0 8px", minHeight:92, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px" },
+  headInnerMobile: { padding:"20px 20px 32px" },
+  headCopy: { display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start", maxWidth:760 },
+  h1: { fontSize:40, lineHeight:1.15, margin:"0 0 8px", color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:640 },
   body: { padding:"56px 0 80px" },
   bodyInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },

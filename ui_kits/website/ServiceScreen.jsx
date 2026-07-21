@@ -19,15 +19,12 @@ function ServiceScreen({ onNav }) {
       <section style={svcS.head}>
         <div style={svcS.headInner}>
           <Breadcrumb items={[{label:"Home",href:"#"},{label:"How We Help",href:"#"},{label:"First Home Buyers"}]}/>
-          <div style={{...svcS.headRow, ...(isMobile ? svcS.headRowMobile : {})}}>
+          <div style={svcS.headRow}>
             <div style={{maxWidth:620}}>
               <Badge color="solid">First Home Buyers</Badge>
               <h1 style={svcS.h1}>WA First Home Buyers</h1>
               <p style={svcS.lead}>For first home buyers the process of purchasing a home can be overwhelming. From saving for a deposit to navigating the complex world of loans and financing, it can be difficult to know where to start. There are a range of First Home Buyer benefits available to help young Australians into their first home.</p>
               <Button size="lg" onClick={()=>onNav("contact")}>Book in for a First Home Q&A</Button>
-            </div>
-            <div style={svcS.headImg} role="img" aria-label="A young couple holding hands with moving boxes over their heads in their new empty home">
-              <img src="../../assets/firsthomebuyers.jpg" alt="A young couple holding hands with moving boxes over their heads in their new empty home" style={svcS.headImgTag}/>
             </div>
           </div>
         </div>
@@ -91,14 +88,8 @@ function ServiceScreen({ onNav }) {
 const svcS = {
   head: { background:"var(--blue-50)" },
   headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px" },
-  headRow: { marginTop:18, display:"grid", gridTemplateColumns:"1.1fr .9fr", gap:40, alignItems:"center" },
-  headRowMobile: { gridTemplateColumns:"1fr", gap:24 },
-  headImg: { aspectRatio:"4/3", borderRadius:16, overflow:"hidden",
-    display:"flex", alignItems:"center", justifyContent:"center" },
-  headImgTag: { width:"100%", height:"100%", objectFit:"cover", display:"block" },
-  headImgLabel: { fontFamily:"monospace", fontSize:13, color:"var(--navy-700)", background:"#fff",
-    padding:"4px 10px", borderRadius:6, opacity:.7 },
-  h1: { fontSize:42, lineHeight:1.15, margin:"18px 0 14px", minHeight:97, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  headRow: { marginTop:18 },
+  h1: { fontSize:42, lineHeight:1.15, margin:"18px 0 14px", color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:18, lineHeight:1.55, color:"var(--text-body)", margin:"0 0 28px", maxWidth:560 },
   body: { padding:"56px 0 80px" },
   bodyInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",

@@ -68,9 +68,6 @@ function LoanScreen({ onNav, slug }) {
               <Button size="lg" onClick={()=>onNav("contact")} iconRight={<ArrowRight width={18} height={18}/>}>Reach out for a chat</Button>
             </div>
           </div>
-          <div style={loanS.headImg} role="img" aria-label={d.imgAlt || `${d.title} illustration placeholder`}>
-            <span style={loanS.headImgLabel}>{d.title.toLowerCase()} photo</span>
-          </div>
         </div>
       </section>
 
@@ -162,16 +159,10 @@ function LoanScreen({ onNav, slug }) {
 
 const loanS = {
   head: { background:"var(--blue-50)" },
-  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px",
-    display:"grid", gridTemplateColumns:"1.1fr .9fr", gap:40, alignItems:"center" },
-  headInnerMobile: { gridTemplateColumns:"1fr", padding:"20px 20px 32px", gap:24 },
-  headCopy: { display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
-  headImg: { aspectRatio:"4/3", borderRadius:16,
-    backgroundImage:"repeating-linear-gradient(135deg, var(--blue-100) 0px, var(--blue-100) 14px, var(--blue-50) 14px, var(--blue-50) 28px)",
-    display:"flex", alignItems:"center", justifyContent:"center" },
-  headImgLabel: { fontFamily:"monospace", fontSize:13, color:"var(--navy-700)", background:"#fff",
-    padding:"4px 10px", borderRadius:6, opacity:.7 },
-  h1: { fontSize:40, lineHeight:1.15, margin:"6px 0 8px", minHeight:92, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px" },
+  headInnerMobile: { padding:"20px 20px 32px" },
+  headCopy: { display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start", maxWidth:760 },
+  h1: { fontSize:40, lineHeight:1.15, margin:"6px 0 8px", color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 6px", maxWidth:640 },
   heroBtns: { display:"flex", gap:12, marginTop:6 },
 
