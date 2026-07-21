@@ -43,6 +43,7 @@ The host's Passenger/proxy sets the `PORT` environment variable automatically;
 
 - The Contact page embeds Calendly (event: `chanel-fqxz/intro-to-mesh-finance-clone`);
   bookings go straight into the connected calendar.
-- Hero photos live in `assets/`: the home hero (`hero-home.jpg`) is blended
-  behind the heading via a gradient overlay; Financial Toolkit, First Home
-  Buyers, and ATO Debt show their photo in a rounded box beside the heading.
+- Hero photos live in `assets/`. Home, Financial Toolkit, and ATO Debt use a
+  full-bleed photo blended behind the heading via a left-to-right gradient
+  overlay. First Home Buyers shows its photo in a rounded box beside the
+  heading (its portrait shape doesn't suit a full-bleed blend).
