@@ -91,10 +91,10 @@ const aS = {
 
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16 },
   gridMobile: { gridTemplateColumns:"1fr" },
-  card: { padding:22, display:"flex", flexDirection:"column", gap:8 },
+  card: { padding:"26px 24px" },
   cardIcon: { flex:"none", width:40, height:40, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)",
-    color:"var(--color-primary)", display:"flex", alignItems:"center", justifyContent:"center" },
-  cardTitle: { fontFamily:"var(--font-display)", fontSize:16, color:"var(--navy-700)", margin:0, fontWeight:700 },
+    color:"var(--color-primary)", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:16 },
+  cardTitle: { fontFamily:"var(--font-display)", fontSize:16, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
   cardBody: { fontSize:14, color:"var(--text-body)", lineHeight:1.5, margin:0 },
 
   wayGrid: { display:"grid", gap:14, marginBottom:8 },
