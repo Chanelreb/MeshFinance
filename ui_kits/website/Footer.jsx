@@ -52,7 +52,10 @@ function Footer({ onNav }) {
       </div>
       <div style={{...ft.bottom, ...(isMobile ? ft.bottomMobile : {})}}>
         <span>©2026 Mesh Finance. All Rights Reserved.</span>
-        <span style={ft.legal}>Privacy Policy &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Disclaimer</span>
+        <span style={ft.legal}>
+          <a href="/privacy-policy" onClick={(e)=>{e.preventDefault();onNav&&onNav("privacy-policy");}} style={ft.legalLink}>Privacy Policy</a>
+          &nbsp;|&nbsp; Terms &amp; Conditions &nbsp;|&nbsp; Disclaimer
+        </span>
       </div>
     </footer>
   );
@@ -78,6 +81,7 @@ const ft = {
     fontSize:12.5, color:"rgba(255,255,255,.55)" },
   bottomMobile: { flexDirection:"column", gap:8, padding:"20px 24px", textAlign:"center" },
   legal: { color:"rgba(255,255,255,.55)" },
+  legalLink: { color:"rgba(255,255,255,.75)", textDecoration:"none" },
 };
 
 Object.assign(window, { MeshFooter: Footer });

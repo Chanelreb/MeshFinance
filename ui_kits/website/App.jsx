@@ -36,6 +36,7 @@ const MESH_TITLES = {
   "request-report": "Request a Property Report | Mesh Finance",
   "referral-hub": "Refer a Friend | Mesh Finance",
   "contact": "Book Now | Mesh Finance",
+  "privacy-policy": "Privacy Policy | Mesh Finance",
 };
 
 function App() {
@@ -93,6 +94,7 @@ function App() {
       "request-report": window.MeshRequestReportScreen,
       "referral-hub": window.MeshReferralHubScreen,
       "contact": window.MeshContactScreen,
+      "privacy-policy": window.MeshPrivacyPolicyScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
   }
