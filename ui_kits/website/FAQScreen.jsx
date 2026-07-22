@@ -2,7 +2,14 @@
 function FAQScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Accordion, Badge, Button, Card } = DS;
-  const items = window.MeshContent.faqs;
+  /* Answers may be a string or an array of paragraphs; render arrays as
+     spaced <p> elements so multi-paragraph answers read cleanly. */
+  const items = window.MeshContent.faqs.map((it) => ({
+    question: it.question,
+    answer: Array.isArray(it.answer)
+      ? it.answer.map((p, i) => <p key={i} style={{ margin: i === 0 ? 0 : "12px 0 0" }}>{p}</p>)
+      : it.answer,
+  }));
 
   return (
     <div style={f.page}>

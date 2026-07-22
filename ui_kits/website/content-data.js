@@ -864,11 +864,59 @@ window.MeshContent = {
   },
 
   faqs: [
-    { question: "Why should I use a mortgage broker?", answer: "Our job as your broker is to provide you with a range of loan options, not limited to one bank or finance company. Our number-crunching software teamed with our expert knowledge means we can provide unbiased guidance for all your finance needs." },
-    { question: "Do you charge a fee?", answer: "Yes, we charge a $440 fee for our services. This includes access to our client application portal (property reports and credit checks), pre-approvals and a Letter of Eligibility, yearly home loan health checks and lender pricing reviews, and a one-on-one consult with our Financial Planning team." },
-    { question: "Can you help if I have bad credit?", answer: "Absolutely! Life is full of ups and downs, and we understand a credit default, missed repayments or hardship can be a direct result of it. We have a range of lenders that provide solutions to help clients purchase a home or refinance their debt." },
-    { question: "Do I need to have saved a deposit before starting the process with a mortgage broker?", answer: "There is no wrong time to reach out for a chat. Clients get a lot of value meeting with us before they're ready to purchase, we can assist with saving plans and options that might not require the deposit you think you need." },
-    { question: "I work 9 to 5, how can I make an appointment?", answer: "We have flexible ways to start your journey with us: appointments in our office, Zoom appointments outside regular office hours, or we can meet in the comfort of your home after hours." },
+    { question: "Do you charge a fee for your mortgage broking service?", answer: [
+      "Generally, no. In most cases, we're paid a commission by the lender once your loan settles.",
+      "However, there may be some circumstances where a brokerage fee applies. If this is relevant to your situation, we'll explain it clearly and advise you of the fee upfront before you decide to proceed. There are no surprise charges.",
+    ] },
+    { question: "Where is Mesh Finance located?", answer: [
+      "Mesh Finance is a Perth mortgage broker with an office located in South Perth, helping clients throughout the wider Perth metropolitan area.",
+      "We also have strong roots in the Perth Hills. I was born and bred in the Hills and still live locally, so we regularly assist clients in Kalamunda, Maida Vale, High Wycombe, Forrestfield, Gooseberry Hill and surrounding Perth Hills suburbs.",
+      "Whether you're based in South Perth, the Perth Hills or elsewhere across Perth, we can assist you in person, over the phone or online.",
+    ] },
+    { question: "Why should I use a mortgage broker?", answer: [
+      "A mortgage broker can compare loan options from a range of lenders and help you understand which products may suit your circumstances.",
+      "At Mesh Finance, we do more than compare interest rates. We look at the loan structure, repayments, fees, features and your longer-term plans so you can make a confident, informed decision.",
+    ] },
+    { question: "Which lenders do you work with?", answer: [
+      "We have access to a broad panel of banks and non-bank lenders. This allows us to consider a range of options, including major banks, smaller lenders and lenders with more flexible policies.",
+      "The right lender isn't always the one with the lowest advertised rate. We'll also consider their lending policy, fees, loan features and whether the loan suits your plans.",
+    ] },
+    { question: "Can you help first-home buyers?", answer: [
+      "Absolutely. You don't need to wait until you have saved your full deposit or found a property before speaking with us.",
+      "We can help you understand how much you may be able to borrow, the deposit and purchasing costs you'll need, and the steps you can take to prepare. We can also discuss any first-home-buyer schemes that may be available and relevant to your circumstances.",
+    ] },
+    { question: "Can you help me refinance my existing home loan?", answer: [
+      "Yes. We can review your current loan and compare it with other options available.",
+      "Importantly, we consider more than the interest rate. We also factor in refinancing costs, establishment fees, ongoing package fees, cashback offers and loan features such as offset accounts and redraw facilities. This helps determine whether refinancing is likely to provide a genuine benefit.",
+    ] },
+    { question: "Do I need an offset account?", answer: [
+      "Not necessarily. An offset account can help reduce the interest charged on your home loan, but products with an offset may have a higher interest rate or additional fees.",
+      "We can compare the cost of an offset loan against a lower-cost basic loan with redraw to help you decide which option may be more suitable for the way you manage your money.",
+    ] },
+    { question: "Can you help if my bank has said no?", answer: [
+      "Potentially, yes. Different lenders have different policies, so being declined by one bank doesn't necessarily mean there are no other options.",
+      "We'll take the time to understand why the application was declined and determine whether another lender or a different approach may be suitable. If you're not ready to apply yet, we can also help you create a plan for the future.",
+    ] },
+    { question: "Can you help self-employed borrowers?", answer: [
+      "Yes. We regularly work with self-employed clients, including sole traders, company directors and people with less traditional income arrangements.",
+      "Different lenders assess self-employed income differently. We can review your available financial information and identify lenders whose policies may be better suited to your business and circumstances.",
+    ] },
+    { question: "Can you help with debt consolidation?", answer: [
+      "Yes. Debt consolidation may allow eligible borrowers to combine debts such as credit cards, personal loans, car loans or buy-now-pay-later accounts into one repayment.",
+      "We'll assess the costs, loan term and overall impact carefully. While consolidation may improve monthly cash flow, extending short-term debts over a longer home-loan term can increase the total interest paid unless additional repayments are made.",
+    ] },
+    { question: "How early should I speak with a mortgage broker?", answer: [
+      "As early as possible. You don't need to be ready to apply for a loan.",
+      "An early conversation can help you understand your borrowing position, deposit target, likely costs and any changes that may strengthen your application. Having a clear goal often makes the process feel much more manageable.",
+    ] },
+    { question: "What happens during the first appointment?", answer: [
+      "We'll talk about your current position, what you would like to achieve and any plans that could affect your finances.",
+      "From there, we can explain the likely next steps and let you know which documents may be required. It's a relaxed, no-pressure conversation designed to give you greater clarity.",
+    ] },
+    { question: "Can appointments be completed online?", answer: [
+      "Yes. We can assist by phone, email and video appointment, making the process convenient wherever you are in Perth.",
+      "If you prefer meeting face to face, appointments can also be arranged through our South Perth office.",
+    ] },
   ],
 
   knowledgeCentre: [

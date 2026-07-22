@@ -688,6 +688,20 @@ try { (() => {
 
 function Accordion({ items = [], allowMultiple = false, defaultOpen = [], className = "" }) {
   const [open, setOpen] = React.useState(() => new Set(defaultOpen));
+  /* Measure each answer's true height so an open panel's max-height matches its
+     content exactly — no clipping at any width, and a smooth open/close. */
+  const innerRefs = React.useRef([]);
+  const [heights, setHeights] = React.useState({});
+  React.useLayoutEffect(() => {
+    const measure = () => {
+      const next = {};
+      innerRefs.current.forEach((el, i) => { if (el) next[i] = el.scrollHeight; });
+      setHeights(next);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [items]);
   const toggle = (i) => {
     setOpen((prev) => {
       const next = new Set(allowMultiple ? prev : []);
@@ -707,8 +721,8 @@ function Accordion({ items = [], allowMultiple = false, defaultOpen = [], classN
                 <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
               </span>
             </button>
-            <div className="mesh-acc-panel" style={{ maxHeight: isOpen ? "400px" : "0" }}>
-              <div className="mesh-acc-panel__inner">{it.answer}</div>
+            <div className="mesh-acc-panel" style={{ maxHeight: isOpen ? ((heights[i] || 2000) + "px") : "0" }}>
+              <div className="mesh-acc-panel__inner" ref={(el) => { innerRefs.current[i] = el; }}>{it.answer}</div>
             </div>
           </div>
         );
