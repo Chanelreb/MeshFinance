@@ -77,7 +77,7 @@ const aS = {
     background:"linear-gradient(90deg, var(--surface-page) 0%, var(--surface-page) 34%, rgba(255,255,255,.86) 55%, rgba(255,255,255,.55) 75%, rgba(255,255,255,.2) 100%)" },
   headInner: { position:"relative", maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 56px" },
   headInnerMobile: { padding:"36px 20px 40px" },
-  headCopy: { display:"flex", flexDirection:"column", gap:10, maxWidth:540 },
+  headCopy: { display:"flex", flexDirection:"column", gap:10, alignItems:"flex-start", maxWidth:540 },
   h1: { fontSize:38, lineHeight:1.15, margin:"6px 0 0", color:"var(--navy-700)", letterSpacing:"-.02em" },
   subtitle: { fontSize:18, color:"var(--color-primary)", fontWeight:600, margin:0 },
   lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"6px 0 0" },
