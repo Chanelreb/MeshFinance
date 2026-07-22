@@ -681,7 +681,7 @@ try { (() => {
   transition:transform var(--duration-base) var(--ease-out), background var(--duration-base) var(--ease-standard); }
 .mesh-acc-item--open .mesh-acc-icon{ transform:rotate(45deg); background:var(--color-primary); color:#fff; }
 .mesh-acc-panel{ overflow:hidden; max-height:0; transition:max-height var(--duration-slow) var(--ease-standard); }
-.mesh-acc-panel__inner{ padding:0 4px 20px; color:var(--text-body); font-size:var(--text-base); line-height:1.6; }
+.mesh-acc-panel__inner{ padding:0 4px 28px; color:var(--text-body); font-size:var(--text-base); line-height:1.6; }
 `;
   document.head.appendChild(s);
 })();
