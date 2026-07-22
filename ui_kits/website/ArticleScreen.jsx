@@ -9,15 +9,19 @@ function ArticleScreen({ onNav, slug }) {
   if (!d) return null;
 
   return (
-    <div style={artS.page}>
-      <div style={{...artS.inner, ...(isMobile ? artS.innerMobile : {})}}>
-        <div style={artS.main}>
+    <div>
+      <section style={artS.head}>
+        <div style={artS.headInner}>
           <Breadcrumb items={[{label:"Home",href:"#"},{label:"Helpful Articles",href:"#"},{label:d.title}]}/>
           <Badge color="blue" dot>{d.date}</Badge>
           <h1 style={artS.h1}>{d.title}</h1>
           {d.subtitle && <p style={artS.subtitle}>{d.subtitle}</p>}
           <p style={artS.lead}>{d.intro}</p>
-
+        </div>
+      </section>
+      <section style={artS.bodySection}>
+      <div style={{...artS.inner, ...(isMobile ? artS.innerMobile : {})}}>
+        <div style={artS.main}>
           {d.blocks.map((b,i)=>(
             <div key={i} style={artS.block}>
               {b.h && <h2 style={artS.h2}>{b.h}</h2>}
@@ -65,19 +69,22 @@ function ArticleScreen({ onNav, slug }) {
           </Card>
         </aside>
       </div>
+      </section>
     </div>
   );
 }
 
 const artS = {
-  page: { background:"var(--surface-page)", padding:"40px 0 80px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"28px 28px 44px" },
+  bodySection: { background:"var(--surface-page)", padding:"48px 0 80px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
     display:"grid", gridTemplateColumns:"1fr 320px", gap:44, alignItems:"start" },
   innerMobile: { gridTemplateColumns:"1fr", padding:"0 20px", gap:28 },
   main: { maxWidth:720 },
-  h1: { fontSize:34, margin:"14px 0 8px", color:"var(--navy-700)", letterSpacing:"-.02em", lineHeight:1.15 },
+  h1: { fontSize:34, margin:"14px 0 8px", color:"var(--navy-700)", letterSpacing:"-.02em", lineHeight:1.15, maxWidth:820 },
   subtitle: { fontSize:17, color:"var(--color-primary)", fontWeight:600, margin:"0 0 12px" },
-  lead: { fontSize:16.5, lineHeight:1.65, color:"var(--text-body)", margin:"0 0 8px" },
+  lead: { fontSize:16.5, lineHeight:1.65, color:"var(--text-body)", margin:0, maxWidth:820 },
   block: { marginTop:28 },
   h2: { fontSize:21, margin:"0 0 10px", color:"var(--navy-700)" },
   p: { fontSize:15.5, lineHeight:1.65, color:"var(--text-body)", margin:0 },

@@ -54,12 +54,17 @@ function ContactScreen({ onNav }) {
   };
 
   return (
-    <div style={ct.page}>
-      <div style={{...ct.inner, ...(isMobile ? ct.innerMobile : {})}}>
-        <div style={ct.left}>
+    <div>
+      <section style={ct.head}>
+        <div style={ct.headInner}>
           <Badge color="solid">Book now</Badge>
           <h1 style={ct.h1}>Let's start with a chat.</h1>
           <p style={ct.lead}>Tell us a little about what you're after and the best time to reach you. There's no cost and no obligation, just clear, friendly advice.</p>
+        </div>
+      </section>
+      <section style={ct.body}>
+      <div style={{...ct.inner, ...(isMobile ? ct.innerMobile : {})}}>
+        <div style={ct.left}>
           <ul style={ct.details}>
             <li style={ct.row}><span style={ct.ic}><Phone width={18} height={18}/></span><div><div style={ct.rowL}>Phone</div><div style={ct.rowV}>0416 291 241</div></div></li>
             <li style={ct.row}><span style={ct.ic}><Mail width={18} height={18}/></span><div><div style={ct.rowL}>Email</div><div style={ct.rowV}>hello@meshfinance.com.au</div></div></li>
@@ -130,18 +135,22 @@ function ContactScreen({ onNav }) {
           </div>
         </Card>
       </div>
+      </section>
     </div>
   );
 }
 
 const ct = {
-  page: { background:"var(--surface-page)", padding:"56px 0 80px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
+    display:"flex", flexDirection:"column", gap:14, alignItems:"flex-start" },
+  body: { background:"var(--surface-page)", padding:"56px 0 80px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
     display:"grid", gridTemplateColumns:"1fr 480px", gap:56, alignItems:"start" },
   innerMobile: { gridTemplateColumns:"1fr", padding:"0 20px", gap:32 },
   left: { paddingTop:6 },
-  h1: { fontSize:42, margin:"14px 0 14px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 32px", maxWidth:440 },
+  h1: { fontSize:42, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:560 },
   details: { listStyle:"none", margin:0, padding:0, display:"grid", gap:20 },
   row: { display:"flex", gap:14, alignItems:"flex-start" },
   ic: { flex:"none", width:44, height:44, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)",

@@ -322,16 +322,20 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
 function Shell({ badge, title, lead, children, note }) {
   const { Badge, Alert } = window.MeshFinanceDesignSystem_5c98d0;
   return (
-    <div style={c.page}>
-      <div style={c.inner}>
-        <div style={c.intro}>
+    <div>
+      <section style={c.head}>
+        <div style={c.headInner}>
           <Badge color="blue" dot>{badge}</Badge>
           <h1 style={c.h1}>{title}</h1>
           <p style={c.lead}>{lead}</p>
         </div>
-        {children}
-        {note && <Alert variant="warning">{note}</Alert>}
-      </div>
+      </section>
+      <section style={c.body}>
+        <div style={c.inner}>
+          {children}
+          {note && <Alert variant="warning">{note}</Alert>}
+        </div>
+      </section>
     </div>
   );
 }
@@ -560,11 +564,13 @@ const info = {
 };
 
 const c = {
-  page: { background:"var(--surface-page)", padding:"48px 0 72px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
+    display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
+  body: { background:"var(--surface-page)", padding:"48px 0 72px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
-  intro: { maxWidth:620, marginBottom:32 },
-  h1: { fontSize:40, margin:"18px 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:17, lineHeight:1.55, color:"var(--text-muted)", margin:0 },
+  h1: { fontSize:40, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:760 },
+  lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:760 },
   layout: { display:"grid", gridTemplateColumns:"1fr 380px", gap:24, alignItems:"start", marginBottom:24 },
   layoutMobile: { gridTemplateColumns:"1fr" },
   fieldGrid: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0 24px" },

@@ -25,14 +25,18 @@ function RequestReportScreen({ onNav }) {
   };
 
   return (
-    <div style={rr.page}>
+    <div>
+      <section style={rr.head}>
+        <div style={rr.headInner}>
+          <Badge color="blue" dot>Guides and Tools</Badge>
+          <h1 style={rr.h1}>Request a Property Report</h1>
+          <p style={rr.lead}>
+            Pop in a few details and we'll send a CoreLogic valuation report straight to your inbox.
+          </p>
+        </div>
+      </section>
+      <section style={rr.body}>
       <div style={rr.inner}>
-        <Badge color="blue" dot>Guides and Tools</Badge>
-        <h1 style={rr.h1}>Request a Property Report</h1>
-        <p style={rr.lead}>
-          Pop in a few details and we'll send a CoreLogic valuation report straight to your inbox.
-        </p>
-
         <Card elevation="shadow-lg" style={rr.card}>
           {sent ? (
             <div style={rr.thanks}>
@@ -79,15 +83,19 @@ function RequestReportScreen({ onNav }) {
           )}
         </Card>
       </div>
+      </section>
     </div>
   );
 }
 
 const rr = {
-  page: { background: "var(--surface-page)", padding: "48px 0 80px" },
+  head: { background: "var(--blue-50)" },
+  headInner: { maxWidth: "560px", margin: "0 auto", padding: "48px 28px 52px",
+    display: "flex", flexDirection: "column", gap: 14, alignItems: "flex-start" },
+  body: { background: "var(--surface-page)", padding: "48px 0 80px" },
   inner: { maxWidth: "560px", margin: "0 auto", padding: "0 28px" },
-  h1: { fontSize: 34, margin: "18px 0 4px", color: "var(--navy-700)", letterSpacing: "-.02em" },
-  lead: { fontSize: 16.5, lineHeight: 1.6, color: "var(--text-body)", margin: "0 0 28px" },
+  h1: { fontSize: 34, margin: 0, color: "var(--navy-700)", letterSpacing: "-.02em" },
+  lead: { fontSize: 16.5, lineHeight: 1.6, color: "var(--text-body)", margin: 0 },
   card: { padding: 32 },
   note: { display: "flex", gap: 8, fontSize: 13, color: "var(--text-subtle)", lineHeight: 1.5 },
   legend: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14, color: "var(--text-strong)", marginBottom: 9 },

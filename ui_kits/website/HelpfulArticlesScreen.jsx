@@ -6,12 +6,17 @@ function HelpfulArticlesScreen({ onNav }) {
   const items = window.MeshContent.helpfulArticles;
   const isMobile = window.useIsMobile();
   return (
-    <div style={haS.page}>
-      <div style={{...haS.inner, ...(isMobile ? haS.innerMobile : {})}}>
-        <div style={haS.main}>
+    <div>
+      <section style={haS.head}>
+        <div style={haS.headInner}>
           <Badge color="blue" dot>Guides and Tools</Badge>
           <h1 style={haS.h1}>Helpful Articles</h1>
           <p style={haS.lead}>Guides on schemes, grants and lending, kept current.</p>
+        </div>
+      </section>
+      <section style={haS.bodySection}>
+      <div style={{...haS.inner, ...(isMobile ? haS.innerMobile : {})}}>
+        <div style={haS.main}>
           <div style={haS.list}>
             {items.map((a,i)=>(
               <Card key={i} elevation="shadow" style={haS.card} onClick={()=>onNav(a.slug)}>
@@ -42,17 +47,21 @@ function HelpfulArticlesScreen({ onNav }) {
           </Card>
         </aside>
       </div>
+      </section>
     </div>
   );
 }
 const haS = {
-  page: { background:"var(--surface-page)", padding:"48px 0 72px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
+    display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
+  bodySection: { background:"var(--surface-page)", padding:"56px 0 72px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
     display:"grid", gridTemplateColumns:"1fr 320px", gap:44, alignItems:"start" },
   innerMobile: { gridTemplateColumns:"1fr", padding:"0 20px", gap:28 },
   main: { maxWidth:720 },
-  h1: { fontSize:38, margin:"12px 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:17, lineHeight:1.55, color:"var(--text-muted)", margin:"0 0 36px" },
+  h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
   list: { display:"grid", gap:16, marginBottom:32 },
   card: { padding:26, display:"flex", flexDirection:"column", gap:6, cursor:"pointer" },
   date: { fontSize:12.5, color:"var(--text-subtle)", fontWeight:600, textTransform:"uppercase", letterSpacing:".04em" },

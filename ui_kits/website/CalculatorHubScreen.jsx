@@ -6,37 +6,43 @@ function CalculatorHubScreen({ onNav }) {
   const isMobile = window.useIsMobile();
 
   return (
-    <div style={calcHubS.page}>
-      <div style={calcHubS.inner}>
-        <div style={calcHubS.head}>
+    <div>
+      <section style={calcHubS.head}>
+        <div style={calcHubS.headInner}>
           <Badge color="blue" dot>Guides and Tools</Badge>
           <h1 style={calcHubS.h1}>{d.title}</h1>
           <p style={calcHubS.lead}>{d.intro}</p>
         </div>
-        <div style={{...calcHubS.grid, ...(isMobile ? calcHubS.gridMobile : {})}}>
-          {d.items.map((it,i)=>(
-            <Card key={i} elevation="shadow" style={calcHubS.card}
-              onClick={()=>onNav(it.id)}>
-              <span style={calcHubS.emoji}>{it.emoji}</span>
-              <h3 style={calcHubS.cardTitle}>{it.title}</h3>
-              <p style={calcHubS.cardName}>{it.name}</p>
-              <p style={calcHubS.cardBody}>{it.body}</p>
-              <span style={calcHubS.cardLink}>Open calculator →</span>
-            </Card>
-          ))}
+      </section>
+      <section style={calcHubS.body}>
+        <div style={calcHubS.inner}>
+          <div style={{...calcHubS.grid, ...(isMobile ? calcHubS.gridMobile : {})}}>
+            {d.items.map((it,i)=>(
+              <Card key={i} elevation="shadow" style={calcHubS.card}
+                onClick={()=>onNav(it.id)}>
+                <span style={calcHubS.emoji}>{it.emoji}</span>
+                <h3 style={calcHubS.cardTitle}>{it.title}</h3>
+                <p style={calcHubS.cardName}>{it.name}</p>
+                <p style={calcHubS.cardBody}>{it.body}</p>
+                <span style={calcHubS.cardLink}>Open calculator →</span>
+              </Card>
+            ))}
+          </div>
+          <p style={calcHubS.closing}>{d.closing}</p>
         </div>
-        <p style={calcHubS.closing}>{d.closing}</p>
-      </div>
+      </section>
     </div>
   );
 }
 
 const calcHubS = {
-  page: { background:"var(--surface-page)", padding:"48px 0 72px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
+    display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
+  body: { background:"var(--surface-page)", padding:"56px 0 72px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
-  head: { maxWidth:640, marginBottom:36 },
-  h1: { fontSize:38, margin:"12px 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:17, lineHeight:1.55, color:"var(--text-muted)", margin:0 },
+  h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20, marginBottom:36 },
   gridMobile: { gridTemplateColumns:"1fr" },
   card: { padding:26, cursor:"pointer", display:"flex", flexDirection:"column", gap:6 },

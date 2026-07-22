@@ -5,32 +5,41 @@ function MyCreditFileScreen({ onNav }) {
   const d = window.MeshContent.myCreditFile;
   const isMobile = window.useIsMobile();
   return (
-    <div style={mcfS.page}>
-      <div style={mcfS.inner}>
-        <Badge color="blue" dot>Guides and Tools</Badge>
-        <h1 style={mcfS.h1}>{d.title}</h1>
-        <p style={mcfS.lead}>{d.intro}</p>
-        <div style={{...mcfS.grid, ...(isMobile ? mcfS.gridMobile : {})}}>
-          {d.items.map((it,i)=>(
-            <Card key={i} elevation="shadow" style={mcfS.card}>
-              <h3 style={mcfS.cardTitle}>{it.title}</h3>
-              <p style={mcfS.cardBody}>{it.body}</p>
-            </Card>
-          ))}
+    <div>
+      <section style={mcfS.head}>
+        <div style={mcfS.headInner}>
+          <Badge color="blue" dot>Guides and Tools</Badge>
+          <h1 style={mcfS.h1}>{d.title}</h1>
+          <p style={mcfS.lead}>{d.intro}</p>
         </div>
-        <Card elevation="shadow" style={mcfS.closingCard}>
-          <p style={mcfS.closingP}>{d.closing}</p>
-          <Button size="lg" onClick={()=>onNav("contact")}>Ask about my credit file</Button>
-        </Card>
-      </div>
+      </section>
+      <section style={mcfS.body}>
+        <div style={mcfS.inner}>
+          <div style={{...mcfS.grid, ...(isMobile ? mcfS.gridMobile : {})}}>
+            {d.items.map((it,i)=>(
+              <Card key={i} elevation="shadow" style={mcfS.card}>
+                <h3 style={mcfS.cardTitle}>{it.title}</h3>
+                <p style={mcfS.cardBody}>{it.body}</p>
+              </Card>
+            ))}
+          </div>
+          <Card elevation="shadow" style={mcfS.closingCard}>
+            <p style={mcfS.closingP}>{d.closing}</p>
+            <Button size="lg" onClick={()=>onNav("contact")}>Ask about my credit file</Button>
+          </Card>
+        </div>
+      </section>
     </div>
   );
 }
 const mcfS = {
-  page: { background:"var(--surface-page)", padding:"48px 0 72px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"820px", margin:"0 auto", padding:"48px 28px 52px",
+    display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
+  body: { background:"var(--surface-page)", padding:"56px 0 72px" },
   inner: { maxWidth:"820px", margin:"0 auto", padding:"0 28px" },
-  h1: { fontSize:38, margin:"18px 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:17, lineHeight:1.55, color:"var(--text-muted)", margin:"0 0 32px" },
+  h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0 },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:16, marginBottom:32 },
   gridMobile: { gridTemplateColumns:"1fr" },
   card: { padding:22 },

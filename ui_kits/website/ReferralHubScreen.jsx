@@ -18,13 +18,17 @@ function ReferralHubScreen({ onNav }) {
     }
   };
   return (
-    <div style={refS.page}>
-      <div style={{...refS.inner, ...(isMobile ? refS.innerMobile : {})}}>
-        <div style={refS.left}>
+    <div>
+      <section style={refS.head}>
+        <div style={refS.headInner}>
           <Badge color="solid">Connect With Us</Badge>
           <h1 style={refS.h1}>{d.title}</h1>
           <p style={refS.lead}>{d.intro}</p>
-
+        </div>
+      </section>
+      <section style={refS.body}>
+      <div style={{...refS.inner, ...(isMobile ? refS.innerMobile : {})}}>
+        <div style={refS.left}>
           <Card elevation="shadow" style={refS.banner}>
             <h2 style={refS.bannerH}>{d.headline}</h2>
             <p style={refS.bannerP}>{d.headlineBody}</p>
@@ -76,16 +80,20 @@ function ReferralHubScreen({ onNav }) {
           )}
         </Card>
       </div>
+      </section>
     </div>
   );
 }
 const refS = {
-  page: { background:"var(--surface-page)", padding:"48px 0 72px" },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
+    display:"flex", flexDirection:"column", gap:14, alignItems:"flex-start" },
+  body: { background:"var(--surface-page)", padding:"56px 0 72px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
     display:"grid", gridTemplateColumns:"1fr 400px", gap:48, alignItems:"start" },
   innerMobile: { gridTemplateColumns:"1fr", padding:"0 20px", gap:32 },
-  h1: { fontSize:36, margin:"12px 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 24px" },
+  h1: { fontSize:36, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:640 },
   banner: { padding:"22px 26px", background:"linear-gradient(120deg, var(--blue-600), var(--blue-500))", marginBottom:28, border:"none" },
   bannerH: { color:"#fff", fontFamily:"var(--font-display)", fontSize:20, margin:"0 0 6px" },
   bannerP: { color:"rgba(255,255,255,.9)", margin:0, fontSize:15 },
