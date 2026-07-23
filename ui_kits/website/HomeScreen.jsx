@@ -115,7 +115,7 @@ function HomeScreen({ onNav }) {
         <div style={h.ctaInner}>
           <h2 style={h.ctaH}>Let's make your financial dreams a reality.</h2>
           <p style={h.ctaP}>Book a no-obligation chat and we'll do the heavy lifting.</p>
-          <Button size="lg" variant="secondary" onClick={()=>onNav("contact")}>Book now</Button>
+          <Button size="lg" variant="secondary" onClick={()=>onNav("contact")}>Book Appointment</Button>
         </div>
       </section>
     </div>

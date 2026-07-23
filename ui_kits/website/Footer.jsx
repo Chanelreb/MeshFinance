@@ -72,7 +72,7 @@ const ft = {
   brandCol: { display:"flex", flexDirection:"column", gap:18, alignItems:"flex-start" },
   licence: { fontSize:12.5, lineHeight:1.6, color:"rgba(255,255,255,.6)", maxWidth:300, margin:0 },
   social: { display:"flex", gap:10 },
-  soc: { width:38, height:38, borderRadius:"50%", background:"rgba(255,255,255,.1)", color:"#fff",
+  soc: { width:38, height:38, borderRadius:"50%", background:"rgba(255,255,255,.1)", color:"var(--blue-400)",
     display:"flex", alignItems:"center", justifyContent:"center", textDecoration:"none" },
   h: { fontFamily:"var(--font-display)", fontSize:12, letterSpacing:".1em", textTransform:"uppercase",
     color:"#fff", margin:"0 0 16px", fontWeight:700 },

@@ -77,7 +77,7 @@ function Header({ onNav, current }) {
               <Phone width={17} height={17} style={{color:"var(--color-primary)"}}/>
               0416 291 241
             </a>
-            <Button variant="primary" size="sm" onClick={()=>go("contact")}>Book now</Button>
+            <Button variant="primary" size="sm" onClick={()=>go("contact")}>Book Appointment</Button>
           </div>
         )}
 
@@ -119,7 +119,7 @@ function Header({ onNav, current }) {
               <Phone width={17} height={17} style={{color:"var(--color-primary)"}}/>
               0416 291 241
             </a>
-            <Button block variant="primary" size="md" onClick={()=>go("contact")}>Book now</Button>
+            <Button block variant="primary" size="md" onClick={()=>go("contact")}>Book Appointment</Button>
           </div>
         </div>
       )}
