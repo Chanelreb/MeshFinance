@@ -57,7 +57,7 @@ function ContactScreen({ onNav }) {
     <div>
       <section style={ct.head}>
         <div style={ct.headInner}>
-          <Badge color="solid">Book now</Badge>
+          <Badge color="solid">Book Appointment</Badge>
           <h1 style={ct.h1}>Let's start with a chat.</h1>
           <p style={ct.lead}>Tell us a little about what you're after and the best time to reach you. There's no cost and no obligation, just clear, friendly advice.</p>
         </div>

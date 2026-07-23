@@ -35,7 +35,7 @@ const MESH_TITLES = {
   "property-profile-report": "Property Profile Report | Mesh Finance",
   "request-report": "Request a Property Report | Mesh Finance",
   "referral-hub": "Refer a Friend | Mesh Finance",
-  "contact": "Book Now | Mesh Finance",
+  "contact": "Book Appointment | Mesh Finance",
   "privacy-policy": "Privacy Policy | Mesh Finance",
   "terms-conditions": "Terms and Conditions | Mesh Finance",
   "disclaimer": "Disclaimer | Mesh Finance",
