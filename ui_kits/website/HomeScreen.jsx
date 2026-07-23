@@ -89,9 +89,10 @@ function HomeScreen({ onNav }) {
       {/* STATS */}
       <section style={h.statsBand}>
         <div style={{...h.statsInner, ...(isMobile ? h.statsInnerMobile : {})}}>
+          <StatCard tone="navy" value="17" label="Years experience"/>
+          <StatCard tone="navy" value="473" label="Loans settled"/>
           <StatCard tone="navy" value="40+" label="Lenders compared"/>
           <StatCard tone="navy" value="5.0★" label="Google rating"/>
-          <StatCard tone="navy" value="9–5" label="Mon–Fri, & after hours"/>
         </div>
       </section>
 
@@ -166,7 +167,7 @@ const h = {
   statsBand: { background:"var(--navy-700)" },
   statsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"10px 28px",
     display:"flex", justifyContent:"center", gap:"clamp(32px, 6vw, 96px)" },
-  statsInnerMobile: { flexWrap:"wrap", gap:24 },
+  statsInnerMobile: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:"24px 8px", justifyItems:"center" },
 
   section: { padding:"72px 0" },
   sectionInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
