@@ -37,6 +37,7 @@ const MESH_TITLES = {
   "referral-hub": "Refer a Friend | Mesh Finance",
   "contact": "Book Now | Mesh Finance",
   "privacy-policy": "Privacy Policy | Mesh Finance",
+  "terms-conditions": "Terms and Conditions | Mesh Finance",
 };
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
       "referral-hub": window.MeshReferralHubScreen,
       "contact": window.MeshContactScreen,
       "privacy-policy": window.MeshPrivacyPolicyScreen,
+      "terms-conditions": window.MeshTermsConditionsScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
   }
