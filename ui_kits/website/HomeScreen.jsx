@@ -88,11 +88,29 @@ function HomeScreen({ onNav }) {
 
       {/* STATS */}
       <section style={h.statsBand}>
-        <div style={{...h.statsInner, ...(isMobile ? h.statsInnerMobile : {})}}>
+        <style>{`
+          .mesh-home-stats{ max-width:var(--container-max); margin:0 auto; padding:10px 28px;
+            display:flex; justify-content:center; gap:clamp(24px, 5vw, 80px); }
+          .mesh-home-stats .mesh-stat__value{ white-space:nowrap; }
+          /* On small screens keep all five on one row by shrinking, not wrapping. */
+          @media (max-width:860px){
+            .mesh-home-stats{ gap:6px; padding:16px 12px; }
+            .mesh-home-stats .mesh-stat{ padding:6px 4px; gap:3px; text-align:center; align-items:center; }
+            .mesh-home-stats .mesh-stat__value{ font-size:21px; }
+            .mesh-home-stats .mesh-stat__label{ font-size:10px; line-height:1.25; }
+          }
+          @media (max-width:430px){
+            .mesh-home-stats{ gap:4px; }
+            .mesh-home-stats .mesh-stat__value{ font-size:18px; }
+            .mesh-home-stats .mesh-stat__label{ font-size:9px; }
+          }
+        `}</style>
+        <div className="mesh-home-stats">
           <StatCard tone="navy" value="17" label="Years experience"/>
-          <StatCard tone="navy" value="473" label="Loans settled"/>
+          <StatCard tone="navy" value="500+" label="Loans settled"/>
           <StatCard tone="navy" value="40+" label="Lenders compared"/>
           <StatCard tone="navy" value="5.0★" label="Google rating"/>
+          <StatCard tone="navy" value="9–5" label="Mon–Fri, & after hours"/>
         </div>
       </section>
 
@@ -165,9 +183,6 @@ const h = {
   formError: { fontSize:13.5, color:"var(--color-danger)", margin:0 },
 
   statsBand: { background:"var(--navy-700)" },
-  statsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"10px 28px",
-    display:"flex", justifyContent:"center", gap:"clamp(32px, 6vw, 96px)" },
-  statsInnerMobile: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:"24px 8px", justifyItems:"center" },
 
   section: { padding:"72px 0" },
   sectionInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
