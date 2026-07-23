@@ -38,6 +38,7 @@ const MESH_TITLES = {
   "contact": "Book Now | Mesh Finance",
   "privacy-policy": "Privacy Policy | Mesh Finance",
   "terms-conditions": "Terms and Conditions | Mesh Finance",
+  "disclaimer": "Disclaimer | Mesh Finance",
 };
 
 function App() {
@@ -97,6 +98,7 @@ function App() {
       "contact": window.MeshContactScreen,
       "privacy-policy": window.MeshPrivacyPolicyScreen,
       "terms-conditions": window.MeshTermsConditionsScreen,
+      "disclaimer": window.MeshDisclaimerScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
   }

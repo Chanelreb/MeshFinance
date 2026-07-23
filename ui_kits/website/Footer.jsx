@@ -56,7 +56,8 @@ function Footer({ onNav }) {
           <a href="/privacy-policy" onClick={(e)=>{e.preventDefault();onNav&&onNav("privacy-policy");}} style={ft.legalLink}>Privacy Policy</a>
           &nbsp;|&nbsp;
           <a href="/terms-conditions" onClick={(e)=>{e.preventDefault();onNav&&onNav("terms-conditions");}} style={ft.legalLink}>Terms &amp; Conditions</a>
-          &nbsp;|&nbsp; Disclaimer
+          &nbsp;|&nbsp;
+          <a href="/disclaimer" onClick={(e)=>{e.preventDefault();onNav&&onNav("disclaimer");}} style={ft.legalLink}>Disclaimer</a>
         </span>
       </div>
     </footer>
