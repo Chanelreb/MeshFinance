@@ -74,7 +74,7 @@ window.MeshContent = {
         initials: "KT",
         photo: "../../assets/kerwin_charcoal.png",
         photoPos: "center 18%",
-        photoZoom: "120%",
+        photoZoom: "100%",
         bio: [
           "Kerwin brings more than 20 years of banking and lending experience to the Mesh Finance team, including extensive experience in Australian home loan processing.",
           "Working closely with clients, brokers, lenders and solicitors, Kerwin helps keep each application moving smoothly from submission through to settlement. His careful attention to detail and thorough approach help ensure documents are accurate, lender requirements are met and clients are kept supported throughout the process.",
