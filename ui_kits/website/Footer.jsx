@@ -46,6 +46,7 @@ function Footer({ onNav }) {
             <li style={ft.contact}><Mail width={16} height={16} style={{color:"var(--blue-400)"}}/> hello@meshfinance.com.au</li>
             <li style={ft.contact}><Phone width={16} height={16} style={{color:"var(--blue-400)"}}/> 0416 291 241</li>
             <li style={ft.contact}><MapPin width={16} height={16} style={{color:"var(--blue-400)"}}/> Suite 206, Level 2, 96 Mill Point Rd, South Perth</li>
+            <li><a href="/about-us" onClick={(e)=>{e.preventDefault();onNav&&onNav("about-us");}} style={ft.a}>About us →</a></li>
             <li><a href="/referral-hub" onClick={(e)=>{e.preventDefault();onNav&&onNav("referral-hub");}} style={ft.a}>Refer a friend →</a></li>
           </ul>
         </div>

@@ -27,10 +27,58 @@ window.MeshContent = {
       { id: "property-profile-report", label: "Property Profile Report" },
     ]},
     { id: "contact", label: "Connect With Us", children: [
+      { id: "about-us", label: "About Us" },
       { id: "referral-hub", label: "Referral Hub" },
       { id: "contact", label: "Contact Us" },
     ]},
   ],
+
+  about: {
+    eyebrow: "About Us",
+    title: "Meet the team behind Mesh Finance.",
+    intro: "At Mesh Finance you're never just another application. You're working with a small, dedicated team that genuinely cares about getting your finances right — and staying in your corner well beyond settlement. Here are the people you'll be working with.",
+    team: [
+      {
+        id: "chanel",
+        name: "Chanel Rebello",
+        role: "Finance Broker & Founder of Mesh Finance",
+        initials: "CR",
+        photo: "",
+        bio: [
+          "With a BSc (Mathematics and Statistics) and 17 years of experience as an asset finance and mortgage broker, Chanel brings strong technical knowledge and real-world lending experience to every client conversation.",
+          "For Chanel, mortgage broking is about much more than finding a home loan. It's about understanding where you are now, where you want to go and helping you make confident financial decisions at every stage of life.",
+          "As the founder of Mesh Finance, Chanel takes a warm, straightforward and genuinely personal approach. She understands that finance can sometimes feel confusing or overwhelming, so she focuses on explaining everything clearly, without unnecessary jargon, pressure or judgement.",
+          "Whether you're buying your first home, refinancing, investing, consolidating debt, arranging asset finance or planning your next move, Chanel takes the time to understand the bigger picture. She carefully considers the loan structure, repayments, fees and features, as well as how the solution fits with your longer-term plans.",
+          "Born and raised in the Perth Hills, Chanel still lives locally and has a strong connection to the community. Mesh Finance regularly assists clients throughout Kalamunda, Maida Vale, High Wycombe, Forrestfield, Gooseberry Hill and the wider Perth Hills, with an office conveniently located in South Perth.",
+          "Chanel works with clients across Perth through face-to-face, phone and online appointments, providing guidance and support from the first conversation through to settlement and beyond.",
+          "At Mesh Finance, the goal is simple: to be your trusted finance partner through life and help make your financial dreams a reality.",
+        ],
+      },
+      {
+        id: "jason",
+        name: "Jason",
+        role: "Finance Broker",
+        initials: "J",
+        photo: "",
+        comingSoon: true,
+        bio: [
+          "Jason works alongside Chanel helping Mesh Finance clients find the right loan and feel supported at every step. A full introduction is on its way — check back soon.",
+        ],
+      },
+      {
+        id: "kerwin",
+        name: "Kerwin Tansio",
+        role: "Senior Loan Processor & Mortgage Broker Assistant",
+        initials: "KT",
+        photo: "",
+        bio: [
+          "Kerwin brings more than 20 years of banking and lending experience to the Mesh Finance team, including extensive experience in Australian home loan processing.",
+          "Working closely with clients, brokers, lenders and solicitors, Kerwin helps keep each application moving smoothly from submission through to settlement. His careful attention to detail and thorough approach help ensure documents are accurate, lender requirements are met and clients are kept supported throughout the process.",
+          "Outside of work, Kerwin enjoys listening to music and has a broad playlist covering everything from pop and R&B to rock.",
+        ],
+      },
+    ],
+  },
 
   whoWeHelp: {
     eyebrow: "Who We Help",
