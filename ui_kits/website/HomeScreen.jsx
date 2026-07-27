@@ -91,11 +91,12 @@ function HomeScreen({ onNav }) {
         <style>{`
           .mesh-home-stats{ max-width:var(--container-max); margin:0 auto; padding:10px 28px;
             display:flex; justify-content:center; gap:clamp(24px, 5vw, 80px); }
+          .mesh-home-stats .mesh-stat{ text-align:center; align-items:center; }
           .mesh-home-stats .mesh-stat__value{ white-space:nowrap; }
           /* On small screens keep all five on one row by shrinking, not wrapping. */
           @media (max-width:860px){
             .mesh-home-stats{ gap:6px; padding:16px 12px; }
-            .mesh-home-stats .mesh-stat{ padding:6px 4px; gap:3px; text-align:center; align-items:center; }
+            .mesh-home-stats .mesh-stat{ padding:6px 4px; gap:3px; }
             .mesh-home-stats .mesh-stat__value{ font-size:21px; }
             .mesh-home-stats .mesh-stat__label{ font-size:10px; line-height:1.25; }
           }
