@@ -93,6 +93,7 @@ function HomeScreen({ onNav }) {
             display:flex; justify-content:center; gap:clamp(24px, 5vw, 80px); }
           .mesh-home-stats .mesh-stat{ text-align:center; align-items:center; }
           .mesh-home-stats .mesh-stat__value{ white-space:nowrap; }
+          .mesh-home-stats .mesh-dash{ font-size:.62em; font-weight:600; vertical-align:middle; margin:0 .08em; opacity:.7; }
           /* On small screens keep all five on one row by shrinking, not wrapping. */
           @media (max-width:860px){
             .mesh-home-stats{ gap:6px; padding:16px 12px; }
@@ -111,7 +112,7 @@ function HomeScreen({ onNav }) {
           <StatCard tone="navy" value="500+" label="Loans settled"/>
           <StatCard tone="navy" value="40+" label="Lenders compared"/>
           <StatCard tone="navy" value="5.0★" label="Google rating"/>
-          <StatCard tone="navy" value="9–5" label="Mon–Fri, & after hours"/>
+          <StatCard tone="navy" value={<span>9<span className="mesh-dash">–</span>5</span>} label="Mon–Fri, & after hours"/>
         </div>
       </section>
 
