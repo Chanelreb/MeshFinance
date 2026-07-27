@@ -2,16 +2,26 @@
    Each member shows a real photo when `photo` is set, otherwise a styled
    initials avatar so the layout looks intentional until photos are supplied. */
 
-/* Shows the member's photo, gracefully falling back to the initials avatar
-   if the photo isn't set or fails to load (e.g. before the file is added). */
+/* Shows the member's photo as a circular headshot, with per-person framing
+   (photoPos / photoZoom). Falls back to the initials avatar if the photo
+   isn't set or fails to load. A hidden <img> detects load failures. */
 function MemberPhoto({ m }) {
   const [failed, setFailed] = React.useState(false);
-  if (m.photo && !failed) {
-    return <img src={m.photo} alt={m.name}
-      style={{ ...ab.photoImg, objectPosition: m.photoPos || "center 20%" }}
-      onError={()=>setFailed(true)}/>;
+  if (!m.photo || failed) {
+    return <div style={ab.avatar}><span style={ab.avatarInitials}>{m.initials}</span></div>;
   }
-  return <div style={ab.avatar}><span style={ab.avatarInitials}>{m.initials}</span></div>;
+  return (
+    <React.Fragment>
+      <div role="img" aria-label={m.name} style={{
+        ...ab.photoImg,
+        backgroundImage: `url(${m.photo})`,
+        backgroundSize: m.photoZoom || "cover",
+        backgroundPosition: m.photoPos || "center",
+        backgroundRepeat: "no-repeat",
+      }}/>
+      <img src={m.photo} alt="" aria-hidden="true" style={{ display:"none" }} onError={()=>setFailed(true)}/>
+    </React.Fragment>
+  );
 }
 
 function AboutScreen({ onNav }) {
