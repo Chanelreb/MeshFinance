@@ -43,8 +43,9 @@ window.MeshContent = {
         name: "Chanel Rebello",
         role: "Founder & Finance Broker",
         initials: "CR",
-        photo: "../../assets/headshot150px.png",
-        photoPos: "center 25%",
+        photo: "../../assets/1.png",
+        photoPos: "center 18%",
+        photoZoom: "150%",
         bio: [
           "With a BSc (Mathematics and Statistics) and 17 years of experience as an asset finance and mortgage broker, Chanel brings strong technical knowledge and real-world lending experience to every client conversation.",
           "For Chanel, mortgage broking is about much more than finding a home loan. It's about understanding where you are now, where you want to go and helping you make confident financial decisions at every stage of life.",
