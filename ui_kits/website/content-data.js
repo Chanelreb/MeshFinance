@@ -48,9 +48,8 @@ window.MeshContent = {
           "With a BSc (Mathematics and Statistics) and 17 years of experience as an asset finance and mortgage broker, Chanel brings strong technical knowledge and real-world lending experience to every client conversation.",
           "For Chanel, mortgage broking is about much more than finding a home loan. It's about understanding where you are now, where you want to go and helping you make confident financial decisions at every stage of life.",
           "As the founder of Mesh Finance, Chanel takes a warm, straightforward and genuinely personal approach. She understands that finance can sometimes feel confusing or overwhelming, so she focuses on explaining everything clearly, without unnecessary jargon, pressure or judgement.",
-          "Born and raised in the Perth Hills, Chanel still lives locally and has a strong connection to the community. Mesh Finance regularly assists clients throughout Kalamunda, Maida Vale, High Wycombe, Forrestfield, Gooseberry Hill and the wider Perth Hills, with an office conveniently located in South Perth.",
+          "Born and raised in the Perth Hills, Chanel still lives locally with her husband Luke and two children - Priya and Elijah and their two dogs Luna and Teddy.",
           "Chanel works with clients across Perth through face-to-face, phone and online appointments, providing guidance and support from the first conversation through to settlement and beyond.",
-          "At Mesh Finance, the goal is simple: to be your trusted finance partner through life and help make your financial dreams a reality.",
         ],
       },
       {
