@@ -64,7 +64,7 @@ window.MeshContent = {
         bio: [
           "Jason is a qualified CPA accountant with a strong background across banking, mortgage lending and asset finance. His previous roles include working as a Branch Lender with ANZ, an Application Analyst with BOQ and an Asset Finance Broker.",
           "Jason's analytical approach and understanding of lender requirements help the Mesh Finance team assess applications carefully, structure lending scenarios and guide loans smoothly through the application process.",
-          "Outside of work, Jason enjoys cars and following the property market.",
+          "Outside of work, Jason is a full-time dog dad who enjoys anything car stereos and following the property market.",
         ],
       },
       {
