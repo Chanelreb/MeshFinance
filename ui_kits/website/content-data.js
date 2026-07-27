@@ -41,7 +41,7 @@ window.MeshContent = {
       {
         id: "chanel",
         name: "Chanel Rebello",
-        role: "Finance Broker & Founder of Mesh Finance",
+        role: "Founder & Finance Broker",
         initials: "CR",
         photo: "",
         bio: [
@@ -56,19 +56,20 @@ window.MeshContent = {
       },
       {
         id: "jason",
-        name: "Jason",
-        role: "Finance Broker",
-        initials: "J",
+        name: "Jason Varischetti",
+        role: "Mortgage Analyst",
+        initials: "JV",
         photo: "",
-        comingSoon: true,
         bio: [
-          "Jason works alongside Chanel helping Mesh Finance clients find the right loan and feel supported at every step. A full introduction is on its way — check back soon.",
+          "Jason is a qualified CPA accountant with a strong background across banking, mortgage lending and asset finance. His previous roles include working as a Branch Lender with ANZ, an Application Analyst with BOQ and an Asset Finance Broker.",
+          "Jason's analytical approach and understanding of lender requirements help the Mesh Finance team assess applications carefully, structure lending scenarios and guide loans smoothly through the application process.",
+          "Outside of work, Jason enjoys cars and following the property market.",
         ],
       },
       {
         id: "kerwin",
         name: "Kerwin Tansio",
-        role: "Senior Loan Processor & Mortgage Broker Assistant",
+        role: "Mortgage Broker Assistant",
         initials: "KT",
         photo: "",
         bio: [
