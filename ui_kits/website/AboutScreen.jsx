@@ -1,6 +1,19 @@
 /* About Us — introduces the Mesh Finance team with alternating photo/bio rows.
    Each member shows a real photo when `photo` is set, otherwise a styled
    initials avatar so the layout looks intentional until photos are supplied. */
+
+/* Shows the member's photo, gracefully falling back to the initials avatar
+   if the photo isn't set or fails to load (e.g. before the file is added). */
+function MemberPhoto({ m }) {
+  const [failed, setFailed] = React.useState(false);
+  if (m.photo && !failed) {
+    return <img src={m.photo} alt={m.name}
+      style={{ ...ab.photoImg, objectPosition: m.photoPos || "center 20%" }}
+      onError={()=>setFailed(true)}/>;
+  }
+  return <div style={ab.avatar}><span style={ab.avatarInitials}>{m.initials}</span></div>;
+}
+
 function AboutScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Badge, Button, Card } = DS;
@@ -38,9 +51,7 @@ function AboutScreen({ onNav }) {
               className={"mesh-about-row" + (i % 2 === 1 ? " mesh-about-row--flip" : "")}
               style={{ marginBottom: i === d.team.length - 1 ? 0 : 64 }}>
               <div className="mesh-about-photo" style={ab.photoWrap}>
-                {m.photo
-                  ? <img src={m.photo} alt={m.name} style={ab.photoImg}/>
-                  : <div style={ab.avatar}><span style={ab.avatarInitials}>{m.initials}</span></div>}
+                <MemberPhoto m={m}/>
               </div>
               <div className="mesh-about-bio" style={ab.bioCol}>
                 <div style={ab.nameRow}>
@@ -74,7 +85,7 @@ const ab = {
   bodyInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
 
   photoWrap: { display:"flex", justifyContent:"center" },
-  photoImg: { width:260, height:260, objectFit:"cover", borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-md)" },
+  photoImg: { width:220, height:220, objectFit:"cover", borderRadius:"50%", boxShadow:"var(--shadow-md)" },
   avatar: { width:220, height:220, borderRadius:"50%",
     background:"linear-gradient(150deg, var(--navy-700), var(--blue-600))",
     display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"var(--shadow-md)" },

@@ -43,7 +43,8 @@ window.MeshContent = {
         name: "Chanel Rebello",
         role: "Founder & Finance Broker",
         initials: "CR",
-        photo: "",
+        photo: "../../assets/chanel.jpg",
+        photoPos: "center 25%",
         bio: [
           "With a BSc (Mathematics and Statistics) and 17 years of experience as an asset finance and mortgage broker, Chanel brings strong technical knowledge and real-world lending experience to every client conversation.",
           "For Chanel, mortgage broking is about much more than finding a home loan. It's about understanding where you are now, where you want to go and helping you make confident financial decisions at every stage of life.",
@@ -57,7 +58,8 @@ window.MeshContent = {
         name: "Jason Varischetti",
         role: "Mortgage Analyst",
         initials: "JV",
-        photo: "",
+        photo: "../../assets/jason.jpg",
+        photoPos: "center 20%",
         bio: [
           "Jason is a qualified CPA accountant with a strong background across banking, mortgage lending and asset finance. His previous roles include working as a Branch Lender with ANZ, an Application Analyst with BOQ and an Asset Finance Broker.",
           "Jason's analytical approach and understanding of lender requirements help the Mesh Finance team assess applications carefully, structure lending scenarios and guide loans smoothly through the application process.",
