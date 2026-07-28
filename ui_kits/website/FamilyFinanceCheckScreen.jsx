@@ -73,7 +73,7 @@ const FFC = {
   about: {
     h: "Hi, I'm Chanel",
     paras: [
-      "As a finance broker and a mum to a young family, I know first-hand how quickly a household budget can feel stretched. Between the mortgage, the car, the cards and everyday family life, there's always something popping up.",
+      "As a finance broker with over seventeen years' experience, I've helped clients through every stage of the journey, from buying their first home, to purchasing their first investment property, to refinancing and restructuring their loans as life changes.",
       "Born and raised in the Perth Hills, I still live locally with my own young family, so I really do understand the juggle of running a busy household. That's exactly why I created the Family Finance Check: to look at your full picture with you, without judgement, and help you find a calmer, more manageable way forward.",
       "Whether we meet online or in person, you'll get clear, honest advice from someone who genuinely gets it.",
     ],
