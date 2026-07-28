@@ -144,10 +144,12 @@ const FFC = {
   },
   form: {
     h: "Book your Family Finance Check",
-    sub: "Tell us a little about what you would like help with and we will be in touch.",
-    debtOptions: ["Home loan", "Credit cards", "Car loan", "Personal loan", "Afterpay or buy now pay later", "ATO or tax debt", "Other debts", "Not sure yet"],
-    goalOptions: ["Reduce monthly repayments", "Consolidate debts", "Refinance my home loan", "Understand my options", "Improve household cashflow", "I'm not sure, I need guidance"],
-    timeOptions: ["Morning", "Afternoon", "Evening"],
+    step1Label: "Which best describes you?",
+    describeOptions: [
+      "Making multiple debt repayments a month",
+      "Finding it hard to put money away at the end of the month",
+      "Struggling to make repayments on my loans",
+    ],
     button: "Book my Family Finance Check",
   },
   faqs: [
@@ -177,29 +179,31 @@ function FamilyFinanceCheckScreen({ onNav }) {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
+  /* Three-step booking wizard: 1) which best describes you, 2) contact
+     details, 3) live Calendly booking. The lead is sent to Formspree at the
+     2 -> 3 transition, then the name/email prefill the Calendly widget. */
   const [step, setStep] = useState(1);
-  const [sent, setSent] = useState(false);
+  const [describes, setDescribes] = useState("");
   const [sending, setSending] = useState(false);
-  const [error, setError] = useState(false);
+  const [prefill, setPrefill] = useState({});
 
-  /* Validate the step-1 contact fields before revealing step 2. */
-  const goNext = () => {
+  const goToDetails = () => { if (describes) setStep(2); };
+  const goToBooking = async () => {
     const form = formElRef.current;
     if (!form) return;
-    const ok = ["firstName", "email", "phone"].every((n) => {
+    const ok = ["firstName", "lastName", "email", "phone"].every((n) => {
       const el = form.elements[n];
       return el ? el.reportValidity() : true;
     });
-    if (ok) setStep(2);
-  };
-  const submit = async (e) => {
-    e.preventDefault();
-    setSending(true); setError(false);
-    try {
-      const ok = await window.MeshSubmitForm(e.target);
-      if (ok) setSent(true); else setError(true);
-    } catch { setError(true); }
-    finally { setSending(false); }
+    if (!ok) return;
+    const fn = (form.elements["firstName"].value || "").trim();
+    const ln = (form.elements["lastName"].value || "").trim();
+    const email = (form.elements["email"].value || "").trim();
+    setPrefill({ name: (fn + " " + ln).trim(), email });
+    setSending(true);
+    try { await window.MeshSubmitForm(form); } catch {}
+    setSending(false);
+    setStep(3);
   };
 
   const familiarIcons = [Coins, Clock, Refi, Check];
@@ -219,19 +223,15 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
   return (
     <div>
-      {/* LOGO BAR (replaces the site header on this campaign page) */}
-      <div style={s.logoBar}>
-        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
-          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
-        </a>
-        <a href="tel:+61416291241" style={s.logoBarPhone}>0416 291 241</a>
-      </div>
-
-      {/* HERO + LEAD FORM */}
+      {/* HERO (blue band runs to the very top; logo sits inside it) */}
       <section style={s.hero} ref={formRef}>
+        <div style={s.logoBar}>
+          <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
+            <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+          </a>
+        </div>
         <div style={{...s.heroInner, ...(isMobile ? s.heroInnerMobile : {})}}>
           <div style={s.heroCopy}>
-            <Badge color="blue" dot>{FFC.hero.eyebrow}</Badge>
             <h1 style={s.h1}>{FFC.hero.title}</h1>
             <p style={s.heroSubhead}>{FFC.hero.subhead}</p>
             <p style={s.heroLead}>{FFC.hero.lead}</p>
@@ -244,66 +244,58 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
           <div style={s.formCol}>
             <Card elevation="shadow-lg" padded={false} style={s.formCard}>
-              {sent ? (
-                <div style={s.thanks}>
-                  <div style={s.tick}>✓</div>
-                  <h3 style={s.thanksH}>Thank you!</h3>
-                  <p style={s.thanksP}>Your Family Finance Check request is on its way. We'll be in touch shortly.</p>
-                  <Button variant="secondary" onClick={()=>{setSent(false);setStep(1);}}>Send another</Button>
+              <form ref={formElRef} onSubmit={(e)=>e.preventDefault()} style={{display:"grid", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
+                <input type="hidden" name="_subject" value="New Family Finance Check booking — Mesh Finance"/>
+                <input type="hidden" name="campaign" value="Family Finance Check"/>
+                <input type="hidden" name="describes" value={describes}/>
+                <div>
+                  <h2 style={s.formTitle}>{FFC.form.h}</h2>
                 </div>
-              ) : (
-                <form ref={formElRef} onSubmit={submit} style={{display:"grid", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
-                  <input type="hidden" name="_subject" value="New Family Finance Check enquiry — Mesh Finance"/>
-                  <input type="hidden" name="campaign" value="Family Finance Check"/>
-                  <div>
-                    <h2 style={s.formTitle}>{FFC.form.h}</h2>
-                    <p style={s.formSub}>{FFC.form.sub}</p>
-                  </div>
-                  <div style={s.progressRow}>
-                    <div style={s.progressTrack}><div style={{...s.progressFill, width: step===1 ? "50%" : "100%"}}/></div>
-                    <span style={s.stepLabel}>Step {step} of 2</span>
-                  </div>
+                <div style={s.progressRow}>
+                  <div style={s.progressTrack}><div style={{...s.progressFill, width: step===1 ? "33%" : step===2 ? "66%" : "100%"}}/></div>
+                  <span style={s.stepLabel}>Step {step} of 3</span>
+                </div>
 
-                  {/* STEP 1 — contact */}
-                  <div style={{display: step===1 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
-                    <Field label="First name" required><Input name="firstName" required placeholder="Your first name"/></Field>
-                    <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
-                    <Field label="Phone number" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
-                    <Button block size="lg" type="button" onClick={goNext} iconRight={<ArrowRight width={18} height={18}/>}>Next</Button>
-                    <p style={s.formReassure}>Takes about a minute. No obligation.</p>
-                  </div>
+                {/* STEP 1 — which best describes you */}
+                <div style={{display: step===1 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:12}}>
+                  <div style={s.legend}>{FFC.form.step1Label}</div>
+                  {FFC.form.describeOptions.map((o,i)=>{
+                    const active = describes === o;
+                    return (
+                      <button type="button" key={i} onClick={()=>setDescribes(o)}
+                        style={{...s.choice, ...(active ? s.choiceActive : {})}}>
+                        <span style={{...s.choiceDot, ...(active ? s.choiceDotActive : {})}}>{active && <Check width={12} height={12}/>}</span>
+                        <span>{o}</span>
+                      </button>
+                    );
+                  })}
+                  <Button block size="lg" type="button" onClick={goToDetails} disabled={!describes} iconRight={<ArrowRight width={18} height={18}/>}>Next</Button>
+                </div>
 
-                  {/* STEP 2 — qualifying details */}
-                  <div style={{display: step===2 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
+                {/* STEP 2 — contact details */}
+                <div style={{display: step===2 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
+                  <div style={{display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,1fr)", gap:12}}>
+                    <Field label="First name" required><Input name="firstName" required placeholder="First name"/></Field>
+                    <Field label="Last name" required><Input name="lastName" required placeholder="Last name"/></Field>
+                  </div>
+                  <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
+                  <Field label="Phone number" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
+                  <Button block size="lg" type="button" onClick={goToBooking} disabled={sending} iconRight={sending ? null : <ArrowRight width={18} height={18}/>}>{sending ? "One sec…" : "Continue to booking"}</Button>
+                  <button type="button" onClick={()=>setStep(1)} style={s.backLink}>← Back</button>
+                </div>
+
+                {/* STEP 3 — live Calendly booking */}
+                {step===3 && (
+                  <div style={{display:"grid", gap:10}}>
                     <div>
-                      <div style={s.legend}>Do you own a home?</div>
-                      <div style={{display:"flex", gap:18, flexWrap:"wrap"}}>
-                        <Radio name="ownHome" label="Yes" value="Yes"/>
-                        <Radio name="ownHome" label="No" value="No"/>
-                        <Radio name="ownHome" label="Not sure" value="Not sure"/>
-                      </div>
+                      <h3 style={s.bookH}>Pick a time that suits you 📅</h3>
+                      <p style={s.formSub}>Choose a slot and you're booked in — free and no obligation.</p>
                     </div>
-                    <Field label="What debts would you like reviewed?">
-                      <Select name="debts" placeholder="Select an option" defaultValue="">
-                        {FFC.form.debtOptions.map((o,i)=><option key={i}>{o}</option>)}
-                      </Select>
-                    </Field>
-                    <Field label="What is your main goal?">
-                      <Select name="goal" placeholder="Select an option" defaultValue="">
-                        {FFC.form.goalOptions.map((o,i)=><option key={i}>{o}</option>)}
-                      </Select>
-                    </Field>
-                    <Field label="Preferred contact time">
-                      <Select name="preferredTime" placeholder="Select a time" defaultValue="">
-                        {FFC.form.timeOptions.map((o,i)=><option key={i}>{o}</option>)}
-                      </Select>
-                    </Field>
-                    {error && <p style={s.formError}>Something went wrong, please try again or call us on 0416 291 241.</p>}
-                    <Button block size="lg" type="submit" disabled={sending} iconRight={sending ? null : <ArrowRight width={18} height={18}/>}>{sending ? "Sending…" : FFC.form.button}</Button>
-                    <button type="button" onClick={()=>setStep(1)} style={s.backLink}>← Back</button>
+                    <CalendlyEmbed prefill={prefill}/>
+                    <button type="button" onClick={()=>setStep(2)} style={s.backLink}>← Back</button>
                   </div>
-                </form>
-              )}
+                )}
+              </form>
             </Card>
           </div>
         </div>
@@ -501,6 +493,33 @@ function FamilyFinanceCheckScreen({ onNav }) {
   );
 }
 
+/* Live Calendly inline booking, prefilled with the visitor's name/email.
+   Mounts only when step 3 renders, so the widget initialises on demand. */
+const FFC_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro-to-mesh-finance-clone";
+function CalendlyEmbed({ prefill }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    const init = () => {
+      if (window.Calendly && el && !el.hasChildNodes()) {
+        window.Calendly.initInlineWidget({ url: FFC_CALENDLY_URL, parentElement: el, prefill: prefill || {} });
+      }
+    };
+    if (window.Calendly) { init(); return; }
+    let sc = document.getElementById("calendly-widget-js");
+    if (!sc) {
+      sc = document.createElement("script");
+      sc.id = "calendly-widget-js";
+      sc.src = "https://assets.calendly.com/assets/external/widget.js";
+      sc.async = true;
+      document.head.appendChild(sc);
+    }
+    sc.addEventListener("load", init);
+    return () => sc.removeEventListener("load", init);
+  }, []);
+  return <div ref={ref} style={{ minWidth: 260, height: 630 }} aria-label="Book a time with Mesh Finance"/>;
+}
+
 /* Google reviews (Trustindex) widget — same loader used on the homepage. */
 function GoogleReviews() {
   const ref = React.useRef(null);
@@ -517,15 +536,14 @@ function GoogleReviews() {
 }
 
 const s = {
-  logoBar: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"18px 28px 0",
-    display:"flex", alignItems:"center", justifyContent:"space-between", gap:16 },
+  logoBar: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"22px 28px 0",
+    display:"flex", alignItems:"center" },
   logoLink: { display:"inline-flex", alignItems:"center" },
-  logoBarPhone: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", textDecoration:"none" },
 
   hero: { background:"var(--blue-50)" },
-  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"32px 28px 52px",
+  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"22px 28px 52px",
     display:"grid", gridTemplateColumns:"minmax(0,1.05fr) minmax(0,.95fr)", gap:48, alignItems:"center" },
-  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"24px 20px 36px", gap:28 },
+  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"18px 20px 36px", gap:28 },
   heroCopy: { minWidth:0, display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
   h1: { fontSize:36, lineHeight:1.15, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:580 },
   heroSubhead: { fontSize:17, lineHeight:1.5, color:"var(--color-primary)", fontWeight:600, margin:0, maxWidth:560 },
@@ -539,8 +557,17 @@ const s = {
 
   formCol: { minWidth:0 },
   formCard: { padding:"24px 26px", background:"#fff" },
-  formTitle: { fontFamily:"var(--font-display)", fontSize:21, color:"var(--navy-700)", margin:"0 0 4px", fontWeight:700 },
+  formTitle: { fontFamily:"var(--font-display)", fontSize:21, color:"var(--navy-700)", margin:0, fontWeight:700 },
   formSub: { fontSize:14, color:"var(--text-muted)", lineHeight:1.5, margin:0 },
+  bookH: { fontFamily:"var(--font-display)", fontSize:18, color:"var(--navy-700)", margin:"0 0 4px", fontWeight:700 },
+  choice: { display:"flex", alignItems:"center", gap:12, width:"100%", textAlign:"left", cursor:"pointer",
+    padding:"14px 16px", borderRadius:"var(--radius-md)", border:"1.5px solid var(--border-subtle)",
+    background:"#fff", fontFamily:"var(--font-body)", fontSize:14.5, fontWeight:600, color:"var(--text-strong)",
+    lineHeight:1.4, transition:"border-color .15s, background .15s" },
+  choiceActive: { borderColor:"var(--color-primary)", background:"var(--blue-50)" },
+  choiceDot: { flex:"none", width:22, height:22, borderRadius:"50%", border:"2px solid var(--border-strong)",
+    display:"flex", alignItems:"center", justifyContent:"center", color:"#fff" },
+  choiceDotActive: { background:"var(--color-primary)", borderColor:"var(--color-primary)" },
   progressRow: { display:"flex", alignItems:"center", gap:12 },
   progressTrack: { flex:1, height:6, borderRadius:999, background:"var(--blue-50)", overflow:"hidden",
     border:"1px solid var(--border-subtle)" },
