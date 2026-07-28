@@ -77,7 +77,8 @@ const FFC = {
       "Born and raised in the Perth Hills, I still live locally with my own young family, so I really do understand the juggle of running a busy household. That's exactly why I created the Family Finance Check: to look at your full picture with you, without judgement, and help you find a calmer, more manageable way forward.",
       "Whether we meet online or in person, you'll get clear, honest advice from someone who genuinely gets it.",
     ],
-    sign: "Chanel Rebello, Founder & Finance Broker at Mesh Finance",
+    name: "Chanel Rebello, BSc (Mathematical Sciences and Finance)",
+    title: "Founder and Finance Broker at Mesh Finance",
     licence: "Credit Representative Number 506123 is authorised under Australian Credit Licence Number 384704.",
   },
   form: {
@@ -345,11 +346,12 @@ function FamilyFinanceCheckScreen({ onNav }) {
           <div>
             <h2 style={s.h2}>{FFC.about.h}</h2>
             {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
-            <p style={s.aboutSign}>{FFC.about.sign}</p>
+            <p style={s.aboutName}>{FFC.about.name}</p>
+            <p style={s.aboutTitle}>{FFC.about.title}</p>
             <p style={s.aboutLicence}>{FFC.about.licence}</p>
             <div style={{...s.aboutLogos, ...(isMobile ? s.aboutLogosMobile : {})}}>
-              <AssocLogo src="../../assets/afga-logo.png" label="AFGA"/>
-              <AssocLogo src="../../assets/fbaa-logo.png" label="FBAA"/>
+              <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
+              <span style={s.logoChip}><AssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
             </div>
           </div>
         </div>
@@ -470,14 +472,16 @@ const s = {
   aboutPhotoWrap: { display:"flex", justifyContent:"center" },
   aboutPhoto: { width:200, height:200, borderRadius:"50%", boxShadow:"var(--shadow-md)",
     backgroundImage:"url(../../assets/1.png)", backgroundSize:"150%", backgroundPosition:"center 18%", backgroundRepeat:"no-repeat" },
-  aboutSign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"6px 0 0" },
+  aboutName: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15.5, color:"var(--navy-700)", margin:"6px 0 0" },
+  aboutTitle: { fontSize:14, fontWeight:600, color:"var(--text-muted)", margin:"2px 0 0" },
   aboutLicence: { fontSize:12.5, lineHeight:1.5, color:"var(--text-muted)", margin:"10px 0 0", maxWidth:520 },
-  aboutLogos: { display:"flex", alignItems:"center", gap:20, marginTop:18, flexWrap:"wrap" },
+  aboutLogos: { display:"flex", alignItems:"center", gap:16, marginTop:18, flexWrap:"wrap" },
   aboutLogosMobile: { justifyContent:"center" },
-  logoImg: { height:46, width:"auto", maxWidth:150, objectFit:"contain", display:"block" },
-  logoBadge: { display:"inline-flex", alignItems:"center", justifyContent:"center", height:46, padding:"0 18px",
-    borderRadius:"var(--radius-md)", border:"1.5px dashed var(--border-strong)", color:"var(--text-muted)",
-    fontFamily:"var(--font-display)", fontWeight:800, fontSize:16, letterSpacing:".06em" },
+  logoChip: { display:"inline-flex", alignItems:"center", justifyContent:"center", background:"#fff",
+    borderRadius:"var(--radius-md)", padding:"10px 16px", boxShadow:"var(--shadow-sm)", border:"1px solid var(--border-subtle)" },
+  logoImg: { height:40, width:"auto", maxWidth:150, objectFit:"contain", display:"block" },
+  logoBadge: { display:"inline-flex", alignItems:"center", justifyContent:"center", height:40, padding:"0 14px",
+    color:"var(--text-muted)", fontFamily:"var(--font-display)", fontWeight:800, fontSize:16, letterSpacing:".06em" },
 
   videoWrap: { minWidth:0, width:"100%" },
   videoInner: { position:"relative", aspectRatio:"16/9", borderRadius:16, overflow:"hidden",
