@@ -6,7 +6,8 @@
 const FFC = {
   hero: {
     eyebrow: "Family Finance Check",
-    title: "Too many repayments? Let's clean things up.",
+    title: "Feel confident and in control of your family budget with one easy-to-manage loan repayment.",
+    subhead: "Tailored online or in-person home loan health check and debt consolidation plan.",
     lead: "When you're managing a household, the money side of life can get messy quickly — home loan, car loan, credit card, Afterpay, school costs, childcare, groceries, fuel and everything else that pops up right when you thought you were getting ahead.",
     primary: "Book my Family Finance Check",
     secondary: "Check my options",
@@ -232,6 +233,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
           <div style={s.heroCopy}>
             <Badge color="blue" dot>{FFC.hero.eyebrow}</Badge>
             <h1 style={s.h1}>{FFC.hero.title}</h1>
+            <p style={s.heroSubhead}>{FFC.hero.subhead}</p>
             <p style={s.heroLead}>{FFC.hero.lead}</p>
             <ul style={s.heroPoints}>
               {["No obligation, no judgement","We compare a range of lenders for you","See if you could simplify your repayments"].map((t,i)=>(
@@ -525,7 +527,8 @@ const s = {
     display:"grid", gridTemplateColumns:"minmax(0,1.05fr) minmax(0,.95fr)", gap:48, alignItems:"center" },
   heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"24px 20px 36px", gap:28 },
   heroCopy: { minWidth:0, display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
-  h1: { fontSize:40, lineHeight:1.12, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:560 },
+  h1: { fontSize:36, lineHeight:1.15, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:580 },
+  heroSubhead: { fontSize:17, lineHeight:1.5, color:"var(--color-primary)", fontWeight:600, margin:0, maxWidth:560 },
   heroLead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:560 },
   heroPoints: { listStyle:"none", margin:"2px 0 0", padding:0, display:"grid", gap:10 },
   heroPoint: { display:"flex", gap:11, alignItems:"flex-start", fontSize:15.5, color:"var(--text-body)", fontWeight:500 },
