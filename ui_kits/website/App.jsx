@@ -41,6 +41,7 @@ const MESH_TITLES = {
   "terms-conditions": "Terms and Conditions | Mesh Finance",
   "disclaimer": "Disclaimer | Mesh Finance",
   "family-finance-check": "Family Finance Check | Debt Consolidation for Families | Mesh Finance",
+  "ffc-thank-you": "Thank You | Mesh Finance",
 };
 
 /* Per-page meta descriptions for SEO. Routes without an entry keep the
@@ -123,6 +124,7 @@ function App() {
       "terms-conditions": window.MeshTermsConditionsScreen,
       "disclaimer": window.MeshDisclaimerScreen,
       "family-finance-check": window.MeshFamilyFinanceCheckScreen,
+      "ffc-thank-you": window.MeshFFCThankYouScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
   }
@@ -140,6 +142,6 @@ function App() {
   );
 }
 
-const MESH_BARE_ROUTES = ["family-finance-check"];
+const MESH_BARE_ROUTES = ["family-finance-check", "ffc-thank-you"];
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);

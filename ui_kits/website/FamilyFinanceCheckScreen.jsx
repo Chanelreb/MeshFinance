@@ -216,7 +216,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
                       <h3 style={s.bookH}>Pick a time that suits you 📅</h3>
                       <p style={s.formSub}>Choose a slot and you're booked in — free and no obligation.</p>
                     </div>
-                    <CalendlyEmbed prefill={prefill}/>
+                    <CalendlyEmbed prefill={prefill} onScheduled={()=>onNav("ffc-thank-you")}/>
                     <button type="button" onClick={()=>setStep(2)} style={s.backLink}>← Back</button>
                   </div>
                 )}
@@ -370,7 +370,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
 /* Live Calendly inline booking, prefilled with the visitor's name/email.
    Mounts only when step 3 renders, so the widget initialises on demand. */
 const FFC_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_type_details=1&hide_gdpr_banner=1&text_color=102a43&primary_color=3898e0";
-function CalendlyEmbed({ prefill }) {
+function CalendlyEmbed({ prefill, onScheduled }) {
   const ref = React.useRef(null);
   React.useEffect(() => {
     const el = ref.current;
@@ -391,6 +391,16 @@ function CalendlyEmbed({ prefill }) {
     sc.addEventListener("load", init);
     return () => sc.removeEventListener("load", init);
   }, []);
+  /* Calendly posts a message when a booking is confirmed — redirect then. */
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data && typeof e.data === "object" && e.data.event === "calendly.event_scheduled") {
+        onScheduled && onScheduled();
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, [onScheduled]);
   return <div ref={ref} style={{ minWidth: 260, height: 700 }} aria-label="Book a time with Mesh Finance"/>;
 }
 
@@ -560,3 +570,41 @@ const s = {
 };
 
 Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen });
+
+/* Thank-you page shown after a Family Finance Check booking is confirmed. */
+function FFCThankYouScreen({ onNav }) {
+  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
+  const { ArrowRight } = window.MeshIcons;
+  return (
+    <div style={ty.wrap}>
+      <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={ty.logoLink} aria-label="Mesh Finance home">
+        <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:36, display:"block"}}/>
+      </a>
+      <div style={ty.card}>
+        <div style={ty.tick} aria-hidden="true">✓</div>
+        <h1 style={ty.h1}>You're booked in. Thank you!</h1>
+        <p style={ty.lead}>Your Family Finance Check is confirmed. Keep an eye on your inbox for a calendar invite with all the details, plus a reminder before we chat.</p>
+        <p style={ty.sub}>Looking forward to helping you find a calmer, more manageable way forward.</p>
+        <div style={ty.sign}>Chanel Rebello, Mesh Finance</div>
+        <Button size="lg" onClick={()=>onNav("home")} iconRight={<ArrowRight width={18} height={18}/>}>Explore Mesh Finance</Button>
+      </div>
+    </div>
+  );
+}
+Object.assign(window, { MeshFFCThankYouScreen: FFCThankYouScreen });
+
+const ty = {
+  wrap: { minHeight:"100vh", background:"var(--blue-50)", display:"flex", flexDirection:"column",
+    alignItems:"center", padding:"28px 20px 60px" },
+  logoLink: { display:"inline-flex", alignItems:"center", alignSelf:"flex-start", maxWidth:"var(--container-max)",
+    width:"100%", margin:"0 auto 40px" },
+  card: { background:"#fff", borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-md)", maxWidth:560,
+    width:"100%", margin:"auto", padding:"44px 40px", textAlign:"center",
+    display:"flex", flexDirection:"column", alignItems:"center", gap:0 },
+  tick: { width:64, height:64, borderRadius:"50%", background:"var(--color-success)", color:"#fff", fontSize:32,
+    display:"flex", alignItems:"center", justifyContent:"center", marginBottom:20 },
+  h1: { fontSize:30, lineHeight:1.2, margin:"0 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
+  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 12px" },
+  sub: { fontSize:15.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 6px" },
+  sign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"0 0 24px" },
+};
