@@ -127,16 +127,15 @@ function App() {
     content = <Screen onNav={onNav}/>;
   }
 
-  /* Campaign landing pages hide the site nav header so they stay focused on
-     conversion (they carry their own logo). The footer stays for the credit
-     licence disclosure. */
+  /* Campaign landing pages hide the site header and footer so they stay
+     focused on conversion (they carry their own logo and compliance text). */
   const bare = MESH_BARE_ROUTES.includes(route);
 
   return (
     <div style={{ minHeight:"100vh", display:"flex", flexDirection:"column" }}>
       {!bare && <window.MeshHeader onNav={onNav} current={route}/>}
       <main style={{ flex:1 }}>{content}</main>
-      <window.MeshFooter onNav={onNav}/>
+      {!bare && <window.MeshFooter onNav={onNav}/>}
     </div>
   );
 }

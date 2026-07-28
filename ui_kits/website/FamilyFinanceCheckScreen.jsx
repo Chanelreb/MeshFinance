@@ -28,27 +28,6 @@ const FFC = {
       { t: "You want a clearer plan", b: "You want to know whether consolidating debt, refinancing or restructuring your loans could help you move forward with less stress." },
     ],
   },
-  what: {
-    h: "What is the Family Finance Check?",
-    paras: [
-      "The Family Finance Check is a review of your current household debt position. We look at your existing repayments, loan balances, interest rates, debts and overall cashflow to see whether there may be a better structure available.",
-    ],
-    reviewLabel: "This may include reviewing:",
-    review: [
-      "Your current home loan",
-      "Credit cards",
-      "Personal loans",
-      "Car loans",
-      "Afterpay or other buy now pay later facilities",
-      "Existing repayment amounts",
-      "Interest rates and fees",
-      "Available equity in your home, if applicable",
-      "Options to consolidate debt",
-      "Options to refinance",
-      "Whether your monthly cashflow could improve",
-    ],
-    closing: "The aim is not to just move debt around. The aim is to help you create a clearer, more manageable structure.",
-  },
   benefits: {
     h: "How debt consolidation may help families",
     lead: "Debt consolidation means combining multiple debts into one loan or repayment structure. For families, this may help simplify the household budget and reduce the stress of managing several debts at once.",
@@ -99,12 +78,7 @@ const FFC = {
       "Whether we meet online or in person, you'll get clear, honest advice from someone who genuinely gets it.",
     ],
     sign: "Chanel Rebello, Founder & Finance Broker at Mesh Finance",
-  },
-  finalCta: {
-    h: "Ready to get your household finances back under control?",
-    text: "The first step is simply having a look. Book your Family Finance Check and let's see whether consolidating debt or refinancing could help simplify your repayments and create more breathing room in your monthly budget.",
-    primary: "Book my Family Finance Check",
-    secondary: "Start my debt check",
+    licence: "Credit Representative Number 506123 is authorised under Australian Credit Licence Number 384704.",
   },
   form: {
     h: "Book your Family Finance Check",
@@ -134,13 +108,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
   const { useState, useRef } = React;
   const isMobile = window.useIsMobile();
 
-  const formRef = useRef(null);
   const formElRef = useRef(null);
-  const scrollTo = (ref) => {
-    if (!ref.current) return;
-    const y = ref.current.getBoundingClientRect().top + window.scrollY - 24;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  };
 
   /* Three-step booking wizard: 1) which best describes you, 2) contact
      details, 3) live Calendly booking. The lead is sent to Formspree at the
@@ -184,7 +152,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
   return (
     <div>
       {/* HERO (blue band runs to the very top; logo sits inside it) */}
-      <section style={s.hero} ref={formRef}>
+      <section style={s.hero}>
         <div style={s.logoBar}>
           <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
             <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
@@ -295,21 +263,8 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
-      {/* WHAT IS IT */}
-      <section style={s.bodyWhite}>
-        <div style={s.narrow}>
-          <h2 style={s.h2}>{FFC.what.h}</h2>
-          {FFC.what.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
-          <p style={s.listLabel}>{FFC.what.reviewLabel}</p>
-          <CheckList items={FFC.what.review}/>
-          <Card elevation="shadow" style={s.noteCard}>
-            <p style={s.noteCardP}>{FFC.what.closing}</p>
-          </Card>
-        </div>
-      </section>
-
       {/* BENEFITS */}
-      <section style={s.bodyTint}>
+      <section style={s.bodyWhite}>
         <div style={s.wide}>
           <h2 style={s.h2}>{FFC.benefits.h}</h2>
           <p style={{...s.p, maxWidth:760, marginBottom:28}}>{FFC.benefits.lead}</p>
@@ -329,7 +284,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* WHO IT'S FOR */}
-      <section style={s.bodyWhite}>
+      <section style={s.bodyTint}>
         <div style={s.narrow}>
           <h2 style={s.h2}>{FFC.forWhom.h}</h2>
           <p style={s.p}>{FFC.forWhom.lead}</p>
@@ -339,7 +294,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* PROCESS */}
-      <section style={s.bodyTint}>
+      <section style={s.bodyWhite}>
         <div style={s.wide}>
           <h2 style={{...s.h2, textAlign:"center", marginBottom:28}}>{FFC.process.h}</h2>
           <div style={{...s.stepGrid, ...(isMobile ? s.grid1 : {})}}>
@@ -355,7 +310,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* WHY MESH */}
-      <section style={s.bodyWhite}>
+      <section style={s.bodyTint}>
         <div style={s.wide}>
           <h2 style={{...s.h2, marginBottom:28}}>{FFC.why.h}</h2>
           <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
@@ -373,6 +328,14 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section style={s.bodyWhite}>
+        <div style={s.narrow}>
+          <h2 style={{...s.h2, marginBottom:18}}>Frequently asked questions</h2>
+          <Accordion defaultOpen={[0]} items={FFC.faqs.map(f=>({question:f.q, answer:f.a}))}/>
+        </div>
+      </section>
+
       {/* ABOUT CHANEL */}
       <section style={s.bodyTint}>
         <div style={{...s.aboutInner, ...(isMobile ? s.aboutInnerMobile : {})}}>
@@ -383,27 +346,12 @@ function FamilyFinanceCheckScreen({ onNav }) {
             <h2 style={s.h2}>{FFC.about.h}</h2>
             {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
             <p style={s.aboutSign}>{FFC.about.sign}</p>
+            <p style={s.aboutLicence}>{FFC.about.licence}</p>
+            <div style={{...s.aboutLogos, ...(isMobile ? s.aboutLogosMobile : {})}}>
+              <AssocLogo src="../../assets/afga-logo.png" label="AFGA"/>
+              <AssocLogo src="../../assets/fbaa-logo.png" label="FBAA"/>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* FINAL CTA (navy) */}
-      <section style={s.finalCta}>
-        <div style={s.finalInner}>
-          <h2 style={s.finalH}>{FFC.finalCta.h}</h2>
-          <p style={s.finalText}>{FFC.finalCta.text}</p>
-          <div style={{...s.heroBtns, ...(isMobile ? s.heroBtnsMobile : {}), justifyContent:"center"}}>
-            <Button block={isMobile} size="lg" onClick={()=>scrollTo(formRef)} iconRight={<ArrowRight width={18} height={18}/>}>{FFC.finalCta.primary}</Button>
-            <Button block={isMobile} size="lg" variant="ghost" onClick={()=>scrollTo(formRef)} style={s.ghostOnNavy}>{FFC.finalCta.secondary}</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section style={s.bodyTint}>
-        <div style={s.narrow}>
-          <h2 style={{...s.h2, marginBottom:18}}>Frequently asked questions</h2>
-          <Accordion defaultOpen={[0]} items={FFC.faqs.map(f=>({question:f.q, answer:f.a}))}/>
         </div>
       </section>
 
@@ -442,6 +390,14 @@ function CalendlyEmbed({ prefill }) {
     return () => sc.removeEventListener("load", init);
   }, []);
   return <div ref={ref} style={{ minWidth: 260, height: 700 }} aria-label="Book a time with Mesh Finance"/>;
+}
+
+/* Industry-body logo. Shows the image if it loads, otherwise a labelled
+   placeholder badge until the real logo file is added to assets. */
+function AssocLogo({ src, label }) {
+  const [failed, setFailed] = React.useState(false);
+  if (failed) return <span style={s.logoBadge} aria-label={label}>{label}</span>;
+  return <img src={src} alt={label} style={s.logoImg} onError={()=>setFailed(true)}/>;
 }
 
 /* Google reviews (Trustindex) widget — same loader used on the homepage. */
@@ -515,6 +471,13 @@ const s = {
   aboutPhoto: { width:200, height:200, borderRadius:"50%", boxShadow:"var(--shadow-md)",
     backgroundImage:"url(../../assets/1.png)", backgroundSize:"150%", backgroundPosition:"center 18%", backgroundRepeat:"no-repeat" },
   aboutSign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"6px 0 0" },
+  aboutLicence: { fontSize:12.5, lineHeight:1.5, color:"var(--text-muted)", margin:"10px 0 0", maxWidth:520 },
+  aboutLogos: { display:"flex", alignItems:"center", gap:20, marginTop:18, flexWrap:"wrap" },
+  aboutLogosMobile: { justifyContent:"center" },
+  logoImg: { height:46, width:"auto", maxWidth:150, objectFit:"contain", display:"block" },
+  logoBadge: { display:"inline-flex", alignItems:"center", justifyContent:"center", height:46, padding:"0 18px",
+    borderRadius:"var(--radius-md)", border:"1.5px dashed var(--border-strong)", color:"var(--text-muted)",
+    fontFamily:"var(--font-display)", fontWeight:800, fontSize:16, letterSpacing:".06em" },
 
   videoWrap: { minWidth:0, width:"100%" },
   videoInner: { position:"relative", aspectRatio:"16/9", borderRadius:16, overflow:"hidden",
