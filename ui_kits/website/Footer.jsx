@@ -18,6 +18,10 @@ function Footer({ onNav }) {
         <div style={ft.brandCol}>
           <img src="../../assets/mesh-logo-white.png" alt="Mesh Finance" style={{height:46}}/>
           <p style={ft.licence}>Credit Representative Number 506123 is authorised under Australian Credit Licence Number 384704.</p>
+          <div style={ft.accred}>
+            <span style={ft.accredChip}><img src="../../assets/afca-logo-hi-res.png" alt="AFCA member" style={ft.accredImg}/></span>
+            <span style={ft.accredChip}><img src="../../assets/fbaa-logo-transparent.png" alt="FBAA Accredited Member" style={ft.accredImg}/></span>
+          </div>
           <div style={ft.social}>
             {[
               { Ic: Facebook, href: "https://www.facebook.com/meshfinance", label: "Mesh Finance on Facebook" },
@@ -72,6 +76,10 @@ const ft = {
   innerMobile: { gridTemplateColumns:"1fr", gap:32, padding:"40px 24px 28px" },
   brandCol: { display:"flex", flexDirection:"column", gap:18, alignItems:"flex-start" },
   licence: { fontSize:12.5, lineHeight:1.6, color:"rgba(255,255,255,.6)", maxWidth:300, margin:0 },
+  accred: { display:"flex", gap:12, alignItems:"center", flexWrap:"wrap" },
+  accredChip: { display:"inline-flex", alignItems:"center", justifyContent:"center", background:"#fff",
+    borderRadius:"var(--radius-md)", padding:"8px 12px", boxShadow:"0 4px 12px -6px rgba(0,0,0,.4)" },
+  accredImg: { height:34, width:"auto", maxWidth:120, objectFit:"contain", display:"block" },
   social: { display:"flex", gap:10 },
   soc: { width:38, height:38, borderRadius:"50%", background:"rgba(255,255,255,.1)", color:"var(--blue-400)",
     display:"flex", alignItems:"center", justifyContent:"center", textDecoration:"none" },
