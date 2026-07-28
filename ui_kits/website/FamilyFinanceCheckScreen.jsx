@@ -495,7 +495,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
 /* Live Calendly inline booking, prefilled with the visitor's name/email.
    Mounts only when step 3 renders, so the widget initialises on demand. */
-const FFC_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro-to-mesh-finance-clone";
+const FFC_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_type_details=1&hide_gdpr_banner=1&text_color=102a43&primary_color=3898e0";
 function CalendlyEmbed({ prefill }) {
   const ref = React.useRef(null);
   React.useEffect(() => {
@@ -517,7 +517,7 @@ function CalendlyEmbed({ prefill }) {
     sc.addEventListener("load", init);
     return () => sc.removeEventListener("load", init);
   }, []);
-  return <div ref={ref} style={{ minWidth: 260, height: 630 }} aria-label="Book a time with Mesh Finance"/>;
+  return <div ref={ref} style={{ minWidth: 260, height: 700 }} aria-label="Book a time with Mesh Finance"/>;
 }
 
 /* Google reviews (Trustindex) widget — same loader used on the homepage. */
