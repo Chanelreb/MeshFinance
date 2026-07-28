@@ -158,6 +158,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
           <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
             <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
           </a>
+          <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
         </div>
         <div style={{...s.heroInner, ...(isMobile ? s.heroInnerMobile : {})}}>
           <div style={s.heroCopy}>
@@ -429,8 +430,10 @@ function GoogleReviews() {
 
 const s = {
   logoBar: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"22px 28px 0",
-    display:"flex", alignItems:"center" },
+    display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 },
   logoLink: { display:"inline-flex", alignItems:"center" },
+  logoBarEmail: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:14.5, color:"var(--navy-700)",
+    textDecoration:"none", wordBreak:"break-all" },
 
   hero: { background:"var(--blue-50)" },
   heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"22px 28px 52px",
