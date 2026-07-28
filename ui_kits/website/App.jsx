@@ -31,7 +31,7 @@ const MESH_TITLES = {
   "faqs": "FAQs | Mesh Finance",
   "knowledge-centre": "Knowledge Centre | Mesh Finance",
   "helpful-articles": "Helpful Articles | Mesh Finance",
-  "my-credit-file": "My Credit File | Mesh Finance",
+  "my-credit-file": "Check Your Credit Report in Australia | Mesh Finance",
   "property-profile-report": "Property Profile Report | Mesh Finance",
   "request-report": "Request a Property Report | Mesh Finance",
   "referral-hub": "Refer a Friend | Mesh Finance",
@@ -40,6 +40,12 @@ const MESH_TITLES = {
   "privacy-policy": "Privacy Policy | Mesh Finance",
   "terms-conditions": "Terms and Conditions | Mesh Finance",
   "disclaimer": "Disclaimer | Mesh Finance",
+};
+
+/* Per-page meta descriptions for SEO. Routes without an entry keep the
+   default description set in index.html. */
+const MESH_DESCRIPTIONS = {
+  "my-credit-file": "Learn how to check your credit report for free in Australia, understand your credit score, correct errors and prepare for a home loan with Mesh Finance.",
 };
 
 function App() {
@@ -64,6 +70,8 @@ function App() {
      deliberately absent from MESH_TITLES so this effect never fights theirs. */
   useEffect(() => {
     if (MESH_TITLES[route]) document.title = MESH_TITLES[route];
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", MESH_DESCRIPTIONS[route] || meta.dataset.default || meta.getAttribute("content"));
   }, [route]);
 
   const loanSlugs = ["home-loans","investment-home-loans","bad-credit-home-loans","personal-loans","car-loans","leisure-loans","debt-consolidation-loans"];

@@ -988,16 +988,119 @@ window.MeshContent = {
   ],
 
   myCreditFile: {
-    title: "What is a Credit File?",
-    intro: "Think of your credit file like a financial report card. It's a record that shows how you've handled credit over time, giving lenders a snapshot of your borrowing and payment habits.",
-    items: [
-      { title: "Basic Info", body: "Your name, address, birth date, and work history." },
-      { title: "Your Credit Accounts", body: "A list of credit cards, loans, and other accounts, plus your balances and payment record." },
-      { title: "Who's Been Checking?", body: "A list of companies or lenders that have recently looked at your credit." },
-      { title: "Public Records", body: "Major financial events like bankruptcies that could impact your credit." },
-      { title: "Collections/Defaults", body: "Details on overdue loans or bills that have been sent to collections." },
+    title: "Understand Your Credit File Before Applying for Finance",
+    intro: [
+      "Your credit report can play an important part in a home loan, refinance, personal loan or asset finance application. It gives lenders information about your credit history and how you have managed credit over time.",
+      "Checking your credit file before applying can help you understand what a lender may see, identify incorrect information and avoid unexpected surprises during your finance application.",
+      "At Mesh Finance, we help clients across Perth understand their credit position and prepare for their next financial step.",
     ],
-    closing: "Lenders use this file to see how reliable you are with credit. A healthy credit file can mean better loan offers, lower interest rates, and more options when you need them. If you'd like a copy of your Equifax credit file, just let us know, we'll walk you through it step by step!",
+    providers: [
+      { name: "Equifax", blurb: "One of Australia's major credit reporting bodies.", linkLabel: "Request a free report", href: "https://www.equifax.com.au/personal/products/equifax-free-credit-report" },
+      { name: "Experian", blurb: "May hold different information to your Equifax report.", linkLabel: "Request a free report", href: "https://www.experian.com.au/consumer/order-credit-report" },
+    ],
+    sections: [
+      { h: "What is a credit report?", blocks: [
+        { p: "A credit report, sometimes called a credit file, is a record of your credit history. Depending on the information reported to the credit reporting body, it may include:" },
+        { list: [
+          "Your personal identification details",
+          "Current and previous credit accounts",
+          "Credit cards and personal loans",
+          "Home loans and car loans",
+          "Credit limits",
+          "Credit applications and enquiries",
+          "Repayment history",
+          "Late or missed payments",
+          "Defaults, court judgments or serious credit infringements",
+          "Financial hardship information",
+          "Bankruptcy or debt agreement information",
+        ]},
+        { p: "Not every credit reporting body will necessarily hold the same information. This is because credit providers may report to, or obtain reports from, different agencies." },
+      ]},
+      { h: "What is a credit score?", blocks: [
+        { p: "Your credit score is a number calculated using information contained in your credit report. It is intended to provide an indication of your creditworthiness and the way you have managed credit." },
+        { p: "Each credit reporting agency uses its own scoring system, so your score may differ between Equifax and Experian. Lenders also apply their own credit policies and assessment criteria, meaning your credit score is only one part of a finance application." },
+        { p: "A lower score does not automatically mean your application will be declined, just as a higher score does not guarantee approval." },
+      ]},
+      { h: "How to check your credit report for free", blocks: [
+        { p: "You are entitled to request a free copy of your consumer credit report from a credit reporting body once every three months." },
+        { p: "You may also be entitled to another free report if:" },
+        { list: [
+          "You have been declined credit within the previous 90 days",
+          "You requested a correction and were advised that your report had been updated",
+        ]},
+        { p: "Requesting your own credit report does not reduce your credit score." },
+        { p: ["You can learn more about your rights through the ", { a: "Office of the Australian Information Commissioner", href: "https://www.oaic.gov.au/privacy/your-privacy-rights/credit-reporting/access-your-credit-report" }, "."] },
+      ]},
+      { h: "Australia's main credit reporting bodies", blocks: [
+        { h3: "Equifax" },
+        { p: "Equifax is one of Australia's major credit reporting bodies. Its reports may contain information supplied by banks, finance companies, telecommunications providers, utility providers and other eligible credit providers." },
+        { h3: "Experian" },
+        { p: "Experian is another major credit reporting body operating in Australia. Because different credit providers may use different agencies, your Experian report may not contain exactly the same information as your Equifax report." },
+      ]},
+      { h: "What happened to Dun & Bradstreet and illion?", blocks: [
+        { p: 'You may still hear people refer to a "Dun & Bradstreet credit report" or an "illion credit report."' },
+        { p: "Dun & Bradstreet Australia was renamed illion in 2018. Experian subsequently acquired illion in 2024, bringing the two businesses together. Experian now provides access to consumer credit reporting services, including information previously associated with illion." },
+        { p: "Dun & Bradstreet should therefore not be described as a separate current consumer credit reporting agency for Australians seeking their personal credit report." },
+      ]},
+      { h: "Are there any other Australian credit reporting bodies?", blocks: [
+        { p: "The Office of the Australian Information Commissioner currently identifies Equifax, Experian, illion and TaleFin as credit reporting bodies in Australia. However, Equifax and Experian are the main agencies most consumers are likely to encounter when requesting a personal credit report or applying for mainstream finance." },
+        { p: "Because information may vary between agencies, it can be worthwhile checking more than one report if you are concerned about your credit history or believe information may be missing." },
+      ]},
+      { h: "What should you check on your credit report?", blocks: [
+        { p: "Once you receive your report, take the time to review it carefully." },
+        { h3: "Check your personal details" },
+        { p: "Confirm that your name, date of birth and address history are correct. Small differences or outdated details can sometimes cause confusion when your identity is being matched." },
+        { h3: "Review your credit accounts" },
+        { p: "Check that each loan, credit card and finance facility belongs to you. Review the account status and credit limit, including facilities you believe have been closed." },
+        { p: "Closing or paying out an account does not always mean it immediately disappears from your credit history. However, its status should be recorded accurately." },
+        { h3: "Look at your repayment history" },
+        { p: "Your credit report may show whether repayments were made on time. Review the repayment history for any late-payment markers you do not recognise or believe have been recorded incorrectly." },
+        { h3: "Review credit enquiries" },
+        { p: "A credit enquiry may be recorded when you apply for a home loan, credit card, personal loan, car finance or another credit product." },
+        { p: "Check that you recognise each enquiry. An unfamiliar application could be an error or a possible sign that someone has attempted to use your identity." },
+        { h3: "Check defaults and other adverse listings" },
+        { p: "Review any defaults, judgments, hardship arrangements, bankruptcies or debt agreements carefully. Make sure the information belongs to you and that the dates, amounts and current status are accurate." },
+      ]},
+      { h: "What can affect your credit score?", blocks: [
+        { p: "Your credit score can be influenced by several factors, including:" },
+        { list: [
+          "Your repayment history",
+          "Missed or late repayments",
+          "Defaults or serious credit infringements",
+          "The number and frequency of credit applications",
+          "The types of credit you have used",
+          "Your current credit limits and account history",
+          "The age and overall pattern of your credit history",
+        ]},
+        { p: "Buy now, pay later accounts may also be considered during a home loan assessment, even where every provider does not report information in the same way." },
+        { p: "Avoid submitting multiple finance applications simply to see which lender approves you. Each formal application may create a credit enquiry, and a high number of applications over a short period can concern some lenders." },
+      ]},
+      { h: "What if something on my credit report is wrong?", blocks: [
+        { p: "You have the right to ask for incorrect credit information to be investigated and corrected free of charge." },
+        { p: "You can contact either:" },
+        { list: [
+          "The credit reporting body holding the information",
+          "The bank, lender or credit provider that supplied it",
+        ]},
+        { p: "Provide a clear explanation of what you believe is incorrect and include supporting documents where available. You should not have to pay a credit-repair company simply to request the correction of genuinely inaccurate information." },
+        { p: "Accurate negative information generally cannot be removed simply because it makes obtaining finance more difficult." },
+      ]},
+      { h: "Can I get a home loan with a low credit score or bad credit?", blocks: [
+        { p: "Potentially. Your credit score is not the only factor a lender considers." },
+        { p: "The available options will depend on what appears on your credit report, when it occurred, whether it has been resolved and the rest of your financial position. Different lenders also have different credit policies and levels of flexibility." },
+        { p: "At Mesh Finance, we take a practical and non-judgmental approach. We can review your overall circumstances, explain the likely concerns and determine whether there may be a suitable lender now or whether it would be better to create a plan before applying." },
+      ]},
+      { h: "Check before you apply", blocks: [
+        { p: "Understanding your credit report before applying for a home loan can give you time to correct errors, gather explanations and approach lenders more strategically." },
+        { p: "If you are buying a home, refinancing or concerned about something on your credit file, speak with Mesh Finance before submitting multiple applications. We can help you understand the next step and approach your finance application with greater confidence." },
+      ]},
+    ],
+    cta: {
+      heading: "Talk to a Mortgage Broker",
+      sub: "Speak with our Perth mortgage broking team about your credit position and home loan options.",
+      button: "Talk to a Mortgage Broker",
+    },
+    note: "The information above is general in nature and does not constitute financial, legal or credit-repair advice. Loan approval remains subject to lender assessment, lending criteria and your individual circumstances.",
   },
 
   propertyProfileReport: {
