@@ -8,7 +8,6 @@ const FFC = {
     eyebrow: "Family Finance Check",
     title: "Feel confident and in control of your family budget with one easy-to-manage loan repayment.",
     subhead: "Tailored online or in-person home loan health check and debt consolidation plan.",
-    lead: "When you're managing a household, the money side of life can get messy quickly — home loan, car loan, credit card, Afterpay, school costs, childcare, groceries, fuel and everything else that pops up right when you thought you were getting ahead.",
     primary: "Book my Family Finance Check",
     secondary: "Check my options",
   },
@@ -117,16 +116,6 @@ const FFC = {
       { t: "You decide what feels right", b: "We explain the numbers clearly so you can decide whether to proceed." },
     ],
   },
-  help: {
-    h: "What we may be able to help with",
-    cards: [
-      { t: "Credit card debt", b: "Credit cards can be hard to reduce if you are mostly covering interest and minimum repayments. Consolidating may help create a clearer repayment plan." },
-      { t: "Afterpay and buy now pay later", b: "Buy now pay later can feel manageable at first, but multiple small repayments can quickly impact cashflow. We can help review how these fit into your overall position." },
-      { t: "Car loans", b: "If your car loan repayment is adding pressure to the family budget, we can review whether it makes sense to consolidate, refinance or leave it separate." },
-      { t: "Personal loans", b: "Personal loans may be able to be combined with other debts, depending on your situation and lender approval." },
-      { t: "Home loans", b: "If your home loan is no longer competitive or your structure no longer suits your household, we can compare refinance options and check whether debt consolidation is suitable." },
-    ],
-  },
   why: {
     h: "Why families choose Mesh Finance",
     cards: [
@@ -146,7 +135,7 @@ const FFC = {
     h: "Book your Family Finance Check",
     step1Label: "Which best describes you?",
     describeOptions: [
-      "Making multiple debt repayments a month",
+      "Juggling multiple debt repayments a month",
       "Finding it hard to put money away at the end of the month",
       "Struggling to make repayments on my loans",
     ],
@@ -206,9 +195,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
     setStep(3);
   };
 
-  const familiarIcons = [Coins, Clock, Refi, Check];
   const benefitIcons = [Coins, Clock, Shield, Check];
-  const helpIcons = [Coins, Clock, Car, Coins, Home];
   const whyIcons = [Check, Users, Refi, Shield];
 
   const CheckList = ({ items }) => (
@@ -234,7 +221,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
           <div style={s.heroCopy}>
             <h1 style={s.h1}>{FFC.hero.title}</h1>
             <p style={s.heroSubhead}>{FFC.hero.subhead}</p>
-            <p style={s.heroLead}>{FFC.hero.lead}</p>
             <ul style={s.heroPoints}>
               {["No obligation, no judgement","We compare a range of lenders for you","See if you could simplify your repayments"].map((t,i)=>(
                 <li key={i} style={s.heroPoint}><span style={s.heroTick}><Check width={13} height={13}/></span>{t}</li>
@@ -324,22 +310,18 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
-      {/* FAMILIAR */}
+      {/* FAMILIAR — four simple points */}
       <section style={s.bodyTint}>
         <div style={s.wide}>
           <h2 style={{...s.h2, textAlign:"center", marginBottom:28}}>{FFC.familiar.h}</h2>
-          <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
-            {FFC.familiar.cards.map((c,i)=>{
-              const Icon = familiarIcons[i];
-              return (
-                <Card key={i} elevation="shadow" style={s.card}>
-                  <span style={s.cardIcon}><Icon width={22} height={22}/></span>
-                  <h3 style={s.cardTitle}>{c.t}</h3>
-                  <p style={s.cardBody}>{c.b}</p>
-                </Card>
-              );
-            })}
-          </div>
+          <ul style={{...s.familiarPoints, ...(isMobile ? s.familiarPointsMobile : {})}}>
+            {FFC.familiar.cards.map((c,i)=>(
+              <li key={i} style={s.familiarPoint}>
+                <span style={s.familiarTick}><Check width={14} height={14}/></span>
+                <span>{c.t}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -425,27 +407,8 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
-      {/* HELP WITH */}
-      <section style={s.bodyTint}>
-        <div style={s.wide}>
-          <h2 style={{...s.h2, marginBottom:28}}>{FFC.help.h}</h2>
-          <div style={{...s.grid3, ...(isMobile ? s.grid1 : {})}}>
-            {FFC.help.cards.map((c,i)=>{
-              const Icon = helpIcons[i];
-              return (
-                <Card key={i} elevation="shadow" style={s.card}>
-                  <span style={s.cardIcon}><Icon width={22} height={22}/></span>
-                  <h3 style={s.cardTitle}>{c.t}</h3>
-                  <p style={s.cardBody}>{c.b}</p>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* WHY MESH */}
-      <section style={s.bodyWhite}>
+      <section style={s.bodyTint}>
         <div style={s.wide}>
           <h2 style={{...s.h2, marginBottom:28}}>{FFC.why.h}</h2>
           <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
@@ -604,6 +567,15 @@ const s = {
   checkItem: { display:"flex", gap:12, alignItems:"flex-start", fontSize:15.5, lineHeight:1.5, color:"var(--text-body)" },
   checkIcon: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
+
+  familiarPoints: { listStyle:"none", margin:"0 auto", padding:0, maxWidth:760,
+    display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:"16px 40px" },
+  familiarPointsMobile: { gridTemplateColumns:"1fr", gap:16 },
+  familiarPoint: { display:"flex", gap:13, alignItems:"center",
+    fontSize:17, lineHeight:1.4, fontWeight:600, color:"var(--navy-700)" },
+  familiarTick: { flex:"none", width:30, height:30, borderRadius:"50%",
+    background:"var(--color-primary-soft)", color:"var(--color-primary)",
+    display:"flex", alignItems:"center", justifyContent:"center" },
 
   grid2: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:18 },
   grid3: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:18 },
