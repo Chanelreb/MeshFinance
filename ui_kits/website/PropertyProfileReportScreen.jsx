@@ -14,7 +14,7 @@ function PropertyProfileReportScreen({ onNav }) {
             {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
             {label:"Property Profile Report"},
           ]}/>
-          <Badge color="blue" dot>Guides and Tools</Badge>
+          <Badge color="blue" dot>Property Reports</Badge>
           <h1 style={pprS.h1}>{d.title}</h1>
           <p style={pprS.subtitle}>{d.subtitle}</p>
           <p style={pprS.lead}>{d.intro}</p>
@@ -50,12 +50,12 @@ function PropertyProfileReportScreen({ onNav }) {
 const pprS = {
   head: { background:"var(--blue-50)" },
   headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
-    display:"flex", flexDirection:"column", alignItems:"flex-start" },
+    display:"flex", flexDirection:"column", gap:12, alignItems:"flex-start" },
   body: { background:"var(--surface-page)", padding:"56px 0 72px" },
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
-  h1: { fontSize:34, margin:"12px 0 4px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  subtitle: { fontSize:17, color:"var(--color-primary)", fontWeight:600, margin:"0 0 14px" },
-  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:0 },
+  h1: { fontSize:38, margin:"2px 0 0", color:"var(--navy-700)", letterSpacing:"-.02em", lineHeight:1.15, maxWidth:780 },
+  subtitle: { fontSize:17, color:"var(--color-primary)", fontWeight:600, margin:0, maxWidth:720 },
+  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:16, marginBottom:36 },
   gridMobile: { gridTemplateColumns:"1fr" },
   card: { padding:22 },

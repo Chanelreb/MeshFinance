@@ -14,7 +14,7 @@ function CalculatorHubScreen({ onNav }) {
             {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
             {label:"Calculator Hub"},
           ]}/>
-          <Badge color="blue" dot>Guides and Tools</Badge>
+          <Badge color="blue" dot>Calculators</Badge>
           <h1 style={calcHubS.h1}>{d.title}</h1>
           <p style={calcHubS.lead}>{d.intro}</p>
         </div>

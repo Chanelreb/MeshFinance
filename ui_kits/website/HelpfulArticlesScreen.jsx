@@ -14,7 +14,7 @@ function HelpfulArticlesScreen({ onNav }) {
             {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
             {label:"Helpful Articles"},
           ]}/>
-          <Badge color="blue" dot>Guides and Tools</Badge>
+          <Badge color="blue" dot>Articles</Badge>
           <h1 style={haS.h1}>Helpful Articles</h1>
           <p style={haS.lead}>Guides on schemes, grants and lending, kept current.</p>
         </div>

@@ -45,7 +45,18 @@ const MESH_TITLES = {
 /* Per-page meta descriptions for SEO. Routes without an entry keep the
    default description set in index.html. */
 const MESH_DESCRIPTIONS = {
-  "my-credit-file": "Learn how to check your credit report for free in Australia, understand your credit score, correct errors and prepare for a home loan with Mesh Finance.",
+  "home": "Mesh Finance is a Perth mortgage and finance broker helping with home loans, refinancing, investment, first home buyers, asset finance and debt consolidation.",
+  "financial-toolkit": "Explore the finance we arrange at Mesh Finance — home, investment, first home buyer, bad credit, car, personal and debt consolidation loans across Perth.",
+  "who-we-help": "See how Mesh Finance helps Perth clients — first home buyers, refinancers, investors, families consolidating debt and borrowers after a bank says no.",
+  "about-us": "Meet the Mesh Finance team — founder and finance broker Chanel Rebello, mortgage analyst Jason Varischetti and mortgage broker assistant Kerwin Tansio.",
+  "contact": "Book a free, no-obligation chat with Mesh Finance, your Perth mortgage and finance broker. Call, email or schedule a time that suits you.",
+  "faqs": "Answers to common questions about home loans, refinancing, deposits, pre-approval and working with a mortgage broker in Perth, from Mesh Finance.",
+  "calculator-hub": "Free home loan calculators from Mesh Finance — estimate repayments, borrowing power, stamp duty, offset vs redraw, extra repayments and more.",
+  "property-profile-report": "Request a free CoreLogic property valuation report through Mesh Finance to understand a property's estimated value, market trends and comparable sales.",
+  "referral-hub": "Refer a friend to Mesh Finance. If someone you know needs a home loan or finance in Perth, connect them with a broker who will look after them.",
+  "home-loans": "Home loans made simple with Mesh Finance. We compare 40+ lenders to find a competitive home loan structured around your goals, across Perth and WA.",
+  "first-home-buyers": "First home buyer help in WA. Mesh Finance guides you through grants, schemes, deposits and pre-approval so you can buy your first home with confidence.",
+  "ato-debt": "ATO tax debt loans through Mesh Finance. Consolidate ATO, private and solicitor debt into a manageable solution and get your finances back on track.",
 };
 
 function App() {

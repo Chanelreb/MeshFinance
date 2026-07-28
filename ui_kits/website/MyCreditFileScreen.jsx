@@ -62,7 +62,7 @@ function MyCreditFileScreen({ onNav }) {
             {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
             {label:"My Credit File"},
           ]}/>
-          <Badge color="blue" dot>Guides and Tools</Badge>
+          <Badge color="blue" dot>Credit Reports</Badge>
           <h1 style={mcfS.h1}>{d.title}</h1>
           {d.intro.map((p, i) => <p key={i} style={mcfS.lead}>{p}</p>)}
         </div>
