@@ -125,6 +125,15 @@ const FFC = {
       { t: "We look at the whole picture", b: "We do not just focus on the rate. We look at repayments, fees, loan structure, cashflow and your longer-term goals." },
     ],
   },
+  about: {
+    h: "Hi, I'm Chanel",
+    paras: [
+      "As a finance broker — and a mum to a young family — I know first-hand how quickly a household budget can feel stretched. Between the mortgage, the car, the cards and everyday family life, there's always something popping up.",
+      "That's exactly why I created the Family Finance Check. My goal is simple: to look at your full picture with you, without judgement, and help you find a calmer, more manageable way forward.",
+      "Whether we meet online or in person, you'll get clear, honest advice from someone who genuinely understands the juggle.",
+    ],
+    sign: "Chanel Rebello — Founder & Finance Broker, Mesh Finance",
+  },
   finalCta: {
     h: "Ready to get your household finances back under control?",
     text: "The first step is simply having a look. Book your Family Finance Check and let's see whether consolidating debt or refinancing could help simplify your repayments and create more breathing room in your monthly budget.",
@@ -426,6 +435,20 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
+      {/* ABOUT CHANEL */}
+      <section style={s.bodyWhite}>
+        <div style={{...s.aboutInner, ...(isMobile ? s.aboutInnerMobile : {})}}>
+          <div style={s.aboutPhotoWrap}>
+            <div style={s.aboutPhoto} role="img" aria-label="Chanel Rebello"/>
+          </div>
+          <div>
+            <h2 style={s.h2}>{FFC.about.h}</h2>
+            {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
+            <p style={s.aboutSign}>{FFC.about.sign}</p>
+          </div>
+        </div>
+      </section>
+
       {/* FINAL CTA (navy) */}
       <section style={s.finalCta}>
         <div style={s.finalInner}>
@@ -546,6 +569,14 @@ const s = {
   calmerInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
     display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,.85fr)", gap:44, alignItems:"center" },
   calmerInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"0 20px", gap:24 },
+
+  aboutInner: { maxWidth:900, margin:"0 auto", padding:"0 28px",
+    display:"grid", gridTemplateColumns:"200px minmax(0,1fr)", gap:40, alignItems:"center" },
+  aboutInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"0 20px", gap:22, justifyItems:"center", textAlign:"center" },
+  aboutPhotoWrap: { display:"flex", justifyContent:"center" },
+  aboutPhoto: { width:200, height:200, borderRadius:"50%", boxShadow:"var(--shadow-md)",
+    backgroundImage:"url(../../assets/1.png)", backgroundSize:"150%", backgroundPosition:"center 18%", backgroundRepeat:"no-repeat" },
+  aboutSign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"6px 0 0" },
 
   videoWrap: { minWidth:0, width:"100%" },
   videoInner: { position:"relative", aspectRatio:"16/9", borderRadius:16, overflow:"hidden",
