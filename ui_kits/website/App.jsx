@@ -127,13 +127,20 @@ function App() {
     content = <Screen onNav={onNav}/>;
   }
 
+  /* Campaign landing pages hide the site nav header so they stay focused on
+     conversion (they carry their own logo). The footer stays for the credit
+     licence disclosure. */
+  const bare = MESH_BARE_ROUTES.includes(route);
+
   return (
     <div style={{ minHeight:"100vh", display:"flex", flexDirection:"column" }}>
-      <window.MeshHeader onNav={onNav} current={route}/>
+      {!bare && <window.MeshHeader onNav={onNav} current={route}/>}
       <main style={{ flex:1 }}>{content}</main>
       <window.MeshFooter onNav={onNav}/>
     </div>
   );
 }
+
+const MESH_BARE_ROUTES = ["family-finance-check"];
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);

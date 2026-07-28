@@ -169,15 +169,28 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
   const formRef = useRef(null);
   const optionsRef = useRef(null);
+  const formElRef = useRef(null);
   const scrollTo = (ref) => {
     if (!ref.current) return;
-    const y = ref.current.getBoundingClientRect().top + window.scrollY - 84;
+    const y = ref.current.getBoundingClientRect().top + window.scrollY - 24;
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
+  const [step, setStep] = useState(1);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
+
+  /* Validate the step-1 contact fields before revealing step 2. */
+  const goNext = () => {
+    const form = formElRef.current;
+    if (!form) return;
+    const ok = ["firstName", "email", "phone"].every((n) => {
+      const el = form.elements[n];
+      return el ? el.reportValidity() : true;
+    });
+    if (ok) setStep(2);
+  };
   const submit = async (e) => {
     e.preventDefault();
     setSending(true); setError(false);
@@ -205,17 +218,106 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
   return (
     <div>
-      {/* HERO + VIDEO */}
-      <section style={s.hero}>
+      {/* LOGO BAR (replaces the site header on this campaign page) */}
+      <div style={s.logoBar}>
+        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
+          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+        </a>
+        <a href="tel:+61416291241" style={s.logoBarPhone}>0416 291 241</a>
+      </div>
+
+      {/* HERO + LEAD FORM */}
+      <section style={s.hero} ref={formRef}>
         <div style={{...s.heroInner, ...(isMobile ? s.heroInnerMobile : {})}}>
           <div style={s.heroCopy}>
             <Badge color="blue" dot>{FFC.hero.eyebrow}</Badge>
             <h1 style={s.h1}>{FFC.hero.title}</h1>
             <p style={s.heroLead}>{FFC.hero.lead}</p>
-            <div style={{...s.heroBtns, ...(isMobile ? s.heroBtnsMobile : {})}}>
-              <Button block={isMobile} size="lg" onClick={()=>scrollTo(formRef)} iconRight={<ArrowRight width={18} height={18}/>}>{FFC.hero.primary}</Button>
-              <Button block={isMobile} size="lg" variant="secondary" onClick={()=>scrollTo(optionsRef)}>{FFC.hero.secondary}</Button>
-            </div>
+            <ul style={s.heroPoints}>
+              {["No obligation, no judgement","We compare a range of lenders for you","See if you could simplify your repayments"].map((t,i)=>(
+                <li key={i} style={s.heroPoint}><span style={s.heroTick}><Check width={13} height={13}/></span>{t}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div style={s.formCol}>
+            <Card elevation="shadow-lg" padded={false} style={s.formCard}>
+              {sent ? (
+                <div style={s.thanks}>
+                  <div style={s.tick}>✓</div>
+                  <h3 style={s.thanksH}>Thank you!</h3>
+                  <p style={s.thanksP}>Your Family Finance Check request is on its way. We'll be in touch shortly.</p>
+                  <Button variant="secondary" onClick={()=>{setSent(false);setStep(1);}}>Send another</Button>
+                </div>
+              ) : (
+                <form ref={formElRef} onSubmit={submit} style={{display:"grid", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
+                  <input type="hidden" name="_subject" value="New Family Finance Check enquiry — Mesh Finance"/>
+                  <input type="hidden" name="campaign" value="Family Finance Check"/>
+                  <div>
+                    <h2 style={s.formTitle}>{FFC.form.h}</h2>
+                    <p style={s.formSub}>{FFC.form.sub}</p>
+                  </div>
+                  <div style={s.progressRow}>
+                    <div style={s.progressTrack}><div style={{...s.progressFill, width: step===1 ? "50%" : "100%"}}/></div>
+                    <span style={s.stepLabel}>Step {step} of 2</span>
+                  </div>
+
+                  {/* STEP 1 — contact */}
+                  <div style={{display: step===1 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
+                    <Field label="First name" required><Input name="firstName" required placeholder="Your first name"/></Field>
+                    <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
+                    <Field label="Phone number" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
+                    <Button block size="lg" type="button" onClick={goNext} iconRight={<ArrowRight width={18} height={18}/>}>Next</Button>
+                    <p style={s.formReassure}>Takes about a minute. No obligation.</p>
+                  </div>
+
+                  {/* STEP 2 — qualifying details */}
+                  <div style={{display: step===2 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
+                    <div>
+                      <div style={s.legend}>Do you own a home?</div>
+                      <div style={{display:"flex", gap:18, flexWrap:"wrap"}}>
+                        <Radio name="ownHome" label="Yes" value="Yes"/>
+                        <Radio name="ownHome" label="No" value="No"/>
+                        <Radio name="ownHome" label="Not sure" value="Not sure"/>
+                      </div>
+                    </div>
+                    <Field label="What debts would you like reviewed?">
+                      <Select name="debts" placeholder="Select an option" defaultValue="">
+                        {FFC.form.debtOptions.map((o,i)=><option key={i}>{o}</option>)}
+                      </Select>
+                    </Field>
+                    <Field label="What is your main goal?">
+                      <Select name="goal" placeholder="Select an option" defaultValue="">
+                        {FFC.form.goalOptions.map((o,i)=><option key={i}>{o}</option>)}
+                      </Select>
+                    </Field>
+                    <Field label="Preferred contact time">
+                      <Select name="preferredTime" placeholder="Select a time" defaultValue="">
+                        {FFC.form.timeOptions.map((o,i)=><option key={i}>{o}</option>)}
+                      </Select>
+                    </Field>
+                    {error && <p style={s.formError}>Something went wrong, please try again or call us on 0416 291 241.</p>}
+                    <Button block size="lg" type="submit" disabled={sending} iconRight={sending ? null : <ArrowRight width={18} height={18}/>}>{sending ? "Sending…" : FFC.form.button}</Button>
+                    <button type="button" onClick={()=>setStep(1)} style={s.backLink}>← Back</button>
+                  </div>
+                </form>
+              )}
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* GOOGLE REVIEWS */}
+      <section style={s.reviewsBand}>
+        <div style={s.reviewsInner}><GoogleReviews/></div>
+      </section>
+
+      {/* A CALMER WAY (with video placeholder) */}
+      <section style={s.bodyWhite}>
+        <div style={{...s.calmerInner, ...(isMobile ? s.calmerInnerMobile : {})}}>
+          <div>
+            <h2 style={s.h2}>{FFC.intro.h}</h2>
+            {FFC.intro.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
           </div>
           <div style={s.videoWrap}>
             <div style={s.videoInner} aria-label="Campaign video coming soon">
@@ -225,14 +327,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
               <span style={s.videoCaption}>Your video will appear here</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* INTRO */}
-      <section style={s.bodyWhite}>
-        <div style={s.narrow}>
-          <h2 style={s.h2}>{FFC.intro.h}</h2>
-          {FFC.intro.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
         </div>
       </section>
 
@@ -387,61 +481,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
-      {/* FORM */}
-      <section style={s.bodyWhite} ref={formRef}>
-        <div style={s.formWrap}>
-          <Card elevation="shadow-lg" style={s.formCard}>
-            {sent ? (
-              <div style={s.thanks}>
-                <div style={s.tick}>✓</div>
-                <h3 style={s.thanksH}>Thank you!</h3>
-                <p style={s.thanksP}>Your Family Finance Check request is on its way. We'll be in touch shortly.</p>
-                <Button variant="secondary" onClick={()=>setSent(false)}>Send another</Button>
-              </div>
-            ) : (
-              <form onSubmit={submit} style={{display:"grid", gap:16}}>
-                <input type="hidden" name="_subject" value="New Family Finance Check enquiry — Mesh Finance"/>
-                <input type="hidden" name="campaign" value="Family Finance Check"/>
-                <div>
-                  <h2 style={{...s.h2, margin:"0 0 6px"}}>{FFC.form.h}</h2>
-                  <p style={{...s.cardBody, margin:0}}>{FFC.form.sub}</p>
-                </div>
-                <Field label="First name" required><Input name="firstName" required placeholder="Your first name"/></Field>
-                <div style={{display:"grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap:14}}>
-                  <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
-                  <Field label="Phone number" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
-                </div>
-                <div>
-                  <div style={s.legend}>Do you own a home?</div>
-                  <div style={{display:"flex", gap:20, flexWrap:"wrap"}}>
-                    <Radio name="ownHome" label="Yes" value="Yes"/>
-                    <Radio name="ownHome" label="No" value="No"/>
-                    <Radio name="ownHome" label="Not sure" value="Not sure"/>
-                  </div>
-                </div>
-                <Field label="What debts would you like reviewed?">
-                  <Select name="debts" placeholder="Select an option" defaultValue="">
-                    {FFC.form.debtOptions.map((o,i)=><option key={i}>{o}</option>)}
-                  </Select>
-                </Field>
-                <Field label="What is your main goal?">
-                  <Select name="goal" placeholder="Select an option" defaultValue="">
-                    {FFC.form.goalOptions.map((o,i)=><option key={i}>{o}</option>)}
-                  </Select>
-                </Field>
-                <Field label="Preferred contact time">
-                  <Select name="preferredTime" placeholder="Select a time" defaultValue="">
-                    {FFC.form.timeOptions.map((o,i)=><option key={i}>{o}</option>)}
-                  </Select>
-                </Field>
-                {error && <p style={s.formError}>Something went wrong, please try again or call us on 0416 291 241.</p>}
-                <Button block size="lg" type="submit" disabled={sending} iconRight={sending ? null : <ArrowRight width={18} height={18}/>}>{sending ? "Sending…" : FFC.form.button}</Button>
-              </form>
-            )}
-          </Card>
-        </div>
-      </section>
-
       {/* FAQ */}
       <section style={s.bodyTint}>
         <div style={s.narrow}>
@@ -460,16 +499,60 @@ function FamilyFinanceCheckScreen({ onNav }) {
   );
 }
 
+/* Google reviews (Trustindex) widget — same loader used on the homepage. */
+function GoogleReviews() {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || el.hasChildNodes()) return;
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.trustindex.io/loader.js?1f3f74d765942510b78680b7215";
+    sc.async = true;
+    sc.defer = true;
+    el.appendChild(sc);
+  }, []);
+  return <div ref={ref} aria-label="Google reviews for Mesh Finance"/>;
+}
+
 const s = {
+  logoBar: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"18px 28px 0",
+    display:"flex", alignItems:"center", justifyContent:"space-between", gap:16 },
+  logoLink: { display:"inline-flex", alignItems:"center" },
+  logoBarPhone: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", textDecoration:"none" },
+
   hero: { background:"var(--blue-50)" },
-  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"40px 28px 52px",
+  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"32px 28px 52px",
     display:"grid", gridTemplateColumns:"minmax(0,1.05fr) minmax(0,.95fr)", gap:48, alignItems:"center" },
-  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"28px 20px 36px", gap:28 },
+  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"24px 20px 36px", gap:28 },
   heroCopy: { minWidth:0, display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
-  h1: { fontSize:42, lineHeight:1.12, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:560 },
-  heroLead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:560 },
+  h1: { fontSize:40, lineHeight:1.12, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:560 },
+  heroLead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:560 },
+  heroPoints: { listStyle:"none", margin:"2px 0 0", padding:0, display:"grid", gap:10 },
+  heroPoint: { display:"flex", gap:11, alignItems:"flex-start", fontSize:15.5, color:"var(--text-body)", fontWeight:500 },
+  heroTick: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
+    display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
   heroBtns: { display:"flex", gap:12, flexWrap:"wrap", marginTop:4 },
   heroBtnsMobile: { flexDirection:"column", alignSelf:"stretch", width:"100%" },
+
+  formCol: { minWidth:0 },
+  formCard: { padding:"24px 26px", background:"#fff" },
+  formTitle: { fontFamily:"var(--font-display)", fontSize:21, color:"var(--navy-700)", margin:"0 0 4px", fontWeight:700 },
+  formSub: { fontSize:14, color:"var(--text-muted)", lineHeight:1.5, margin:0 },
+  progressRow: { display:"flex", alignItems:"center", gap:12 },
+  progressTrack: { flex:1, height:6, borderRadius:999, background:"var(--blue-50)", overflow:"hidden",
+    border:"1px solid var(--border-subtle)" },
+  progressFill: { height:"100%", background:"var(--color-primary)", borderRadius:999, transition:"width .3s ease" },
+  stepLabel: { flex:"none", fontSize:12.5, fontWeight:600, color:"var(--text-muted)" },
+  formReassure: { fontSize:12.5, color:"var(--text-muted)", textAlign:"center", margin:0 },
+  backLink: { appearance:"none", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)",
+    fontFamily:"var(--font-body)", fontSize:13.5, fontWeight:600, padding:4, justifySelf:"center" },
+
+  reviewsBand: { background:"#fff", borderBottom:"1px solid var(--border-subtle)" },
+  reviewsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px" },
+
+  calmerInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
+    display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,.85fr)", gap:44, alignItems:"center" },
+  calmerInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"0 20px", gap:24 },
 
   videoWrap: { minWidth:0, width:"100%" },
   videoInner: { position:"relative", aspectRatio:"16/9", borderRadius:16, overflow:"hidden",
@@ -527,8 +610,6 @@ const s = {
   finalText: { fontSize:17, lineHeight:1.65, color:"rgba(255,255,255,.85)", margin:0, maxWidth:640 },
   ghostOnNavy: { color:"#fff", borderColor:"rgba(255,255,255,.5)" },
 
-  formWrap: { maxWidth:640, margin:"0 auto", padding:"0 28px" },
-  formCard: { padding:"32px 34px", background:"#fff" },
   legend: { fontFamily:"var(--font-body)", fontWeight:600, fontSize:14, color:"var(--text-strong)", marginBottom:9 },
   formError: { fontSize:13.5, color:"var(--color-danger)", margin:0 },
   thanks: { textAlign:"center", padding:"24px 10px" },
