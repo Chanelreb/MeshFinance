@@ -40,6 +40,7 @@ const MESH_TITLES = {
   "privacy-policy": "Privacy Policy | Mesh Finance",
   "terms-conditions": "Terms and Conditions | Mesh Finance",
   "disclaimer": "Disclaimer | Mesh Finance",
+  "family-finance-check": "Family Finance Check | Debt Consolidation for Families | Mesh Finance",
 };
 
 /* Per-page meta descriptions for SEO. Routes without an entry keep the
@@ -57,6 +58,7 @@ const MESH_DESCRIPTIONS = {
   "home-loans": "Home loans made simple with Mesh Finance. We compare 40+ lenders to find a competitive home loan structured around your goals, across Perth and WA.",
   "first-home-buyers": "First home buyer help in WA. Mesh Finance guides you through grants, schemes, deposits and pre-approval so you can buy your first home with confidence.",
   "ato-debt": "ATO tax debt loans through Mesh Finance. Consolidate ATO, private and solicitor debt into a manageable solution and get your finances back on track.",
+  "family-finance-check": "Feeling stretched by credit cards, Afterpay, car loans and home loan repayments? Book a Family Finance Check with Mesh Finance and review your debt consolidation options.",
 };
 
 function App() {
@@ -120,6 +122,7 @@ function App() {
       "privacy-policy": window.MeshPrivacyPolicyScreen,
       "terms-conditions": window.MeshTermsConditionsScreen,
       "disclaimer": window.MeshDisclaimerScreen,
+      "family-finance-check": window.MeshFamilyFinanceCheckScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
   }
