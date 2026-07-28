@@ -59,40 +59,6 @@ const FFC = {
       { t: "A clearer plan to move forward", b: "When your debts are organised properly, it can be easier to focus on paying them down and getting ahead." },
     ],
   },
-  options: {
-    h: "Your debt consolidation options",
-    lead: "There are two main ways we may be able to help, depending on your situation.",
-    cards: [
-      {
-        tag: "Option 1",
-        t: "Personal loan debt consolidation",
-        body: "A personal loan can be used to consolidate eligible debts such as credit cards, buy now pay later balances, personal loans or smaller debts. This may suit families who do not own a home, or those who want to keep their debt separate from their mortgage.",
-        suitLabel: "This may suit you if:",
-        suit: [
-          "You have multiple unsecured debts",
-          "You want one set repayment",
-          "You want a clear loan term",
-          "You do not want to use your home as security",
-          "You want a structured plan to pay the debt down",
-        ],
-        consider: "A personal loan may have a higher interest rate than a home loan, but it usually has a shorter repayment term. This can help keep the debt contained and avoid spreading it over too many years.",
-      },
-      {
-        tag: "Option 2",
-        t: "Home loan debt consolidation",
-        body: "If you own a home and have available equity, you may be able to consolidate other debts into your home loan. This can sometimes reduce monthly repayments because home loan interest rates are generally lower than credit card or personal loan rates.",
-        suitLabel: "This may suit you if:",
-        suit: [
-          "You own a home",
-          "You have enough available equity",
-          "Your repayments are putting pressure on cashflow",
-          "You have credit cards, personal loans, car loans or buy now pay later debt",
-          "You want to simplify your repayments through your home loan",
-        ],
-        consider: "Using your home loan for debt consolidation needs to be structured carefully. While it may reduce your monthly repayments, adding short-term debt to a longer home loan term may mean you pay more interest over time if you do not make extra repayments. That is why we explain the numbers clearly before you make a decision.",
-      },
-    ],
-  },
   forWhom: {
     h: "Who the Family Finance Check is for",
     lead: "This campaign is designed for families who feel like their household finances have become harder to manage. It may be helpful if:",
@@ -112,8 +78,8 @@ const FFC = {
     steps: [
       { t: "Tell us what's going on", b: "You share a snapshot of your current debts, repayments and what is feeling hard to manage." },
       { t: "We review the full picture", b: "We look at your home loan, other debts, repayment amounts, rates and possible consolidation options." },
-      { t: "We compare your options", b: "We check whether a personal loan, home loan refinance, equity release or another structure may suit your situation." },
-      { t: "You decide what feels right", b: "We explain the numbers clearly so you can decide whether to proceed." },
+      { t: "We compare options and you choose", b: "We check whether a personal loan, home loan refinance, equity release or another structure may suit, explain the numbers clearly, and you decide what feels right." },
+      { t: "We manage it start to finish", b: "We manage your online application from start to finish, keeping you supported all the way through to settlement." },
     ],
   },
   why: {
@@ -128,11 +94,11 @@ const FFC = {
   about: {
     h: "Hi, I'm Chanel",
     paras: [
-      "As a finance broker — and a mum to a young family — I know first-hand how quickly a household budget can feel stretched. Between the mortgage, the car, the cards and everyday family life, there's always something popping up.",
-      "That's exactly why I created the Family Finance Check. My goal is simple: to look at your full picture with you, without judgement, and help you find a calmer, more manageable way forward.",
-      "Whether we meet online or in person, you'll get clear, honest advice from someone who genuinely understands the juggle.",
+      "As a finance broker and a mum to a young family, I know first-hand how quickly a household budget can feel stretched. Between the mortgage, the car, the cards and everyday family life, there's always something popping up.",
+      "Born and raised in the Perth Hills, I still live locally with my own young family, so I really do understand the juggle of running a busy household. That's exactly why I created the Family Finance Check: to look at your full picture with you, without judgement, and help you find a calmer, more manageable way forward.",
+      "Whether we meet online or in person, you'll get clear, honest advice from someone who genuinely gets it.",
     ],
-    sign: "Chanel Rebello — Founder & Finance Broker, Mesh Finance",
+    sign: "Chanel Rebello, Founder & Finance Broker at Mesh Finance",
   },
   finalCta: {
     h: "Ready to get your household finances back under control?",
@@ -169,7 +135,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
   const isMobile = window.useIsMobile();
 
   const formRef = useRef(null);
-  const optionsRef = useRef(null);
   const formElRef = useRef(null);
   const scrollTo = (ref) => {
     if (!ref.current) return;
@@ -189,15 +154,14 @@ function FamilyFinanceCheckScreen({ onNav }) {
   const goToBooking = async () => {
     const form = formElRef.current;
     if (!form) return;
-    const ok = ["firstName", "lastName", "email", "phone"].every((n) => {
+    const ok = ["name", "email", "phone"].every((n) => {
       const el = form.elements[n];
       return el ? el.reportValidity() : true;
     });
     if (!ok) return;
-    const fn = (form.elements["firstName"].value || "").trim();
-    const ln = (form.elements["lastName"].value || "").trim();
+    const name = (form.elements["name"].value || "").trim();
     const email = (form.elements["email"].value || "").trim();
-    setPrefill({ name: (fn + " " + ln).trim(), email });
+    setPrefill({ name, email });
     setSending(true);
     try { await window.MeshSubmitForm(form); } catch {}
     setSending(false);
@@ -269,10 +233,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
                 {/* STEP 2 — contact details */}
                 <div style={{display: step===2 ? "grid" : "none", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
-                  <div style={{display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,1fr)", gap:12}}>
-                    <Field label="First name" required><Input name="firstName" required placeholder="First name"/></Field>
-                    <Field label="Last name" required><Input name="lastName" required placeholder="Last name"/></Field>
-                  </div>
+                  <Field label="Name" required><Input name="name" required placeholder="First and last name"/></Field>
                   <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
                   <Field label="Phone number" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
                   <Button block size="lg" type="button" onClick={goToBooking} disabled={sending} iconRight={sending ? null : <ArrowRight width={18} height={18}/>}>{sending ? "One sec…" : "Continue to booking"}</Button>
@@ -367,31 +328,8 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
-      {/* OPTIONS */}
-      <section style={s.bodyWhite} ref={optionsRef}>
-        <div style={s.wide}>
-          <h2 style={s.h2}>{FFC.options.h}</h2>
-          <p style={{...s.p, maxWidth:760, marginBottom:28}}>{FFC.options.lead}</p>
-          <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
-            {FFC.options.cards.map((c,i)=>(
-              <Card key={i} elevation="shadow" style={s.optionCard}>
-                <span style={s.optionTag}>{c.tag}</span>
-                <h3 style={s.optionTitle}>{c.t}</h3>
-                <p style={s.cardBody}>{c.body}</p>
-                <p style={s.listLabel}>{c.suitLabel}</p>
-                <CheckList items={c.suit}/>
-                <div style={s.considerBox}>
-                  <span style={s.considerLabel}>Things to consider</span>
-                  <p style={s.considerText}>{c.consider}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* WHO IT'S FOR */}
-      <section style={s.bodyTint}>
+      <section style={s.bodyWhite}>
         <div style={s.narrow}>
           <h2 style={s.h2}>{FFC.forWhom.h}</h2>
           <p style={s.p}>{FFC.forWhom.lead}</p>
@@ -401,7 +339,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* PROCESS */}
-      <section style={s.bodyWhite}>
+      <section style={s.bodyTint}>
         <div style={s.wide}>
           <h2 style={{...s.h2, textAlign:"center", marginBottom:28}}>{FFC.process.h}</h2>
           <div style={{...s.stepGrid, ...(isMobile ? s.grid1 : {})}}>
@@ -417,7 +355,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* WHY MESH */}
-      <section style={s.bodyTint}>
+      <section style={s.bodyWhite}>
         <div style={s.wide}>
           <h2 style={{...s.h2, marginBottom:28}}>{FFC.why.h}</h2>
           <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
@@ -436,7 +374,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* ABOUT CHANEL */}
-      <section style={s.bodyWhite}>
+      <section style={s.bodyTint}>
         <div style={{...s.aboutInner, ...(isMobile ? s.aboutInnerMobile : {})}}>
           <div style={s.aboutPhotoWrap}>
             <div style={s.aboutPhoto} role="img" aria-label="Chanel Rebello"/>
