@@ -578,6 +578,16 @@ Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen }
 function FFCThankYouScreen({ onNav }) {
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
+  /* Fire the Google Ads conversion once when the thank-you page loads. */
+  React.useEffect(() => {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "conversion", {
+        send_to: "AW-18158180693/nDPBCJ2ykNgcENWyv9JD",
+        value: 1.0,
+        currency: "AUD",
+      });
+    }
+  }, []);
   return (
     <div style={ty.wrap}>
       <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={ty.logoLink} aria-label="Mesh Finance home">
