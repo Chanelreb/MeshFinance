@@ -31,7 +31,7 @@ function CalendlyEmbed() {
 function ContactScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Card, Button, Field, Input, Select, Textarea, Checkbox, Radio, Badge } = DS;
-  const { Phone, Mail, MapPin, Clock } = window.MeshIcons;
+  const { Phone, Mail, MapPin, Clock, ArrowRight } = window.MeshIcons;
   const { useState } = React;
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
@@ -129,7 +129,7 @@ function ContactScreen({ onNav }) {
               <Field label="Additional message"><Textarea name="message" rows={3} placeholder="Tell us a bit about your situation…"/></Field>
               <Checkbox name="updatesOptIn" value="yes" label="I'd like occasional rate & scheme updates"/>
               {error && <p style={ct.formError}>Something went wrong, please try again or call us.</p>}
-              <Button block size="lg" type="submit" disabled={sending}>{sending ? "Sending…" : "Send 📩"}</Button>
+              <Button block size="lg" type="submit" disabled={sending} iconRight={sending ? null : <ArrowRight width={18} height={18}/>}>{sending ? "Sending…" : "Send"}</Button>
             </form>
           )}
           </div>

@@ -10,10 +10,13 @@ function AtoDebtScreen({ onNav }) {
   return (
     <div>
       <section style={aS.head}>
-        <div style={aS.headOverlay}/>
         <div style={{...aS.headInner, ...(isMobile ? aS.headInnerMobile : {})}}>
           <div style={aS.headCopy}>
-            <Breadcrumb items={[{label:"Home",href:"#"},{label:"How We Help",href:"#"},{label:"ATO Debt"}]}/>
+            <Breadcrumb items={[
+              {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+              {label:"What We Finance", href:window.meshHref("financial-toolkit"), onClick:(e)=>{e.preventDefault();onNav("financial-toolkit");}},
+              {label:"ATO Debt"},
+            ]}/>
             <Badge color="solid">{d.eyebrow}</Badge>
             <h1 style={aS.h1}>{d.title}</h1>
             <p style={aS.subtitle}>{d.subtitle}</p>
@@ -22,6 +25,11 @@ function AtoDebtScreen({ onNav }) {
               <Button size="lg" onClick={()=>onNav("contact")}>Apply now</Button>
             </div>
           </div>
+          {!isMobile && (
+            <div style={aS.headImg}>
+              <img src="../../assets/atodebtloans.png" alt="Managing ATO tax debt" style={aS.headImgTag}/>
+            </div>
+          )}
         </div>
       </section>
 
@@ -72,12 +80,13 @@ function AtoDebtScreen({ onNav }) {
 }
 
 const aS = {
-  head: { position:"relative", background:"url(../../assets/atodebtloans.png) right center/cover no-repeat", minHeight:400 },
-  headOverlay: { position:"absolute", inset:0,
-    background:"linear-gradient(90deg, var(--surface-page) 0%, var(--surface-page) 34%, rgba(255,255,255,.86) 55%, rgba(255,255,255,.55) 75%, rgba(255,255,255,.2) 100%)" },
-  headInner: { position:"relative", maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 56px" },
-  headInnerMobile: { padding:"36px 20px 40px" },
-  headCopy: { display:"flex", flexDirection:"column", gap:10, alignItems:"flex-start", maxWidth:540 },
+  head: { background:"var(--blue-50)" },
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"32px 28px 48px",
+    display:"grid", gridTemplateColumns:"1.1fr .9fr", gap:40, alignItems:"center" },
+  headInnerMobile: { gridTemplateColumns:"1fr", padding:"28px 20px 36px", gap:24 },
+  headCopy: { display:"flex", flexDirection:"column", gap:10, alignItems:"flex-start" },
+  headImg: { aspectRatio:"4/3", borderRadius:16, overflow:"hidden", boxShadow:"var(--shadow-md)" },
+  headImgTag: { width:"100%", height:"100%", objectFit:"cover", display:"block" },
   h1: { fontSize:38, lineHeight:1.15, margin:"6px 0 0", color:"var(--navy-700)", letterSpacing:"-.02em" },
   subtitle: { fontSize:18, color:"var(--color-primary)", fontWeight:600, margin:0 },
   lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"6px 0 0" },

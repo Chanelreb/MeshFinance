@@ -1,7 +1,7 @@
 /* Calculator Hub, tile list linking to each calculator. */
 function CalculatorHubScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
-  const { Badge, Card, Button } = DS;
+  const { Badge, Card, Button, Breadcrumb } = DS;
   const d = window.MeshContent.calculatorHub;
   const isMobile = window.useIsMobile();
 
@@ -9,6 +9,11 @@ function CalculatorHubScreen({ onNav }) {
     <div>
       <section style={calcHubS.head}>
         <div style={calcHubS.headInner}>
+          <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
+            {label:"Calculator Hub"},
+          ]}/>
           <Badge color="blue" dot>Guides and Tools</Badge>
           <h1 style={calcHubS.h1}>{d.title}</h1>
           <p style={calcHubS.lead}>{d.intro}</p>

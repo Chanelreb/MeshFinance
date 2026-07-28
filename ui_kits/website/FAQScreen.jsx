@@ -1,7 +1,7 @@
 /* FAQ page, real site FAQs in a single accordion. */
 function FAQScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
-  const { Accordion, Badge, Button, Card } = DS;
+  const { Accordion, Badge, Button, Card, Breadcrumb } = DS;
   /* Answers may be a string or an array of paragraphs; render arrays as
      spaced <p> elements so multi-paragraph answers read cleanly. */
   const items = window.MeshContent.faqs.map((it) => ({
@@ -15,6 +15,11 @@ function FAQScreen({ onNav }) {
     <div>
       <section style={f.head}>
         <div style={f.headInner}>
+          <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
+            {label:"FAQs"},
+          ]}/>
           <Badge color="blue" dot>FAQs</Badge>
           <h1 style={f.h1}>Frequently Asked Questions</h1>
           <p style={f.lead}>More questions? SMS us on 0416 291 241.</p>

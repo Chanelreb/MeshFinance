@@ -20,7 +20,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const repay = r>0 ? amount * r / (1-Math.pow(1+r,-n)) : amount/n;
     const totalPaid = repay*n;
     return (
-      <Shell badge="Calculator" title="Home Loan Repayment Calculator" lead="Crunch my repayments, estimate your monthly or fortnightly repayment based on loan amount, rate and term."
+      <Shell onNav={onNav} badge="Calculator" title="Home Loan Repayment Calculator" lead="Crunch my repayments, estimate your monthly or fortnightly repayment based on loan amount, rate and term."
         note="This is an indicative estimate only and not an offer of credit.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
@@ -42,7 +42,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
 
   if (kind === "stamp-duty") {
     return (
-      <Shell badge="Calculator" title="Stamp Duty Calculator" lead="The stamp duty decoder, know roughly what you'll need to budget for based on property value and buyer type.">
+      <Shell onNav={onNav} badge="Calculator" title="Stamp Duty Calculator" lead="The stamp duty decoder, know roughly what you'll need to budget for based on property value and buyer type.">
         <Card elevation="shadow" style={{padding:0, overflow:"hidden"}}>
           <iframe
             title="Stamp Duty Calculator"
@@ -57,7 +57,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
 
   if (kind === "borrowing-power") {
     return (
-      <Shell badge="Calculator" title="Borrowing Power Calculator" lead="Get an idea of how much you may be able to borrow based on your income, expenses and existing commitments. Powered by Vision Abacus, so living expense benchmarks and lender figures stay up to date.">
+      <Shell onNav={onNav} badge="Calculator" title="Borrowing Power Calculator" lead="Get an idea of how much you may be able to borrow based on your income, expenses and existing commitments. Powered by Vision Abacus, so living expense benchmarks and lender figures stay up to date.">
         <Card elevation="shadow" style={{padding:0, overflow:"hidden"}}>
           <iframe
             title="Borrowing Power Calculator"
@@ -86,7 +86,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const interestWithExtra = withExtra*months - amount;
     const interestSaved = Math.max(0, interestBase - interestWithExtra);
     return (
-      <Shell badge="Calculator" title="Extra Repayment Calculator" lead="Extra payments, big savings, see how making additional repayments can reduce your loan term and interest."
+      <Shell onNav={onNav} badge="Calculator" title="Extra Repayment Calculator" lead="Extra payments, big savings, see how making additional repayments can reduce your loan term and interest."
         note="This is an indicative estimate only and not an offer of credit.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
@@ -112,7 +112,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const r = rate/100/12; const remainingTerm = (term - ioTerm) * 12;
     const piRepay = r>0 ? amount * r / (1-Math.pow(1+r,-remainingTerm)) : amount/remainingTerm;
     return (
-      <Shell badge="Calculator" title="Interest Only Mortgage Calculator" lead="See what you'd pay during an interest-only period, and how repayments step up once principal and interest kick in."
+      <Shell onNav={onNav} badge="Calculator" title="Interest Only Mortgage Calculator" lead="See what you'd pay during an interest-only period, and how repayments step up once principal and interest kick in."
         note="This is an indicative estimate only and not an offer of credit.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
@@ -138,7 +138,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const fv = balance*Math.pow(1+r,n) + monthly*((Math.pow(1+r,n)-1)/r);
     const contributed = balance + monthly*n;
     return (
-      <Shell badge="Calculator" title="Saving Calculator" lead="Grow my savings, see how a starting balance plus regular deposits builds up over time with interest.">
+      <Shell onNav={onNav} badge="Calculator" title="Saving Calculator" lead="Grow my savings, see how a starting balance plus regular deposits builds up over time with interest.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
             <Slider label="Starting balance" value={balance} set={setBalance} min={0} max={200000} step={1000} prefix="$"/>
@@ -169,7 +169,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const interestWithLump = repay*months - (amount-lump);
     const interestSaved = Math.max(0, interestBase - interestWithLump);
     return (
-      <Shell badge="Calculator" title="Lump Sum Repayment Calculator" lead="Put a lump sum to work, see how a one-off payment against your loan cuts your term and interest bill."
+      <Shell onNav={onNav} badge="Calculator" title="Lump Sum Repayment Calculator" lead="Put a lump sum to work, see how a one-off payment against your loan cuts your term and interest bill."
         note="This is an indicative estimate only and not an offer of credit.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
@@ -197,7 +197,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const years = months/12;
     const totalPaid = safeRepay*months;
     return (
-      <Shell badge="Calculator" title="How Long to Repay Calculator" lead="Set a repayment amount and see how long it will take to pay off your loan in full."
+      <Shell onNav={onNav} badge="Calculator" title="How Long to Repay Calculator" lead="Set a repayment amount and see how long it will take to pay off your loan in full."
         note={repay <= minRepay ? "That repayment only covers interest, increase it to make progress on the balance." : "This is an indicative estimate only and not an offer of credit."}>
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
@@ -248,7 +248,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     }
 
     return (
-      <Shell badge="Calculator" title="Offset vs Redraw Calculator"
+      <Shell onNav={onNav} badge="Calculator" title="Offset vs Redraw Calculator"
         lead="Wondering if an offset account is actually worth it? Compare the cost of a loan with an offset account against a lower-rate loan with redraw, based on your loan balance and average offset amount."
         note="This is a simplified, annualised estimate only, it doesn't model daily interest, amortisation or lender policy.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
@@ -319,12 +319,18 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
 }
 
 /* Page shell shared by all calculators, module scope so component identity is stable across re-renders. */
-function Shell({ badge, title, lead, children, note }) {
-  const { Badge, Alert } = window.MeshFinanceDesignSystem_5c98d0;
+function Shell({ badge, title, lead, children, note, onNav }) {
+  const { Badge, Alert, Breadcrumb } = window.MeshFinanceDesignSystem_5c98d0;
   return (
     <div>
       <section style={c.head}>
         <div style={c.headInner}>
+          {onNav && <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
+            {label:"Calculator Hub", href:window.meshHref("calculator-hub"), onClick:(e)=>{e.preventDefault();onNav("calculator-hub");}},
+            {label:title},
+          ]}/>}
           <Badge color="blue" dot>{badge}</Badge>
           <h1 style={c.h1}>{title}</h1>
           <p style={c.lead}>{lead}</p>

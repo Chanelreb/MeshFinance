@@ -2,13 +2,18 @@
    duplicating the same list for quick jump-to navigation. */
 function HelpfulArticlesScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
-  const { Badge, Card, Button } = DS;
+  const { Badge, Card, Button, Breadcrumb } = DS;
   const items = window.MeshContent.helpfulArticles;
   const isMobile = window.useIsMobile();
   return (
     <div>
       <section style={haS.head}>
         <div style={haS.headInner}>
+          <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
+            {label:"Helpful Articles"},
+          ]}/>
           <Badge color="blue" dot>Guides and Tools</Badge>
           <h1 style={haS.h1}>Helpful Articles</h1>
           <p style={haS.lead}>Guides on schemes, grants and lending, kept current.</p>

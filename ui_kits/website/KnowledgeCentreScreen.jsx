@@ -1,7 +1,7 @@
 /* Knowledge Centre, tile hub linking to Property Report, Credit File, Articles, FAQs. */
 function KnowledgeCentreScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
-  const { Badge } = DS;
+  const { Badge, Breadcrumb } = DS;
   const I = window.MeshIcons;
   const { ArrowRight } = I;
   const items = window.MeshContent.knowledgeCentre;
@@ -28,6 +28,10 @@ function KnowledgeCentreScreen({ onNav }) {
       `}</style>
       <section style={kcS.head}>
         <div style={kcS.headInner}>
+          <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Guides and Tools"},
+          ]}/>
           <Badge color="blue" dot>Guides and Tools</Badge>
           <h1 style={kcS.h1}>Knowledge Centre</h1>
           <p style={kcS.lead}>Everything you need to make informed decisions, reports, credit basics, articles and FAQs, all in one place.</p>

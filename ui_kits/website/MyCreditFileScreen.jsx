@@ -1,13 +1,18 @@
 /* My Credit File, what's in a credit file, explained. */
 function MyCreditFileScreen({ onNav }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
-  const { Badge, Card, Button } = DS;
+  const { Badge, Card, Button, Breadcrumb } = DS;
   const d = window.MeshContent.myCreditFile;
   const isMobile = window.useIsMobile();
   return (
     <div>
       <section style={mcfS.head}>
         <div style={mcfS.headInner}>
+          <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Guides and Tools", href:window.meshHref("knowledge-centre"), onClick:(e)=>{e.preventDefault();onNav("knowledge-centre");}},
+            {label:"My Credit File"},
+          ]}/>
           <Badge color="blue" dot>Guides and Tools</Badge>
           <h1 style={mcfS.h1}>{d.title}</h1>
           <p style={mcfS.lead}>{d.intro}</p>
@@ -34,10 +39,10 @@ function MyCreditFileScreen({ onNav }) {
 }
 const mcfS = {
   head: { background:"var(--blue-50)" },
-  headInner: { maxWidth:"820px", margin:"0 auto", padding:"48px 28px 52px",
+  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"48px 28px 52px",
     display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
   body: { background:"var(--surface-page)", padding:"56px 0 72px" },
-  inner: { maxWidth:"820px", margin:"0 auto", padding:"0 28px" },
+  inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
   h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0 },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:16, marginBottom:32 },
