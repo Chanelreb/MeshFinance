@@ -70,6 +70,9 @@ function MyCreditFileScreen({ onNav }) {
 
       <section style={mcfS.body}>
         <div style={{...mcfS.inner, ...(isMobile ? mcfS.innerMobile : {})}}>
+          {/* Desktop: the sidebar floats top-right so the article text wraps
+              beside it and then runs full-width once past its height. */}
+          {!isMobile && <div style={mcfS.floatBox}>{sidebar}</div>}
           <article style={mcfS.article}>
             {d.sections.map((sec, i) => (
               <div key={i} style={mcfS.section}>
@@ -79,9 +82,7 @@ function MyCreditFileScreen({ onNav }) {
             ))}
             <p style={mcfS.note}>{d.note}</p>
           </article>
-          <aside style={{...mcfS.aside, ...(isMobile ? mcfS.asideMobile : {})}}>
-            <div style={isMobile ? {} : mcfS.asideSticky}>{sidebar}</div>
-          </aside>
+          {isMobile && <div style={mcfS.mobileBox}>{sidebar}</div>}
         </div>
       </section>
     </div>
@@ -96,11 +97,14 @@ const mcfS = {
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:760 },
 
   body: { background:"var(--surface-page)", padding:"56px 0 80px" },
-  inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
-    display:"grid", gridTemplateColumns:"minmax(0,1fr) 320px", gap:48, alignItems:"start" },
-  innerMobile: { gridTemplateColumns:"1fr", padding:"0 20px", gap:32 },
+  inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
+  innerMobile: { padding:"0 20px" },
 
-  article: { minWidth:0, maxWidth:760 },
+  floatBox: { float:"right", width:320, marginLeft:44, marginBottom:24,
+    display:"flex", flexDirection:"column", gap:18 },
+  mobileBox: { marginTop:32, display:"flex", flexDirection:"column", gap:18 },
+
+  article: { minWidth:0 },
   section: { marginBottom:34 },
   h2: { fontSize:23, margin:"0 0 14px", color:"var(--navy-700)", letterSpacing:"-.01em", lineHeight:1.2 },
   h3: { fontSize:17, margin:"22px 0 8px", color:"var(--navy-700)", fontWeight:700 },
@@ -111,9 +115,6 @@ const mcfS = {
   note: { fontSize:13.5, lineHeight:1.6, color:"var(--text-muted)", margin:"8px 0 0",
     paddingTop:20, borderTop:"1px solid var(--border-subtle)" },
 
-  aside: { minWidth:0 },
-  asideMobile: {},
-  asideSticky: { position:"sticky", top:90, display:"flex", flexDirection:"column", gap:18 },
   sideCard: { padding:"22px 24px", background:"#fff" },
   sideH: { fontFamily:"var(--font-display)", fontSize:18, color:"var(--navy-700)", margin:"0 0 4px", fontWeight:700 },
   sideSub: { fontSize:13.5, color:"var(--text-muted)", lineHeight:1.5, margin:"0 0 14px" },
