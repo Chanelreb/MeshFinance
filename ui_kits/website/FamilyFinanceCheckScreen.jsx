@@ -88,6 +88,7 @@ const FFC = {
       "Juggling multiple debt repayments a month",
       "Finding it hard to put money away at the end of the month",
       "Struggling to make repayments on my loans",
+      "All of the above",
     ],
     button: "Book my Family Finance Check",
   },
@@ -119,7 +120,8 @@ function FamilyFinanceCheckScreen({ onNav }) {
   const [sending, setSending] = useState(false);
   const [prefill, setPrefill] = useState({});
 
-  const goToDetails = () => { if (describes) setStep(2); };
+  /* Selecting an option records it and jumps straight to the details step. */
+  const selectDescribes = (o) => { setDescribes(o); setStep(2); };
   const goToBooking = async () => {
     const form = formElRef.current;
     if (!form) return;
@@ -191,14 +193,13 @@ function FamilyFinanceCheckScreen({ onNav }) {
                   {FFC.form.describeOptions.map((o,i)=>{
                     const active = describes === o;
                     return (
-                      <button type="button" key={i} onClick={()=>setDescribes(o)}
+                      <button type="button" key={i} onClick={()=>selectDescribes(o)}
                         style={{...s.choice, ...(active ? s.choiceActive : {})}}>
                         <span style={{...s.choiceDot, ...(active ? s.choiceDotActive : {})}}>{active && <Check width={12} height={12}/>}</span>
                         <span>{o}</span>
                       </button>
                     );
                   })}
-                  <Button block size="lg" type="button" onClick={goToDetails} disabled={!describes} iconRight={<ArrowRight width={18} height={18}/>}>Next</Button>
                 </div>
 
                 {/* STEP 2 — contact details */}
