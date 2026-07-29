@@ -235,7 +235,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       <section style={s.bodyWhite}>
         <div style={s.wide}>
           <h2 style={s.h2}>{FFC.benefits.h}</h2>
-          <p style={{...s.p, maxWidth:760, marginBottom:28}}>{FFC.benefits.lead}</p>
+          <p style={{...s.p, maxWidth:760, margin:"0 auto 28px"}}>{FFC.benefits.lead}</p>
           <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
             {FFC.benefits.cards.map((c,i)=>{
               const Icon = benefitIcons[i];
@@ -287,20 +287,16 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
       {/* ABOUT CHANEL */}
       <section style={s.bodyTint}>
-        <div style={{...s.aboutInner, ...(isMobile ? s.aboutInnerMobile : {})}}>
-          <div style={s.aboutPhotoWrap}>
-            <div style={s.aboutPhoto} role="img" aria-label="Chanel Rebello"/>
-          </div>
-          <div>
-            <h2 style={s.h2}>{FFC.about.h}</h2>
-            {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
-            <p style={s.aboutName}>{FFC.about.name}</p>
-            <p style={s.aboutTitle}>{FFC.about.title}</p>
-            <p style={s.aboutLicence}>{FFC.about.licence}</p>
-            <div style={{...s.aboutLogos, ...(isMobile ? s.aboutLogosMobile : {})}}>
-              <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
-              <span style={s.logoChip}><AssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
-            </div>
+        <div style={s.aboutInner}>
+          <div style={s.aboutPhoto} role="img" aria-label="Chanel Rebello"/>
+          <h2 style={s.h2}>{FFC.about.h}</h2>
+          {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
+          <p style={s.aboutName}>{FFC.about.name}</p>
+          <p style={s.aboutTitle}>{FFC.about.title}</p>
+          <p style={s.aboutLicence}>{FFC.about.licence}</p>
+          <div style={s.aboutLogos}>
+            <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
+            <span style={s.logoChip}><AssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
           </div>
         </div>
       </section>
@@ -384,7 +380,7 @@ const s = {
 
   hero: { background:"var(--blue-50)" },
   heroTop: { maxWidth:720, margin:"0 auto", padding:"36px 28px 10px",
-    display:"flex", flexDirection:"column", gap:14, alignItems:"flex-start" },
+    display:"flex", flexDirection:"column", gap:14, alignItems:"center", textAlign:"center" },
   heroStack: { maxWidth:640, margin:"0 auto", padding:"8px 28px 52px",
     display:"flex", flexDirection:"column", gap:22 },
   h1: { fontSize:34, lineHeight:1.16, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
@@ -428,17 +424,13 @@ const s = {
     display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,.85fr)", gap:44, alignItems:"center" },
   calmerInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"0 20px", gap:24 },
 
-  aboutInner: { maxWidth:900, margin:"0 auto", padding:"0 28px",
-    display:"grid", gridTemplateColumns:"200px minmax(0,1fr)", gap:40, alignItems:"center" },
-  aboutInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"0 20px", gap:22, justifyItems:"center", textAlign:"center" },
-  aboutPhotoWrap: { display:"flex", justifyContent:"center" },
-  aboutPhoto: { width:200, height:200, borderRadius:"50%", boxShadow:"var(--shadow-md)",
+  aboutInner: { maxWidth:640, margin:"0 auto", padding:"0 24px", textAlign:"center" },
+  aboutPhoto: { width:180, height:180, borderRadius:"50%", boxShadow:"var(--shadow-md)", margin:"0 auto 22px",
     backgroundImage:"url(../../assets/1.png)", backgroundSize:"150%", backgroundPosition:"center 18%", backgroundRepeat:"no-repeat" },
   aboutName: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15.5, color:"var(--navy-700)", margin:"6px 0 0" },
   aboutTitle: { fontSize:14, fontWeight:600, color:"var(--text-muted)", margin:"2px 0 0" },
-  aboutLicence: { fontSize:12.5, lineHeight:1.5, color:"var(--text-muted)", margin:"10px 0 0", maxWidth:520 },
-  aboutLogos: { display:"flex", alignItems:"center", gap:16, marginTop:18, flexWrap:"wrap" },
-  aboutLogosMobile: { justifyContent:"center" },
+  aboutLicence: { fontSize:12.5, lineHeight:1.5, color:"var(--text-muted)", margin:"10px auto 0", maxWidth:520 },
+  aboutLogos: { display:"flex", alignItems:"center", justifyContent:"center", gap:16, marginTop:18, flexWrap:"wrap" },
   logoChip: { display:"inline-flex", alignItems:"center", justifyContent:"center", background:"#fff",
     borderRadius:"var(--radius-md)", padding:"10px 16px", boxShadow:"var(--shadow-sm)", border:"1px solid var(--border-subtle)" },
   logoImg: { height:40, width:"auto", maxWidth:150, objectFit:"contain", display:"block" },
@@ -458,19 +450,19 @@ const s = {
   narrow: { maxWidth:820, margin:"0 auto", padding:"0 28px" },
   wide: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
 
-  h2: { fontSize:28, lineHeight:1.2, margin:"0 0 16px", color:"var(--navy-700)", letterSpacing:"-.01em" },
-  p: { fontSize:16.5, lineHeight:1.7, color:"var(--text-body)", margin:"0 0 14px" },
+  h2: { fontSize:28, lineHeight:1.2, margin:"0 0 16px", color:"var(--navy-700)", letterSpacing:"-.01em", textAlign:"center" },
+  p: { fontSize:16.5, lineHeight:1.7, color:"var(--text-body)", margin:"0 0 14px", textAlign:"center" },
   listLabel: { fontSize:16, fontWeight:700, color:"var(--navy-700)", margin:"6px 0 12px" },
   checkList: { listStyle:"none", margin:"0 0 18px", padding:0, display:"grid", gap:10 },
-  checkItem: { display:"flex", gap:12, alignItems:"flex-start", fontSize:15.5, lineHeight:1.5, color:"var(--text-body)" },
+  checkItem: { display:"flex", gap:12, alignItems:"center", justifyContent:"center", fontSize:15.5, lineHeight:1.5, color:"var(--text-body)", textAlign:"left" },
   checkIcon: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
 
   familiarPoints: { listStyle:"none", margin:"0 auto", padding:0, maxWidth:760,
     display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:"16px 40px" },
   familiarPointsMobile: { gridTemplateColumns:"1fr", gap:16 },
-  familiarPoint: { display:"flex", gap:13, alignItems:"center",
-    fontSize:17, lineHeight:1.4, fontWeight:600, color:"var(--navy-700)" },
+  familiarPoint: { display:"flex", gap:13, alignItems:"center", justifyContent:"center",
+    fontSize:17, lineHeight:1.4, fontWeight:600, color:"var(--navy-700)", textAlign:"center" },
   familiarTick: { flex:"none", width:30, height:30, borderRadius:"50%",
     background:"var(--color-primary-soft)", color:"var(--color-primary)",
     display:"flex", alignItems:"center", justifyContent:"center" },
@@ -478,9 +470,9 @@ const s = {
   grid2: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:18 },
   grid3: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:18 },
   grid1: { gridTemplateColumns:"1fr" },
-  card: { padding:"24px 26px", background:"#fff", height:"100%" },
+  card: { padding:"24px 26px", background:"#fff", height:"100%", textAlign:"center" },
   cardIcon: { flex:"none", width:44, height:44, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)",
-    color:"var(--color-primary)", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:16 },
+    color:"var(--color-primary)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" },
   cardTitle: { fontFamily:"var(--font-display)", fontSize:18, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
   cardBody: { fontSize:15, color:"var(--text-body)", lineHeight:1.6, margin:0 },
 
@@ -498,9 +490,9 @@ const s = {
   considerText: { fontSize:14, lineHeight:1.6, color:"var(--text-body)", margin:0 },
 
   stepGrid: { display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:18 },
-  stepCard: { padding:"24px 22px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)" },
+  stepCard: { padding:"24px 22px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)", textAlign:"center" },
   stepNum: { display:"flex", alignItems:"center", justifyContent:"center", width:38, height:38, borderRadius:"50%",
-    background:"var(--color-primary)", color:"#fff", fontFamily:"var(--font-display)", fontWeight:800, fontSize:17, marginBottom:14 },
+    background:"var(--color-primary)", color:"#fff", fontFamily:"var(--font-display)", fontWeight:800, fontSize:17, margin:"0 auto 14px" },
   stepTitle: { fontFamily:"var(--font-display)", fontSize:16.5, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
 
   finalCta: { background:"var(--navy-700)", padding:"64px 0" },
@@ -518,7 +510,7 @@ const s = {
   thanksH: { fontFamily:"var(--font-display)", color:"var(--navy-700)", margin:"0 0 6px" },
   thanksP: { color:"var(--text-muted)", margin:"0 0 18px" },
 
-  compliance: { fontSize:13, lineHeight:1.6, color:"var(--text-muted)", margin:0 },
+  compliance: { fontSize:13, lineHeight:1.6, color:"var(--text-muted)", margin:0, textAlign:"center" },
 };
 
 Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen });
