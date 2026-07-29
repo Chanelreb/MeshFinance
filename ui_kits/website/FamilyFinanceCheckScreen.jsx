@@ -49,7 +49,7 @@ const FFC = {
     steps: [
       { t: "Tell us what's going on", b: "You share a snapshot of your current debts, repayments and what is feeling hard to manage." },
       { t: "We review the full picture", b: "We look at your home loan, other debts, repayment amounts, rates and possible consolidation options." },
-      { t: "We compare options and you choose", b: "We check whether a personal loan, home loan refinance, equity release or another structure may suit, explain the numbers clearly, and you decide what feels right." },
+      { t: "We compare options and you choose", b: "We check whether a personal loan, refinance or another structure may suit, explain the numbers clearly, and you decide what feels right." },
       { t: "We manage it start to finish", b: "We manage your online application from start to finish, keeping you supported all the way through to settlement." },
     ],
   },
@@ -491,7 +491,8 @@ const s = {
   considerText: { fontSize:14, lineHeight:1.6, color:"var(--text-body)", margin:0 },
 
   stepGrid: { display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:18 },
-  stepCard: { padding:"24px 22px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)", textAlign:"center" },
+  stepCard: { padding:"26px 22px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)",
+    textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start" },
   stepNum: { display:"flex", alignItems:"center", justifyContent:"center", width:38, height:38, borderRadius:"50%",
     background:"var(--color-primary)", color:"#fff", fontFamily:"var(--font-display)", fontWeight:800, fontSize:17, margin:"0 auto 14px" },
   stepTitle: { fontFamily:"var(--font-display)", fontSize:16.5, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
