@@ -11,14 +11,6 @@ const FFC = {
     primary: "Book my Family Finance Check",
     secondary: "Check my options",
   },
-  intro: {
-    h: "A calmer way to manage the family budget",
-    paras: [
-      "Managing multiple repayments can feel overwhelming, especially when they all come out on different days. One loan payment here. A credit card there. Afterpay instalments in the background. A car loan. A mortgage. Then the normal family expenses on top.",
-      "It can leave you feeling like your income disappears before you've had a chance to properly plan.",
-      "The Family Finance Check is designed to help busy families step back, look at the full picture and see whether there's a smarter way to structure their debts. At Mesh Finance, we review your current loans and repayments, compare your options and work out whether debt consolidation or refinancing could help reduce monthly pressure.",
-    ],
-  },
   familiar: {
     h: "Does this sound familiar?",
     cards: [
@@ -59,15 +51,6 @@ const FFC = {
       { t: "We review the full picture", b: "We look at your home loan, other debts, repayment amounts, rates and possible consolidation options." },
       { t: "We compare options and you choose", b: "We check whether a personal loan, home loan refinance, equity release or another structure may suit, explain the numbers clearly, and you decide what feels right." },
       { t: "We manage it start to finish", b: "We manage your online application from start to finish, keeping you supported all the way through to settlement." },
-    ],
-  },
-  why: {
-    h: "Why families choose Mesh Finance",
-    cards: [
-      { t: "We keep it simple", b: "We explain the options clearly without confusing bank jargon." },
-      { t: "We are non-judgmental", b: "Life gets expensive. Families go through different seasons. We are here to help you move forward, not make you feel bad." },
-      { t: "We compare lenders for you", b: "We review options across a range of lenders and help you understand which structure may suit your situation." },
-      { t: "We look at the whole picture", b: "We do not just focus on the rate. We look at repayments, fees, loan structure, cashflow and your longer-term goals." },
     ],
   },
   about: {
@@ -140,7 +123,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
   };
 
   const benefitIcons = [Coins, Clock, Shield, Check];
-  const whyIcons = [Check, Users, Refi, Shield];
 
   const CheckList = ({ items }) => (
     <ul style={s.checkList}>
@@ -234,14 +216,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
         <div style={s.reviewsInner}><GoogleReviews/></div>
       </section>
 
-      {/* A CALMER WAY */}
-      <section style={s.bodyWhite}>
-        <div style={s.narrow}>
-          <h2 style={s.h2}>{FFC.intro.h}</h2>
-          {FFC.intro.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
-        </div>
-      </section>
-
       {/* FAMILIAR — four simple points */}
       <section style={s.bodyTint}>
         <div style={s.wide}>
@@ -299,25 +273,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
                 <p style={s.cardBody}>{st.b}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHY MESH */}
-      <section style={s.bodyTint}>
-        <div style={s.wide}>
-          <h2 style={{...s.h2, marginBottom:28}}>{FFC.why.h}</h2>
-          <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
-            {FFC.why.cards.map((c,i)=>{
-              const Icon = whyIcons[i];
-              return (
-                <Card key={i} elevation="shadow" style={s.card}>
-                  <span style={s.cardIcon}><Icon width={22} height={22}/></span>
-                  <h3 style={s.cardTitle}>{c.t}</h3>
-                  <p style={s.cardBody}>{c.b}</p>
-                </Card>
-              );
-            })}
           </div>
         </div>
       </section>
