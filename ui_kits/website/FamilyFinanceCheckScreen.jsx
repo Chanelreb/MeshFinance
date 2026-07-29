@@ -578,7 +578,8 @@ Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen }
 function FFCThankYouScreen({ onNav }) {
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
-  /* Fire the Google Ads conversion once when the thank-you page loads. */
+  /* Fire the Google Ads and Meta conversions once when the thank-you page
+     loads (i.e. a booking has just been completed). */
   React.useEffect(() => {
     if (typeof window.gtag === "function") {
       window.gtag("event", "conversion", {
@@ -586,6 +587,9 @@ function FFCThankYouScreen({ onNav }) {
         value: 1.0,
         currency: "AUD",
       });
+    }
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "Schedule", { value: 1.0, currency: "AUD" });
     }
   }, []);
   return (
