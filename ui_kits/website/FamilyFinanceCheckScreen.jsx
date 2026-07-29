@@ -171,8 +171,15 @@ function FamilyFinanceCheckScreen({ onNav }) {
             ))}
           </ul>
         </div>
-        <div style={{...s.heroInner, ...(isMobile ? s.heroInnerMobile : {})}}>
-          <div style={{...s.formCol, ...(isMobile ? {order:2} : {})}}>
+        <div style={s.heroStack}>
+          <div style={s.videoCol}>
+            <video style={s.heroVideo} controls preload="metadata" playsInline>
+              <source src="../../assets/family-finance-video.mp4" type="video/mp4"/>
+              <track kind="captions" srcLang="en" label="English" src="../../assets/family-finance-video.vtt" default/>
+              Your browser doesn't support embedded video.
+            </video>
+          </div>
+          <div style={s.formCol}>
             <Card elevation="shadow-lg" padded={false} style={s.formCard}>
               <form ref={formElRef} onSubmit={(e)=>e.preventDefault()} style={{display:"grid", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
                 <input type="hidden" name="_subject" value="New Family Finance Check booking — Mesh Finance"/>
@@ -223,13 +230,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
                 )}
               </form>
             </Card>
-          </div>
-          <div style={{...s.videoCol, ...(isMobile ? {order:1} : {})}}>
-            <video style={s.heroVideo} controls preload="metadata" playsInline>
-              <source src="../../assets/family-finance-video.mp4" type="video/mp4"/>
-              <track kind="captions" srcLang="en" label="English" src="../../assets/family-finance-video.vtt" default/>
-              Your browser doesn't support embedded video.
-            </video>
           </div>
         </div>
       </section>
@@ -433,15 +433,14 @@ const s = {
     textDecoration:"none", wordBreak:"break-all" },
 
   hero: { background:"var(--blue-50)" },
-  heroTop: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"14px 28px 6px",
-    display:"flex", flexDirection:"column", gap:12, alignItems:"flex-start" },
-  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"10px 28px 52px",
-    display:"grid", gridTemplateColumns:"minmax(0,0.95fr) minmax(0,1.05fr)", gap:44, alignItems:"flex-start" },
-  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"6px 20px 36px", gap:24 },
-  h1: { fontSize:38, lineHeight:1.14, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:820 },
-  heroSubhead: { fontSize:17, lineHeight:1.5, color:"var(--color-primary)", fontWeight:600, margin:0, maxWidth:760 },
-  heroPoints: { listStyle:"none", margin:"2px 0 0", padding:0, display:"flex", flexWrap:"wrap", gap:"9px 26px" },
-  heroPoint: { display:"flex", gap:11, alignItems:"center", fontSize:15.5, color:"var(--text-body)", fontWeight:500 },
+  heroTop: { maxWidth:720, margin:"0 auto", padding:"36px 28px 10px",
+    display:"flex", flexDirection:"column", gap:14, alignItems:"flex-start" },
+  heroStack: { maxWidth:640, margin:"0 auto", padding:"8px 28px 52px",
+    display:"flex", flexDirection:"column", gap:22 },
+  h1: { fontSize:34, lineHeight:1.16, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
+  heroSubhead: { fontSize:17, lineHeight:1.5, color:"var(--color-primary)", fontWeight:600, margin:0 },
+  heroPoints: { listStyle:"none", margin:"6px 0 0", padding:0, display:"grid", gap:12 },
+  heroPoint: { display:"flex", gap:12, alignItems:"center", fontSize:15.5, color:"var(--text-body)", fontWeight:500 },
   heroTick: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
   heroBtns: { display:"flex", gap:12, flexWrap:"wrap", marginTop:4 },
