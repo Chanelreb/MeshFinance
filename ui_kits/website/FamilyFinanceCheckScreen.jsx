@@ -162,18 +162,17 @@ function FamilyFinanceCheckScreen({ onNav }) {
           </a>
           <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
         </div>
+        <div style={s.heroTop}>
+          <h1 style={s.h1}>{FFC.hero.title}</h1>
+          <p style={s.heroSubhead}>{FFC.hero.subhead}</p>
+          <ul style={s.heroPoints}>
+            {["No obligation, no judgement","We compare a range of lenders for you","See if you could simplify your repayments"].map((t,i)=>(
+              <li key={i} style={s.heroPoint}><span style={s.heroTick}><Check width={13} height={13}/></span>{t}</li>
+            ))}
+          </ul>
+        </div>
         <div style={{...s.heroInner, ...(isMobile ? s.heroInnerMobile : {})}}>
-          <div style={s.heroCopy}>
-            <h1 style={s.h1}>{FFC.hero.title}</h1>
-            <p style={s.heroSubhead}>{FFC.hero.subhead}</p>
-            <ul style={s.heroPoints}>
-              {["No obligation, no judgement","We compare a range of lenders for you","See if you could simplify your repayments"].map((t,i)=>(
-                <li key={i} style={s.heroPoint}><span style={s.heroTick}><Check width={13} height={13}/></span>{t}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div style={s.formCol}>
+          <div style={{...s.formCol, ...(isMobile ? {order:2} : {})}}>
             <Card elevation="shadow-lg" padded={false} style={s.formCard}>
               <form ref={formElRef} onSubmit={(e)=>e.preventDefault()} style={{display:"grid", gridTemplateColumns:"minmax(0,1fr)", gap:14}}>
                 <input type="hidden" name="_subject" value="New Family Finance Check booking — Mesh Finance"/>
@@ -225,6 +224,13 @@ function FamilyFinanceCheckScreen({ onNav }) {
               </form>
             </Card>
           </div>
+          <div style={{...s.videoCol, ...(isMobile ? {order:1} : {})}}>
+            <video style={s.heroVideo} controls preload="metadata" playsInline>
+              <source src="../../assets/family-finance-video.mp4" type="video/mp4"/>
+              <track kind="captions" srcLang="en" label="English" src="../../assets/family-finance-video.vtt" default/>
+              Your browser doesn't support embedded video.
+            </video>
+          </div>
         </div>
       </section>
 
@@ -233,21 +239,11 @@ function FamilyFinanceCheckScreen({ onNav }) {
         <div style={s.reviewsInner}><GoogleReviews/></div>
       </section>
 
-      {/* A CALMER WAY (with video placeholder) */}
+      {/* A CALMER WAY */}
       <section style={s.bodyWhite}>
-        <div style={{...s.calmerInner, ...(isMobile ? s.calmerInnerMobile : {})}}>
-          <div>
-            <h2 style={s.h2}>{FFC.intro.h}</h2>
-            {FFC.intro.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
-          </div>
-          <div style={s.videoWrap}>
-            <div style={s.videoInner} aria-label="Campaign video coming soon">
-              <span style={s.playBtn}>
-                <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="var(--navy-700)"/></svg>
-              </span>
-              <span style={s.videoCaption}>Your video will appear here</span>
-            </div>
-          </div>
+        <div style={s.narrow}>
+          <h2 style={s.h2}>{FFC.intro.h}</h2>
+          {FFC.intro.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
         </div>
       </section>
 
@@ -437,21 +433,24 @@ const s = {
     textDecoration:"none", wordBreak:"break-all" },
 
   hero: { background:"var(--blue-50)" },
-  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"22px 28px 52px",
-    display:"grid", gridTemplateColumns:"minmax(0,1.05fr) minmax(0,.95fr)", gap:48, alignItems:"center" },
-  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"18px 20px 36px", gap:28 },
-  heroCopy: { minWidth:0, display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start" },
-  h1: { fontSize:36, lineHeight:1.15, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:580 },
-  heroSubhead: { fontSize:17, lineHeight:1.5, color:"var(--color-primary)", fontWeight:600, margin:0, maxWidth:560 },
-  heroLead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:560 },
-  heroPoints: { listStyle:"none", margin:"2px 0 0", padding:0, display:"grid", gap:10 },
-  heroPoint: { display:"flex", gap:11, alignItems:"flex-start", fontSize:15.5, color:"var(--text-body)", fontWeight:500 },
+  heroTop: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"14px 28px 6px",
+    display:"flex", flexDirection:"column", gap:12, alignItems:"flex-start" },
+  heroInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"10px 28px 52px",
+    display:"grid", gridTemplateColumns:"minmax(0,0.95fr) minmax(0,1.05fr)", gap:44, alignItems:"flex-start" },
+  heroInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"6px 20px 36px", gap:24 },
+  h1: { fontSize:38, lineHeight:1.14, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em", maxWidth:820 },
+  heroSubhead: { fontSize:17, lineHeight:1.5, color:"var(--color-primary)", fontWeight:600, margin:0, maxWidth:760 },
+  heroPoints: { listStyle:"none", margin:"2px 0 0", padding:0, display:"flex", flexWrap:"wrap", gap:"9px 26px" },
+  heroPoint: { display:"flex", gap:11, alignItems:"center", fontSize:15.5, color:"var(--text-body)", fontWeight:500 },
   heroTick: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
   heroBtns: { display:"flex", gap:12, flexWrap:"wrap", marginTop:4 },
   heroBtnsMobile: { flexDirection:"column", alignSelf:"stretch", width:"100%" },
 
   formCol: { minWidth:0 },
+  videoCol: { minWidth:0, width:"100%" },
+  heroVideo: { width:"100%", aspectRatio:"16/9", display:"block", borderRadius:16, overflow:"hidden",
+    background:"var(--navy-800)", boxShadow:"var(--shadow-md)", objectFit:"cover" },
   formCard: { padding:"24px 26px", background:"#fff" },
   formTitle: { fontFamily:"var(--font-display)", fontSize:21, color:"var(--navy-700)", margin:0, fontWeight:700 },
   formSub: { fontSize:14, color:"var(--text-muted)", lineHeight:1.5, margin:0 },
