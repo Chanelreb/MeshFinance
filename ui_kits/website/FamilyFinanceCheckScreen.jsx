@@ -165,11 +165,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
         <div style={s.heroTop}>
           <h1 style={s.h1}>{FFC.hero.title}</h1>
           <p style={s.heroSubhead}>{FFC.hero.subhead}</p>
-          <ul style={s.heroPoints}>
-            {["No obligation, no judgement","We compare a range of lenders for you","See if you could simplify your repayments"].map((t,i)=>(
-              <li key={i} style={s.heroPoint}><span style={s.heroTick}><Check width={13} height={13}/></span>{t}</li>
-            ))}
-          </ul>
         </div>
         <div style={s.heroStack}>
           <div style={s.videoCol}>
