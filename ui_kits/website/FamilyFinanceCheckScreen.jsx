@@ -453,8 +453,9 @@ const s = {
   h2: { fontSize:28, lineHeight:1.2, margin:"0 0 16px", color:"var(--navy-700)", letterSpacing:"-.01em", textAlign:"center" },
   p: { fontSize:16.5, lineHeight:1.7, color:"var(--text-body)", margin:"0 0 14px", textAlign:"center" },
   listLabel: { fontSize:16, fontWeight:700, color:"var(--navy-700)", margin:"6px 0 12px" },
-  checkList: { listStyle:"none", margin:"0 0 18px", padding:0, display:"grid", gap:10 },
-  checkItem: { display:"flex", gap:12, alignItems:"center", justifyContent:"center", fontSize:15.5, lineHeight:1.5, color:"var(--text-body)", textAlign:"left" },
+  checkList: { listStyle:"none", margin:"0 auto 18px", padding:0, display:"grid", gap:10,
+    width:"fit-content", maxWidth:"100%", textAlign:"left" },
+  checkItem: { display:"flex", gap:12, alignItems:"flex-start", fontSize:15.5, lineHeight:1.5, color:"var(--text-body)", textAlign:"left" },
   checkIcon: { flex:"none", width:22, height:22, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
 
