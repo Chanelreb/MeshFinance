@@ -59,8 +59,14 @@ const server = http.createServer((req, res) => {
       res.writeHead(404);
       return res.end("Not found");
     }
+    /* App code/markup changes often — make browsers revalidate so visitors
+       always get the latest after a deploy (304 when unchanged). Static
+       media can be cached for a day. */
+    const ext = path.extname(filePath).toLowerCase();
+    const revalidate = [".html", ".js", ".jsx", ".css", ".json"].includes(ext);
     res.writeHead(200, {
-      "Content-Type": MIME[path.extname(filePath).toLowerCase()] || "application/octet-stream",
+      "Content-Type": MIME[ext] || "application/octet-stream",
+      "Cache-Control": revalidate ? "no-cache" : "public, max-age=86400",
     });
     res.end(data);
   });

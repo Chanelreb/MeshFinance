@@ -5,14 +5,21 @@ function HomeScreen({ onNav }) {
   const { Home, Building, Key, Coins, Car, Refi, Caravan, Shield, Star, Quote, ArrowRight } = window.MeshIcons;
   const { useState } = React;
   const isMobile = window.useIsMobile();
-  const [heroStatus, setHeroStatus] = useState("idle"); // idle | sending | sent | error
+  const [heroStatus, setHeroStatus] = useState("idle"); // idle | sending | error
+  const [heroStep, setHeroStep] = useState(1);           // 1 = details, 2 = booking
+  const [heroPrefill, setHeroPrefill] = useState({});
 
+  /* Step 1: capture the lead in Formspree, then reveal the booking calendar
+     (step 2) pre-filled with their name and email. */
   const submitHero = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    const name = (form.elements.name && form.elements.name.value || "").trim();
+    const email = (form.elements.email && form.elements.email.value || "").trim();
     setHeroStatus("sending");
     try {
-      const ok = await window.MeshSubmitForm(e.target);
-      if (ok) onNav("contact"); /* straight to the booking calendar */
+      const ok = await window.MeshSubmitForm(form);
+      if (ok) { setHeroPrefill({ name, email }); setHeroStep(2); setHeroStatus("idle"); }
       else setHeroStatus("error");
     } catch {
       setHeroStatus("error");
@@ -47,16 +54,17 @@ function HomeScreen({ onNav }) {
             </div>
           </div>
           <Card elevation="shadow-lg" className="" style={h.formCard}>
-            {heroStatus === "sent" ? (
-              <div style={h.formThanks}>
-                <div style={h.formTick}>✓</div>
-                <h3 style={h.formTitle}>Thanks, that's sent!</h3>
-                <p style={h.formSub}>We'll get back to you fast.</p>
-              </div>
+            {heroStep === 2 ? (
+              <React.Fragment>
+                <h3 style={h.formTitle}>Pick a time that suits 📅</h3>
+                <p style={h.formSub}>Choose a slot below and you're booked in — free, no obligation.</p>
+                <HomeCalendlyEmbed prefill={heroPrefill}/>
+                <button type="button" onClick={()=>setHeroStep(1)} style={h.formBack}>← Back to details</button>
+              </React.Fragment>
             ) : (
               <React.Fragment>
-                <h3 style={h.formTitle}>Reach out for a chat 👋</h3>
-                <p style={h.formSub}>No obligation. We'll get back to you fast.</p>
+                <h3 style={h.formTitle}>Book in for a chat 👋</h3>
+                <p style={h.formSub}>Share a few details, then pick a time that suits — free and no obligation.</p>
                 <form onSubmit={submitHero} style={{display:"grid", gap:13, marginTop:4}}>
                   <input type="hidden" name="_subject" value="New enquiry — Mesh Finance homepage"/>
                   <Field label="Name" required><Input name="name" required placeholder="Your name"/></Field>
@@ -71,7 +79,7 @@ function HomeScreen({ onNav }) {
                     </Select>
                   </Field>
                   {heroStatus === "error" && <p style={h.formError}>Something went wrong, please try again or call us.</p>}
-                  <Button block size="lg" type="submit" disabled={heroStatus==="sending"}>{heroStatus==="sending" ? "Sending…" : "Send 📩"}</Button>
+                  <Button block size="lg" type="submit" disabled={heroStatus==="sending"}>{heroStatus==="sending" ? "Booking…" : "Book Now"}</Button>
                 </form>
               </React.Fragment>
             )}
@@ -143,6 +151,40 @@ function HomeScreen({ onNav }) {
   );
 }
 
+/* Live Calendly booking for step 2 of the hero form, pre-filled (via URL
+   params) with the name/email captured in step 1. */
+const HOME_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_type_details=1&hide_gdpr_banner=1&text_color=102a43&primary_color=3898e0";
+function HomeCalendlyEmbed({ prefill }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    const init = () => {
+      if (window.Calendly && el && !el.hasChildNodes()) {
+        let url = HOME_CALENDLY_URL;
+        if (prefill && (prefill.name || prefill.email)) {
+          const parts = [];
+          if (prefill.name) parts.push("name=" + encodeURIComponent(prefill.name));
+          if (prefill.email) parts.push("email=" + encodeURIComponent(prefill.email));
+          url += "&" + parts.join("&");
+        }
+        window.Calendly.initInlineWidget({ url, parentElement: el });
+      }
+    };
+    if (window.Calendly) { init(); return; }
+    let s = document.getElementById("calendly-widget-js");
+    if (!s) {
+      s = document.createElement("script");
+      s.id = "calendly-widget-js";
+      s.src = "https://assets.calendly.com/assets/external/widget.js";
+      s.async = true;
+      document.head.appendChild(s);
+    }
+    s.addEventListener("load", init);
+    return () => s.removeEventListener("load", init);
+  }, []);
+  return <div ref={ref} style={{ minWidth: 260, height: 620 }} aria-label="Book a time with Mesh Finance"/>;
+}
+
 /* Google reviews banner, loads the Trustindex widget once and renders it into this container. */
 function GoogleReviews() {
   const ref = React.useRef(null);
@@ -183,6 +225,8 @@ const h = {
   formTick: { width:48, height:48, borderRadius:"50%", background:"var(--color-success)", color:"#fff",
     fontSize:24, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 12px" },
   formError: { fontSize:13.5, color:"var(--color-danger)", margin:0 },
+  formBack: { appearance:"none", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)",
+    fontFamily:"var(--font-body)", fontSize:13.5, fontWeight:600, padding:"8px 4px 0", display:"block", margin:"0 auto" },
 
   statsBand: { background:"var(--navy-700)" },
 
