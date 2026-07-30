@@ -1,6 +1,6 @@
 /* Contact / Book Now, split layout: details + tabbed card (Calendly booking / message form). */
 
-const CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro-to-mesh-finance-clone";
+const CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_type_details=1&hide_gdpr_banner=1&text_color=102a43&primary_color=3898e0";
 
 /* Live Calendly inline embed. Loads Calendly's widget.js once, then mounts the
    scheduler into this div. Bookings land directly in Chanel's calendar. */

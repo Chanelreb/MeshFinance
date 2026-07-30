@@ -12,7 +12,8 @@ function HomeScreen({ onNav }) {
     setHeroStatus("sending");
     try {
       const ok = await window.MeshSubmitForm(e.target);
-      setHeroStatus(ok ? "sent" : "error");
+      if (ok) onNav("contact"); /* straight to the booking calendar */
+      else setHeroStatus("error");
     } catch {
       setHeroStatus("error");
     }
@@ -39,7 +40,6 @@ function HomeScreen({ onNav }) {
             <p style={h.lead}>From buying your first home to refinancing, investing or simply getting a better deal, we help you make confident decisions with clear advice and genuine support.</p>
             <div style={{...h.heroBtns, ...(isMobile ? h.heroBtnsMobile : {})}}>
               <Button size="lg" onClick={()=>onNav("financial-toolkit")} iconRight={<ArrowRight width={18} height={18}/>}>Explore the toolkit</Button>
-              <Button size="lg" variant="secondary" onClick={()=>onNav("contact")}>Book a chat</Button>
             </div>
             <div style={h.trustRow}>
               <span style={h.stars}>{[0,1,2,3,4].map(i=><Star key={i} width={18} height={18} style={{color:"#F0A92B"}}/>)}</span>
