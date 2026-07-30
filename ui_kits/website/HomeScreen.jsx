@@ -76,6 +76,7 @@ function HomeScreen({ onNav }) {
                     <Select name="financeRequired" placeholder="Select Loan Type" defaultValue="">
                       <option>Home Loan</option><option>Investment Loan</option><option>First Home Buyer</option>
                       <option>Debt Consolidation</option><option>Car / Caravan Loan</option><option>Personal Loan</option>
+                      <option>Review my existing loans</option>
                     </Select>
                   </Field>
                   {heroStatus === "error" && <p style={h.formError}>Something went wrong, please try again or call us.</p>}
