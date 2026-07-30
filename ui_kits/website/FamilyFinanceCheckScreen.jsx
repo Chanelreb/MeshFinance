@@ -7,7 +7,7 @@ const FFC = {
   hero: {
     eyebrow: "Family Finance Check",
     title: "Feel confident and in control of your family budget with one easy-to-manage loan repayment.",
-    subhead: "Tailored online or in-person home loan health check and debt consolidation plan.",
+    subhead: "Tailored online or in-person home loan health check and debt consolidation plan for Perth families.",
     primary: "Book my Family Finance Check",
     secondary: "Check my options",
   },
