@@ -14,10 +14,10 @@ const FFC = {
   familiar: {
     h: "Does this sound familiar?",
     cards: [
-      { t: "Your repayments are spread everywhere", b: "You have a home loan, car loan, credit card, buy now pay later balances or personal loans, and it's getting harder to keep track of everything." },
-      { t: "Your monthly cashflow feels tight", b: "Even if your income is good, the timing and total amount of repayments can make the household budget feel stretched." },
-      { t: "You want to simplify things", b: "You're not looking for a lecture. You just want someone to help review the numbers and explain what can be done." },
-      { t: "You want a clearer plan", b: "You want to know whether consolidating debt, refinancing or restructuring your loans could help you move forward with less stress." },
+      { t: "Are you juggling multiple loan repayments a month?" },
+      { t: "No longer clearing your credit card balance each month?" },
+      { t: "You dread checking your bank account" },
+      { t: "It's been years since you reviewed your home loan" },
     ],
   },
   benefits: {
