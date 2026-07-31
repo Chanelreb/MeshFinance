@@ -29,6 +29,7 @@ const FFC = {
       "Your home loan repayments feel like a lot alongside other debts",
       "You want to reduce monthly repayment pressure",
       "You want to understand whether refinancing could help",
+      "You just want to review your finances to find a better deal",
       "You want a clear plan without feeling judged",
       "You are ready to tidy things up and get back in control",
     ],
