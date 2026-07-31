@@ -20,16 +20,6 @@ const FFC = {
       { t: "It's been years since you reviewed your home loan" },
     ],
   },
-  benefits: {
-    h: "How debt consolidation may help families",
-    lead: "Debt consolidation means combining multiple debts into one loan or repayment structure. For families, this may help simplify the household budget and reduce the stress of managing several debts at once.",
-    cards: [
-      { t: "One simpler repayment", b: "Instead of juggling multiple repayments across different lenders, you may be able to combine eligible debts into one repayment." },
-      { t: "Less stress around due dates", b: "A simpler repayment structure can make it easier to keep track of what is due and when." },
-      { t: "More monthly breathing room", b: "Depending on the structure, consolidating debt may reduce your monthly repayment commitments and free up cashflow." },
-      { t: "A clearer plan to move forward", b: "When your debts are organised properly, it can be easier to focus on paying them down and getting ahead." },
-    ],
-  },
   forWhom: {
     h: "Who the Family Finance Check is for",
     lead: "This campaign is designed for families who feel like their household finances have become harder to manage. It may be helpful if:",
@@ -122,7 +112,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
     setStep(3);
   };
 
-  const benefitIcons = [Coins, Clock, Shield, Check];
 
   const CheckList = ({ items }) => (
     <ul style={s.checkList}>
@@ -231,28 +220,8 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
-      {/* BENEFITS */}
-      <section style={s.bodyWhite}>
-        <div style={s.wide}>
-          <h2 style={s.h2}>{FFC.benefits.h}</h2>
-          <p style={{...s.p, maxWidth:760, margin:"0 auto 28px"}}>{FFC.benefits.lead}</p>
-          <div style={{...s.grid2, ...(isMobile ? s.grid1 : {})}}>
-            {FFC.benefits.cards.map((c,i)=>{
-              const Icon = benefitIcons[i];
-              return (
-                <Card key={i} elevation="shadow" style={s.card}>
-                  <span style={s.cardIcon}><Icon width={22} height={22}/></span>
-                  <h3 style={s.cardTitle}>{c.t}</h3>
-                  <p style={s.cardBody}>{c.b}</p>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* WHO IT'S FOR */}
-      <section style={s.bodyTint}>
+      <section style={s.bodyWhite}>
         <div style={s.narrow}>
           <h2 style={s.h2}>{FFC.forWhom.h}</h2>
           <p style={s.p}>{FFC.forWhom.lead}</p>
@@ -262,7 +231,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       </section>
 
       {/* PROCESS */}
-      <section style={s.bodyWhite}>
+      <section style={s.bodyTint}>
         <div style={s.wide}>
           <h2 style={{...s.h2, textAlign:"center", marginBottom:28}}>{FFC.process.h}</h2>
           <div style={{...s.stepGrid, ...(isMobile ? s.grid1 : {})}}>
