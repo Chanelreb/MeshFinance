@@ -378,7 +378,7 @@ const s = {
   logoBarEmail: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:14.5, color:"var(--navy-700)",
     textDecoration:"none", wordBreak:"break-all" },
 
-  hero: { background:"linear-gradient(rgba(234,244,252,0.86), rgba(234,244,252,0.92)), url(../../assets/officebackground.jpeg) center/cover no-repeat" },
+  hero: { background:"linear-gradient(rgba(234,244,252,0.80), rgba(234,244,252,0.88)), url(../../assets/officebackground.jpeg) 62% 38%/130% no-repeat" },
   heroTop: { maxWidth:720, margin:"0 auto", padding:"36px 28px 10px",
     display:"flex", flexDirection:"column", gap:14, alignItems:"center", textAlign:"center" },
   heroStack: { maxWidth:640, margin:"0 auto", padding:"8px 28px 52px",
