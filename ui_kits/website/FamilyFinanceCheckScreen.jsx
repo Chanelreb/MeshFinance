@@ -22,7 +22,7 @@ const FFC = {
   },
   forWhom: {
     h: "Who the Family Finance Check is for",
-    lead: "This campaign is designed for families who feel like their household finances have become harder to manage. It may be helpful if:",
+    lead: "This is designed for families who feel like their household finances have become harder to manage. It may be helpful if:",
     list: [
       "You have young kids and family costs are increasing",
       "You have credit cards, Afterpay, personal loans or a car loan",
