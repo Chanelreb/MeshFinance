@@ -135,7 +135,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
   );
 
   return (
-    <div style={s.page}>
+    <div>
       {/* HERO (blue band runs to the very top; logo sits inside it) */}
       <section style={s.hero}>
         <div style={s.logoBar}>
@@ -378,7 +378,6 @@ const s = {
   logoBarEmail: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:14.5, color:"var(--navy-700)",
     textDecoration:"none", wordBreak:"break-all" },
 
-  page: { background:"linear-gradient(rgba(234,244,252,0.62), rgba(234,244,252,0.68)), url(../../assets/officebackground.jpeg) center/cover fixed" },
   hero: { background:"linear-gradient(rgba(234,244,252,0.72), rgba(234,244,252,0.82)), url(../../assets/officebackground.jpeg) 62% 38%/130% no-repeat" },
   heroTop: { maxWidth:720, margin:"0 auto", padding:"36px 28px 10px",
     display:"flex", flexDirection:"column", gap:14, alignItems:"center", textAlign:"center" },
@@ -418,7 +417,7 @@ const s = {
   backLink: { appearance:"none", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)",
     fontFamily:"var(--font-body)", fontSize:13.5, fontWeight:600, padding:4, justifySelf:"center" },
 
-  reviewsBand: { background:"rgba(255,255,255,0.82)", borderBottom:"1px solid var(--border-subtle)" },
+  reviewsBand: { background:"#fff", borderBottom:"1px solid var(--border-subtle)" },
   reviewsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px" },
 
   calmerInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
@@ -446,8 +445,8 @@ const s = {
     justifyContent:"center", boxShadow:"0 8px 24px -8px rgba(0,0,0,.5)", paddingLeft:4 },
   videoCaption: { color:"rgba(255,255,255,.9)", fontFamily:"var(--font-body)", fontSize:14, fontWeight:600, letterSpacing:".01em" },
 
-  bodyWhite: { background:"rgba(255,255,255,0.55)", padding:"52px 0" },
-  bodyTint: { background:"rgba(234,244,252,0.4)", padding:"52px 0" },
+  bodyWhite: { background:"var(--surface-page)", padding:"52px 0" },
+  bodyTint: { background:"var(--blue-50)", padding:"52px 0" },
   narrow: { maxWidth:820, margin:"0 auto", padding:"0 28px" },
   wide: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
 
