@@ -122,7 +122,7 @@ function ContactScreen({ onNav }) {
               <Field label="Name" required><Input name="name" required placeholder="Your name"/></Field>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
                 <Field label="Email" required><Input name="email" type="email" required placeholder="you@email.com"/></Field>
-                <Field label="Phone (optional)"><Input name="phone" type="tel" placeholder="04xx xxx xxx"/></Field>
+                <Field label="Phone"><Input name="phone" type="tel" placeholder="04xx xxx xxx"/></Field>
               </div>
               <Field label="Finance Required">
                 <Select name="financeRequired" placeholder="Select Loan Type" defaultValue="">
