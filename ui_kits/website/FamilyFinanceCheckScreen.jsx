@@ -257,16 +257,34 @@ function FamilyFinanceCheckScreen({ onNav }) {
 
       {/* ABOUT CHANEL */}
       <section style={s.bodyTint}>
-        <div style={s.aboutInner}>
-          <div style={s.aboutPhoto} role="img" aria-label="Chanel Rebello"/>
-          <h2 style={s.h2}>{FFC.about.h}</h2>
-          {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
-          <p style={s.aboutName}>{FFC.about.name}</p>
-          <p style={s.aboutTitle}>{FFC.about.title}</p>
-          <p style={s.aboutLicence}>{FFC.about.licence}</p>
-          <div style={s.aboutLogos}>
-            <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
-            <span style={s.logoChip}><AssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
+        <div style={{...s.aboutGrid, ...(isMobile ? s.aboutGridMobile : {})}}>
+          <div style={s.aboutInner}>
+            <div style={s.aboutPhoto} role="img" aria-label="Chanel Rebello"/>
+            <h2 style={s.h2}>{FFC.about.h}</h2>
+            {FFC.about.paras.map((p,i)=><p key={i} style={s.p}>{p}</p>)}
+            <p style={s.aboutName}>{FFC.about.name}</p>
+            <p style={s.aboutTitle}>{FFC.about.title}</p>
+            <p style={s.aboutLicence}>{FFC.about.licence}</p>
+            <div style={s.aboutLogos}>
+              <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
+              <span style={s.logoChip}><AssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
+            </div>
+          </div>
+          <div style={s.aboutMapCol}>
+            <iframe
+              title="Mesh Finance office location — South Perth"
+              style={s.aboutMap}
+              src="https://www.google.com/maps?q=96%20Mill%20Point%20Road%2C%20South%20Perth%20WA%206151&z=15&output=embed"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+            <p style={s.aboutAddress}>
+              Suite 206, Level 2, 96 Mill Point Road, South Perth WA 6151
+              <br/>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=96%20Mill%20Point%20Road%2C%20South%20Perth%20WA%206151"
+                 target="_blank" rel="noopener noreferrer" style={s.aboutDirections}>Get directions</a>
+            </p>
           </div>
         </div>
       </section>
@@ -393,6 +411,15 @@ const s = {
   calmerInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px",
     display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,.85fr)", gap:44, alignItems:"center" },
   calmerInnerMobile: { gridTemplateColumns:"minmax(0,1fr)", padding:"0 20px", gap:24 },
+
+  aboutGrid: { maxWidth:1040, margin:"0 auto", padding:"0 24px",
+    display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,1fr)", gap:44, alignItems:"center" },
+  aboutGridMobile: { gridTemplateColumns:"minmax(0,1fr)", gap:28, padding:"0 20px" },
+  aboutMapCol: { minWidth:0, width:"100%" },
+  aboutMap: { width:"100%", height:360, border:0, display:"block",
+    borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-md)" },
+  aboutAddress: { textAlign:"center", fontSize:13.5, lineHeight:1.6, color:"var(--text-muted)", margin:"14px 0 0" },
+  aboutDirections: { color:"var(--blue-500)", fontWeight:600, textDecoration:"none" },
 
   aboutInner: { maxWidth:640, margin:"0 auto", padding:"0 24px", textAlign:"center" },
   aboutPhoto: { width:180, height:180, borderRadius:"50%", boxShadow:"var(--shadow-md)", margin:"0 auto 22px",
