@@ -40,8 +40,13 @@ const MESH_TITLES = {
   "privacy-policy": "Privacy Policy | Mesh Finance",
   "terms-conditions": "Terms and Conditions | Mesh Finance",
   "disclaimer": "Disclaimer | Mesh Finance",
-  "family-finance-check": "Family Finance Check | Debt Consolidation for Families | Mesh Finance",
+  "family-finance-check": "Family Finance Check for Families | Mesh Finance",
   "ffc-thank-you": "Thank You | Mesh Finance",
+  "help-to-buy-wa": "Help to Buy WA: Buy With a 2% Deposit | Mesh Finance",
+  "ato-debt-lending-solutions-business-owners": "ATO Debt Lending Solutions for Business Owners | Mesh Finance",
+  "using-parents-property-as-security-first-home-buyer": "Using a Parent's Property as Security | Mesh Finance",
+  "wa-new-home-guarantee-scheme": "WA First Home Buyers: Home Guarantee Scheme | Mesh Finance",
+  "protect-your-credit-file": "How to Place and Remove a Credit Ban | Mesh Finance",
 };
 
 /* Per-page meta descriptions for SEO. Routes without an entry keep the
@@ -60,7 +65,61 @@ const MESH_DESCRIPTIONS = {
   "first-home-buyers": "First home buyer help in WA. Mesh Finance guides you through grants, schemes, deposits and pre-approval so you can buy your first home with confidence.",
   "ato-debt": "ATO tax debt loans through Mesh Finance. Consolidate ATO, private and solicitor debt into a manageable solution and get your finances back on track.",
   "family-finance-check": "Feeling stretched by credit cards, Afterpay, car loans and home loan repayments? Book a Family Finance Check with Mesh Finance and review your debt consolidation options.",
+  "family-guarantee": "Family guarantee home loans with Mesh Finance. A parent's property as security can help first home buyers buy sooner with a smaller deposit and avoid LMI.",
+  "investment-home-loans": "Investment property loans with Mesh Finance. We help Perth investors structure borrowing, compare 40+ lenders and grow a property portfolio with confidence.",
+  "bad-credit-home-loans": "Bad credit home loans in Perth. Defaults, arrears or a low credit score? Mesh Finance works with specialist lenders to find a path to home ownership.",
+  "personal-loans": "Personal loans arranged by Mesh Finance for cars, renovations, travel or consolidating debt. Compare competitive rates and flexible terms across Perth.",
+  "car-loans": "Car and vehicle finance with Mesh Finance. Compare lenders for competitive rates on new or used cars, novated leases and business vehicles in Perth.",
+  "leisure-loans": "Leisure and lifestyle finance from Mesh Finance — caravans, boats, motorbikes and camper trailers. Compare lenders for a loan that suits your budget.",
+  "debt-consolidation-loans": "Debt consolidation loans with Mesh Finance. Roll credit cards, personal loans and other debts into one manageable repayment and take back control of your budget.",
+  "knowledge-centre": "The Mesh Finance Knowledge Centre — guides, tools and articles on home loans, refinancing, credit and property to help you make informed decisions.",
+  "helpful-articles": "Helpful articles from Mesh Finance on home loans, first home buyer schemes, refinancing, credit files and property across Perth and Western Australia.",
+  "my-credit-file": "Learn how to check your credit report and score in Australia for free, understand what affects them and how to fix errors, with Mesh Finance.",
+  "request-report": "Request a free property report through Mesh Finance. Get a CoreLogic estimate of a property's value, recent sales and suburb market insights.",
+  "faqs": "Answers to common questions about home loans, refinancing, deposits, pre-approval and working with a mortgage broker in Perth, from Mesh Finance.",
+  "privacy-policy": "Read the Mesh Finance privacy policy to understand how we collect, use, store and protect your personal information.",
+  "terms-conditions": "Read the terms and conditions for using the Mesh Finance website and services.",
+  "disclaimer": "Important disclaimer for the Mesh Finance website. Information here is general in nature and not personal credit or financial advice.",
+  "calc-loan-repayment": "Free loan repayment calculator from Mesh Finance. Estimate your home loan repayments by loan amount, interest rate and term in seconds.",
+  "calc-interest-only": "Interest only calculator from Mesh Finance. Compare interest-only and principal-and-interest repayments to see how each affects your home loan.",
+  "calc-stamp-duty": "Stamp duty calculator for WA property from Mesh Finance. Estimate transfer duty and government fees on your next home or investment purchase.",
+  "calc-borrowing-power": "Borrowing power calculator from Mesh Finance. Estimate how much you may be able to borrow for a home loan based on your income and expenses.",
+  "calc-savings": "Savings calculator from Mesh Finance. See how regular deposits and interest grow your home deposit over time and plan your path to buying.",
+  "calc-extra-repayment": "Extra repayment calculator from Mesh Finance. See how paying a little extra each month can cut years and interest off your home loan.",
+  "calc-lump-sum": "Lump sum repayment calculator from Mesh Finance. See how a one-off payment reduces your home loan balance, interest and loan term.",
+  "calc-how-long": "How long to repay calculator from Mesh Finance. Work out how long it will take to pay off your loan at your chosen repayment amount.",
+  "calc-offset-vs-redraw": "Offset vs redraw calculator from Mesh Finance. Compare how an offset account and a redraw facility each affect your home loan interest.",
+  "cs-families-consolidate-debt": "How Mesh Finance helped a Perth family consolidate multiple debts into one manageable home loan repayment and ease the pressure on their budget.",
+  "cs-first-home-buyers-get-ready": "How Mesh Finance helped Perth first home buyers get pre-approval ready, understand grants and schemes, and buy their first home with confidence.",
+  "cs-refinance-with-confidence": "How Mesh Finance helped clients refinance their home loan with confidence, compare lenders and secure a structure that suited their goals.",
+  "cs-upgrade-their-home": "How Mesh Finance helped clients upgrade to their next home, manage the sale-and-purchase timing and finance the move without the stress.",
+  "cs-self-employed-find-options": "How Mesh Finance helped self-employed clients improve cash flow and find home loan options that recognise how their business income really works.",
+  "cs-after-a-bank-says-no": "How Mesh Finance helped clients find a way forward after a bank said no, working with specialist lenders to get their finance approved.",
+  "help-to-buy-wa": "The Australian Government's Help to Buy shared equity scheme has arrived in WA. Mesh Finance explains how you may buy with as little as a 2% deposit.",
+  "ato-debt-lending-solutions-business-owners": "ATO debt is getting more expensive. Mesh Finance explains why business owners should review their lending options beyond an ATO payment arrangement.",
+  "using-parents-property-as-security-first-home-buyer": "Thinking of a family guarantee? Mesh Finance explains how using a parent's property as security works and what first home buyers need to know.",
+  "wa-new-home-guarantee-scheme": "Mesh Finance explains what the expanded Home Guarantee Scheme changes mean for Perth first-home buyers, including deposit and income cap updates.",
+  "protect-your-credit-file": "Worried about fraud or identity theft? Mesh Finance explains how to place and remove a credit ban in Australia to protect your credit file.",
 };
+
+/* Live-updated <head> tags for the single-page app: canonical URL, Open Graph
+   and Twitter cards keep pace with client-side navigation so each route shares
+   and indexes as its own page. */
+const MESH_SITE = "https://meshfinance.com.au";
+const MESH_NOINDEX = ["ffc-thank-you"];
+
+function meshUpsertMeta(attr, key, value) {
+  if (!value) return;
+  let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
+  el.setAttribute("content", value);
+}
+
+function meshUpsertCanonical(href) {
+  let el = document.head.querySelector('link[rel="canonical"]');
+  if (!el) { el = document.createElement("link"); el.setAttribute("rel", "canonical"); document.head.appendChild(el); }
+  el.setAttribute("href", href);
+}
 
 function App() {
   const { useState, useEffect } = React;
@@ -85,7 +144,19 @@ function App() {
   useEffect(() => {
     if (MESH_TITLES[route]) document.title = MESH_TITLES[route];
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", MESH_DESCRIPTIONS[route] || meta.dataset.default || meta.getAttribute("content"));
+    const desc = MESH_DESCRIPTIONS[route] || (meta && (meta.dataset.default || meta.getAttribute("content"))) || "";
+    if (meta && desc) meta.setAttribute("content", desc);
+
+    /* Self-referencing canonical + social tags, mirroring the final title that
+       any self-titling child screen has already set by the time this runs. */
+    const url = MESH_SITE + (route === "home" ? "/" : "/" + route);
+    meshUpsertCanonical(url);
+    meshUpsertMeta("property", "og:url", url);
+    meshUpsertMeta("property", "og:title", document.title);
+    meshUpsertMeta("property", "og:description", desc);
+    meshUpsertMeta("name", "twitter:title", document.title);
+    meshUpsertMeta("name", "twitter:description", desc);
+    meshUpsertMeta("name", "robots", MESH_NOINDEX.includes(route) ? "noindex, nofollow" : "index, follow");
   }, [route]);
 
   const loanSlugs = ["home-loans","investment-home-loans","bad-credit-home-loans","personal-loans","car-loans","leisure-loans","debt-consolidation-loans"];

@@ -18,6 +18,24 @@
      the page works when served at deep routes like /home-loans. -->
 <base href="/ui_kits/website/" />
 <title>Mesh Finance | Perth Mortgage & Finance Broker</title>
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<link rel="apple-touch-icon" href="/assets/favicon.png" />
+<!-- Canonical (updated per route by the app) -->
+<link rel="canonical" href="https://meshfinance.com.au/" />
+<!-- Open Graph / Facebook (og:title, og:description and og:url updated per route by the app) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mesh Finance" />
+<meta property="og:locale" content="en_AU" />
+<meta property="og:url" content="https://meshfinance.com.au/" />
+<meta property="og:title" content="Mesh Finance | Perth Mortgage & Finance Broker" />
+<meta property="og:description" content="Mesh Finance is a Perth mortgage and finance broker helping with home loans, refinancing, investment, asset finance and debt consolidation." />
+<meta property="og:image" content="https://meshfinance.com.au/assets/hero-home.jpg" />
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mesh Finance | Perth Mortgage & Finance Broker" />
+<meta name="twitter:description" content="Mesh Finance is a Perth mortgage and finance broker helping with home loans, refinancing, investment, asset finance and debt consolidation." />
+<meta name="twitter:image" content="https://meshfinance.com.au/assets/hero-home.jpg" />
 <link rel="stylesheet" href="../../styles.css" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -46,6 +64,42 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1364666885761207&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<!-- LocalBusiness / FinancialService structured data for local SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "@id": "https://meshfinance.com.au/#organisation",
+  "name": "Mesh Finance",
+  "url": "https://meshfinance.com.au/",
+  "logo": "https://meshfinance.com.au/assets/mesh-logo.png",
+  "image": "https://meshfinance.com.au/assets/hero-home.jpg",
+  "description": "Mesh Finance is a Perth mortgage and finance broker helping with home loans, refinancing, investment, first home buyers, asset finance and debt consolidation.",
+  "telephone": "+61416291241",
+  "email": "hello@meshfinance.com.au",
+  "priceRange": "Free initial consultation",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Suite 206, Level 2, 96 Mill Point Road",
+    "addressLocality": "South Perth",
+    "addressRegion": "WA",
+    "postalCode": "6151",
+    "addressCountry": "AU"
+  },
+  "areaServed": { "@type": "City", "name": "Perth" },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "09:00",
+    "closes": "17:00"
+  }],
+  "sameAs": [
+    "https://www.facebook.com/meshfinance",
+    "https://www.instagram.com/mesh_finance/",
+    "https://www.linkedin.com/in/chanel-rebello-financebroker/"
+  ]
+}
+</script>
 </head>
 <body>
 <div id="root"></div>
