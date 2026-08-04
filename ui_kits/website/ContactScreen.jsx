@@ -71,6 +71,18 @@ function ContactScreen({ onNav }) {
             <li style={ct.row}><span style={ct.ic}><MapPin width={18} height={18}/></span><div><div style={ct.rowL}>Office</div><div style={ct.rowV}>Suite 206, Level 2, 96 Mill Point Road, South Perth</div></div></li>
             <li style={ct.row}><span style={ct.ic}><Clock width={18} height={18}/></span><div><div style={ct.rowL}>Hours</div><div style={ct.rowV}>9am – 5pm, Mon–Fri (and after hours when you need us)</div></div></li>
           </ul>
+          <div style={ct.mapWrap}>
+            <iframe
+              title="Mesh Finance office location — South Perth"
+              style={ct.map}
+              src="https://www.google.com/maps?q=96%20Mill%20Point%20Road%2C%20South%20Perth%20WA%206151&z=15&output=embed"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+            <a href="https://www.google.com/maps/dir/?api=1&destination=96%20Mill%20Point%20Road%2C%20South%20Perth%20WA%206151"
+               target="_blank" rel="noopener noreferrer" style={ct.mapLink}>Get directions</a>
+          </div>
         </div>
 
         <Card elevation="shadow-lg" style={{padding:"24px 32px 32px"}}>
@@ -157,6 +169,11 @@ const ct = {
     color:"var(--color-primary)", display:"flex", alignItems:"center", justifyContent:"center" },
   rowL: { fontSize:12.5, color:"var(--text-subtle)", textTransform:"uppercase", letterSpacing:".08em", fontWeight:600 },
   rowV: { fontSize:15.5, color:"var(--text-strong)", fontWeight:500, lineHeight:1.4, maxWidth:340 },
+  mapWrap: { marginTop:26 },
+  map: { width:"100%", height:280, border:0, display:"block",
+    borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-md)" },
+  mapLink: { display:"inline-block", marginTop:12, fontSize:14, fontWeight:600,
+    color:"var(--color-primary)", textDecoration:"none" },
   legend: { fontFamily:"var(--font-body)", fontWeight:600, fontSize:14, color:"var(--text-strong)", marginBottom:9 },
   tabRow: { display:"flex", gap:4, borderBottom:"1px solid var(--border-subtle)", marginBottom:20 },
   tab: { appearance:"none", background:"none", border:"none", cursor:"pointer", fontFamily:"var(--font-body)",
