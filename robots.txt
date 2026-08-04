@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /ffc-thank-you
+
+Sitemap: https://meshfinance.com.au/sitemap.xml
