@@ -239,12 +239,23 @@ test("negative inputs are clamped, never negative outputs", () => {
   });
   assert.strictEqual(r.ok, false); // both clamp to 0
 });
-test("scheme selected shows a secondary standard comparison", () => {
+test("scheme BELOW the cap hides the standard comparison", () => {
+  // capacity-limited well under the $850k Perth cap -> no secondary
   const r = calculateMaximumPurchasePrice({
     borrowingCapacity: 700000, totalCash: 90000, location: "PERTH_CAPITAL_CITY",
     propertyType: "ESTABLISHED_HOME", pathway: PATHWAY.SCHEME_5,
     firstHomeDutyEligibility: "no", fhogEligibility: "no",
   });
+  assert.notStrictEqual(r.primary.limitingFactor, "SCHEME_PRICE_CAP");
+  assert.strictEqual(r.secondary, null);
+});
+test("scheme AT the cap shows the standard comparison", () => {
+  const r = calculateMaximumPurchasePrice({
+    borrowingCapacity: bigCap, totalCash: 120000, location: "PERTH_CAPITAL_CITY",
+    propertyType: "ESTABLISHED_HOME", pathway: PATHWAY.SCHEME_5,
+    firstHomeDutyEligibility: "no", fhogEligibility: "no",
+  });
+  assert.strictEqual(r.primary.limitingFactor, "SCHEME_PRICE_CAP");
   assert.ok(r.secondary && r.secondary.pathway === PATHWAY.STANDARD);
 });
 test("duty 'unsure' adds an explanatory message", () => {

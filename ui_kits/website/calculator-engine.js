@@ -517,13 +517,20 @@
     }
 
     // ---- Secondary (standard lending) when a scheme is selected ----------
+    // Only surface the "without the scheme" comparison when the scheme's
+    // property-price cap is what's holding the result back (i.e. the estimate
+    // has reached the threshold). Below the cap the comparison is just noise.
     var secondary = null;
     if (usingScheme) {
-      secondary = buildResult(PATHWAY.STANDARD, clean, cfg);
-      if (secondary.feasible && secondary.maxPrice > primary.maxPrice && primary.limitingFactor === "SCHEME_PRICE_CAP") {
-        messages.push(
-          "Your estimated buying position may be higher than the government scheme property-price cap. To use the scheme, both the purchase price and the lender-assessed property value must remain within the applicable cap."
-        );
+      var capLimited = primary.limitingFactor === "SCHEME_PRICE_CAP";
+      var standardResult = buildResult(PATHWAY.STANDARD, clean, cfg);
+      if (capLimited) {
+        secondary = standardResult;
+        if (standardResult.feasible && standardResult.maxPrice > primary.maxPrice) {
+          messages.push(
+            "Your estimated buying position may be higher than the government scheme property-price cap. To use the scheme, both the purchase price and the lender-assessed property value must remain within the applicable cap."
+          );
+        }
       }
       if (!primary.feasible && primary.limitingFactor === "MIN_SAVED_DEPOSIT") {
         messages.push(
