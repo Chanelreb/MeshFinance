@@ -319,10 +319,6 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     return <MaxPurchasePriceCalculator onNav={onNav} contactUrl="/contact"/>;
   }
 
-  if (kind === "max-purchase-price-guided") {
-    return <MaxPurchasePriceWizard onNav={onNav} contactUrl="/contact"/>;
-  }
-
   // default: loan-repayment (fallback, App.jsx always passes a valid kind)
   return null;
 }
@@ -614,7 +610,7 @@ function MoneyField({ id, label, helper, value, onChange, error, placeholder }) 
       <label htmlFor={id} style={mp.label}>{label}</label>
       <div style={mp.moneyWrap}>
         <span style={mp.moneyPrefix} aria-hidden="true">$</span>
-        <input id={id} type="text" inputMode="numeric" autoComplete="off"
+        <input id={id} type="text" inputMode="numeric" autoComplete="off" className="mpx-money"
           value={draft !== null ? draft : show(value)} onChange={onType} onBlur={() => setDraft(null)}
           placeholder={placeholder} aria-describedby={describedBy} aria-invalid={error ? "true" : undefined}
           style={{ ...mp.moneyInput, ...(error ? mp.inputError : {}) }}/>
@@ -636,13 +632,41 @@ function MPRadioGroup({ legend, name, options, value, onChange, helper, note }) 
           const active = value === o.value;
           const rid = name + "-" + o.value;
           return (
-            <label key={o.value} htmlFor={rid} style={{ ...mp.radioCard, ...(active ? mp.radioCardActive : {}) }}>
+            <label key={o.value} htmlFor={rid} className="mpx-radiocard" style={{ ...mp.radioCard, ...(active ? mp.radioCardActive : {}) }}>
               <input type="radio" id={rid} name={name} value={o.value} checked={active}
                 onChange={() => onChange(o.value)} style={mp.radioInput}/>
               <span style={mp.radioBody}>
                 <span style={mp.radioLabel}>{o.label}</span>
                 {o.desc && <span style={mp.radioDesc}>{o.desc}</span>}
               </span>
+            </label>
+          );
+        })}
+      </div>
+      {note && <p style={mp.note}>{note}</p>}
+    </fieldset>
+  );
+}
+
+/* Segmented pill toggle (radiogroup) — friendlier than a stack of radio cards
+   for yes/no/unsure and the scheme choice. The native radio is visually hidden
+   but keeps keyboard focus, surfaced by .mpx-pill:focus-within in the scoped
+   <style> block. */
+function MPToggle({ legend, name, options, value, onChange, helper, note }) {
+  const helpId = name + "-help";
+  return (
+    <fieldset style={mp.fieldset} aria-describedby={helper ? helpId : undefined}>
+      <legend style={mp.legend}>{legend}</legend>
+      {helper && <span id={helpId} style={mp.helper}>{helper}</span>}
+      <div style={mp.toggleRow} role="radiogroup" aria-label={legend}>
+        {options.map((o) => {
+          const active = value === o.value;
+          const rid = name + "-" + o.value;
+          return (
+            <label key={o.value} htmlFor={rid} className="mpx-pill" style={{ ...mp.pill, ...(active ? mp.pillOn : {}) }}>
+              <input type="radio" id={rid} name={name} value={o.value} checked={active} onChange={() => onChange(o.value)} style={mp.srOnly}/>
+              <span style={{ ...mp.pillLabel, ...(active ? mp.pillLabelOn : {}) }}>{o.label}</span>
+              {o.sub && <span style={{ ...mp.pillSub, ...(active ? mp.pillSubOn : {}) }}>{o.sub}</span>}
             </label>
           );
         })}
@@ -662,10 +686,10 @@ const MP_TYPE_OPTIONS = [
   { value: "ESTABLISHED_HOME", label: "Established home" },
   { value: "NEW_COMPLETED_HOME", label: "Newly built, completed home", desc: "A brand-new home that has been completed but never lived in or sold as an established home before." },
 ];
-const MP_PATHWAY_OPTIONS = [
-  { value: "SCHEME_2", label: "2% scheme — single parent or legal guardian", desc: "Buy with as little as a 2% deposit, no LMI." },
-  { value: "SCHEME_5", label: "5% scheme — eligible first home buyer", desc: "Buy with as little as a 5% deposit, no LMI." },
-  { value: "STANDARD", label: "Standard lending — estimated LMI may apply", desc: "No scheme price cap; LMI may apply above an 80% loan-to-value." },
+const MP_SCHEME_TOGGLE = [
+  { value: "SCHEME_5", label: "Yes — 5% scheme", sub: "first home buyer" },
+  { value: "SCHEME_2", label: "Yes — 2% scheme", sub: "single parent or guardian" },
+  { value: "STANDARD", label: "No / not sure", sub: "standard lending" },
 ];
 const MP_YESNO = [
   { value: "yes", label: "Yes" }, { value: "no", label: "No" }, { value: "unsure", label: "Unsure" },
@@ -675,7 +699,7 @@ const MP_PATHWAY_WARNING = {
   SCHEME_5: "To use this option you must meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
   STANDARD: "Any LMI shown is an indicative guide only. LMI varies by lender, insurer, loan amount and application.",
 };
-const MP_LEAD = "See roughly the most you may be able to spend on a Western Australian home to live in, once your deposit, transfer duty, costs and any government help are taken into account.";
+const MP_LEAD = "See roughly the most you may be able to spend on a Western Australian home to live in, once your deposit, stamp duty, costs and any government help are taken into account.";
 
 /* Shared result rendering, used by both UIs. */
 function mpRows(d, showScheme, borrowingCapacity, totalCash) {
@@ -687,7 +711,7 @@ function mpRows(d, showScheme, borrowingCapacity, totalCash) {
   if (d.fhog > 0) list.push(["First Home Owner Grant included", mfmt(d.fhog)]);
   list.push(
     ["Your cash contribution toward the property", mfmt(d.depositContribution)],
-    ["Estimated WA transfer duty", mfmt(d.duty)],
+    ["Estimated WA stamp duty", mfmt(d.duty)],
     ["Other purchase costs", mfmt(d.otherCosts)],
   );
   if (d.lmi > 0) list.push(["Estimated LMI (indicative)", mfmt(d.lmi)]);
@@ -727,7 +751,7 @@ function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, tota
           <div style={mp.breakdown}>
             <div style={mp.breakdownTitle}>How the money adds up</div>
             <div style={mp.brRow}><span>Maximum property price</span><span>{mfmt(d.fundsPosition.price)}</span></div>
-            <div style={mp.brRow}><span>+ Transfer duty</span><span>{mfmt(d.fundsPosition.duty)}</span></div>
+            <div style={mp.brRow}><span>+ Stamp duty</span><span>{mfmt(d.fundsPosition.duty)}</span></div>
             <div style={mp.brRow}><span>+ Other purchase costs</span><span>{mfmt(d.fundsPosition.otherCosts)}</span></div>
             {d.fundsPosition.lmiCapitalised > 0 &&
               <div style={mp.brRow}><span>+ Indicative LMI added to the loan</span><span>{mfmt(d.fundsPosition.lmiCapitalised)}</span></div>}
@@ -783,7 +807,7 @@ function MPDisclaimers({ lastReviewed }) {
       </Alert>
       <p style={mp.fine}>
         This calculator provides a general estimate only. It is not a loan approval, credit assessment,
-        government-scheme eligibility assessment or quote for transfer duty or Lenders Mortgage Insurance. Actual
+        government-scheme eligibility assessment or quote for stamp duty or Lenders Mortgage Insurance. Actual
         borrowing capacity, property valuation, costs, LMI and eligibility will depend on the lender, insurer,
         RevenueWA, Housing Australia and your individual circumstances. Speak with Mesh Finance before entering into a
         property contract.
@@ -835,7 +859,7 @@ function MPCostsToggle({ idPrefix, otherCosts, setOtherCosts }) {
       {open && (
         <div id={idPrefix + "-costs-panel"} style={mp.costsPanel}>
           <MoneyField id={idPrefix + "-costs"} label="Other estimated purchase costs"
-            helper="This allowance may include settlement, registration, inspections and lender-related costs. Your actual costs may differ. It does not include transfer duty or LMI."
+            helper="This allowance may include settlement, registration, inspections and lender-related costs. Your actual costs may differ. It does not include stamp duty or LMI."
             value={otherCosts} onChange={setOtherCosts}/>
         </div>
       )}
@@ -854,13 +878,14 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
 
   return (
     <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator" lead={MP_LEAD}>
+      <style>{MP_STYLE_CSS}</style>
       <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
-        <div style={mp.inputs}>
+        <div style={mp.inputsCard}>
           <MoneyField id="mp-borrow" label="How much can you borrow?"
             helper="Enter the maximum home loan amount you have been told you may be able to borrow."
             value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
           <MoneyField id="mp-cash" label="How much cash do you have available?"
-            helper="Include the funds you're comfortable using towards your deposit and purchase costs. We'll split it between the deposit, duty and costs for you."
+            helper="Include the funds you're comfortable using towards your deposit and purchase costs — we'll split it between the deposit, stamp duty and costs for you."
             value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
           <MPRadioGroup legend="Where is the property?" name="mp-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
             note="Government scheme price caps can depend on the property's suburb and postcode. Confirm the applicable cap with Mesh Finance before relying on the result."/>
@@ -869,13 +894,14 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
             Buying land, building a home or considering a house and land package? These purchases need a more tailored
             calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
           </Alert>
-          <MPRadioGroup legend="Which deposit pathway are you looking at?" name="mp-pathway" options={MP_PATHWAY_OPTIONS} value={s.pathway} onChange={s.setPathway}/>
+          <MPToggle legend="Are you eligible for either of these government schemes?" name="mp-scheme" options={MP_SCHEME_TOGGLE} value={s.pathway} onChange={s.setPathway}
+            helper="These federal schemes let eligible buyers get in with a smaller deposit and no LMI. Not sure? Choose “No / not sure” and we'll use standard lending."/>
           {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
-          <MPRadioGroup legend="Are you eligible for the WA first home owner rate of transfer duty?" name="mp-duty" options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
-            helper="This is separate from the federal deposit schemes — you can be eligible for one and not the other."/>
+          <MPToggle legend="Are you eligible for the WA first home owner rate of stamp duty?" name="mp-duty" options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
+            helper="This is separate from the schemes above — you can qualify for one and not the other."/>
           {s.isNew && (
-            <MPRadioGroup legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
-              helper="The grant can add to your available funds, but it can't count towards the minimum deposit a scheme requires."/>
+            <MPToggle legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
+              helper="The grant can add to your available funds, but it can't count towards a scheme's minimum deposit."/>
           )}
           <MPCostsToggle idPrefix="mp" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
         </div>
@@ -890,125 +916,23 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
   );
 }
 
-/* ----- Option B: guided step-by-step wizard ----- */
-function MaxPurchasePriceWizard({ onNav, contactUrl = "/contact" }) {
-  const { Alert, Button } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight } = window.MeshIcons;
-  const s = useMaxPurchaseInputs();
-  const [step, setStep] = React.useState(0);
-  const [touched, setTouched] = React.useState(false);
-
-  const STEPS = ["Your money", "The property", "Your plan", "Your estimate"];
-  const last = STEPS.length - 1;
-  const moneyValid = s.borrowingCapacity > 0 && s.totalCash > 0;
-  const capError = touched && !s.borrowingCapacity ? "Enter your borrowing capacity to continue." : null;
-  const cashError = touched && !s.totalCash ? "Enter the cash you have available to continue." : null;
-
-  const goNext = () => {
-    if (step === 0 && !moneyValid) { setTouched(true); return; }
-    setStep(Math.min(step + 1, last));
-  };
-  const goBack = () => setStep(Math.max(step - 1, 0));
-
-  return (
-    <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator" lead={MP_LEAD}>
-      <div style={wz.wrap}>
-        <div style={wz.progress}>
-          <div style={wz.progressTop}>
-            <span style={wz.stepCount}>Step {step + 1} of {STEPS.length}</span>
-            <span style={wz.stepName}>{STEPS[step]}</span>
-          </div>
-          <div style={wz.track} role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length} aria-label={"Step " + (step + 1) + " of " + STEPS.length}>
-            {STEPS.map((_, i) => (<span key={i} style={{ ...wz.seg, ...(i <= step ? wz.segOn : {}) }}/>))}
-          </div>
-        </div>
-
-        {step < last ? (
-          <div style={wz.card}>
-            <div style={wz.stepBody} aria-live="polite">
-              {step === 0 && (
-                <React.Fragment>
-                  <h2 style={wz.stepH}>First, your money</h2>
-                  <p style={wz.stepIntro}>Two quick numbers and we'll work out the rest — the deposit, duty and costs all come out of your cash for you.</p>
-                  <MoneyField id="wz-borrow" label="How much can you borrow?"
-                    helper="Enter the maximum home loan amount you have been told you may be able to borrow." value={s.borrowingCapacity}
-                    onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
-                  <MoneyField id="wz-cash" label="How much cash do you have available?"
-                    helper="Include the funds you're comfortable using towards your deposit and purchase costs." value={s.totalCash}
-                    onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
-                </React.Fragment>
-              )}
-              {step === 1 && (
-                <React.Fragment>
-                  <h2 style={wz.stepH}>The property</h2>
-                  <MPRadioGroup legend="Where is the property?" name="wz-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
-                    note="Government scheme price caps can depend on the property's suburb and postcode. Confirm the applicable cap with Mesh Finance before relying on the result."/>
-                  <MPRadioGroup legend="What type of home is it?" name="wz-type" options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
-                  <Alert variant="info">
-                    Buying land, building a home or considering a house and land package? These purchases need a more tailored
-                    calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
-                  </Alert>
-                </React.Fragment>
-              )}
-              {step === 2 && (
-                <React.Fragment>
-                  <h2 style={wz.stepH}>Your plan</h2>
-                  <MPRadioGroup legend="Which deposit pathway are you looking at?" name="wz-pathway" options={MP_PATHWAY_OPTIONS} value={s.pathway} onChange={s.setPathway}/>
-                  {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
-                  <MPRadioGroup legend="Are you eligible for the WA first home owner rate of transfer duty?" name="wz-duty" options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
-                    helper="This is separate from the federal deposit schemes — you can be eligible for one and not the other."/>
-                  {s.isNew && (
-                    <MPRadioGroup legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="wz-fhog" options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
-                      helper="The grant can add to your available funds, but it can't count towards the minimum deposit a scheme requires."/>
-                  )}
-                  <MPCostsToggle idPrefix="wz" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
-                </React.Fragment>
-              )}
-            </div>
-            <div style={wz.nav}>
-              {step > 0 ? <button type="button" style={wz.backBtn} onClick={goBack}>← Back</button> : <span/>}
-              <Button size="lg" onClick={goNext} iconRight={<ArrowRight width={18} height={18}/>}>
-                {step === last - 1 ? "See my estimate" : "Next"}
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <React.Fragment>
-            <MPResultView result={s.result} borrowingCapacity={s.borrowingCapacity} totalCash={s.totalCash} onNav={onNav}/>
-            <div style={wz.resultNav}>
-              <button type="button" style={wz.backBtn} onClick={goBack}>← Change my answers</button>
-              <button type="button" style={wz.backBtn} onClick={() => setStep(0)}>Start again</button>
-            </div>
-            <MPDisclaimers lastReviewed={s.lastReviewed}/>
-          </React.Fragment>
-        )}
-      </div>
-    </Shell>
-  );
-}
-
-const wz = {
-  wrap: { maxWidth: 720, margin: "0 auto" },
-  progress: { marginBottom: 20 },
-  progressTop: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8, gap: 12 },
-  stepCount: { fontSize: 13, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".05em" },
-  stepName: { fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16, color: "var(--navy-700)" },
-  track: { display: "flex", gap: 6 },
-  seg: { flex: 1, height: 6, borderRadius: 3, background: "var(--border-subtle)" },
-  segOn: { background: "var(--color-primary)" },
-  card: { background: "#fff", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)", padding: "28px 28px 20px" },
-  stepBody: { display: "flex", flexDirection: "column", gap: 20, minHeight: 250 },
-  stepH: { fontFamily: "var(--font-display)", fontSize: 23, color: "var(--navy-700)", margin: "0 0 2px", fontWeight: 700, letterSpacing: "-.01em" },
-  stepIntro: { fontSize: 14.5, color: "var(--text-body)", lineHeight: 1.55, margin: "0 0 4px" },
-  nav: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, paddingTop: 18, borderTop: "1px solid var(--border-subtle)" },
-  backBtn: { appearance: "none", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14.5, color: "var(--color-primary)", padding: "8px 4px" },
-  resultNav: { display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap", margin: "16px 0 24px" },
-};
+const MP_STYLE_CSS = `
+  .mpx-money { transition: border-color .15s ease, box-shadow .15s ease; }
+  .mpx-money:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--blue-50); }
+  .mpx-money::placeholder { color: var(--text-subtle); font-weight: 500; }
+  .mpx-radiocard { transition: border-color .15s ease, background .15s ease; }
+  .mpx-radiocard:hover { border-color: var(--blue-300); }
+  .mpx-pill { transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+  .mpx-pill:hover { border-color: var(--blue-300); }
+  .mpx-pill:focus-within { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+`;
 
 const mp = {
   layout: { display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,420px)", gap: 28, alignItems: "start", marginBottom: 28 },
   layoutMobile: { gridTemplateColumns: "minmax(0,1fr)", gap: 22 },
   inputs: { display: "flex", flexDirection: "column", gap: 22 },
+  inputsCard: { display: "flex", flexDirection: "column", gap: 24, background: "#fff",
+    borderRadius: "var(--radius-lg)", border: "1px solid var(--border-subtle)", boxShadow: "0 1px 3px rgba(16,42,67,0.06)", padding: "26px 24px" },
   field: { display: "flex", flexDirection: "column", gap: 6 },
   label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)" },
   helper: { fontSize: 13, lineHeight: 1.5, color: "var(--text-muted)" },
@@ -1016,19 +940,28 @@ const mp = {
   moneyWrap: { position: "relative", display: "flex", alignItems: "center" },
   moneyPrefix: { position: "absolute", left: 14, fontWeight: 700, fontSize: 16, color: "var(--text-muted)" },
   moneyInput: { width: "100%", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--navy-700)",
-    background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-sm)", padding: "12px 14px 12px 28px", lineHeight: 1.3 },
+    background: "var(--surface-page)", border: "1.5px solid var(--border-subtle)", borderRadius: 12, padding: "13px 14px 13px 28px", lineHeight: 1.3 },
   inputError: { border: "1px solid var(--color-danger)" },
 
   fieldset: { border: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8, minWidth: 0 },
   legend: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)", padding: 0, marginBottom: 2 },
   radioList: { display: "flex", flexDirection: "column", gap: 8 },
-  radioCard: { display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", borderRadius: "var(--radius-md)",
-    border: "1px solid var(--border-subtle)", background: "#fff", cursor: "pointer" },
-  radioCardActive: { border: "1px solid var(--color-primary)", background: "var(--blue-50)", boxShadow: "0 0 0 1px var(--color-primary) inset" },
+  radioCard: { display: "flex", gap: 12, alignItems: "flex-start", padding: "13px 15px", borderRadius: 14,
+    border: "1.5px solid var(--border-subtle)", background: "#fff", cursor: "pointer" },
+  radioCardActive: { border: "1.5px solid var(--color-primary)", background: "var(--blue-50)" },
   radioInput: { marginTop: 3, accentColor: "var(--color-primary)", width: 17, height: 17, flex: "none", cursor: "pointer" },
   radioBody: { display: "flex", flexDirection: "column", gap: 2, minWidth: 0 },
   radioLabel: { fontSize: 14.5, fontWeight: 600, color: "var(--text-strong)", lineHeight: 1.35 },
   radioDesc: { fontSize: 13, color: "var(--text-muted)", lineHeight: 1.45 },
+  toggleRow: { display: "flex", flexWrap: "wrap", gap: 8 },
+  pill: { flex: "1 1 110px", minWidth: 104, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+    textAlign: "center", gap: 2, padding: "11px 12px", borderRadius: 12, border: "1.5px solid var(--border-subtle)", background: "#fff", cursor: "pointer", position: "relative" },
+  pillOn: { border: "1.5px solid var(--color-primary)", background: "var(--blue-50)" },
+  pillLabel: { fontSize: 13.5, fontWeight: 700, color: "var(--text-strong)", lineHeight: 1.25 },
+  pillLabelOn: { color: "var(--blue-600)" },
+  pillSub: { fontSize: 11.5, color: "var(--text-muted)", lineHeight: 1.3 },
+  pillSubOn: { color: "var(--blue-500)" },
+  srOnly: { position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 },
   note: { fontSize: 12.5, lineHeight: 1.5, color: "var(--text-muted)", margin: "4px 0 0", fontStyle: "italic" },
   link: { color: "var(--color-primary)", fontWeight: 600, textDecoration: "underline" },
 
