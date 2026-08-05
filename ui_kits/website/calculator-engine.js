@@ -25,23 +25,29 @@
    * use WA rules applying from 7 May 2026.
    * ========================================================================*/
 
-  /* Indicative guide only. These rates are NOT a lender or insurer premium
-   * schedule and must be reviewed by Mesh Finance before production deployment. */
-  var DEFAULT_INDICATIVE_LMI_RATE_BANDS = [
-    { minLvrExclusive: 0.8, maxLvrInclusive: 0.85, rate: 0.01 },
-    { minLvrExclusive: 0.85, maxLvrInclusive: 0.9, rate: 0.02 },
-    { minLvrExclusive: 0.9, maxLvrInclusive: 0.92, rate: 0.03 },
-    { minLvrExclusive: 0.92, maxLvrInclusive: 0.95, rate: 0.04 },
-    { minLvrExclusive: 0.95, maxLvrInclusive: 0.97, rate: 0.05 },
-  ];
-
-  var DEFAULT_LMI_LOAN_SIZE_FACTORS = [
-    { maxLoan: 300000, factor: 0.9 },
-    { maxLoan: 500000, factor: 1.0 },
-    { maxLoan: 750000, factor: 1.1 },
-    { maxLoan: 1000000, factor: 1.2 },
-    { maxLoan: Infinity, factor: 1.3 },
-  ];
+  /* Indicative guide only. Calibrated on 2026-08-05 from Helia's public LMI Fee
+   * Estimator (owner-occupied, 30-year term, non-first-home-buyer, premium incl.
+   * GST, excl. LMI stamp duty). Premium is a percentage of the base loan that
+   * steps by loan-size band and rises with LVR; the rate is flat above ~$600k.
+   * These figures are STILL an estimate — the actual premium is set by the
+   * insurer at application and must be reviewed by Mesh Finance before
+   * production reliance. Rates below are premium ÷ base loan at each captured
+   * LVR point. Loan-band boundaries ($300k, $600k) were located by sweeping the
+   * estimator; LVR is interpolated between the captured points. */
+  var DEFAULT_LMI_TABLE = {
+    source: "Helia LMI Fee Estimator (owner-occupied, 30yr, non-FHB, incl GST, excl stamp duty)",
+    captured: "2026-08-05",
+    lvrPoints: [81, 85, 88, 90, 92, 95], // percent
+    lvrFloor: 80, // no LMI at or below this LVR
+    lvrCap: 95, // clamp lookups above this LVR to the 95% rate
+    // loan-size bands (upper bound inclusive); each row holds the premium rate
+    // at each lvrPoint. Boundaries confirmed by sweep: ≤$300k, $300k–$600k, >$600k.
+    loanBands: [
+      { maxLoan: 300000, rates: [0.0044727, 0.0081068, 0.0097841, 0.0143500, 0.0183568, 0.0234818] },
+      { maxLoan: 600000, rates: [0.0052182, 0.0104364, 0.0119273, 0.0182636, 0.0236682, 0.0295386] },
+      { maxLoan: Infinity, rates: [0.0082932, 0.0119273, 0.0152818, 0.0232023, 0.0332659, 0.0396955] },
+    ],
+  };
 
   var CALC_CONFIG = {
     effectiveDate: "2026-05-07",
@@ -96,8 +102,7 @@
       },
     },
 
-    lmiRateBands: DEFAULT_INDICATIVE_LMI_RATE_BANDS,
-    lmiLoanSizeFactors: DEFAULT_LMI_LOAN_SIZE_FACTORS,
+    lmiTable: DEFAULT_LMI_TABLE,
   };
 
   /* ==========================================================================
@@ -187,12 +192,13 @@
    * ========================================================================*/
 
   /**
-   * Estimate indicative, capitalisable LMI. Returns an unrounded number.
+   * Estimate indicative, capitalisable LMI (premium incl. GST). Returns an
+   * unrounded number. The rate is banded by loan size and interpolated across
+   * the captured LVR points (anchored at 0 for LVR 80%).
    * @param {object} p
    * @param {number} p.baseLoanAmount  base loan before LMI
    * @param {number} p.propertyValue
-   * @param {Array}  [p.rateBands]
-   * @param {Array}  [p.loanSizeFactors]
+   * @param {object} [p.table]         override the premium table (injectable)
    */
   function estimateIndicativeLMI(p) {
     var cfg = (p && p.config) || CALC_CONFIG;
@@ -206,34 +212,29 @@
     ) {
       return 0;
     }
-    var baseLvr = baseLoanAmount / propertyValue;
-    if (baseLvr <= 0.8) return 0;
+    var table = (p && p.table) || cfg.lmiTable;
+    var lvrPct = (baseLoanAmount / propertyValue) * 100;
+    if (lvrPct <= table.lvrFloor) return 0;
+    if (lvrPct > table.lvrCap) lvrPct = table.lvrCap;
 
-    var bands = (p && p.rateBands) || cfg.lmiRateBands;
-    var factors = (p && p.loanSizeFactors) || cfg.lmiLoanSizeFactors;
+    // loan-size band (upper bound inclusive)
+    var band = table.loanBands[table.loanBands.length - 1];
+    for (var i = 0; i < table.loanBands.length; i++) {
+      if (baseLoanAmount <= table.loanBands[i].maxLoan) { band = table.loanBands[i]; break; }
+    }
 
-    var rate = 0;
-    for (var i = 0; i < bands.length; i++) {
-      if (baseLvr > bands[i].minLvrExclusive && baseLvr <= bands[i].maxLvrInclusive) {
-        rate = bands[i].rate;
+    // interpolate the rate across LVR points, anchored at (lvrFloor -> 0 rate)
+    var pts = [table.lvrFloor].concat(table.lvrPoints);
+    var rates = [0].concat(band.rates);
+    var rate = rates[rates.length - 1];
+    for (var j = 1; j < pts.length; j++) {
+      if (lvrPct <= pts[j]) {
+        var t = (lvrPct - pts[j - 1]) / (pts[j] - pts[j - 1]);
+        rate = rates[j - 1] + t * (rates[j] - rates[j - 1]);
         break;
       }
     }
-    // LVR above the top band (e.g. > 0.97) has no defined premium here — the
-    // solver rejects those candidates, but guard anyway with the top rate.
-    if (rate === 0 && baseLvr > bands[bands.length - 1].maxLvrInclusive) {
-      rate = bands[bands.length - 1].rate;
-    }
-
-    var factor = factors[factors.length - 1].factor;
-    for (var j = 0; j < factors.length; j++) {
-      if (baseLoanAmount <= factors[j].maxLoan) {
-        factor = factors[j].factor;
-        break;
-      }
-    }
-
-    return baseLoanAmount * rate * factor;
+    return baseLoanAmount * rate;
   }
 
   /* ==========================================================================
@@ -551,8 +552,7 @@
    * ========================================================================*/
   return {
     CALC_CONFIG: CALC_CONFIG,
-    DEFAULT_INDICATIVE_LMI_RATE_BANDS: DEFAULT_INDICATIVE_LMI_RATE_BANDS,
-    DEFAULT_LMI_LOAN_SIZE_FACTORS: DEFAULT_LMI_LOAN_SIZE_FACTORS,
+    DEFAULT_LMI_TABLE: DEFAULT_LMI_TABLE,
     PATHWAY: PATHWAY,
     calculateWATransferDuty: calculateWATransferDuty,
     estimateIndicativeLMI: estimateIndicativeLMI,

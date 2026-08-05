@@ -142,9 +142,14 @@ test("80% base LVR → $0 LMI", () => {
   assert.strictEqual(estimateIndicativeLMI({ baseLoanAmount: 400000, propertyValue: 500000 }), 0);
 });
 test("above 80% LVR → indicative LMI > 0", () => {
-  const lmi = estimateIndicativeLMI({ baseLoanAmount: 410000, propertyValue: 500000 }); // 0.82 → 1% * factor 1.0
-  assert.ok(lmi > 0);
-  near(lmi, 4100, 0.01);
+  const lmi = estimateIndicativeLMI({ baseLoanAmount: 410000, propertyValue: 500000 }); // 82% LVR
+  assert.ok(lmi > 0 && lmi < 410000);
+});
+test("LMI matches Helia at a captured point ($450k loan, 90% LVR = $8,218.64)", () => {
+  near(estimateIndicativeLMI({ baseLoanAmount: 450000, propertyValue: 500000 }), 8218.64, 3);
+});
+test("LMI rate is flat above $750k (900k loan, 90% LVR uses the top band rate)", () => {
+  near(estimateIndicativeLMI({ baseLoanAmount: 900000, propertyValue: 1000000 }), 900000 * 0.0232023, 1);
 });
 test("standard result constrained by borrowing capacity", () => {
   const r = calculateMaximumPurchasePrice({

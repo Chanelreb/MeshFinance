@@ -44,9 +44,9 @@ formatCurrency(n)
 CALC_CONFIG
 ```
 
-The LMI estimator and rate tables are injectable via `inputs.config` (or the
-`rateBands` / `loanSizeFactors` args) so Mesh can swap the approximation without
-touching the solver.
+The LMI premium table is injectable via `inputs.config.lmiTable` (or the
+`table` arg to `estimateIndicativeLMI`) so Mesh can swap it for an insurer rate
+card without touching the solver.
 
 ## 4. Key behaviours (verified by tests)
 
@@ -65,7 +65,7 @@ touching the solver.
 4. **FHOG + scheme** are independent; the grant increases funds but the cash-only deposit gate still enforces the 2%/5% saved-deposit rule.
 5. Feasibility is monotonic in price, which makes the binary search sound.
 6. **Location is client-selected**, not geocoded — the 26th-parallel split and suburb/postcode cap nuances are surfaced as a warning to confirm with Mesh.
-7. **Indicative LMI is a placeholder** conservative table — see §7.
+7. **LMI is calibrated from Helia's public LMI Fee Estimator** (owner-occupied, 30-yr term, non-first-home-buyer, premium incl. GST, excl. LMI stamp duty), captured 2026-08-05 as a loan-size × LVR premium-rate table (loan bands ≤$300k / $300k–$600k / >$600k, boundaries confirmed by sweeping the estimator). It reproduces Helia's figures at the captured points and interpolates LVR between them — but the insurer sets the actual premium at application. See §7.
 
 ## 6. Connecting the shared duty function to the Stamp Duty calculator
 
@@ -100,7 +100,7 @@ Everything below lives in one block at the top of `calculator-engine.js`:
 - **Scheme rules:** 2% → 98% loan; 5% → 95% loan
 - **Default other purchase costs:** `$5,000`
 - **Max standard total LVR:** `97%`
-- **Indicative LMI rate bands + loan-size factors** — **these are a conservative guide only, NOT a lender/insurer premium schedule. Replace with a Mesh-approved table before relying on the LMI figures.**
+- **Indicative LMI table (`lmiTable`)** — calibrated from Helia's public LMI Fee Estimator on 2026-08-05 (owner-occupied, 30yr, non-FHB, incl GST, excl LMI stamp duty; loan bands ≤$300k / $300k–$600k / >$600k). It **matches Helia at the captured points**, but the actual premium is set by the insurer at application and varies by lender, insurer, loan amount, term, borrower and security type — and it **excludes LMI stamp duty**. Have Mesh confirm against a current insurer rate card before production reliance. Injectable via `config.lmiTable`.
 - **`effectiveDate` 2026-05-07**, **`lastReviewed` 2026-08-05** (shown under the calculator)
 
 Verify duty output against RevenueWA's Transfer Duty Assessment page and scheme
