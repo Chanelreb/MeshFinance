@@ -581,6 +581,12 @@ const info = {
  * =========================================================================*/
 const mfmt = (n) => "$" + Math.round(isFinite(n) ? n : 0).toLocaleString("en-AU");
 const mpct = (x) => (isFinite(x) ? (x * 100).toFixed(1) : "0.0") + "%";
+/* Indicative monthly principal-and-interest repayment: 30-year term at 6% p.a. */
+const mpMonthlyRepayment = (loan) => {
+  if (!(loan > 0)) return 0;
+  const r = 0.06 / 12, n = 360;
+  return loan * r / (1 - Math.pow(1 + r, -n));
+};
 
 const MP_LIMIT_LABEL = {
   BORROWING_CAPACITY: "your borrowing capacity",
@@ -727,6 +733,8 @@ function mpRows(d, showScheme, borrowingCapacity, totalCash) {
 }
 
 function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, totalCash }) {
+  const [open, setOpen] = React.useState(false);
+  const repay = d.feasible ? mpMonthlyRepayment(d.totalLoan) : 0;
   return (
     <div style={mp.resultBlock}>
       {heading && <div style={mp.resultBlockHead}>{heading}</div>}
@@ -740,28 +748,43 @@ function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, tota
         <React.Fragment>
           <div style={mp.bigPrice}>{mfmt(d.headlinePrice)}</div>
           <div style={mp.limitLine}>Limited by {MP_LIMIT_LABEL[d.limitingFactor] || "your figures"}.</div>
-          <dl style={mp.figGrid}>
-            {mpRows(d, scheme, borrowingCapacity, totalCash).map(([k, v], i) => (
-              <div key={i} style={mp.figRow}>
-                <dt style={mp.figK}>{k}</dt>
-                <dd style={mp.figV}>{v}</dd>
-              </div>
-            ))}
-          </dl>
-          <div style={mp.breakdown}>
-            <div style={mp.breakdownTitle}>How the money adds up</div>
-            <div style={mp.brRow}><span>Maximum property price</span><span>{mfmt(d.fundsPosition.price)}</span></div>
-            <div style={mp.brRow}><span>+ Stamp duty</span><span>{mfmt(d.fundsPosition.duty)}</span></div>
-            <div style={mp.brRow}><span>+ Other purchase costs</span><span>{mfmt(d.fundsPosition.otherCosts)}</span></div>
-            {d.fundsPosition.lmiCapitalised > 0 &&
-              <div style={mp.brRow}><span>+ Indicative LMI added to the loan</span><span>{mfmt(d.fundsPosition.lmiCapitalised)}</span></div>}
-            <div style={{ ...mp.brRow, ...mp.brTotal }}><span>= Total transaction &amp; loan position</span><span>{mfmt(d.fundsPosition.totalPosition)}</span></div>
-            <div style={mp.brSplit}>
-              <div><span style={mp.brSplitL}>Funded by your cash</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.cashFunded)}</span></div>
-              <div><span style={mp.brSplitL}>Purchase price funded by the loan</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.loanFundedPrice)}</span></div>
-              <div><span style={mp.brSplitL}>LMI added to the loan</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.lmiAddedToLoan)}</span></div>
+          {repay > 0 && (
+            <div style={mp.repayBox}>
+              <span style={mp.repayValue}>≈ {mfmt(repay)} <span style={mp.repayPer}>/ month</span></span>
+              <span style={mp.repayCaption}>Indicative repayment on a ${mfmt(d.totalLoan).slice(1)} loan over 30 years, principal and interest at 6% p.a.</span>
             </div>
-          </div>
+          )}
+          <button type="button" aria-expanded={open} aria-controls={"mp-detail-" + (scheme ? "scheme" : "std")}
+            onClick={() => setOpen(!open)} style={mp.detailsToggle}>
+            {open ? "Hide the details" : "See the full breakdown"}
+            <span aria-hidden="true" style={mp.detailsChevron}>{open ? "▲" : "▼"}</span>
+          </button>
+          {open && (
+            <div id={"mp-detail-" + (scheme ? "scheme" : "std")}>
+              <dl style={mp.figGrid}>
+                {mpRows(d, scheme, borrowingCapacity, totalCash).map(([k, v], i) => (
+                  <div key={i} style={mp.figRow}>
+                    <dt style={mp.figK}>{k}</dt>
+                    <dd style={mp.figV}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div style={mp.breakdown}>
+                <div style={mp.breakdownTitle}>How the money adds up</div>
+                <div style={mp.brRow}><span>Maximum property price</span><span>{mfmt(d.fundsPosition.price)}</span></div>
+                <div style={mp.brRow}><span>+ Stamp duty</span><span>{mfmt(d.fundsPosition.duty)}</span></div>
+                <div style={mp.brRow}><span>+ Other purchase costs</span><span>{mfmt(d.fundsPosition.otherCosts)}</span></div>
+                {d.fundsPosition.lmiCapitalised > 0 &&
+                  <div style={mp.brRow}><span>+ Indicative LMI added to the loan</span><span>{mfmt(d.fundsPosition.lmiCapitalised)}</span></div>}
+                <div style={{ ...mp.brRow, ...mp.brTotal }}><span>= Total transaction &amp; loan position</span><span>{mfmt(d.fundsPosition.totalPosition)}</span></div>
+                <div style={mp.brSplit}>
+                  <div><span style={mp.brSplitL}>Funded by your cash</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.cashFunded)}</span></div>
+                  <div><span style={mp.brSplitL}>Purchase price funded by the loan</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.loanFundedPrice)}</span></div>
+                  <div><span style={mp.brSplitL}>LMI added to the loan</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.lmiAddedToLoan)}</span></div>
+                </div>
+              </div>
+            </div>
+          )}
         </React.Fragment>
       )}
     </div>
@@ -982,6 +1005,14 @@ const mp = {
   resultUnfeasible: { fontSize: 14.5, lineHeight: 1.55, color: "var(--text-body)", margin: 0 },
   bigPrice: { fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, lineHeight: 1, letterSpacing: "-.02em", color: "var(--navy-700)" },
   limitLine: { fontSize: 13, color: "var(--text-muted)", marginTop: 8, marginBottom: 14 },
+  repayBox: { display: "flex", flexDirection: "column", gap: 3, padding: "13px 15px", background: "var(--blue-50)",
+    borderRadius: 12, marginBottom: 14 },
+  repayValue: { fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22, color: "var(--navy-700)", lineHeight: 1 },
+  repayPer: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 13.5, color: "var(--text-muted)" },
+  repayCaption: { fontSize: 11.5, color: "var(--text-muted)", lineHeight: 1.4 },
+  detailsToggle: { appearance: "none", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-body)",
+    fontWeight: 600, fontSize: 13.5, color: "var(--color-primary)", padding: "4px 0", display: "inline-flex", alignItems: "center", gap: 6 },
+  detailsChevron: { fontSize: 10 },
   figGrid: { margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 0 },
   figRow: { display: "flex", justifyContent: "space-between", gap: 14, padding: "7px 0", borderTop: "1px solid var(--border-subtle)" },
   figK: { fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.4, margin: 0 },
