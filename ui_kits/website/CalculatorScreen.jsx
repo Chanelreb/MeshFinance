@@ -315,6 +315,10 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     );
   }
 
+  if (kind === "max-purchase-price") {
+    return <MaxPurchasePriceCalculator onNav={onNav} contactUrl="/contact"/>;
+  }
+
   // default: loan-repayment (fallback, App.jsx always passes a valid kind)
   return null;
 }
@@ -568,6 +572,379 @@ const info = {
   considerGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 },
   considerGridMobile: { gridTemplateColumns:"1fr" },
   considerCard: { padding:"16px 18px", background:"#fff", border:"1px solid var(--border-subtle)", borderRadius:"var(--radius-md)" },
+};
+
+/* ===========================================================================
+ * Maximum Home Purchase Price Calculator (WA owner-occupied)
+ * Pure calculation logic lives in calculator-engine.js (window.MeshCalc).
+ * This component is presentation only.
+ * =========================================================================*/
+const mfmt = (n) => "$" + Math.round(isFinite(n) ? n : 0).toLocaleString("en-AU");
+const mpct = (x) => (isFinite(x) ? (x * 100).toFixed(1) : "0.0") + "%";
+
+const MP_LIMIT_LABEL = {
+  BORROWING_CAPACITY: "your borrowing capacity",
+  AVAILABLE_CASH: "your available cash",
+  MIN_SAVED_DEPOSIT: "the scheme's minimum saved-deposit requirement",
+  SCHEME_PRICE_CAP: "the government scheme property-price cap",
+  SCHEME_MAX_LOAN: "the scheme's maximum loan limit",
+  LVR_CAP: "the 97% total loan-to-value limit (including LMI)",
+  INSUFFICIENT_FUNDS: "not having enough cash yet to cover the deposit and costs",
+  UPPER_BOUND: "your borrowing capacity and cash",
+};
+
+function MoneyField({ id, label, helper, value, onChange, error, placeholder }) {
+  const [draft, setDraft] = React.useState(null);
+  const show = (v) => (v == null || v === "" ? "" : Math.round(Number(v) || 0).toLocaleString("en-AU"));
+  const onType = (e) => {
+    const digits = e.target.value.replace(/[^\d]/g, "");
+    if (digits === "") { setDraft(""); onChange(null); return; }
+    const v = Number(digits);
+    setDraft(v.toLocaleString("en-AU"));
+    onChange(v);
+  };
+  const helpId = id + "-help", errId = id + "-err";
+  const describedBy = [helper ? helpId : null, error ? errId : null].filter(Boolean).join(" ") || undefined;
+  return (
+    <div style={mp.field}>
+      <label htmlFor={id} style={mp.label}>{label}</label>
+      <div style={mp.moneyWrap}>
+        <span style={mp.moneyPrefix} aria-hidden="true">$</span>
+        <input id={id} type="text" inputMode="numeric" autoComplete="off"
+          value={draft !== null ? draft : show(value)} onChange={onType} onBlur={() => setDraft(null)}
+          placeholder={placeholder} aria-describedby={describedBy} aria-invalid={error ? "true" : undefined}
+          style={{ ...mp.moneyInput, ...(error ? mp.inputError : {}) }}/>
+      </div>
+      {helper && <span id={helpId} style={mp.helper}>{helper}</span>}
+      {error && <span id={errId} role="alert" style={mp.errorText}>{error}</span>}
+    </div>
+  );
+}
+
+function MPRadioGroup({ legend, name, options, value, onChange, helper, note }) {
+  const helpId = name + "-help";
+  return (
+    <fieldset style={mp.fieldset} aria-describedby={helper ? helpId : undefined}>
+      <legend style={mp.legend}>{legend}</legend>
+      {helper && <span id={helpId} style={mp.helper}>{helper}</span>}
+      <div style={mp.radioList}>
+        {options.map((o) => {
+          const active = value === o.value;
+          const rid = name + "-" + o.value;
+          return (
+            <label key={o.value} htmlFor={rid} style={{ ...mp.radioCard, ...(active ? mp.radioCardActive : {}) }}>
+              <input type="radio" id={rid} name={name} value={o.value} checked={active}
+                onChange={() => onChange(o.value)} style={mp.radioInput}/>
+              <span style={mp.radioBody}>
+                <span style={mp.radioLabel}>{o.label}</span>
+                {o.desc && <span style={mp.radioDesc}>{o.desc}</span>}
+              </span>
+            </label>
+          );
+        })}
+      </div>
+      {note && <p style={mp.note}>{note}</p>}
+    </fieldset>
+  );
+}
+
+function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
+  const { Alert, Button, Badge } = window.MeshFinanceDesignSystem_5c98d0;
+  const { ArrowRight } = window.MeshIcons;
+  const isMobile = window.useIsMobile();
+  const MeshCalc = window.MeshCalc;
+
+  const [borrowingCapacity, setBorrowingCapacity] = React.useState(null);
+  const [totalCash, setTotalCash] = React.useState(null);
+  const [location, setLocation] = React.useState("PERTH_CAPITAL_CITY");
+  const [propertyType, setPropertyType] = React.useState("ESTABLISHED_HOME");
+  const [pathway, setPathway] = React.useState("SCHEME_5");
+  const [dutyElig, setDutyElig] = React.useState("unsure");
+  const [fhogElig, setFhogElig] = React.useState("unsure");
+  const [otherCosts, setOtherCosts] = React.useState(MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts);
+  const [showCosts, setShowCosts] = React.useState(false);
+  const [touched, setTouched] = React.useState(false);
+
+  const isNew = propertyType === "NEW_COMPLETED_HOME";
+
+  const result = React.useMemo(() => MeshCalc.calculateMaximumPurchasePrice({
+    borrowingCapacity: borrowingCapacity || 0,
+    totalCash: totalCash || 0,
+    location, propertyType, pathway,
+    firstHomeDutyEligibility: dutyElig,
+    fhogEligibility: isNew ? fhogElig : "no",
+    otherPurchaseCosts: otherCosts == null ? MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts : otherCosts,
+  }), [borrowingCapacity, totalCash, location, propertyType, pathway, dutyElig, fhogElig, otherCosts, isNew, MeshCalc]);
+
+  const capError = touched && !borrowingCapacity ? "Enter your borrowing capacity to see an estimate." : null;
+  const cashError = touched && !totalCash ? "Enter the cash you have available." : null;
+
+  const pathwayWarning = {
+    SCHEME_2: "To use this option you must be an eligible single parent or single legal guardian and meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
+    SCHEME_5: "To use this option you must meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
+    STANDARD: "Any LMI shown is an indicative guide only. LMI varies by lender, insurer, loan amount and application.",
+  }[pathway];
+
+  const lastReviewed = MeshCalc.CALC_CONFIG.lastReviewed;
+
+  const rows = (d, showScheme) => {
+    const list = [
+      ["Maximum purchase price", mfmt(d.headlinePrice)],
+      ["Borrowing capacity entered", mfmt(borrowingCapacity || 0)],
+      ["Total cash entered", mfmt(totalCash || 0)],
+    ];
+    if (d.fhog > 0) list.push(["First Home Owner Grant included", mfmt(d.fhog)]);
+    list.push(
+      ["Your cash contribution toward the property", mfmt(d.depositContribution)],
+      ["Estimated WA transfer duty", mfmt(d.duty)],
+      ["Other purchase costs", mfmt(d.otherCosts)],
+    );
+    if (d.lmi > 0) list.push(["Estimated LMI (indicative)", mfmt(d.lmi)]);
+    list.push(
+      ["Base loan before LMI", mfmt(d.baseLoan)],
+      ["Total loan including LMI", mfmt(d.totalLoan)],
+      ["Base LVR", mpct(d.baseLvr)],
+      ["Total LVR including LMI", mpct(d.totalLvr)],
+    );
+    if (showScheme && d.schemeCap) list.push(["Scheme property-price cap", mfmt(d.schemeCap)]);
+    if (d.remainingCash > 0) list.push(["Remaining unused cash", mfmt(d.remainingCash)]);
+    return list;
+  };
+
+  const ResultBlock = ({ d, heading, subheading, scheme }) => (
+    <div style={mp.resultBlock}>
+      {heading && <div style={mp.resultBlockHead}>{heading}</div>}
+      {subheading && <div style={mp.resultBlockSub}>{subheading}</div>}
+      {!d.feasible ? (
+        <p style={mp.resultUnfeasible}>
+          Based on these figures we couldn't estimate a purchase price yet — there isn't enough to cover the deposit,
+          duty and costs. A quick chat with Mesh Finance can help map out the gap and a plan to get there.
+        </p>
+      ) : (
+        <React.Fragment>
+          <div style={mp.bigPrice}>{mfmt(d.headlinePrice)}</div>
+          <div style={mp.limitLine}>
+            Limited by {MP_LIMIT_LABEL[d.limitingFactor] || "your figures"}.
+          </div>
+          <dl style={mp.figGrid}>
+            {rows(d, scheme).map(([k, v], i) => (
+              <div key={i} style={mp.figRow}>
+                <dt style={mp.figK}>{k}</dt>
+                <dd style={mp.figV}>{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <div style={mp.breakdown}>
+            <div style={mp.breakdownTitle}>How the money adds up</div>
+            <div style={mp.brRow}><span>Maximum property price</span><span>{mfmt(d.fundsPosition.price)}</span></div>
+            <div style={mp.brRow}><span>+ Transfer duty</span><span>{mfmt(d.fundsPosition.duty)}</span></div>
+            <div style={mp.brRow}><span>+ Other purchase costs</span><span>{mfmt(d.fundsPosition.otherCosts)}</span></div>
+            {d.fundsPosition.lmiCapitalised > 0 &&
+              <div style={mp.brRow}><span>+ Indicative LMI added to the loan</span><span>{mfmt(d.fundsPosition.lmiCapitalised)}</span></div>}
+            <div style={{ ...mp.brRow, ...mp.brTotal }}><span>= Total transaction &amp; loan position</span><span>{mfmt(d.fundsPosition.totalPosition)}</span></div>
+            <div style={mp.brSplit}>
+              <div><span style={mp.brSplitL}>Funded by your cash</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.cashFunded)}</span></div>
+              <div><span style={mp.brSplitL}>Purchase price funded by the loan</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.loanFundedPrice)}</span></div>
+              <div><span style={mp.brSplitL}>LMI added to the loan</span><span style={mp.brSplitV}>{mfmt(d.fundsPosition.lmiAddedToLoan)}</span></div>
+            </div>
+          </div>
+        </React.Fragment>
+      )}
+    </div>
+  );
+
+  const locationOptions = [
+    { value: "PERTH_CAPITAL_CITY", label: "Perth capital-city area" },
+    { value: "OTHER_WA_SOUTH_26", label: "Other WA — south of the 26th parallel" },
+    { value: "OTHER_WA_NORTH_26", label: "Other WA — north of the 26th parallel" },
+  ];
+  const typeOptions = [
+    { value: "ESTABLISHED_HOME", label: "Established home" },
+    { value: "NEW_COMPLETED_HOME", label: "Newly built, completed home", desc: "A brand-new home that has been completed but never lived in or sold as an established home before." },
+  ];
+  const pathwayOptions = [
+    { value: "SCHEME_2", label: "2% scheme — single parent or legal guardian", desc: "Buy with as little as a 2% deposit, no LMI." },
+    { value: "SCHEME_5", label: "5% scheme — eligible first home buyer", desc: "Buy with as little as a 5% deposit, no LMI." },
+    { value: "STANDARD", label: "Standard lending — estimated LMI may apply", desc: "No scheme price cap; LMI may apply above an 80% loan-to-value." },
+  ];
+  const yesNoUnsure = [
+    { value: "yes", label: "Yes" }, { value: "no", label: "No" }, { value: "unsure", label: "Unsure" },
+  ];
+
+  return (
+    <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator"
+      lead="See roughly the most you may be able to spend on a Western Australian home to live in, once your deposit, transfer duty, costs and any government help are taken into account.">
+      <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
+        {/* -------- Inputs -------- */}
+        <div style={mp.inputs}>
+          <MoneyField id="mp-borrow" label="How much can you borrow?"
+            helper="Enter the maximum home loan amount you have been told you may be able to borrow."
+            value={borrowingCapacity} onChange={(v) => { setBorrowingCapacity(v); setTouched(true); }} error={capError}
+            placeholder="e.g. 600,000"/>
+
+          <MoneyField id="mp-cash" label="How much cash do you have available?"
+            helper="Include the funds you're comfortable using towards your deposit and purchase costs. We'll split it between the deposit, duty and costs for you."
+            value={totalCash} onChange={(v) => { setTotalCash(v); setTouched(true); }} error={cashError}
+            placeholder="e.g. 90,000"/>
+
+          <MPRadioGroup legend="Where is the property?" name="mp-location" options={locationOptions}
+            value={location} onChange={setLocation}
+            note="Government scheme price caps can depend on the property's suburb and postcode. Confirm the applicable cap with Mesh Finance before relying on the result."/>
+
+          <MPRadioGroup legend="What type of home is it?" name="mp-type" options={typeOptions}
+            value={propertyType} onChange={setPropertyType}/>
+
+          <Alert variant="info">
+            Buying land, building a home or considering a house and land package? These purchases need a more tailored
+            calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
+          </Alert>
+
+          <MPRadioGroup legend="Which deposit pathway are you looking at?" name="mp-pathway" options={pathwayOptions}
+            value={pathway} onChange={setPathway}/>
+          {pathwayWarning && <Alert variant="warning">{pathwayWarning}</Alert>}
+
+          <MPRadioGroup legend="Are you eligible for the WA first home owner rate of transfer duty?" name="mp-duty"
+            options={yesNoUnsure} value={dutyElig} onChange={setDutyElig}
+            helper="This is separate from the federal deposit schemes — you can be eligible for one and not the other."/>
+
+          {isNew && (
+            <MPRadioGroup legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog"
+              options={yesNoUnsure} value={fhogElig} onChange={setFhogElig}
+              helper="The grant can add to your available funds, but it can't count towards the minimum deposit a scheme requires."/>
+          )}
+
+          <div style={mp.costsToggleWrap}>
+            <button type="button" onClick={() => setShowCosts(!showCosts)} aria-expanded={showCosts}
+              aria-controls="mp-costs-panel" style={mp.costsToggle}>
+              {showCosts ? "▾" : "▸"} Adjust purchase costs
+            </button>
+            {showCosts && (
+              <div id="mp-costs-panel" style={mp.costsPanel}>
+                <MoneyField id="mp-costs" label="Other estimated purchase costs"
+                  helper="This allowance may include settlement, registration, inspections and lender-related costs. Your actual costs may differ. It does not include transfer duty or LMI."
+                  value={otherCosts} onChange={setOtherCosts}/>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* -------- Results -------- */}
+        <div style={mp.resultCol}>
+          <div style={mp.resultCard} aria-live="polite">
+            <div style={mp.resultLabel}>Your estimated maximum purchase price</div>
+            {!result.ok ? (
+              <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
+            ) : (
+              <React.Fragment>
+                <ResultBlock d={result.primary}
+                  heading={result.usingScheme ? "Using the selected scheme" : null}
+                  scheme={result.usingScheme}/>
+
+                {result.usingScheme && result.secondary && (
+                  <ResultBlock d={result.secondary}
+                    heading="Estimated maximum without the government scheme"
+                    subheading="Standard lending, with indicative LMI and the 97% total loan-to-value limit — and no scheme price cap."
+                    scheme={false}/>
+                )}
+
+                {result.messages.map((m, i) => (
+                  <Alert key={i} variant="warning">{m}</Alert>
+                ))}
+
+                <div style={mp.ctaWrap}>
+                  <Button block size="lg" onClick={() => onNav("contact")} iconRight={<ArrowRight width={18} height={18}/>}>
+                    Check this with Mesh Finance
+                  </Button>
+                </div>
+              </React.Fragment>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* -------- Disclaimers -------- */}
+      <div style={mp.disclaimers}>
+        <Alert variant="warning">
+          LMI varies by lender, insurer, loan amount and application. This is a rough estimate only and may differ
+          materially from the final premium.
+        </Alert>
+        <p style={mp.fine}>
+          This calculator provides a general estimate only. It is not a loan approval, credit assessment,
+          government-scheme eligibility assessment or quote for transfer duty or Lenders Mortgage Insurance. Actual
+          borrowing capacity, property valuation, costs, LMI and eligibility will depend on the lender, insurer,
+          RevenueWA, Housing Australia and your individual circumstances. Speak with Mesh Finance before entering into a
+          property contract.
+        </p>
+        <p style={mp.fine}>
+          Government thresholds and duty rates can change. Figures in this calculator use WA rules applying from
+          7 May 2026 and should be reviewed regularly.
+        </p>
+        <p style={mp.reviewed}>Figures last reviewed {lastReviewed}.</p>
+      </div>
+    </Shell>
+  );
+}
+
+const mp = {
+  layout: { display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,420px)", gap: 28, alignItems: "start", marginBottom: 28 },
+  layoutMobile: { gridTemplateColumns: "minmax(0,1fr)", gap: 22 },
+  inputs: { display: "flex", flexDirection: "column", gap: 22 },
+  field: { display: "flex", flexDirection: "column", gap: 6 },
+  label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)" },
+  helper: { fontSize: 13, lineHeight: 1.5, color: "var(--text-muted)" },
+  errorText: { fontSize: 13, color: "var(--color-danger)", fontWeight: 600 },
+  moneyWrap: { position: "relative", display: "flex", alignItems: "center" },
+  moneyPrefix: { position: "absolute", left: 14, fontWeight: 700, fontSize: 16, color: "var(--text-muted)" },
+  moneyInput: { width: "100%", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 18, color: "var(--navy-700)",
+    background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-sm)", padding: "12px 14px 12px 28px", lineHeight: 1.3 },
+  inputError: { border: "1px solid var(--color-danger)" },
+
+  fieldset: { border: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8, minWidth: 0 },
+  legend: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)", padding: 0, marginBottom: 2 },
+  radioList: { display: "flex", flexDirection: "column", gap: 8 },
+  radioCard: { display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 14px", borderRadius: "var(--radius-md)",
+    border: "1px solid var(--border-subtle)", background: "#fff", cursor: "pointer" },
+  radioCardActive: { border: "1px solid var(--color-primary)", background: "var(--blue-50)", boxShadow: "0 0 0 1px var(--color-primary) inset" },
+  radioInput: { marginTop: 3, accentColor: "var(--color-primary)", width: 17, height: 17, flex: "none", cursor: "pointer" },
+  radioBody: { display: "flex", flexDirection: "column", gap: 2, minWidth: 0 },
+  radioLabel: { fontSize: 14.5, fontWeight: 600, color: "var(--text-strong)", lineHeight: 1.35 },
+  radioDesc: { fontSize: 13, color: "var(--text-muted)", lineHeight: 1.45 },
+  note: { fontSize: 12.5, lineHeight: 1.5, color: "var(--text-muted)", margin: "4px 0 0", fontStyle: "italic" },
+  link: { color: "var(--color-primary)", fontWeight: 600, textDecoration: "underline" },
+
+  costsToggleWrap: {},
+  costsToggle: { appearance: "none", background: "none", border: "none", padding: "4px 0", cursor: "pointer",
+    fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14.5, color: "var(--color-primary)" },
+  costsPanel: { marginTop: 12, padding: 16, background: "var(--surface-page)", borderRadius: "var(--radius-md)", border: "1px solid var(--border-subtle)" },
+
+  resultCol: { position: "sticky", top: 90 },
+  resultCard: { background: "#fff", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)", overflow: "hidden",
+    display: "flex", flexDirection: "column" },
+  resultLabel: { background: "linear-gradient(135deg, var(--blue-600), var(--blue-500))", color: "#fff",
+    padding: "18px 22px", fontSize: 14, fontWeight: 600 },
+  prompt: { padding: "24px 22px", fontSize: 15, lineHeight: 1.55, color: "var(--text-muted)", margin: 0 },
+  resultBlock: { padding: "20px 22px", borderBottom: "1px solid var(--border-subtle)" },
+  resultBlockHead: { fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--color-primary)", marginBottom: 6 },
+  resultBlockSub: { fontSize: 12.5, color: "var(--text-muted)", lineHeight: 1.45, marginBottom: 10 },
+  resultUnfeasible: { fontSize: 14.5, lineHeight: 1.55, color: "var(--text-body)", margin: 0 },
+  bigPrice: { fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, lineHeight: 1, letterSpacing: "-.02em", color: "var(--navy-700)" },
+  limitLine: { fontSize: 13, color: "var(--text-muted)", marginTop: 8, marginBottom: 14 },
+  figGrid: { margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 0 },
+  figRow: { display: "flex", justifyContent: "space-between", gap: 14, padding: "7px 0", borderTop: "1px solid var(--border-subtle)" },
+  figK: { fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.4, margin: 0 },
+  figV: { fontSize: 13.5, fontWeight: 700, color: "var(--navy-700)", margin: 0, whiteSpace: "nowrap" },
+  breakdown: { marginTop: 16, padding: 14, background: "var(--blue-50)", borderRadius: "var(--radius-md)" },
+  breakdownTitle: { fontSize: 12.5, fontWeight: 700, color: "var(--navy-700)", marginBottom: 8 },
+  brRow: { display: "flex", justifyContent: "space-between", gap: 12, fontSize: 13, color: "var(--text-body)", padding: "3px 0" },
+  brTotal: { fontWeight: 700, color: "var(--navy-700)", borderTop: "1px solid var(--border-subtle)", marginTop: 4, paddingTop: 7 },
+  brSplit: { marginTop: 10, display: "grid", gap: 6 },
+  brSplitL: { fontSize: 12, color: "var(--text-muted)", display: "block" },
+  brSplitV: { fontSize: 13.5, fontWeight: 700, color: "var(--navy-700)" },
+  ctaWrap: { padding: "18px 22px" },
+
+  disclaimers: { display: "flex", flexDirection: "column", gap: 12, maxWidth: 820 },
+  fine: { fontSize: 12.5, lineHeight: 1.55, color: "var(--text-muted)", margin: 0 },
+  reviewed: { fontSize: 12, color: "var(--text-subtle)", margin: "2px 0 0", fontStyle: "italic" },
 };
 
 const c = {

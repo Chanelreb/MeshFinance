@@ -848,6 +848,7 @@ window.MeshContent = {
     intro: "When it comes to making smart financial decisions, having the right tools at your fingertips makes all the difference. That's why we've created a suite of user-friendly calculators designed to help you take control of your mortgage, savings, and budget.",
     items: [
       { emoji: "🧮", title: "What Could I Borrow?", name: "Borrowing Power Calculator", id: "calc-borrowing-power", body: "Estimate your maximum borrowing capacity based on income, expenses and commitments, with living expense figures kept up to date." },
+      { emoji: "🔑", title: "What's My Ceiling?", name: "Maximum Home Purchase Price Calculator", id: "calc-max-purchase-price", body: "Estimate the most you may be able to spend on a WA home to live in, factoring in your deposit, borrowing power, transfer duty, government deposit schemes and the First Home Owner Grant." },
       { emoji: "🏠", title: "Crunch My Repayments", name: "Loan Repayment Calculator", id: "calc-loan-repayment", body: "Estimate your monthly or fortnightly repayments based on your loan amount, interest rate, and repayment period." },
       { emoji: "📄", title: "Interest Only, Explained", name: "Interest Only Mortgage Calculator", id: "calc-interest-only", body: "See how repayments compare during an interest-only period versus principal and interest." },
       { emoji: "💸", title: "Stamp Duty Decoder", name: "Stamp Duty Calculator", id: "calc-stamp-duty", body: "Know exactly how much you'll need to budget for based on your state, property value, and buyer type." },

@@ -28,6 +28,7 @@ const MESH_TITLES = {
   "calc-lump-sum": "Lump Sum Repayment Calculator | Mesh Finance",
   "calc-how-long": "How Long to Repay Calculator | Mesh Finance",
   "calc-offset-vs-redraw": "Offset vs Redraw Calculator | Mesh Finance",
+  "calc-max-purchase-price": "Maximum Home Purchase Price Calculator | Mesh Finance",
   "faqs": "FAQs | Mesh Finance",
   "knowledge-centre": "Knowledge Centre | Mesh Finance",
   "helpful-articles": "Helpful Articles | Mesh Finance",
@@ -89,6 +90,7 @@ const MESH_DESCRIPTIONS = {
   "calc-lump-sum": "Lump sum repayment calculator from Mesh Finance. See how a one-off payment reduces your home loan balance, interest and loan term.",
   "calc-how-long": "How long to repay calculator from Mesh Finance. Work out how long it will take to pay off your loan at your chosen repayment amount.",
   "calc-offset-vs-redraw": "Offset vs redraw calculator from Mesh Finance. Compare how an offset account and a redraw facility each affect your home loan interest.",
+  "calc-max-purchase-price": "Estimate the maximum price you may be able to pay for a WA owner-occupied home, factoring in your deposit, borrowing power, transfer duty, government schemes and the First Home Owner Grant.",
   "cs-families-consolidate-debt": "How Mesh Finance helped a Perth family consolidate multiple debts into one manageable home loan repayment and ease the pressure on their budget.",
   "cs-first-home-buyers-get-ready": "How Mesh Finance helped Perth first home buyers get pre-approval ready, understand grants and schemes, and buy their first home with confidence.",
   "cs-refinance-with-confidence": "How Mesh Finance helped clients refinance their home loan with confidence, compare lenders and secure a structure that suited their goals.",
@@ -163,7 +165,8 @@ function App() {
   const caseStudySlugs = window.MeshContent.caseStudies || {};
   const calcKinds = { "calc-loan-repayment":"loan-repayment", "calc-interest-only":"interest-only",
     "calc-stamp-duty":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
-    "calc-lump-sum":"lump-sum", "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw" };
+    "calc-lump-sum":"lump-sum", "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw",
+    "calc-max-purchase-price":"max-purchase-price" };
 
   let content;
   if (loanSlugs.includes(route)) {
