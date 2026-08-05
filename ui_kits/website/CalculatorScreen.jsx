@@ -20,8 +20,8 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const repay = r>0 ? amount * r / (1-Math.pow(1+r,-n)) : amount/n;
     const totalPaid = repay*n;
     return (
-      <Shell onNav={onNav} badge="Calculator" title="Home Loan Repayment Calculator" lead="Crunch my repayments, estimate your monthly or fortnightly repayment based on loan amount, rate and term."
-        note="This is an indicative estimate only and not an offer of credit.">
+      <Shell onNav={onNav} badge="Calculator" title="Home Loan Repayment Calculator" lead="Crunch my repayments, estimate your monthly or fortnightly principal and interest repayment based on loan amount, rate and term."
+        note="This is an indicative estimate only and not an offer of credit. Repayments shown are for a principal and interest loan; interest-only repayments would be lower during the interest-only period.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
             <Slider label="Loan amount" value={amount} set={setAmount} min={100000} max={2000000} step={10000} prefix="$"/>
@@ -34,6 +34,7 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
             </div>
           </Card>
           <ResultCard onNav={onNav} label={`Estimated ${freq} repayment`} big={fmt(repay)}
+            sub="Principal and interest (P&I) repayment"
             stats={[{v:fmt(totalPaid),l:"Total repaid over term"},{v:fmt(totalPaid-amount),l:"Total interest"}]}/>
         </div>
       </Shell>
