@@ -5,9 +5,13 @@
   "description": "Mesh Finance marketing website — static site served by a small Node.js server",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "node build.js"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
   }
 }
