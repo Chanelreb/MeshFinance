@@ -6,14 +6,19 @@
  * *development* builds and compiles the whole site on-device.
  *
  * This build compiles that JSX once, ahead of time, into a single minified
- * app.min.js and emits a ./dist tree whose index.html loads the *production*
- * React builds with no Babel. Runtime semantics are unchanged: the files are
- * transformed individually and concatenated in the SAME order the browser
- * loads them, so they still share one global scope exactly as before.
+ * ui_kits/website/app.min.js and rewrites ui_kits/website/index.html to load the
+ * *production* React builds with no Babel. Runtime semantics are unchanged: the
+ * files are transformed individually and concatenated in the SAME order the
+ * browser loads them, so they still share one global scope exactly as before.
+ *
+ * It runs IN PLACE so the existing, proven `rsync ./` deploy ships the built
+ * files with no pipeline changes. To avoid clobbering the editable dev file
+ * during local runs, index.html is only overwritten when running in CI; locally
+ * the production HTML is written to index.prod.html for inspection. app.min.js
+ * and index.prod.html are gitignored build artifacts.
  *
  * Local dev is untouched — keep using ui_kits/website/index.html with Babel in
- * the browser. This script only writes to ./dist (which is gitignored) and is
- * run by CI before deploying. Run locally with `npm run build`.
+ * the browser. Run the build with `npm run build`.
  */
 const fs = require("fs");
 const path = require("path");
@@ -21,21 +26,19 @@ const esbuild = require("esbuild");
 
 const ROOT = __dirname;
 const WEB = path.join(ROOT, "ui_kits", "website");
-const DIST = path.join(ROOT, "dist");
-const DIST_WEB = path.join(DIST, "ui_kits", "website");
 const INDEX = path.join(WEB, "index.html");
-
-/* Top-level files/dirs copied verbatim into the deploy artifact. */
-const COPY = ["assets", "tokens", "styles.css", "server.js", "robots.txt", "sitemap.xml", "ui_kits"];
+const IN_CI = process.env.CI === "true" || process.env.BUILD_INPLACE === "1";
 
 function log(msg) { console.log("[build] " + msg); }
 
 /* 1. Read the source index.html and pull out the ordered list of JSX scripts
- *    the browser compiles (the design-system bundle in <head> first, then
- *    icons, header, footer, each screen, and App last). */
+ *    the browser compiles (design-system bundle in <head> first, then icons,
+ *    header, footer, each screen, and App last). */
 const srcHtml = fs.readFileSync(INDEX, "utf8");
+if (!/text\/babel/.test(srcHtml)) {
+  throw new Error("index.html has no <script type=text/babel> tags — is it already built? Restore the dev index.html first.");
+}
 const babelSrcs = [...srcHtml.matchAll(/<script type="text\/babel" src="([^"]+)"><\/script>/g)].map(m => m[1]);
-if (babelSrcs.length === 0) throw new Error("No <script type=text/babel> tags found in index.html");
 log(`bundling ${babelSrcs.length} JSX files`);
 
 /* 2. Compile each JSX file individually (classic React.createElement, minified)
@@ -59,7 +62,7 @@ for (const src of babelSrcs) {
   bundle += `/* ${path.basename(file)} */\n${out.code}\n`;
 }
 
-/* 3. Produce the production index.html: production React, no Babel, no per-file
+/* 3. Production index.html: production React, no Babel, no per-file
  *    <script type=text/babel> tags — just the plain data scripts and app.min.js. */
 let outHtml = srcHtml
   .replace("react.development.js", "react.production.min.js")
@@ -77,25 +80,13 @@ if (/text\/babel/.test(outHtml) || /standalone/.test(outHtml)) {
   throw new Error("index.html transform left Babel references behind");
 }
 
-/* 4. Assemble ./dist: clean, copy the static tree, drop the now-bundled JSX
- *    sources, then write the bundle, production index.html and a runtime-only
- *    package.json (no devDependencies for the host to install). */
-fs.rmSync(DIST, { recursive: true, force: true });
-fs.mkdirSync(DIST, { recursive: true });
-for (const item of COPY) {
-  fs.cpSync(path.join(ROOT, item), path.join(DIST, item), { recursive: true });
-}
-for (const f of fs.readdirSync(DIST_WEB)) {
-  if (f.endsWith(".jsx")) fs.rmSync(path.join(DIST_WEB, f));
-}
-fs.writeFileSync(path.join(DIST_WEB, "app.min.js"), bundle);
-fs.writeFileSync(path.join(DIST_WEB, "index.html"), outHtml);
-
-const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
-delete pkg.devDependencies;
-delete pkg.scripts.build;
-fs.writeFileSync(path.join(DIST, "package.json"), JSON.stringify(pkg, null, 2) + "\n");
+/* 4. Write the artifacts. In CI, overwrite index.html so `rsync ./` ships the
+ *    production page; locally, write index.prod.html and leave the dev file. */
+fs.writeFileSync(path.join(WEB, "app.min.js"), bundle);
+const htmlTarget = IN_CI ? INDEX : path.join(WEB, "index.prod.html");
+fs.writeFileSync(htmlTarget, outHtml);
 
 const kb = (Buffer.byteLength(bundle) / 1024).toFixed(0);
-log(`wrote dist/ui_kits/website/app.min.js (${kb} KB)`);
+log(`wrote ui_kits/website/app.min.js (${kb} KB)`);
+log(`wrote ${path.relative(ROOT, htmlTarget)}${IN_CI ? " (in place)" : " (dev index.html left untouched)"}`);
 log("done");

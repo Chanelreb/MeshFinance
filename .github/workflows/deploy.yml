@@ -34,8 +34,16 @@ jobs:
       - name: Deploy via rsync
         run: |
           rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.claude' \
+            --exclude='.gitignore' \
+            --exclude='node_modules' \
+            --exclude='build.js' \
+            --exclude='package-lock.json' \
+            --exclude='index.prod.html' \
             -e "ssh -i ~/.ssh/id_rsa" \
-            ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ vars.DEPLOY_PATH }}/
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ vars.DEPLOY_PATH }}/
 
       - name: Install dependencies and restart Node.js
         run: |
@@ -54,7 +62,7 @@ jobs:
             fi
 
             echo "Using npm: $NPM_BIN"
-            "$NPM_BIN" install
+            "$NPM_BIN" install --omit=dev
 
             echo "Restarting Node.js application..."
             pkill node || true
