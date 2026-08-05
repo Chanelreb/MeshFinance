@@ -29,6 +29,7 @@ const MESH_TITLES = {
   "calc-how-long": "How Long to Repay Calculator | Mesh Finance",
   "calc-offset-vs-redraw": "Offset vs Redraw Calculator | Mesh Finance",
   "calc-max-purchase-price": "Maximum Home Purchase Price Calculator | Mesh Finance",
+  "calc-max-purchase-price-guided": "Maximum Home Purchase Price Calculator | Mesh Finance",
   "faqs": "FAQs | Mesh Finance",
   "knowledge-centre": "Knowledge Centre | Mesh Finance",
   "helpful-articles": "Helpful Articles | Mesh Finance",
@@ -166,7 +167,8 @@ function App() {
   const calcKinds = { "calc-loan-repayment":"loan-repayment", "calc-interest-only":"interest-only",
     "calc-stamp-duty":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
     "calc-lump-sum":"lump-sum", "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw",
-    "calc-max-purchase-price":"max-purchase-price" };
+    "calc-max-purchase-price":"max-purchase-price",
+    "calc-max-purchase-price-guided":"max-purchase-price-guided" };
 
   let content;
   if (loanSlugs.includes(route)) {

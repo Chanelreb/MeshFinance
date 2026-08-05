@@ -319,6 +319,10 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     return <MaxPurchasePriceCalculator onNav={onNav} contactUrl="/contact"/>;
   }
 
+  if (kind === "max-purchase-price-guided") {
+    return <MaxPurchasePriceWizard onNav={onNav} contactUrl="/contact"/>;
+  }
+
   // default: loan-repayment (fallback, App.jsx always passes a valid kind)
   return null;
 }
@@ -648,70 +652,58 @@ function MPRadioGroup({ legend, name, options, value, onChange, helper, note }) 
   );
 }
 
-function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
-  const { Alert, Button, Badge } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight } = window.MeshIcons;
-  const isMobile = window.useIsMobile();
-  const MeshCalc = window.MeshCalc;
+/* Shared input options + copy used by both the single-page and guided UIs. */
+const MP_LOCATION_OPTIONS = [
+  { value: "PERTH_CAPITAL_CITY", label: "Perth capital-city area" },
+  { value: "OTHER_WA_SOUTH_26", label: "Other WA — south of the 26th parallel" },
+  { value: "OTHER_WA_NORTH_26", label: "Other WA — north of the 26th parallel" },
+];
+const MP_TYPE_OPTIONS = [
+  { value: "ESTABLISHED_HOME", label: "Established home" },
+  { value: "NEW_COMPLETED_HOME", label: "Newly built, completed home", desc: "A brand-new home that has been completed but never lived in or sold as an established home before." },
+];
+const MP_PATHWAY_OPTIONS = [
+  { value: "SCHEME_2", label: "2% scheme — single parent or legal guardian", desc: "Buy with as little as a 2% deposit, no LMI." },
+  { value: "SCHEME_5", label: "5% scheme — eligible first home buyer", desc: "Buy with as little as a 5% deposit, no LMI." },
+  { value: "STANDARD", label: "Standard lending — estimated LMI may apply", desc: "No scheme price cap; LMI may apply above an 80% loan-to-value." },
+];
+const MP_YESNO = [
+  { value: "yes", label: "Yes" }, { value: "no", label: "No" }, { value: "unsure", label: "Unsure" },
+];
+const MP_PATHWAY_WARNING = {
+  SCHEME_2: "To use this option you must be an eligible single parent or single legal guardian and meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
+  SCHEME_5: "To use this option you must meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
+  STANDARD: "Any LMI shown is an indicative guide only. LMI varies by lender, insurer, loan amount and application.",
+};
+const MP_LEAD = "See roughly the most you may be able to spend on a Western Australian home to live in, once your deposit, transfer duty, costs and any government help are taken into account.";
 
-  const [borrowingCapacity, setBorrowingCapacity] = React.useState(null);
-  const [totalCash, setTotalCash] = React.useState(null);
-  const [location, setLocation] = React.useState("PERTH_CAPITAL_CITY");
-  const [propertyType, setPropertyType] = React.useState("ESTABLISHED_HOME");
-  const [pathway, setPathway] = React.useState("SCHEME_5");
-  const [dutyElig, setDutyElig] = React.useState("unsure");
-  const [fhogElig, setFhogElig] = React.useState("unsure");
-  const [otherCosts, setOtherCosts] = React.useState(MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts);
-  const [showCosts, setShowCosts] = React.useState(false);
-  const [touched, setTouched] = React.useState(false);
+/* Shared result rendering, used by both UIs. */
+function mpRows(d, showScheme, borrowingCapacity, totalCash) {
+  const list = [
+    ["Maximum purchase price", mfmt(d.headlinePrice)],
+    ["Borrowing capacity entered", mfmt(borrowingCapacity || 0)],
+    ["Total cash entered", mfmt(totalCash || 0)],
+  ];
+  if (d.fhog > 0) list.push(["First Home Owner Grant included", mfmt(d.fhog)]);
+  list.push(
+    ["Your cash contribution toward the property", mfmt(d.depositContribution)],
+    ["Estimated WA transfer duty", mfmt(d.duty)],
+    ["Other purchase costs", mfmt(d.otherCosts)],
+  );
+  if (d.lmi > 0) list.push(["Estimated LMI (indicative)", mfmt(d.lmi)]);
+  list.push(
+    ["Base loan before LMI", mfmt(d.baseLoan)],
+    ["Total loan including LMI", mfmt(d.totalLoan)],
+    ["Base LVR", mpct(d.baseLvr)],
+    ["Total LVR including LMI", mpct(d.totalLvr)],
+  );
+  if (showScheme && d.schemeCap) list.push(["Scheme property-price cap", mfmt(d.schemeCap)]);
+  if (d.remainingCash > 0) list.push(["Remaining unused cash", mfmt(d.remainingCash)]);
+  return list;
+}
 
-  const isNew = propertyType === "NEW_COMPLETED_HOME";
-
-  const result = React.useMemo(() => MeshCalc.calculateMaximumPurchasePrice({
-    borrowingCapacity: borrowingCapacity || 0,
-    totalCash: totalCash || 0,
-    location, propertyType, pathway,
-    firstHomeDutyEligibility: dutyElig,
-    fhogEligibility: isNew ? fhogElig : "no",
-    otherPurchaseCosts: otherCosts == null ? MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts : otherCosts,
-  }), [borrowingCapacity, totalCash, location, propertyType, pathway, dutyElig, fhogElig, otherCosts, isNew, MeshCalc]);
-
-  const capError = touched && !borrowingCapacity ? "Enter your borrowing capacity to see an estimate." : null;
-  const cashError = touched && !totalCash ? "Enter the cash you have available." : null;
-
-  const pathwayWarning = {
-    SCHEME_2: "To use this option you must be an eligible single parent or single legal guardian and meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
-    SCHEME_5: "To use this option you must meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
-    STANDARD: "Any LMI shown is an indicative guide only. LMI varies by lender, insurer, loan amount and application.",
-  }[pathway];
-
-  const lastReviewed = MeshCalc.CALC_CONFIG.lastReviewed;
-
-  const rows = (d, showScheme) => {
-    const list = [
-      ["Maximum purchase price", mfmt(d.headlinePrice)],
-      ["Borrowing capacity entered", mfmt(borrowingCapacity || 0)],
-      ["Total cash entered", mfmt(totalCash || 0)],
-    ];
-    if (d.fhog > 0) list.push(["First Home Owner Grant included", mfmt(d.fhog)]);
-    list.push(
-      ["Your cash contribution toward the property", mfmt(d.depositContribution)],
-      ["Estimated WA transfer duty", mfmt(d.duty)],
-      ["Other purchase costs", mfmt(d.otherCosts)],
-    );
-    if (d.lmi > 0) list.push(["Estimated LMI (indicative)", mfmt(d.lmi)]);
-    list.push(
-      ["Base loan before LMI", mfmt(d.baseLoan)],
-      ["Total loan including LMI", mfmt(d.totalLoan)],
-      ["Base LVR", mpct(d.baseLvr)],
-      ["Total LVR including LMI", mpct(d.totalLvr)],
-    );
-    if (showScheme && d.schemeCap) list.push(["Scheme property-price cap", mfmt(d.schemeCap)]);
-    if (d.remainingCash > 0) list.push(["Remaining unused cash", mfmt(d.remainingCash)]);
-    return list;
-  };
-
-  const ResultBlock = ({ d, heading, subheading, scheme }) => (
+function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, totalCash }) {
+  return (
     <div style={mp.resultBlock}>
       {heading && <div style={mp.resultBlockHead}>{heading}</div>}
       {subheading && <div style={mp.resultBlockSub}>{subheading}</div>}
@@ -723,11 +715,9 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
       ) : (
         <React.Fragment>
           <div style={mp.bigPrice}>{mfmt(d.headlinePrice)}</div>
-          <div style={mp.limitLine}>
-            Limited by {MP_LIMIT_LABEL[d.limitingFactor] || "your figures"}.
-          </div>
+          <div style={mp.limitLine}>Limited by {MP_LIMIT_LABEL[d.limitingFactor] || "your figures"}.</div>
           <dl style={mp.figGrid}>
-            {rows(d, scheme).map(([k, v], i) => (
+            {mpRows(d, scheme, borrowingCapacity, totalCash).map(([k, v], i) => (
               <div key={i} style={mp.figRow}>
                 <dt style={mp.figK}>{k}</dt>
                 <dd style={mp.figV}>{v}</dd>
@@ -752,138 +742,268 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
       )}
     </div>
   );
+}
 
-  const locationOptions = [
-    { value: "PERTH_CAPITAL_CITY", label: "Perth capital-city area" },
-    { value: "OTHER_WA_SOUTH_26", label: "Other WA — south of the 26th parallel" },
-    { value: "OTHER_WA_NORTH_26", label: "Other WA — north of the 26th parallel" },
-  ];
-  const typeOptions = [
-    { value: "ESTABLISHED_HOME", label: "Established home" },
-    { value: "NEW_COMPLETED_HOME", label: "Newly built, completed home", desc: "A brand-new home that has been completed but never lived in or sold as an established home before." },
-  ];
-  const pathwayOptions = [
-    { value: "SCHEME_2", label: "2% scheme — single parent or legal guardian", desc: "Buy with as little as a 2% deposit, no LMI." },
-    { value: "SCHEME_5", label: "5% scheme — eligible first home buyer", desc: "Buy with as little as a 5% deposit, no LMI." },
-    { value: "STANDARD", label: "Standard lending — estimated LMI may apply", desc: "No scheme price cap; LMI may apply above an 80% loan-to-value." },
-  ];
-  const yesNoUnsure = [
-    { value: "yes", label: "Yes" }, { value: "no", label: "No" }, { value: "unsure", label: "Unsure" },
-  ];
+function MPResultView({ result, borrowingCapacity, totalCash, onNav }) {
+  const { Alert, Button } = window.MeshFinanceDesignSystem_5c98d0;
+  const { ArrowRight } = window.MeshIcons;
+  return (
+    <div style={mp.resultCard} aria-live="polite">
+      <div style={mp.resultLabel}>Your estimated maximum purchase price</div>
+      {!result.ok ? (
+        <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
+      ) : (
+        <React.Fragment>
+          <MPResultBlock d={result.primary} heading={result.usingScheme ? "Using the selected scheme" : null}
+            scheme={result.usingScheme} borrowingCapacity={borrowingCapacity} totalCash={totalCash}/>
+          {result.usingScheme && result.secondary && (
+            <MPResultBlock d={result.secondary} heading="Estimated maximum without the government scheme"
+              subheading="Standard lending, with indicative LMI and the 97% total loan-to-value limit — and no scheme price cap."
+              scheme={false} borrowingCapacity={borrowingCapacity} totalCash={totalCash}/>
+          )}
+          {result.messages.map((m, i) => (<Alert key={i} variant="warning">{m}</Alert>))}
+          <div style={mp.ctaWrap}>
+            <Button block size="lg" onClick={() => onNav("contact")} iconRight={<ArrowRight width={18} height={18}/>}>
+              Check this with Mesh Finance
+            </Button>
+          </div>
+        </React.Fragment>
+      )}
+    </div>
+  );
+}
+
+function MPDisclaimers({ lastReviewed }) {
+  const { Alert } = window.MeshFinanceDesignSystem_5c98d0;
+  return (
+    <div style={mp.disclaimers}>
+      <Alert variant="warning">
+        LMI varies by lender, insurer, loan amount and application. This is a rough estimate only and may differ
+        materially from the final premium.
+      </Alert>
+      <p style={mp.fine}>
+        This calculator provides a general estimate only. It is not a loan approval, credit assessment,
+        government-scheme eligibility assessment or quote for transfer duty or Lenders Mortgage Insurance. Actual
+        borrowing capacity, property valuation, costs, LMI and eligibility will depend on the lender, insurer,
+        RevenueWA, Housing Australia and your individual circumstances. Speak with Mesh Finance before entering into a
+        property contract.
+      </p>
+      <p style={mp.fine}>
+        Government thresholds and duty rates can change. Figures in this calculator use WA rules applying from
+        7 May 2026 and should be reviewed regularly.
+      </p>
+      <p style={mp.reviewed}>Figures last reviewed {lastReviewed}.</p>
+    </div>
+  );
+}
+
+/* Shared input state + derived result for both UIs. */
+function useMaxPurchaseInputs() {
+  const MeshCalc = window.MeshCalc;
+  const [borrowingCapacity, setBorrowingCapacity] = React.useState(null);
+  const [totalCash, setTotalCash] = React.useState(null);
+  const [location, setLocation] = React.useState("PERTH_CAPITAL_CITY");
+  const [propertyType, setPropertyType] = React.useState("ESTABLISHED_HOME");
+  const [pathway, setPathway] = React.useState("SCHEME_5");
+  const [dutyElig, setDutyElig] = React.useState("unsure");
+  const [fhogElig, setFhogElig] = React.useState("unsure");
+  const [otherCosts, setOtherCosts] = React.useState(MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts);
+  const isNew = propertyType === "NEW_COMPLETED_HOME";
+  const result = React.useMemo(() => MeshCalc.calculateMaximumPurchasePrice({
+    borrowingCapacity: borrowingCapacity || 0,
+    totalCash: totalCash || 0,
+    location, propertyType, pathway,
+    firstHomeDutyEligibility: dutyElig,
+    fhogEligibility: isNew ? fhogElig : "no",
+    otherPurchaseCosts: otherCosts == null ? MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts : otherCosts,
+  }), [borrowingCapacity, totalCash, location, propertyType, pathway, dutyElig, fhogElig, otherCosts, isNew, MeshCalc]);
+  return {
+    borrowingCapacity, setBorrowingCapacity, totalCash, setTotalCash, location, setLocation,
+    propertyType, setPropertyType, pathway, setPathway, dutyElig, setDutyElig, fhogElig, setFhogElig,
+    otherCosts, setOtherCosts, isNew, result, lastReviewed: MeshCalc.CALC_CONFIG.lastReviewed,
+  };
+}
+
+/* Adjustable "other purchase costs" — shared expandable control. */
+function MPCostsToggle({ idPrefix, otherCosts, setOtherCosts }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div style={mp.costsToggleWrap}>
+      <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls={idPrefix + "-costs-panel"} style={mp.costsToggle}>
+        {open ? "▾" : "▸"} Adjust purchase costs
+      </button>
+      {open && (
+        <div id={idPrefix + "-costs-panel"} style={mp.costsPanel}>
+          <MoneyField id={idPrefix + "-costs"} label="Other estimated purchase costs"
+            helper="This allowance may include settlement, registration, inspections and lender-related costs. Your actual costs may differ. It does not include transfer duty or LMI."
+            value={otherCosts} onChange={setOtherCosts}/>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ----- Option A: single-page, two-column ----- */
+function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
+  const { Alert } = window.MeshFinanceDesignSystem_5c98d0;
+  const isMobile = window.useIsMobile();
+  const s = useMaxPurchaseInputs();
+  const [touched, setTouched] = React.useState(false);
+  const capError = touched && !s.borrowingCapacity ? "Enter your borrowing capacity to see an estimate." : null;
+  const cashError = touched && !s.totalCash ? "Enter the cash you have available." : null;
 
   return (
-    <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator"
-      lead="See roughly the most you may be able to spend on a Western Australian home to live in, once your deposit, transfer duty, costs and any government help are taken into account.">
+    <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator" lead={MP_LEAD}>
       <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
-        {/* -------- Inputs -------- */}
         <div style={mp.inputs}>
           <MoneyField id="mp-borrow" label="How much can you borrow?"
             helper="Enter the maximum home loan amount you have been told you may be able to borrow."
-            value={borrowingCapacity} onChange={(v) => { setBorrowingCapacity(v); setTouched(true); }} error={capError}
-            placeholder="e.g. 600,000"/>
-
+            value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
           <MoneyField id="mp-cash" label="How much cash do you have available?"
             helper="Include the funds you're comfortable using towards your deposit and purchase costs. We'll split it between the deposit, duty and costs for you."
-            value={totalCash} onChange={(v) => { setTotalCash(v); setTouched(true); }} error={cashError}
-            placeholder="e.g. 90,000"/>
-
-          <MPRadioGroup legend="Where is the property?" name="mp-location" options={locationOptions}
-            value={location} onChange={setLocation}
+            value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
+          <MPRadioGroup legend="Where is the property?" name="mp-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
             note="Government scheme price caps can depend on the property's suburb and postcode. Confirm the applicable cap with Mesh Finance before relying on the result."/>
-
-          <MPRadioGroup legend="What type of home is it?" name="mp-type" options={typeOptions}
-            value={propertyType} onChange={setPropertyType}/>
-
+          <MPRadioGroup legend="What type of home is it?" name="mp-type" options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
           <Alert variant="info">
             Buying land, building a home or considering a house and land package? These purchases need a more tailored
             calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
           </Alert>
-
-          <MPRadioGroup legend="Which deposit pathway are you looking at?" name="mp-pathway" options={pathwayOptions}
-            value={pathway} onChange={setPathway}/>
-          {pathwayWarning && <Alert variant="warning">{pathwayWarning}</Alert>}
-
-          <MPRadioGroup legend="Are you eligible for the WA first home owner rate of transfer duty?" name="mp-duty"
-            options={yesNoUnsure} value={dutyElig} onChange={setDutyElig}
+          <MPRadioGroup legend="Which deposit pathway are you looking at?" name="mp-pathway" options={MP_PATHWAY_OPTIONS} value={s.pathway} onChange={s.setPathway}/>
+          {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
+          <MPRadioGroup legend="Are you eligible for the WA first home owner rate of transfer duty?" name="mp-duty" options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
             helper="This is separate from the federal deposit schemes — you can be eligible for one and not the other."/>
-
-          {isNew && (
-            <MPRadioGroup legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog"
-              options={yesNoUnsure} value={fhogElig} onChange={setFhogElig}
+          {s.isNew && (
+            <MPRadioGroup legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
               helper="The grant can add to your available funds, but it can't count towards the minimum deposit a scheme requires."/>
           )}
-
-          <div style={mp.costsToggleWrap}>
-            <button type="button" onClick={() => setShowCosts(!showCosts)} aria-expanded={showCosts}
-              aria-controls="mp-costs-panel" style={mp.costsToggle}>
-              {showCosts ? "▾" : "▸"} Adjust purchase costs
-            </button>
-            {showCosts && (
-              <div id="mp-costs-panel" style={mp.costsPanel}>
-                <MoneyField id="mp-costs" label="Other estimated purchase costs"
-                  helper="This allowance may include settlement, registration, inspections and lender-related costs. Your actual costs may differ. It does not include transfer duty or LMI."
-                  value={otherCosts} onChange={setOtherCosts}/>
-              </div>
-            )}
-          </div>
+          <MPCostsToggle idPrefix="mp" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
         </div>
 
-        {/* -------- Results -------- */}
         <div style={mp.resultCol}>
-          <div style={mp.resultCard} aria-live="polite">
-            <div style={mp.resultLabel}>Your estimated maximum purchase price</div>
-            {!result.ok ? (
-              <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
-            ) : (
-              <React.Fragment>
-                <ResultBlock d={result.primary}
-                  heading={result.usingScheme ? "Using the selected scheme" : null}
-                  scheme={result.usingScheme}/>
-
-                {result.usingScheme && result.secondary && (
-                  <ResultBlock d={result.secondary}
-                    heading="Estimated maximum without the government scheme"
-                    subheading="Standard lending, with indicative LMI and the 97% total loan-to-value limit — and no scheme price cap."
-                    scheme={false}/>
-                )}
-
-                {result.messages.map((m, i) => (
-                  <Alert key={i} variant="warning">{m}</Alert>
-                ))}
-
-                <div style={mp.ctaWrap}>
-                  <Button block size="lg" onClick={() => onNav("contact")} iconRight={<ArrowRight width={18} height={18}/>}>
-                    Check this with Mesh Finance
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
-          </div>
+          <MPResultView result={s.result} borrowingCapacity={s.borrowingCapacity} totalCash={s.totalCash} onNav={onNav}/>
         </div>
       </div>
 
-      {/* -------- Disclaimers -------- */}
-      <div style={mp.disclaimers}>
-        <Alert variant="warning">
-          LMI varies by lender, insurer, loan amount and application. This is a rough estimate only and may differ
-          materially from the final premium.
-        </Alert>
-        <p style={mp.fine}>
-          This calculator provides a general estimate only. It is not a loan approval, credit assessment,
-          government-scheme eligibility assessment or quote for transfer duty or Lenders Mortgage Insurance. Actual
-          borrowing capacity, property valuation, costs, LMI and eligibility will depend on the lender, insurer,
-          RevenueWA, Housing Australia and your individual circumstances. Speak with Mesh Finance before entering into a
-          property contract.
-        </p>
-        <p style={mp.fine}>
-          Government thresholds and duty rates can change. Figures in this calculator use WA rules applying from
-          7 May 2026 and should be reviewed regularly.
-        </p>
-        <p style={mp.reviewed}>Figures last reviewed {lastReviewed}.</p>
+      <MPDisclaimers lastReviewed={s.lastReviewed}/>
+    </Shell>
+  );
+}
+
+/* ----- Option B: guided step-by-step wizard ----- */
+function MaxPurchasePriceWizard({ onNav, contactUrl = "/contact" }) {
+  const { Alert, Button } = window.MeshFinanceDesignSystem_5c98d0;
+  const { ArrowRight } = window.MeshIcons;
+  const s = useMaxPurchaseInputs();
+  const [step, setStep] = React.useState(0);
+  const [touched, setTouched] = React.useState(false);
+
+  const STEPS = ["Your money", "The property", "Your plan", "Your estimate"];
+  const last = STEPS.length - 1;
+  const moneyValid = s.borrowingCapacity > 0 && s.totalCash > 0;
+  const capError = touched && !s.borrowingCapacity ? "Enter your borrowing capacity to continue." : null;
+  const cashError = touched && !s.totalCash ? "Enter the cash you have available to continue." : null;
+
+  const goNext = () => {
+    if (step === 0 && !moneyValid) { setTouched(true); return; }
+    setStep(Math.min(step + 1, last));
+  };
+  const goBack = () => setStep(Math.max(step - 1, 0));
+
+  return (
+    <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator" lead={MP_LEAD}>
+      <div style={wz.wrap}>
+        <div style={wz.progress}>
+          <div style={wz.progressTop}>
+            <span style={wz.stepCount}>Step {step + 1} of {STEPS.length}</span>
+            <span style={wz.stepName}>{STEPS[step]}</span>
+          </div>
+          <div style={wz.track} role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length} aria-label={"Step " + (step + 1) + " of " + STEPS.length}>
+            {STEPS.map((_, i) => (<span key={i} style={{ ...wz.seg, ...(i <= step ? wz.segOn : {}) }}/>))}
+          </div>
+        </div>
+
+        {step < last ? (
+          <div style={wz.card}>
+            <div style={wz.stepBody} aria-live="polite">
+              {step === 0 && (
+                <React.Fragment>
+                  <h2 style={wz.stepH}>First, your money</h2>
+                  <p style={wz.stepIntro}>Two quick numbers and we'll work out the rest — the deposit, duty and costs all come out of your cash for you.</p>
+                  <MoneyField id="wz-borrow" label="How much can you borrow?"
+                    helper="Enter the maximum home loan amount you have been told you may be able to borrow." value={s.borrowingCapacity}
+                    onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
+                  <MoneyField id="wz-cash" label="How much cash do you have available?"
+                    helper="Include the funds you're comfortable using towards your deposit and purchase costs." value={s.totalCash}
+                    onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
+                </React.Fragment>
+              )}
+              {step === 1 && (
+                <React.Fragment>
+                  <h2 style={wz.stepH}>The property</h2>
+                  <MPRadioGroup legend="Where is the property?" name="wz-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
+                    note="Government scheme price caps can depend on the property's suburb and postcode. Confirm the applicable cap with Mesh Finance before relying on the result."/>
+                  <MPRadioGroup legend="What type of home is it?" name="wz-type" options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
+                  <Alert variant="info">
+                    Buying land, building a home or considering a house and land package? These purchases need a more tailored
+                    calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
+                  </Alert>
+                </React.Fragment>
+              )}
+              {step === 2 && (
+                <React.Fragment>
+                  <h2 style={wz.stepH}>Your plan</h2>
+                  <MPRadioGroup legend="Which deposit pathway are you looking at?" name="wz-pathway" options={MP_PATHWAY_OPTIONS} value={s.pathway} onChange={s.setPathway}/>
+                  {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
+                  <MPRadioGroup legend="Are you eligible for the WA first home owner rate of transfer duty?" name="wz-duty" options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
+                    helper="This is separate from the federal deposit schemes — you can be eligible for one and not the other."/>
+                  {s.isNew && (
+                    <MPRadioGroup legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="wz-fhog" options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
+                      helper="The grant can add to your available funds, but it can't count towards the minimum deposit a scheme requires."/>
+                  )}
+                  <MPCostsToggle idPrefix="wz" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
+                </React.Fragment>
+              )}
+            </div>
+            <div style={wz.nav}>
+              {step > 0 ? <button type="button" style={wz.backBtn} onClick={goBack}>← Back</button> : <span/>}
+              <Button size="lg" onClick={goNext} iconRight={<ArrowRight width={18} height={18}/>}>
+                {step === last - 1 ? "See my estimate" : "Next"}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <React.Fragment>
+            <MPResultView result={s.result} borrowingCapacity={s.borrowingCapacity} totalCash={s.totalCash} onNav={onNav}/>
+            <div style={wz.resultNav}>
+              <button type="button" style={wz.backBtn} onClick={goBack}>← Change my answers</button>
+              <button type="button" style={wz.backBtn} onClick={() => setStep(0)}>Start again</button>
+            </div>
+            <MPDisclaimers lastReviewed={s.lastReviewed}/>
+          </React.Fragment>
+        )}
       </div>
     </Shell>
   );
 }
+
+const wz = {
+  wrap: { maxWidth: 720, margin: "0 auto" },
+  progress: { marginBottom: 20 },
+  progressTop: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8, gap: 12 },
+  stepCount: { fontSize: 13, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".05em" },
+  stepName: { fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16, color: "var(--navy-700)" },
+  track: { display: "flex", gap: 6 },
+  seg: { flex: 1, height: 6, borderRadius: 3, background: "var(--border-subtle)" },
+  segOn: { background: "var(--color-primary)" },
+  card: { background: "#fff", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)", padding: "28px 28px 20px" },
+  stepBody: { display: "flex", flexDirection: "column", gap: 20, minHeight: 250 },
+  stepH: { fontFamily: "var(--font-display)", fontSize: 23, color: "var(--navy-700)", margin: "0 0 2px", fontWeight: 700, letterSpacing: "-.01em" },
+  stepIntro: { fontSize: 14.5, color: "var(--text-body)", lineHeight: 1.55, margin: "0 0 4px" },
+  nav: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, paddingTop: 18, borderTop: "1px solid var(--border-subtle)" },
+  backBtn: { appearance: "none", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 14.5, color: "var(--color-primary)", padding: "8px 4px" },
+  resultNav: { display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap", margin: "16px 0 24px" },
+};
 
 const mp = {
   layout: { display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,420px)", gap: 28, alignItems: "start", marginBottom: 28 },
