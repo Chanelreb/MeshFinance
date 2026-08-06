@@ -534,7 +534,7 @@
       }
       if (!primary.feasible && primary.limitingFactor === "MIN_SAVED_DEPOSIT") {
         messages.push(
-          "Your saved cash is below the minimum deposit this scheme requires. The scheme deposit must come from your own funds — the First Home Owner Grant cannot count towards it."
+          "Your saved cash is below the minimum deposit this scheme requires. The scheme deposit must come from your own funds. The First Home Owner Grant cannot count towards it."
         );
       }
     } else if (!primary.feasible) {

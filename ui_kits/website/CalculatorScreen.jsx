@@ -483,7 +483,7 @@ function OffsetVsRedrawInfo() {
         <h3 style={info.h3}>What the numbers mean</h3>
         <ul style={info.plainList}>
           {d.whatNumbersMean.map((s,i)=>(
-            <li key={i} style={info.plainItem}><strong style={info.strong}>{s.t}</strong> — {s.b}</li>
+            <li key={i} style={info.plainItem}><strong style={info.strong}>{s.t}</strong>: {s.b}</li>
           ))}
         </ul>
       </div>
@@ -693,8 +693,8 @@ const MP_TYPE_OPTIONS = [
   { value: "NEW_COMPLETED_HOME", label: "Newly built", sub: "completed, never lived in" },
 ];
 const MP_SCHEME_TOGGLE = [
-  { value: "SCHEME_5", label: "Yes — 5% scheme", sub: "first home buyer" },
-  { value: "SCHEME_2", label: "Yes — 2% scheme", sub: "single parent or guardian" },
+  { value: "SCHEME_5", label: "Yes, 5% scheme", sub: "first home buyer" },
+  { value: "SCHEME_2", label: "Yes, 2% scheme", sub: "single parent or guardian" },
   { value: "STANDARD", label: "No / not sure", sub: "standard lending" },
 ];
 const MP_YESNO = [
@@ -741,7 +741,7 @@ function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, tota
       {subheading && <div style={mp.resultBlockSub}>{subheading}</div>}
       {!d.feasible ? (
         <p style={mp.resultUnfeasible}>
-          Based on these figures we couldn't estimate a purchase price yet — there isn't enough to cover the deposit,
+          Based on these figures we couldn't estimate a purchase price yet. There isn't enough to cover the deposit,
           duty and costs. A quick chat with Mesh Finance can help map out the gap and a plan to get there.
         </p>
       ) : (
@@ -805,7 +805,7 @@ function MPResultView({ result, borrowingCapacity, totalCash, onNav }) {
             scheme={result.usingScheme} borrowingCapacity={borrowingCapacity} totalCash={totalCash}/>
           {result.usingScheme && result.secondary && (
             <MPResultBlock d={result.secondary} heading="Estimated maximum without the government scheme"
-              subheading="Standard lending, with indicative LMI and the 97% total loan-to-value limit — and no scheme price cap."
+              subheading="Standard lending, with indicative LMI and the 97% total loan-to-value limit, and no scheme price cap."
               scheme={false} borrowingCapacity={borrowingCapacity} totalCash={totalCash}/>
           )}
           {result.messages.map((m, i) => (<Alert key={i} variant="warning">{m}</Alert>))}
@@ -911,10 +911,10 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
             helper="Enter the maximum home loan amount you have been told you may be able to borrow."
             value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
           <MoneyField id="mp-cash" label="How much cash do you have available?" icon={ic(Coins)}
-            helper="Include the funds you're comfortable using towards your deposit and purchase costs — we'll split it between the deposit, stamp duty and costs for you."
+            helper="Include the funds you're comfortable using towards your deposit and purchase costs. We'll split it between the deposit, stamp duty and costs for you."
             value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
           <MPToggle legend="Where is the property?" name="mp-location" icon={ic(MapPin)} options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
-            note="Scheme price caps can depend on the exact suburb and postcode — confirm the applicable cap with Mesh Finance."/>
+            note="Scheme price caps can depend on the exact suburb and postcode. Confirm the applicable cap with Mesh Finance."/>
           <MPToggle legend="What type of home is it?" name="mp-type" icon={ic(Home)} options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
           <Alert variant="info">
             Buying land, building a home or considering a house and land package? These purchases need a more tailored
@@ -924,7 +924,7 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
             helper="These federal schemes let eligible buyers get in with a smaller deposit and no LMI. Not sure? Choose “No / not sure” and we'll use standard lending."/>
           {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
           <MPToggle legend="Are you eligible for the WA first home owner rate of stamp duty?" name="mp-duty" icon={ic(Key)} options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
-            helper="This is separate from the schemes above — you can qualify for one and not the other."/>
+            helper="This is separate from the schemes above. You can qualify for one and not the other."/>
           {s.isNew && (
             <MPToggle legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" icon={ic(Star)} options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
               helper="The grant can add to your available funds, but it can't count towards a scheme's minimum deposit."/>
@@ -963,7 +963,7 @@ const mp = {
     background: "var(--color-primary)", color: "#fff", fontFamily: "var(--font-body)", fontWeight: 700,
     fontSize: 11.5, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 13px", borderRadius: 999, marginBottom: -10 },
   field: { display: "flex", flexDirection: "column", gap: 6 },
-  label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)" },
+  label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)", display: "flex", alignItems: "center" },
   legendIcon: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 9,
     background: "var(--blue-50)", color: "var(--color-primary)", marginRight: 10, verticalAlign: "middle", flex: "none" },
   legendText: { verticalAlign: "middle" },
@@ -978,7 +978,7 @@ const mp = {
   inputError: { border: "1px solid var(--color-danger)" },
 
   fieldset: { border: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8, minWidth: 0 },
-  legend: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)", padding: 0, marginBottom: 2 },
+  legend: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)", padding: 0, marginBottom: 2, display: "flex", alignItems: "center" },
   radioList: { display: "flex", flexDirection: "column", gap: 8 },
   radioCard: { display: "flex", gap: 12, alignItems: "flex-start", padding: "13px 15px", borderRadius: 14,
     border: "1.5px solid var(--border-subtle)", background: "#fff", cursor: "pointer" },
@@ -1008,7 +1008,7 @@ const mp = {
   resultCard: { background: "#fff", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)", overflow: "hidden",
     display: "flex", flexDirection: "column" },
   resultLabel: { background: "linear-gradient(135deg, var(--blue-600), var(--blue-500))", color: "#fff",
-    padding: "18px 22px", fontSize: 14, fontWeight: 600 },
+    padding: "18px 22px", fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center" },
   prompt: { padding: "24px 22px", fontSize: 15, lineHeight: 1.55, color: "var(--text-muted)", margin: 0 },
   resultBlock: { padding: "20px 22px", borderBottom: "1px solid var(--border-subtle)" },
   resultBlockHead: { fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--color-primary)", marginBottom: 6 },
