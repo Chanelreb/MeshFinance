@@ -23,13 +23,15 @@ function CalculatorHubScreen({ onNav }) {
         <div style={calcHubS.inner}>
           <div style={{...calcHubS.grid, ...(isMobile ? calcHubS.gridMobile : {})}}>
             {d.items.map((it,i)=>(
-              <Card key={i} elevation="shadow" style={calcHubS.card}
+              <Card key={i} elevation="shadow" padded={false} style={calcHubS.card}
                 onClick={()=>onNav(it.id)}>
-                <span style={calcHubS.emoji}>{it.emoji}</span>
-                <h3 style={calcHubS.cardTitle}>{it.title}</h3>
-                <p style={calcHubS.cardName}>{it.name}</p>
-                <p style={calcHubS.cardBody}>{it.body}</p>
-                <span style={calcHubS.cardLink}>Open calculator →</span>
+                <div style={calcHubS.cardInner}>
+                  <span style={calcHubS.emoji}>{it.emoji}</span>
+                  <h3 style={calcHubS.cardTitle}>{it.title}</h3>
+                  <p style={calcHubS.cardName}>{it.name}</p>
+                  <p style={calcHubS.cardBody}>{it.body}</p>
+                  <span style={calcHubS.cardLink}>Open calculator →</span>
+                </div>
               </Card>
             ))}
           </div>
@@ -50,12 +52,13 @@ const calcHubS = {
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20, marginBottom:36 },
   gridMobile: { gridTemplateColumns:"1fr" },
-  card: { padding:26, cursor:"pointer", display:"flex", flexDirection:"column", gap:6 },
-  emoji: { fontSize:28 },
-  cardTitle: { fontFamily:"var(--font-display)", fontSize:18, color:"var(--navy-700)", margin:"4px 0 0", fontWeight:700 },
-  cardName: { fontSize:12.5, color:"var(--color-primary)", fontWeight:600, margin:0, textTransform:"uppercase", letterSpacing:".03em" },
-  cardBody: { fontSize:14.5, color:"var(--text-muted)", lineHeight:1.5, margin:"4px 0 8px" },
-  cardLink: { fontSize:14, fontWeight:600, color:"var(--color-primary)" },
+  card: { cursor:"pointer", display:"flex", flexDirection:"column" },
+  cardInner: { flex:1, display:"flex", flexDirection:"column", padding:26 },
+  emoji: { fontSize:28, lineHeight:1, height:38, display:"flex", alignItems:"center" },
+  cardTitle: { fontFamily:"var(--font-display)", fontSize:18, lineHeight:1.25, color:"var(--navy-700)", margin:"0 0 6px", fontWeight:700, minHeight:45 },
+  cardName: { fontSize:12.5, lineHeight:1.3, color:"var(--color-primary)", fontWeight:600, margin:"0 0 8px", textTransform:"uppercase", letterSpacing:".03em", minHeight:33 },
+  cardBody: { fontSize:14.5, color:"var(--text-muted)", lineHeight:1.5, margin:"0 0 16px" },
+  cardLink: { fontSize:14, fontWeight:600, color:"var(--color-primary)", marginTop:"auto" },
   closing: { fontFamily:"var(--font-display)", fontSize:18, color:"var(--navy-700)", fontWeight:600, textAlign:"center" },
 };
 
