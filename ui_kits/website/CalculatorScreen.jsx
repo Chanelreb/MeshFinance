@@ -9,33 +9,65 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
   const isMobile = window.useIsMobile();
   const fmt = (v) => "$" + Math.round(v).toLocaleString("en-AU");
 
-  if (kind === "loan-repayment") {
+  if (kind === "loan-repayment" || kind === "interest-only") {
     const [amount, setAmount] = useState(550000);
     const [rate, setRate] = useState(6.2);
     const [term, setTerm] = useState(30);
     const [freq, setFreq] = useState("monthly");
+    const [repayType, setRepayType] = useState(kind === "interest-only" ? "IO" : "PI");
+    const [ioTerm, setIoTerm] = useState(5);
+    const isIO = repayType === "IO";
     const periodsPerYear = freq === "monthly" ? 12 : 26;
     const r = rate/100/periodsPerYear;
-    const n = term*periodsPerYear;
-    const repay = r>0 ? amount * r / (1-Math.pow(1+r,-n)) : amount/n;
-    const totalPaid = repay*n;
+
+    // Principal & interest over the full term
+    const piN = term*periodsPerYear;
+    const piRepay = r>0 ? amount * r / (1-Math.pow(1+r,-piN)) : amount/piN;
+    const totalPaid = piRepay*piN;
+
+    // Interest only during the IO period, then P&I over the remaining term
+    const ioRepay = amount * r;
+    const afterN = Math.max(term - ioTerm, 1) * periodsPerYear;
+    const piAfter = r>0 ? amount * r / (1-Math.pow(1+r,-afterN)) : amount/afterN;
+
     return (
-      <Shell onNav={onNav} badge="Calculator" title="Home Loan Repayment Calculator" lead="Crunch my repayments, estimate your monthly or fortnightly principal and interest repayment based on loan amount, rate and term."
-        note="This is an indicative estimate only and not an offer of credit. Repayments shown are for a principal and interest loan; interest-only repayments would be lower during the interest-only period.">
+      <Shell onNav={onNav} badge="Calculator" title="Home Loan Repayment Calculator"
+        lead="Estimate your repayments for a principal and interest or interest-only home loan, based on your loan amount, rate and term."
+        note={isIO
+          ? "This is an indicative estimate only and not an offer of credit. During the interest-only period your loan balance does not reduce, so repayments step up once principal and interest begins."
+          : "This is an indicative estimate only and not an offer of credit."}>
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
             <Slider label="Loan amount" value={amount} set={setAmount} min={100000} max={2000000} step={10000} prefix="$"/>
             <Slider label="Interest rate" value={rate} set={setRate} min={4} max={9} step={0.1} suffix="% p.a."/>
             <Slider label="Loan term" value={term} set={setTerm} min={10} max={30} step={1} suffix="years"/>
-            <div style={c.toggleRow}>
-              {["monthly","fortnightly"].map(f=>(
-                <button key={f} onClick={()=>setFreq(f)} style={{...c.toggleBtn, ...(freq===f?c.toggleBtnActive:{})}}>{f}</button>
-              ))}
+            <div style={c.field}>
+              <label style={c.label}>Repayment type</label>
+              <div style={c.toggleRow}>
+                {[["PI","Principal & interest"],["IO","Interest only"]].map(([val,lbl])=>(
+                  <button key={val} type="button" onClick={()=>setRepayType(val)} style={{...c.toggleBtn, ...(repayType===val?c.toggleBtnActive:{})}}>{lbl}</button>
+                ))}
+              </div>
+            </div>
+            {isIO && <Slider label="Interest-only period" value={ioTerm} set={setIoTerm} min={1} max={5} step={1} suffix="years"/>}
+            <div style={c.field}>
+              <label style={c.label}>Repayment frequency</label>
+              <div style={c.toggleRow}>
+                {["monthly","fortnightly"].map(f=>(
+                  <button key={f} type="button" onClick={()=>setFreq(f)} style={{...c.toggleBtn, ...(freq===f?c.toggleBtnActive:{})}}>{f}</button>
+                ))}
+              </div>
             </div>
           </Card>
-          <ResultCard onNav={onNav} label={`Estimated ${freq} repayment`} big={fmt(repay)}
-            sub="Principal and interest (P&I) repayment"
-            stats={[{v:fmt(totalPaid),l:"Total repaid over term"},{v:fmt(totalPaid-amount),l:"Total interest"}]}/>
+          {isIO ? (
+            <ResultCard onNav={onNav} label={`Interest-only ${freq} repayment`} big={fmt(ioRepay)}
+              sub="Interest only. Your loan balance doesn't reduce during this period."
+              stats={[{v:fmt(piAfter),l:`P&I repayment after year ${ioTerm}`},{v:fmt(amount),l:"Loan amount stays the same"}]}/>
+          ) : (
+            <ResultCard onNav={onNav} label={`Estimated ${freq} repayment`} big={fmt(piRepay)}
+              sub="Principal and interest (P&I) repayment"
+              stats={[{v:fmt(totalPaid),l:"Total repaid over term"},{v:fmt(totalPaid-amount),l:"Total interest"}]}/>
+          )}
         </div>
       </Shell>
     );
@@ -99,32 +131,6 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
           <ResultCard onNav={onNav} label="You could save" big={`${yearsSaved.toFixed(1)} years`}
             sub={`and ${fmt(interestSaved)} in interest`}
             stats={[{v:fmt(withExtra),l:"New monthly repayment"},{v:fmt(baseRepay),l:"Original repayment"}]}/>
-        </div>
-      </Shell>
-    );
-  }
-
-  if (kind === "interest-only") {
-    const [amount, setAmount] = useState(550000);
-    const [rate, setRate] = useState(6.4);
-    const [ioTerm, setIoTerm] = useState(5);
-    const [term, setTerm] = useState(30);
-    const ioRepay = amount * (rate/100/12);
-    const r = rate/100/12; const remainingTerm = (term - ioTerm) * 12;
-    const piRepay = r>0 ? amount * r / (1-Math.pow(1+r,-remainingTerm)) : amount/remainingTerm;
-    return (
-      <Shell onNav={onNav} badge="Calculator" title="Interest Only Mortgage Calculator" lead="See what you'd pay during an interest-only period, and how repayments step up once principal and interest kick in."
-        note="This is an indicative estimate only and not an offer of credit.">
-        <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
-          <Card elevation="shadow" style={{padding:28}}>
-            <Slider label="Loan amount" value={amount} set={setAmount} min={100000} max={2000000} step={10000} prefix="$"/>
-            <Slider label="Interest rate" value={rate} set={setRate} min={4} max={9} step={0.1} suffix="% p.a."/>
-            <Slider label="Interest-only period" value={ioTerm} set={setIoTerm} min={1} max={5} step={1} suffix="years"/>
-            <Slider label="Total loan term" value={term} set={setTerm} min={15} max={30} step={1} suffix="years"/>
-          </Card>
-          <ResultCard onNav={onNav} label="Interest-only repayment (monthly)" big={fmt(ioRepay)}
-            sub="Interest only, principal doesn't reduce during this period"
-            stats={[{v:fmt(piRepay),l:`P&I repayment after year ${ioTerm}`},{v:fmt(amount),l:"Loan amount stays the same"}]}/>
         </div>
       </Shell>
     );
