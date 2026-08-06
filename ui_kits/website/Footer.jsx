@@ -35,7 +35,7 @@ function Footer({ onNav }) {
           </div>
         </div>
         <Col title="Calculators" items={[
-          {label:"Borrowing Power",id:"calc-borrowing-power"},{label:"Loan Repayment",id:"calc-loan-repayment"},{label:"Interest Only",id:"calc-interest-only"},
+          {label:"Borrowing Power",id:"calc-borrowing-power"},{label:"Maximum Purchase Price",id:"calc-max-purchase-price"},{label:"Loan Repayment",id:"calc-loan-repayment"},
           {label:"Stamp Duty Calculator",id:"calc-stamp-duty"},{label:"Saving Calculator",id:"calc-savings"},
           {label:"Extra Repayment Calculator",id:"calc-extra-repayment"},{label:"Lump Sum Repayment",id:"calc-lump-sum"},
           {label:"How Long to Repay",id:"calc-how-long"},{label:"Offset vs Redraw",id:"calc-offset-vs-redraw"}]}/>
