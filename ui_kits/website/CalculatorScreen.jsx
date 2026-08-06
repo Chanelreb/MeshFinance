@@ -796,7 +796,7 @@ function MPResultView({ result, borrowingCapacity, totalCash, onNav }) {
   const { ArrowRight, Home } = window.MeshIcons;
   return (
     <div style={mp.resultCard} aria-live="polite">
-      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={16} height={16}/></span><span style={mp.legendText}>Your estimated maximum purchase price</span></div>
+      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={18} height={18}/></span><span style={mp.legendText}>Your estimated maximum purchase price</span></div>
       {!result.ok ? (
         <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
       ) : (
@@ -894,7 +894,11 @@ function MPCostsToggle({ idPrefix, otherCosts, setOtherCosts }) {
 function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
   const { Alert } = window.MeshFinanceDesignSystem_5c98d0;
   const { Building, Coins, MapPin, Home, Shield, Key, Star } = window.MeshIcons;
-  const ic = (I) => <I width={16} height={16}/>;
+  // These glyphs fill their 24x24 box by different amounts, so a fixed size
+  // makes some look smaller than others. Per-icon sizes even out the optical
+  // footprint so every chip's icon looks the same size.
+  const MP_ICON_SIZE = new Map([[Home, 19], [Building, 19], [Coins, 19], [MapPin, 19], [Shield, 20], [Key, 21], [Star, 18]]);
+  const ic = (I) => { const px = MP_ICON_SIZE.get(I) || 18; return <I width={px} height={px}/>; };
   const isMobile = window.useIsMobile();
   const s = useMaxPurchaseInputs();
   const [touched, setTouched] = React.useState(false);
