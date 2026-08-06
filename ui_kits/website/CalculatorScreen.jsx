@@ -599,7 +599,7 @@ const MP_LIMIT_LABEL = {
   UPPER_BOUND: "your borrowing capacity and cash",
 };
 
-function MoneyField({ id, label, helper, value, onChange, error, placeholder }) {
+function MoneyField({ id, label, helper, value, onChange, error, placeholder, icon }) {
   const [draft, setDraft] = React.useState(null);
   const show = (v) => (v == null || v === "" ? "" : Math.round(Number(v) || 0).toLocaleString("en-AU"));
   const onType = (e) => {
@@ -613,7 +613,7 @@ function MoneyField({ id, label, helper, value, onChange, error, placeholder }) 
   const describedBy = [helper ? helpId : null, error ? errId : null].filter(Boolean).join(" ") || undefined;
   return (
     <div style={mp.field}>
-      <label htmlFor={id} style={mp.label}>{label}</label>
+      <label htmlFor={id} style={mp.label}>{icon && <span style={mp.legendIcon} aria-hidden="true">{icon}</span>}{label}</label>
       <div style={mp.moneyWrap}>
         <span style={mp.moneyPrefix} aria-hidden="true">$</span>
         <input id={id} type="text" inputMode="numeric" autoComplete="off" className="mpx-money"
@@ -658,11 +658,11 @@ function MPRadioGroup({ legend, name, options, value, onChange, helper, note }) 
    for yes/no/unsure and the scheme choice. The native radio is visually hidden
    but keeps keyboard focus, surfaced by .mpx-pill:focus-within in the scoped
    <style> block. */
-function MPToggle({ legend, name, options, value, onChange, helper, note }) {
+function MPToggle({ legend, name, options, value, onChange, helper, note, icon }) {
   const helpId = name + "-help";
   return (
     <fieldset style={mp.fieldset} aria-describedby={helper ? helpId : undefined}>
-      <legend style={mp.legend}>{legend}</legend>
+      <legend style={mp.legend}>{icon && <span style={mp.legendIcon} aria-hidden="true">{icon}</span>}{legend}</legend>
       {helper && <span id={helpId} style={mp.helper}>{helper}</span>}
       <div style={mp.toggleRow} role="radiogroup" aria-label={legend}>
         {options.map((o) => {
@@ -793,10 +793,10 @@ function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, tota
 
 function MPResultView({ result, borrowingCapacity, totalCash, onNav }) {
   const { Alert, Button } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight } = window.MeshIcons;
+  const { ArrowRight, Home } = window.MeshIcons;
   return (
     <div style={mp.resultCard} aria-live="polite">
-      <div style={mp.resultLabel}>Your estimated maximum purchase price</div>
+      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={16} height={16}/></span>Your estimated maximum purchase price</div>
       {!result.ok ? (
         <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
       ) : (
@@ -893,6 +893,8 @@ function MPCostsToggle({ idPrefix, otherCosts, setOtherCosts }) {
 /* ----- Option A: single-page, two-column ----- */
 function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
   const { Alert } = window.MeshFinanceDesignSystem_5c98d0;
+  const { Building, Coins, MapPin, Home, Shield, Key, Star } = window.MeshIcons;
+  const ic = (I) => <I width={16} height={16}/>;
   const isMobile = window.useIsMobile();
   const s = useMaxPurchaseInputs();
   const [touched, setTouched] = React.useState(false);
@@ -905,26 +907,26 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
       <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
         <div style={mp.inputsCard}>
           <span style={mp.startHere}>Start here <span aria-hidden="true">↓</span></span>
-          <MoneyField id="mp-borrow" label="How much can you borrow?"
+          <MoneyField id="mp-borrow" label="How much can you borrow?" icon={ic(Building)}
             helper="Enter the maximum home loan amount you have been told you may be able to borrow."
             value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
-          <MoneyField id="mp-cash" label="How much cash do you have available?"
+          <MoneyField id="mp-cash" label="How much cash do you have available?" icon={ic(Coins)}
             helper="Include the funds you're comfortable using towards your deposit and purchase costs — we'll split it between the deposit, stamp duty and costs for you."
             value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
-          <MPToggle legend="Where is the property?" name="mp-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
+          <MPToggle legend="Where is the property?" name="mp-location" icon={ic(MapPin)} options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
             note="Scheme price caps can depend on the exact suburb and postcode — confirm the applicable cap with Mesh Finance."/>
-          <MPToggle legend="What type of home is it?" name="mp-type" options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
+          <MPToggle legend="What type of home is it?" name="mp-type" icon={ic(Home)} options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
           <Alert variant="info">
             Buying land, building a home or considering a house and land package? These purchases need a more tailored
             calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
           </Alert>
-          <MPToggle legend="Are you eligible for either of these government schemes?" name="mp-scheme" options={MP_SCHEME_TOGGLE} value={s.pathway} onChange={s.setPathway}
+          <MPToggle legend="Are you eligible for either of these government schemes?" name="mp-scheme" icon={ic(Shield)} options={MP_SCHEME_TOGGLE} value={s.pathway} onChange={s.setPathway}
             helper="These federal schemes let eligible buyers get in with a smaller deposit and no LMI. Not sure? Choose “No / not sure” and we'll use standard lending."/>
           {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
-          <MPToggle legend="Are you eligible for the WA first home owner rate of stamp duty?" name="mp-duty" options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
+          <MPToggle legend="Are you eligible for the WA first home owner rate of stamp duty?" name="mp-duty" icon={ic(Key)} options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
             helper="This is separate from the schemes above — you can qualify for one and not the other."/>
           {s.isNew && (
-            <MPToggle legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
+            <MPToggle legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" icon={ic(Star)} options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
               helper="The grant can add to your available funds, but it can't count towards a scheme's minimum deposit."/>
           )}
           <MPCostsToggle idPrefix="mp" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
@@ -962,6 +964,8 @@ const mp = {
     fontSize: 11.5, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 13px", borderRadius: 999, marginBottom: -10 },
   field: { display: "flex", flexDirection: "column", gap: 6 },
   label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)" },
+  legendIcon: { display: "inline-flex", verticalAlign: "-3px", marginRight: 7, color: "var(--color-primary)" },
+  resultLabelIcon: { display: "inline-flex", verticalAlign: "-3px", marginRight: 8 },
   helper: { fontSize: 13, lineHeight: 1.5, color: "var(--text-muted)" },
   errorText: { fontSize: 13, color: "var(--color-danger)", fontWeight: 600 },
   moneyWrap: { position: "relative", display: "flex", alignItems: "center" },
