@@ -613,7 +613,7 @@ function MoneyField({ id, label, helper, value, onChange, error, placeholder, ic
   const describedBy = [helper ? helpId : null, error ? errId : null].filter(Boolean).join(" ") || undefined;
   return (
     <div style={mp.field}>
-      <label htmlFor={id} style={mp.label}>{icon && <span style={mp.legendIcon} aria-hidden="true">{icon}</span>}{label}</label>
+      <label htmlFor={id} style={mp.label}>{icon && <span style={mp.legendIcon} aria-hidden="true">{icon}</span>}<span style={mp.legendText}>{label}</span></label>
       <div style={mp.moneyWrap}>
         <span style={mp.moneyPrefix} aria-hidden="true">$</span>
         <input id={id} type="text" inputMode="numeric" autoComplete="off" className="mpx-money"
@@ -662,7 +662,7 @@ function MPToggle({ legend, name, options, value, onChange, helper, note, icon }
   const helpId = name + "-help";
   return (
     <fieldset style={mp.fieldset} aria-describedby={helper ? helpId : undefined}>
-      <legend style={mp.legend}>{icon && <span style={mp.legendIcon} aria-hidden="true">{icon}</span>}{legend}</legend>
+      <legend style={mp.legend}>{icon && <span style={mp.legendIcon} aria-hidden="true">{icon}</span>}<span style={mp.legendText}>{legend}</span></legend>
       {helper && <span id={helpId} style={mp.helper}>{helper}</span>}
       <div style={mp.toggleRow} role="radiogroup" aria-label={legend}>
         {options.map((o) => {
@@ -796,7 +796,7 @@ function MPResultView({ result, borrowingCapacity, totalCash, onNav }) {
   const { ArrowRight, Home } = window.MeshIcons;
   return (
     <div style={mp.resultCard} aria-live="polite">
-      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={16} height={16}/></span>Your estimated maximum purchase price</div>
+      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={16} height={16}/></span><span style={mp.legendText}>Your estimated maximum purchase price</span></div>
       {!result.ok ? (
         <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
       ) : (
@@ -964,8 +964,11 @@ const mp = {
     fontSize: 11.5, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 13px", borderRadius: 999, marginBottom: -10 },
   field: { display: "flex", flexDirection: "column", gap: 6 },
   label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)" },
-  legendIcon: { display: "inline-flex", verticalAlign: "-3px", marginRight: 7, color: "var(--color-primary)" },
-  resultLabelIcon: { display: "inline-flex", verticalAlign: "-3px", marginRight: 8 },
+  legendIcon: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 9,
+    background: "var(--blue-50)", color: "var(--color-primary)", marginRight: 10, verticalAlign: "middle", flex: "none" },
+  legendText: { verticalAlign: "middle" },
+  resultLabelIcon: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26, borderRadius: 8,
+    background: "rgba(255,255,255,0.22)", color: "#fff", marginRight: 10, verticalAlign: "middle" },
   helper: { fontSize: 13, lineHeight: 1.5, color: "var(--text-muted)" },
   errorText: { fontSize: 13, color: "var(--color-danger)", fontWeight: 600 },
   moneyWrap: { position: "relative", display: "flex", alignItems: "center" },
