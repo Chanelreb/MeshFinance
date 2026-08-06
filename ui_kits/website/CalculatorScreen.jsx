@@ -684,13 +684,13 @@ function MPToggle({ legend, name, options, value, onChange, helper, note }) {
 
 /* Shared input options + copy used by both the single-page and guided UIs. */
 const MP_LOCATION_OPTIONS = [
-  { value: "PERTH_CAPITAL_CITY", label: "Perth capital-city area" },
-  { value: "OTHER_WA_SOUTH_26", label: "Other WA — south of the 26th parallel" },
-  { value: "OTHER_WA_NORTH_26", label: "Other WA — north of the 26th parallel" },
+  { value: "PERTH_CAPITAL_CITY", label: "Perth", sub: "capital-city area" },
+  { value: "OTHER_WA_SOUTH_26", label: "Other WA", sub: "south of 26th" },
+  { value: "OTHER_WA_NORTH_26", label: "Other WA", sub: "north of 26th" },
 ];
 const MP_TYPE_OPTIONS = [
-  { value: "ESTABLISHED_HOME", label: "Established home" },
-  { value: "NEW_COMPLETED_HOME", label: "Newly built, completed home", desc: "A brand-new home that has been completed but never lived in or sold as an established home before." },
+  { value: "ESTABLISHED_HOME", label: "Established", sub: "existing home" },
+  { value: "NEW_COMPLETED_HOME", label: "Newly built", sub: "completed, never lived in" },
 ];
 const MP_SCHEME_TOGGLE = [
   { value: "SCHEME_5", label: "Yes — 5% scheme", sub: "first home buyer" },
@@ -904,15 +904,16 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
       <style>{MP_STYLE_CSS}</style>
       <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
         <div style={mp.inputsCard}>
+          <span style={mp.startHere}>Start here <span aria-hidden="true">↓</span></span>
           <MoneyField id="mp-borrow" label="How much can you borrow?"
             helper="Enter the maximum home loan amount you have been told you may be able to borrow."
             value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
           <MoneyField id="mp-cash" label="How much cash do you have available?"
             helper="Include the funds you're comfortable using towards your deposit and purchase costs — we'll split it between the deposit, stamp duty and costs for you."
             value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
-          <MPRadioGroup legend="Where is the property?" name="mp-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
-            note="Government scheme price caps can depend on the property's suburb and postcode. Confirm the applicable cap with Mesh Finance before relying on the result."/>
-          <MPRadioGroup legend="What type of home is it?" name="mp-type" options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
+          <MPToggle legend="Where is the property?" name="mp-location" options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
+            note="Scheme price caps can depend on the exact suburb and postcode — confirm the applicable cap with Mesh Finance."/>
+          <MPToggle legend="What type of home is it?" name="mp-type" options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
           <Alert variant="info">
             Buying land, building a home or considering a house and land package? These purchases need a more tailored
             calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
@@ -956,6 +957,9 @@ const mp = {
   inputs: { display: "flex", flexDirection: "column", gap: 22 },
   inputsCard: { display: "flex", flexDirection: "column", gap: 24, background: "#fff",
     borderRadius: "var(--radius-lg)", border: "1px solid var(--border-subtle)", boxShadow: "0 1px 3px rgba(16,42,67,0.06)", padding: "26px 24px" },
+  startHere: { alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 6,
+    background: "var(--color-primary)", color: "#fff", fontFamily: "var(--font-body)", fontWeight: 700,
+    fontSize: 11.5, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 13px", borderRadius: 999, marginBottom: -10 },
   field: { display: "flex", flexDirection: "column", gap: 6 },
   label: { fontFamily: "var(--font-body)", fontWeight: 600, fontSize: 15, color: "var(--text-strong)" },
   helper: { fontSize: 13, lineHeight: 1.5, color: "var(--text-muted)" },
