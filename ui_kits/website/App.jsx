@@ -43,6 +43,7 @@ const MESH_TITLES = {
   "disclaimer": "Disclaimer | Mesh Finance",
   "family-finance-check": "Family Finance Check for Families | Mesh Finance",
   "ffc-thank-you": "Thank You | Mesh Finance",
+  "booking-confirmed": "You're Booked In | Mesh Finance",
   "help-to-buy-wa": "Help to Buy WA: Buy With a 2% Deposit | Mesh Finance",
   "ato-debt-lending-solutions-business-owners": "ATO Debt Lending Solutions for Business Owners | Mesh Finance",
   "using-parents-property-as-security-first-home-buyer": "Using a Parent's Property as Security | Mesh Finance",
@@ -108,7 +109,7 @@ const MESH_DESCRIPTIONS = {
    and Twitter cards keep pace with client-side navigation so each route shares
    and indexes as its own page. */
 const MESH_SITE = "https://meshfinance.com.au";
-const MESH_NOINDEX = ["ffc-thank-you"];
+const MESH_NOINDEX = ["ffc-thank-you", "booking-confirmed"];
 
 function meshUpsertMeta(attr, key, value) {
   if (!value) return;
@@ -199,6 +200,7 @@ function App() {
       "disclaimer": window.MeshDisclaimerScreen,
       "family-finance-check": window.MeshFamilyFinanceCheckScreen,
       "ffc-thank-you": window.MeshFFCThankYouScreen,
+      "booking-confirmed": window.MeshThankYouScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
   }

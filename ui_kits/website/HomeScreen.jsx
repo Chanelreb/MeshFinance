@@ -58,7 +58,7 @@ function HomeScreen({ onNav }) {
               <React.Fragment>
                 <h3 style={h.formTitle}>Pick a time that suits 📅</h3>
                 <p style={h.formSub}>Choose a slot below and you're booked in — free, no obligation.</p>
-                <HomeCalendlyEmbed prefill={heroPrefill}/>
+                <HomeCalendlyEmbed prefill={heroPrefill} onScheduled={()=>onNav("booking-confirmed")}/>
                 <button type="button" onClick={()=>setHeroStep(1)} style={h.formBack}>← Back to details</button>
               </React.Fragment>
             ) : (
@@ -155,7 +155,7 @@ function HomeScreen({ onNav }) {
 /* Live Calendly booking for step 2 of the hero form, pre-filled (via URL
    params) with the name/email captured in step 1. */
 const HOME_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_type_details=1&hide_gdpr_banner=1&text_color=102a43&primary_color=3898e0";
-function HomeCalendlyEmbed({ prefill }) {
+function HomeCalendlyEmbed({ prefill, onScheduled }) {
   const ref = React.useRef(null);
   React.useEffect(() => {
     const el = ref.current;
@@ -183,6 +183,16 @@ function HomeCalendlyEmbed({ prefill }) {
     s.addEventListener("load", init);
     return () => s.removeEventListener("load", init);
   }, []);
+  /* Calendly posts a message when a booking is confirmed — redirect then. */
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data && typeof e.data === "object" && e.data.event === "calendly.event_scheduled") {
+        onScheduled && onScheduled();
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, [onScheduled]);
   return <div ref={ref} style={{ minWidth: 260, height: 620 }} aria-label="Book a time with Mesh Finance"/>;
 }
 

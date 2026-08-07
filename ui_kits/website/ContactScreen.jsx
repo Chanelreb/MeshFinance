@@ -4,7 +4,7 @@ const CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_
 
 /* Live Calendly inline embed. Loads Calendly's widget.js once, then mounts the
    scheduler into this div. Bookings land directly in Chanel's calendar. */
-function CalendlyEmbed() {
+function CalendlyEmbed({ onScheduled }) {
   const ref = React.useRef(null);
   React.useEffect(() => {
     const el = ref.current;
@@ -25,6 +25,16 @@ function CalendlyEmbed() {
     s.addEventListener("load", init);
     return () => s.removeEventListener("load", init);
   }, []);
+  /* Calendly posts a message when a booking is confirmed — redirect then. */
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data && typeof e.data === "object" && e.data.event === "calendly.event_scheduled") {
+        onScheduled && onScheduled();
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, [onScheduled]);
   return <div ref={ref} style={{ minWidth: 280, height: 660 }} aria-label="Book a time with Mesh Finance" />;
 }
 
@@ -104,7 +114,7 @@ function ContactScreen({ onNav }) {
           <div style={{display: tab==="book" ? "block" : "none"}} role="tabpanel">
             <h3 style={ct.tabHead}>Book straight into the calendar 📅</h3>
             <p style={ct.tabSub}>Pick a time that suits you — free, no obligation.</p>
-            <CalendlyEmbed/>
+            <CalendlyEmbed onScheduled={()=>onNav("booking-confirmed")}/>
           </div>
 
           <div style={{display: tab==="message" ? "block" : "none"}} role="tabpanel">
