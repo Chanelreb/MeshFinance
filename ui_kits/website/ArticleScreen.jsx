@@ -25,7 +25,33 @@ function ArticleScreen({ onNav, slug }) {
           {d.blocks.map((b,i)=>(
             <div key={i} style={artS.block}>
               {b.h && <h2 style={artS.h2}>{b.h}</h2>}
-              {b.body && <p style={artS.p}>{b.body}</p>}
+              {b.body && (Array.isArray(b.body)
+                ? b.body.map((para,k)=>(
+                    <p key={k} style={{...artS.p, marginBottom: k < b.body.length-1 ? 12 : 0}}>{para}</p>))
+                : <p style={artS.p}>{b.body}</p>)}
+              {b.table && (
+                <div style={artS.tableWrap}>
+                  <table style={artS.table}>
+                    {b.table.headers && (
+                      <thead><tr>
+                        {b.table.headers.map((hd,k)=>(
+                          <th key={k} style={{...artS.th, textAlign:(b.table.align&&b.table.align[k])||"left"}}>{hd}</th>
+                        ))}
+                      </tr></thead>
+                    )}
+                    <tbody>
+                      {b.table.rows.map((row,r)=>(
+                        <tr key={r}>
+                          {row.map((cell,c)=>(
+                            <td key={c} style={{...artS.td, textAlign:(b.table.align&&b.table.align[c])||"left",
+                              ...(c===0?artS.tdFirst:{})}}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
               {b.list && (
                 <ul style={artS.list}>
                   {b.list.map((item,j)=>(<li key={j} style={artS.listItem}>{item}</li>))}
@@ -49,8 +75,13 @@ function ArticleScreen({ onNav, slug }) {
 
           <Card elevation="shadow" style={artS.closingCard}>
             <p style={artS.closingP}>{d.closing}</p>
-            <Button size="lg" onClick={()=>onNav("contact")}>Reach out now for a chat!</Button>
+            <div style={artS.closingBtns}>
+              <Button size="lg" onClick={()=>onNav("contact")}>Reach out now for a chat!</Button>
+              {d.ctaCalc && <Button variant="secondary" size="lg" onClick={()=>onNav(d.ctaCalc.route)}>{d.ctaCalc.label}</Button>}
+            </div>
           </Card>
+
+          {d.disclaimer && <p style={artS.disclaimer}>{d.disclaimer}</p>}
         </div>
 
         <aside style={artS.aside}>
@@ -88,8 +119,18 @@ const artS = {
   block: { marginTop:28 },
   h2: { fontSize:21, margin:"0 0 10px", color:"var(--navy-700)" },
   p: { fontSize:15.5, lineHeight:1.65, color:"var(--text-body)", margin:0 },
-  list: { listStyle:"disc", margin:0, padding:"0 0 0 20px", display:"grid", gap:8 },
+  list: { listStyle:"disc", margin:"14px 0 0", padding:"0 0 0 20px", display:"grid", gap:8 },
   listItem: { fontSize:15, lineHeight:1.55, color:"var(--text-body)" },
+  tableWrap: { overflowX:"auto", margin:"16px 0 0", WebkitOverflowScrolling:"touch",
+    border:"1px solid var(--border-subtle)", borderRadius:"var(--radius-md)" },
+  table: { borderCollapse:"collapse", width:"100%", fontSize:14.5, minWidth:440 },
+  th: { padding:"11px 16px", background:"var(--blue-50)", color:"var(--navy-700)", fontWeight:700,
+    fontSize:13, letterSpacing:".01em", borderBottom:"2px solid var(--border-subtle)", whiteSpace:"nowrap" },
+  td: { padding:"11px 16px", borderBottom:"1px solid var(--border-subtle)", color:"var(--text-body)",
+    whiteSpace:"nowrap", fontVariantNumeric:"tabular-nums" },
+  tdFirst: { fontWeight:600, color:"var(--text-strong)" },
+  closingBtns: { display:"flex", gap:12, flexWrap:"wrap", alignItems:"center" },
+  disclaimer: { fontSize:12.5, lineHeight:1.55, color:"var(--text-subtle)", fontStyle:"italic", margin:"22px 0 0" },
   numGrid: { display:"grid", gap:14 },
   numCard: { display:"flex", gap:14, padding:"14px 16px", background:"var(--blue-50)", borderRadius:"var(--radius-md)" },
   numBadge: { flex:"none", width:28, height:28, borderRadius:"50%", background:"var(--color-primary)", color:"#fff",

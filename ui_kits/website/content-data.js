@@ -980,6 +980,7 @@ window.MeshContent = {
   ],
 
   helpfulArticles: [
+    { slug:"wa-first-home-buyer-changes-2026", title: "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds", date: "11 August 2026", body: "From 7 May 2026, eligible WA first home buyers can pay no stamp duty on homes up to $600,000, with concessions to $800,000, plus a higher First Home Owner Grant cap. See what the changes mean for Perth buyers." },
     { slug:"help-to-buy-wa", title: "Help to Buy WA | Buy a Home with a 2% Deposit", date: "14 June 2026", body: "Learn how the Australian Government's Help to Buy Scheme can help eligible WA buyers purchase a home with as little as a 2% deposit. Check eligibility, income limits, property caps and more." },
     { slug:"ato-debt-lending-solutions-business-owners", title: "ATO Debt Lending Solutions for Australian Business Owners", date: "1 June 2026", body: "ATO debt is becoming more expensive for business owners. Learn how lending solutions may help pay out, consolidate or manage ATO debt more effectively than a payment arrangement." },
     { slug:"using-parents-property-as-security-first-home-buyer", title: "Using a Parent's Property as Security to Buy Your First Home", date: "1 May 2026", body: "Saving a deposit can be one of the biggest hurdles for first home buyers. A family security guarantee may allow parents to use equity in their property to help their child buy sooner, without gifting cash directly." },
@@ -1137,8 +1138,173 @@ window.MeshContent = {
     ],
   },
 
-  // Full article bodies, block-structured like the loan pages (h/body/list).
+  // Full article bodies, block-structured like the loan pages (h/body/list/table).
   articles: {
+    "wa-first-home-buyer-changes-2026": {
+      title: "WA First Home Buyer Changes 2026: What the New Stamp Duty Rules Mean for You",
+      date: "11 August 2026",
+      intro: "Buying your first home in Western Australia just became a little easier. From 7 May 2026, the WA Government increased the stamp duty exemption and concession thresholds available to eligible first home buyers, while also increasing the property value cap for the First Home Owner Grant (FHOG).",
+      blocks: [
+        { body: [
+          "For first home buyers in Perth and across WA, these changes could significantly reduce the amount of cash you need upfront to purchase your first property.",
+          "Eligible buyers purchasing a new or established home can now save up to $22,515 in stamp duty, while eligible buyers purchasing vacant land and building may receive up to $25,390 in combined stamp duty savings and the $10,000 First Home Owner Grant.",
+          "Here's what has changed and, more importantly, what it could mean for your first home budget.",
+        ]},
+        { h: "What changed for WA first home buyers in 2026?",
+          body: [
+            "The biggest change is the increase in the First Home Owner Rate of Duty, commonly referred to as the first home buyer stamp duty concession.",
+            "For agreements entered into on or after 7 May 2026, the new thresholds are:",
+          ],
+          table: {
+            headers: ["Property type", "No stamp duty", "Concessional stamp duty", "Previous exemption"],
+            align: ["left", "right", "right", "right"],
+            rows: [
+              ["New or established home", "Up to $600,000", "$600,001 to $800,000", "Up to $500,000"],
+              ["Vacant land", "Up to $450,000", "$450,001 to $550,000", "Up to $350,000"],
+            ],
+          },
+        },
+        { body: [
+          "That means an eligible first home buyer purchasing a $600,000 home now pays $0 in transfer duty.",
+          "Under the standard transfer duty rate, the duty on a $600,000 property would be $22,515, meaning the exemption can represent a substantial reduction in the cash required to complete your purchase.",
+        ]},
+        { h: "How much could a first home buyer save?",
+          body: [
+            "The amount you save depends on your purchase price.",
+            "The WA Government has provided the following examples for eligible first home buyers purchasing a new or established home:",
+          ],
+          table: {
+            headers: ["Purchase price", "Normal stamp duty", "First home buyer duty", "Saving"],
+            align: ["right", "right", "right", "right"],
+            rows: [
+              ["$500,000", "$17,765", "$0", "$17,765"],
+              ["$550,000", "$20,140", "$0", "$20,140"],
+              ["$600,000", "$22,515", "$0", "$22,515"],
+              ["$650,000", "$24,890", "$8,075", "$16,815"],
+              ["$700,000", "$27,265", "$16,150", "$11,115"],
+              ["$750,000", "$29,741", "$24,225", "$5,516"],
+            ],
+          },
+        },
+        { body: [
+          "So even if your first home costs more than $600,000, you may still receive a meaningful stamp duty concession all the way up to the $800,000 threshold.",
+          "For Perth first home buyers, where finding a suitable property below the previous $500,000 exemption threshold was becoming increasingly difficult, the extra $100,000 of stamp duty-free purchasing range is a significant change.",
+        ]},
+        { h: "What happens if I buy a $600,000 first home in WA?",
+          body: [
+            "This is probably the clearest example of how much the new rules can help.",
+            "An eligible first home buyer purchasing a property for $600,000 can now pay:",
+          ],
+          table: {
+            align: ["left", "right"],
+            rows: [
+              ["Purchase price", "$600,000"],
+              ["First home buyer stamp duty", "$0"],
+              ["Standard stamp duty", "$22,515"],
+              ["Potential stamp duty saving", "$22,515"],
+            ],
+          },
+        },
+        { body: [
+          "That $22,515 doesn't necessarily mean you can borrow an extra $22,515.",
+          "What it does mean is that you may need significantly less cash to cover the upfront costs of purchasing your home.",
+          "For someone saving towards their first property, that can make a big difference.",
+          "Instead of watching a large portion of your savings disappear into stamp duty, more of your available funds may be able to go towards your deposit, settlement costs or simply keeping a sensible cash buffer after purchasing.",
+        ]},
+        { h: "What is the new First Home Owner Grant threshold in WA?",
+          body: [
+            "There has also been an important change for first home buyers purchasing or building a new home.",
+            "The WA First Home Owner Grant remains a payment of up to $10,000, but for eligible transactions commencing from 7 May 2026, the property value cap for homes located south of the 26th parallel increased from $750,000 to $800,000.",
+            "This includes the Perth metropolitan area. The existing $1 million cap for homes north of the 26th parallel remains unchanged.",
+            "It's important to understand that the First Home Owner Grant is not available when purchasing an ordinary established home. It is generally available for eligible buyers purchasing or building a new home, including qualifying substantially renovated homes.",
+            "So there are really two different forms of assistance to understand:",
+          ],
+          list: [
+            "Stamp duty relief: can apply to eligible first home buyers purchasing a new or established home.",
+            "First Home Owner Grant: generally applies to eligible first home buyers purchasing or building a new home.",
+          ],
+        },
+        { body: "You may qualify for one without necessarily qualifying for a payment under the other." },
+        { h: "What changed for first home buyers buying land?",
+          body: [
+            "There is also good news if you're planning to buy land and build.",
+            "From 7 May 2026, eligible first home buyers can pay no stamp duty on vacant land valued up to $450,000, increased from the previous $350,000 exemption threshold.",
+            "A concessional rate then applies to eligible vacant land valued between $450,001 and $550,000.",
+            "At a land value of $450,000, the WA Government estimates an eligible first home buyer could save $15,390 in stamp duty.",
+            "If the buyer also qualifies for the $10,000 First Home Owner Grant when building their new home, the combined government support could reach $25,390.",
+            "This could make a significant difference to the upfront funds required for a house-and-land purchase.",
+          ],
+        },
+        { h: "Do the new thresholds apply based on settlement date?",
+          body: [
+            "Not necessarily.",
+            "For the First Home Owner Rate of Duty, RevenueWA states that the applicable rate is based on the date the agreement is entered into, rather than the settlement date.",
+            "The new thresholds apply to eligible transactions entered into on or after 7 May 2026.",
+            "If you signed a contract around the changeover date, it's worth checking your specific circumstances rather than assuming the new threshold automatically applies.",
+          ],
+        },
+        { h: "Who is eligible for the WA first home buyer stamp duty exemption?",
+          body: [
+            "Eligibility for the First Home Owner Rate of Duty is closely aligned with the eligibility requirements for the First Home Owner Grant.",
+            "Among other requirements, applicants generally need to satisfy conditions relating to previous property ownership, citizenship or permanent residency, ownership of the property and occupation of the home as their principal place of residence.",
+            "For eligible applicants, each applicant generally needs to occupy the property as their principal place of residence for a continuous period of at least six months, commencing within 12 months after completion of the eligible transaction.",
+            "Eligibility can get more complicated if you've previously owned property, your partner has owned property, you're buying with another person or you're unsure whether a previous property ownership situation affects you.",
+            "That's where it's worth checking before relying on the concession in your purchase calculations.",
+          ],
+        },
+        { h: "Does this mean I can buy a more expensive property?",
+          body: [
+            "Potentially, but this is where we encourage first home buyers to look at the whole picture, rather than just one government concession.",
+            "A higher stamp duty exemption can reduce the amount of cash required to complete your purchase, but your maximum purchase price will still depend on things such as your:",
+          ],
+          list: [
+            "available deposit and savings",
+            "borrowing capacity",
+            "income and existing commitments",
+            "lender requirements",
+            "loan-to-value ratio",
+            "property type and location",
+            "other purchasing costs.",
+          ],
+        },
+        { body: [
+          "At Mesh Finance, we can work backwards from your actual position and help you understand both how much you may be able to borrow and how much cash you'll actually need to purchase.",
+          "Sometimes those are two very different numbers.",
+        ]},
+        { h: "Should first home buyers get pre-approved before looking?",
+          body: [
+            "We think it's one of the most useful things you can do.",
+            "Particularly with the new 2026 WA first home buyer thresholds, getting your numbers sorted early lets you understand where the important price points sit.",
+            "For example, there can be a meaningful difference in your upfront costs between purchasing at $600,000, $625,000, $650,000 or $700,000.",
+            "Knowing this before you start making offers means you can search with a clearer budget and understand what increasing your offer may actually cost you.",
+            "We can also look at your deposit, estimated purchasing costs and available loan options together, rather than treating each part separately.",
+          ],
+        },
+        { h: "First home buyer in Perth? Start with the numbers",
+          body: [
+            "The WA first home buyer changes for 2026 are genuinely significant.",
+            "For an eligible buyer purchasing a home for $600,000, $22,515 in stamp duty can potentially disappear from the upfront cost of purchasing.",
+            "But knowing that you may qualify for a concession is only one part of planning your first home. You still need to know:",
+          ],
+          list: [
+            "What can I borrow?",
+            "How much deposit will I need?",
+            "What purchase price should I realistically be looking at?",
+            "Which lenders will consider my circumstances?",
+            "What will my repayments look like?",
+            "And how much money will I have left after settlement?",
+          ],
+        },
+        { body: [
+          "That's where we can help.",
+          "At Mesh Finance, we work with first home buyers across Perth and WA to make the finance side of buying a home easier to understand. We'll help you work through your borrowing capacity, deposit, available concessions and loan options so you know what you're aiming for before you start making offers.",
+        ]},
+      ],
+      closing: "Ready to see what the 2026 first home buyer changes could mean for you? Use our WA Stamp Duty Calculator to estimate your purchasing costs, or speak with the Mesh Finance team and we can work through your first home buying position with you.",
+      ctaCalc: { route: "calc-stamp-duty", label: "Try the WA Stamp Duty Calculator" },
+      disclaimer: "Information is general in nature and does not take into account your personal circumstances. Government grants, concessions, lender policies and eligibility requirements can change. Information regarding WA Government first home buyer concessions is current as at August 2026. Eligibility should be confirmed for your individual circumstances before entering into a property transaction.",
+    },
+
     "help-to-buy-wa": {
       title: "Help to Buy WA: Buy a Home with as Little as a 2% Deposit",
       subtitle: "The Australian Government's Help to Buy Scheme Has Arrived in Western Australia",
