@@ -50,6 +50,13 @@ function ServiceScreen({ onNav }) {
               Grant amounts, price caps and stamp-duty thresholds are reviewed regularly. We'll confirm what currently applies to your situation before you commit.
             </Alert>
 
+            <Card elevation="shadow" onClick={()=>onNav("wa-first-home-buyer-changes-2026")} style={svcS.updateCard}>
+              <span style={svcS.updateBadge}>Latest update</span>
+              <h3 style={svcS.updateH}>WA First Home Buyer Changes 2026</h3>
+              <p style={svcS.updateP}>Stamp duty thresholds changed from 7 May 2026. See the new exemption limits, concessions and First Home Owner Grant property caps.</p>
+              <span style={svcS.updateLink}>Read the update »</span>
+            </Card>
+
             <h2 style={{...svcS.h2, marginTop:40}}>Home loan or family guarantee?</h2>
             <Tabs tabs={[
               {label:"Standard low-deposit", content:<p style={svcS.p}>With the Home Guarantee Scheme you may be able to buy with as little as a 5% deposit and avoid Lenders Mortgage Insurance, subject to eligibility and place availability.</p>},
@@ -109,6 +116,13 @@ const svcS = {
   checkItem: { display:"flex", gap:12, alignItems:"flex-start", fontSize:16, color:"var(--text-body)" },
   checkIcon: { flex:"none", width:24, height:24, borderRadius:"50%", background:"var(--color-success)",
     color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", marginTop:1 },
+  updateCard: { marginTop:20, marginBottom:8, padding:"18px 22px", cursor:"pointer", display:"flex",
+    flexDirection:"column", gap:6, borderLeftWidth:4, borderLeftStyle:"solid", borderLeftColor:"var(--color-primary)" },
+  updateBadge: { alignSelf:"flex-start", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".05em",
+    color:"var(--color-primary)", background:"var(--color-primary-soft)", padding:"3px 10px", borderRadius:999 },
+  updateH: { fontFamily:"var(--font-display)", fontSize:19, color:"var(--navy-700)", margin:"4px 0 0", fontWeight:700 },
+  updateP: { fontSize:15, lineHeight:1.55, color:"var(--text-body)", margin:0 },
+  updateLink: { fontSize:13.5, fontWeight:600, color:"var(--color-primary)", marginTop:2 },
   aside: {},
   sideIcon: { width:52, height:52, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)",
     color:"var(--color-primary)", display:"flex", alignItems:"center", justifyContent:"center", margin:"4px 0 14px" },

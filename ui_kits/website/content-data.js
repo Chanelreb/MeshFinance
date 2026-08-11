@@ -269,7 +269,7 @@ window.MeshContent = {
       relatedLinks: [
         { label: "Home Loans", id: "home-loans" },
         { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
-        { label: "Stamp Duty Calculator", id: "calc-stamp-duty" },
+        { label: "Stamp Duty Calculator", id: "stamp-duty-calculator" },
       ],
       closing: "Mesh Finance, we make your financial dreams a reality.",
     },
@@ -850,7 +850,7 @@ window.MeshContent = {
       { emoji: "🧮", title: "What Could I Borrow?", name: "Borrowing Power Calculator", id: "calc-borrowing-power", body: "Estimate your maximum borrowing capacity based on income, expenses and commitments, with living expense figures kept up to date." },
       { emoji: "🔑", title: "What's My Ceiling?", name: "Max Purchase Price Calculator", id: "calc-max-purchase-price", body: "Estimate the most you may be able to spend on a WA home to live in, factoring in your deposit, borrowing power, stamp duty, government deposit schemes and the First Home Owner Grant." },
       { emoji: "🏠", title: "Crunch My Repayments", name: "Loan Repayment Calculator", id: "calc-loan-repayment", body: "Estimate your monthly or fortnightly repayments for a principal and interest or interest-only loan, based on your loan amount, interest rate and term." },
-      { emoji: "💸", title: "Stamp Duty Decoder", name: "Stamp Duty Calculator", id: "calc-stamp-duty", body: "Know exactly how much you'll need to budget for based on your state, property value, and buyer type." },
+      { emoji: "💸", title: "Stamp Duty Decoder", name: "Stamp Duty Calculator", id: "stamp-duty-calculator", body: "Know exactly how much you'll need to budget for based on your state, property value, and buyer type." },
       { emoji: "🐷", title: "Grow My Savings", name: "Saving Calculator", id: "calc-savings", body: "See how a regular deposit and interest rate can grow your savings balance over time." },
       { emoji: "💵", title: "Extra Payments, Big Savings", name: "Extra Repayment Calculator", id: "calc-extra-repayment", body: "See how making additional repayments on your loan can save you money and reduce your loan term." },
       { emoji: "💰", title: "Put a Lump Sum to Work", name: "Lump Sum Repayment Calculator", id: "calc-lump-sum", body: "See how a one-off lump sum payment can cut your loan term and interest bill." },
@@ -980,7 +980,7 @@ window.MeshContent = {
   ],
 
   helpfulArticles: [
-    { slug:"wa-first-home-buyer-changes-2026", title: "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds", date: "11 August 2026", body: "From 7 May 2026, eligible WA first home buyers can pay no stamp duty on homes up to $600,000, with concessions to $800,000, plus a higher First Home Owner Grant cap. See what the changes mean for Perth buyers." },
+    { slug:"wa-first-home-buyer-changes-2026", featured:true, title: "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds", date: "11 August 2026", body: "From 7 May 2026, eligible WA first home buyers can pay no stamp duty on homes up to $600,000, with concessions to $800,000, plus a higher First Home Owner Grant cap. See what the changes mean for Perth buyers." },
     { slug:"help-to-buy-wa", title: "Help to Buy WA | Buy a Home with a 2% Deposit", date: "14 June 2026", body: "Learn how the Australian Government's Help to Buy Scheme can help eligible WA buyers purchase a home with as little as a 2% deposit. Check eligibility, income limits, property caps and more." },
     { slug:"ato-debt-lending-solutions-business-owners", title: "ATO Debt Lending Solutions for Australian Business Owners", date: "1 June 2026", body: "ATO debt is becoming more expensive for business owners. Learn how lending solutions may help pay out, consolidate or manage ATO debt more effectively than a payment arrangement." },
     { slug:"using-parents-property-as-security-first-home-buyer", title: "Using a Parent's Property as Security to Buy Your First Home", date: "1 May 2026", body: "Saving a deposit can be one of the biggest hurdles for first home buyers. A family security guarantee may allow parents to use equity in their property to help their child buy sooner, without gifting cash directly." },
@@ -1146,7 +1146,7 @@ window.MeshContent = {
       intro: "Buying your first home in Western Australia just became a little easier. From 7 May 2026, the WA Government increased the stamp duty exemption and concession thresholds available to eligible first home buyers, while also increasing the property value cap for the First Home Owner Grant (FHOG).",
       blocks: [
         { body: [
-          "For first home buyers in Perth and across WA, these changes could significantly reduce the amount of cash you need upfront to purchase your first property.",
+          ["For ", { t: "first home buyers in Perth and across WA", to: "first-home-buyers" }, ", these changes could significantly reduce the amount of cash you need upfront to purchase your first property."],
           "Eligible buyers purchasing a new or established home can now save up to $22,515 in stamp duty, while eligible buyers purchasing vacant land and building may receive up to $25,390 in combined stamp duty savings and the $10,000 First Home Owner Grant.",
           "Here's what has changed and, more importantly, what it could mean for your first home budget.",
         ]},
@@ -1167,6 +1167,7 @@ window.MeshContent = {
         { body: [
           "That means an eligible first home buyer purchasing a $600,000 home now pays $0 in transfer duty.",
           "Under the standard transfer duty rate, the duty on a $600,000 property would be $22,515, meaning the exemption can represent a substantial reduction in the cash required to complete your purchase.",
+          ["You can check the duty on any purchase price with our ", { t: "WA Stamp Duty Calculator", to: "stamp-duty-calculator" }, "."],
         ]},
         { h: "How much could a first home buyer save?",
           body: [
@@ -1268,7 +1269,7 @@ window.MeshContent = {
           ],
         },
         { body: [
-          "At Mesh Finance, we can work backwards from your actual position and help you understand both how much you may be able to borrow and how much cash you'll actually need to purchase.",
+          ["At Mesh Finance, we can work backwards from your actual position and help you ", { t: "calculate your borrowing power", to: "calculator-hub" }, ", so you understand both how much you may be able to borrow and how much cash you'll actually need to purchase."],
           "Sometimes those are two very different numbers.",
         ]},
         { h: "Should first home buyers get pre-approved before looking?",
@@ -1278,6 +1279,15 @@ window.MeshContent = {
             "For example, there can be a meaningful difference in your upfront costs between purchasing at $600,000, $625,000, $650,000 or $700,000.",
             "Knowing this before you start making offers means you can search with a clearer budget and understand what increasing your offer may actually cost you.",
             "We can also look at your deposit, estimated purchasing costs and available loan options together, rather than treating each part separately.",
+          ],
+        },
+        { h: "Related reading for first home buyers",
+          body: "If a deposit is the main thing standing between you and your first home, these guides pair well with the 2026 stamp duty changes:",
+          list: [
+            [{ t: "Help to Buy scheme in WA", to: "help-to-buy-wa" }, ", a shared-equity scheme that can help eligible buyers get in with as little as a 2% deposit."],
+            [{ t: "Using a parent's property as security", to: "using-parents-property-as-security-first-home-buyer" }, ", how a family guarantee can help you buy sooner without a large deposit."],
+            [{ t: "Family Guarantee Home Loans", to: "family-guarantee" }, ", how a guarantor loan is structured, and how the guarantee can be released later."],
+            [{ t: "2025 Home Guarantee Scheme changes", to: "wa-new-home-guarantee-scheme" }, ", higher price caps and removed income limits on the low-deposit scheme."],
           ],
         },
         { h: "First home buyer in Perth? Start with the numbers",
@@ -1300,8 +1310,8 @@ window.MeshContent = {
           "At Mesh Finance, we work with first home buyers across Perth and WA to make the finance side of buying a home easier to understand. We'll help you work through your borrowing capacity, deposit, available concessions and loan options so you know what you're aiming for before you start making offers.",
         ]},
       ],
-      closing: "Ready to see what the 2026 first home buyer changes could mean for you? Use our WA Stamp Duty Calculator to estimate your purchasing costs, or speak with the Mesh Finance team and we can work through your first home buying position with you.",
-      ctaCalc: { route: "calc-stamp-duty", label: "Try the WA Stamp Duty Calculator" },
+      closing: ["Ready to see what the 2026 first home buyer changes could mean for you? Use our WA Stamp Duty Calculator to estimate your purchasing costs, or ", { t: "speak with a Perth mortgage broker", to: "contact" }, " and we can work through your first home buying position with you."],
+      ctaCalc: { route: "stamp-duty-calculator", label: "Try the WA Stamp Duty Calculator" },
       disclaimer: "Information is general in nature and does not take into account your personal circumstances. Government grants, concessions, lender policies and eligibility requirements can change. Information regarding WA Government first home buyer concessions is current as at August 2026. Eligibility should be confirmed for your individual circumstances before entering into a property transaction.",
     },
 

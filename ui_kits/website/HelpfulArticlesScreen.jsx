@@ -24,7 +24,8 @@ function HelpfulArticlesScreen({ onNav }) {
         <div style={haS.main}>
           <div style={haS.list}>
             {items.map((a,i)=>(
-              <Card key={i} elevation="shadow" style={haS.card} onClick={()=>onNav(a.slug)}>
+              <Card key={i} elevation="shadow" style={{...haS.card, ...(a.featured?haS.cardFeatured:{})}} onClick={()=>onNav(a.slug)}>
+                {a.featured && <span style={haS.featBadge}>★ Featured</span>}
                 <span style={haS.date}>{a.date}</span>
                 <h3 style={haS.title}>{a.title}</h3>
                 <p style={haS.body}>{a.body}</p>
@@ -69,6 +70,9 @@ const haS = {
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
   list: { display:"grid", gap:16, marginBottom:32 },
   card: { padding:26, display:"flex", flexDirection:"column", gap:6, cursor:"pointer" },
+  cardFeatured: { borderLeftWidth:4, borderLeftStyle:"solid", borderLeftColor:"var(--color-primary)", background:"var(--blue-50)" },
+  featBadge: { alignSelf:"flex-start", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".05em",
+    color:"var(--color-primary)", background:"#fff", padding:"3px 10px", borderRadius:999, marginBottom:4 },
   date: { fontSize:12.5, color:"var(--text-subtle)", fontWeight:600, textTransform:"uppercase", letterSpacing:".04em" },
   title: { fontFamily:"var(--font-display)", fontSize:19, color:"var(--navy-700)", margin:"2px 0 4px", fontWeight:700 },
   body: { fontSize:15, color:"var(--text-body)", lineHeight:1.55, margin:0 },

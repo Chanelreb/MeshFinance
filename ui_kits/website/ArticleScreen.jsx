@@ -8,6 +8,15 @@ function ArticleScreen({ onNav, slug }) {
   const isMobile = window.useIsMobile();
   if (!d) return null;
 
+  /* Render a rich-text value: either a plain string, or an array of runs where
+     each run is a string or a { t, to } internal link. Links are real crawlable
+     <a href> that also drive client-side navigation. */
+  const rt = (content) => Array.isArray(content)
+    ? content.map((run, ri) => typeof run === "string" ? run
+        : <a key={ri} href={window.meshHref(run.to)} style={artS.link}
+             onClick={(e)=>{e.preventDefault(); onNav(run.to);}}>{run.t}</a>)
+    : content;
+
   return (
     <div>
       <section style={artS.head}>
@@ -27,8 +36,8 @@ function ArticleScreen({ onNav, slug }) {
               {b.h && <h2 style={artS.h2}>{b.h}</h2>}
               {b.body && (Array.isArray(b.body)
                 ? b.body.map((para,k)=>(
-                    <p key={k} style={{...artS.p, marginBottom: k < b.body.length-1 ? 12 : 0}}>{para}</p>))
-                : <p style={artS.p}>{b.body}</p>)}
+                    <p key={k} style={{...artS.p, marginBottom: k < b.body.length-1 ? 12 : 0}}>{rt(para)}</p>))
+                : <p style={artS.p}>{rt(b.body)}</p>)}
               {b.table && (
                 <div style={artS.tableWrap}>
                   <table style={artS.table}>
@@ -54,7 +63,7 @@ function ArticleScreen({ onNav, slug }) {
               )}
               {b.list && (
                 <ul style={artS.list}>
-                  {b.list.map((item,j)=>(<li key={j} style={artS.listItem}>{item}</li>))}
+                  {b.list.map((item,j)=>(<li key={j} style={artS.listItem}>{rt(item)}</li>))}
                 </ul>
               )}
               {b.numbered && (
@@ -74,7 +83,7 @@ function ArticleScreen({ onNav, slug }) {
           ))}
 
           <Card elevation="shadow" style={artS.closingCard}>
-            <p style={artS.closingP}>{d.closing}</p>
+            <p style={artS.closingP}>{rt(d.closing)}</p>
             <div style={artS.closingBtns}>
               <Button size="lg" onClick={()=>onNav("contact")}>Reach out now for a chat!</Button>
               {d.ctaCalc && <Button variant="secondary" size="lg" onClick={()=>onNav(d.ctaCalc.route)}>{d.ctaCalc.label}</Button>}
@@ -131,6 +140,7 @@ const artS = {
   tdFirst: { fontWeight:600, color:"var(--text-strong)" },
   closingBtns: { display:"flex", gap:12, flexWrap:"wrap", alignItems:"center" },
   disclaimer: { fontSize:12.5, lineHeight:1.55, color:"var(--text-subtle)", fontStyle:"italic", margin:"22px 0 0" },
+  link: { color:"var(--color-primary)", fontWeight:600, textDecoration:"underline", textUnderlineOffset:2 },
   numGrid: { display:"grid", gap:14 },
   numCard: { display:"flex", gap:14, padding:"14px 16px", background:"var(--blue-50)", borderRadius:"var(--radius-md)" },
   numBadge: { flex:"none", width:28, height:28, borderRadius:"50%", background:"var(--color-primary)", color:"#fff",

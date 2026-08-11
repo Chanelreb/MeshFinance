@@ -3,10 +3,19 @@
 
 /* "/home-loans" -> "home-loans"; "/" -> "home". Tolerates being served from
    the app's file path (/ui_kits/website/...) as well as clean root routes. */
+/* Legacy / SEO-friendly URL aliases → canonical route id. Lets URLs that Google
+   has already indexed (e.g. /calc-stamp-duty, /contact-us) resolve to the right
+   screen and dedupe onto the canonical route rather than falling back to home. */
+const MESH_ROUTE_ALIASES = {
+  "calc-stamp-duty": "stamp-duty-calculator",
+  "contact-us": "contact",
+};
+
 function meshRouteFromLocation() {
   let p = window.location.pathname.replace(/\/+$/, "");
   p = p.replace(/^.*\/ui_kits\/website/, "").replace(/\/index\.html$/, "");
-  return p.replace(/^\//, "") || "home";
+  const seg = p.replace(/^\//, "") || "home";
+  return MESH_ROUTE_ALIASES[seg] || seg;
 }
 
 /* Default titles for screens that don't set their own (LoanScreen and
@@ -21,7 +30,7 @@ const MESH_TITLES = {
   "calculator-hub": "Calculator Hub | Mesh Finance",
   "calc-loan-repayment": "Loan Repayment Calculator | Mesh Finance",
   "calc-interest-only": "Interest Only Calculator | Mesh Finance",
-  "calc-stamp-duty": "Stamp Duty Calculator | Mesh Finance",
+  "stamp-duty-calculator": "Stamp Duty Calculator | Mesh Finance",
   "calc-borrowing-power": "Borrowing Power Calculator | Mesh Finance",
   "calc-savings": "Saving Calculator | Mesh Finance",
   "calc-extra-repayment": "Extra Repayment Calculator | Mesh Finance",
@@ -85,7 +94,7 @@ const MESH_DESCRIPTIONS = {
   "disclaimer": "Important disclaimer for the Mesh Finance website. Information here is general in nature and not personal credit or financial advice.",
   "calc-loan-repayment": "Free loan repayment calculator from Mesh Finance. Estimate your home loan repayments by loan amount, interest rate and term in seconds.",
   "calc-interest-only": "Interest only calculator from Mesh Finance. Compare interest-only and principal-and-interest repayments to see how each affects your home loan.",
-  "calc-stamp-duty": "Stamp duty calculator for WA property from Mesh Finance. Estimate stamp duty and government fees on your next home or investment purchase.",
+  "stamp-duty-calculator": "Stamp duty calculator for WA property from Mesh Finance. Estimate stamp duty and government fees on your next home or investment purchase.",
   "calc-borrowing-power": "Borrowing power calculator from Mesh Finance. Estimate how much you may be able to borrow for a home loan based on your income and expenses.",
   "calc-savings": "Savings calculator from Mesh Finance. See how regular deposits and interest grow your home deposit over time and plan your path to buying.",
   "calc-extra-repayment": "Extra repayment calculator from Mesh Finance. See how paying a little extra each month can cut years and interest off your home loan.",
@@ -131,6 +140,7 @@ function App() {
   const [route, setRoute] = useState(meshRouteFromLocation());
 
   const onNav = (id) => {
+    id = MESH_ROUTE_ALIASES[id] || id;
     setRoute(id);
     const path = id === "home" ? "/" : "/" + id;
     if (window.location.pathname !== path) window.history.pushState({}, "", path);
@@ -167,7 +177,7 @@ function App() {
   const loanSlugs = ["home-loans","investment-home-loans","bad-credit-home-loans","personal-loans","car-loans","leisure-loans","debt-consolidation-loans"];
   const caseStudySlugs = window.MeshContent.caseStudies || {};
   const calcKinds = { "calc-loan-repayment":"loan-repayment", "calc-interest-only":"interest-only",
-    "calc-stamp-duty":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
+    "stamp-duty-calculator":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
     "calc-lump-sum":"lump-sum", "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw",
     "calc-max-purchase-price":"max-purchase-price" };
 
