@@ -691,8 +691,8 @@ function MPToggle({ legend, name, options, value, onChange, helper, note, icon }
 /* Shared input options + copy used by both the single-page and guided UIs. */
 const MP_LOCATION_OPTIONS = [
   { value: "PERTH_CAPITAL_CITY", label: "Perth", sub: "capital-city area" },
-  { value: "OTHER_WA_SOUTH_26", label: "Other WA", sub: "south of 26th" },
-  { value: "OTHER_WA_NORTH_26", label: "Other WA", sub: "north of 26th" },
+  { value: "OTHER_WA_SOUTH_26", label: "Regional WA", sub: "South of the 26th" },
+  { value: "OTHER_WA_NORTH_26", label: "Regional WA", sub: "North of the 26th" },
 ];
 const MP_TYPE_OPTIONS = [
   { value: "ESTABLISHED_HOME", label: "Established", sub: "existing home" },
