@@ -980,7 +980,7 @@ window.MeshContent = {
   ],
 
   helpfulArticles: [
-    { slug:"wa-first-home-buyer-changes-2026", featured:true, title: "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds", date: "11 August 2026", body: "From 7 May 2026, eligible WA first home buyers can pay no stamp duty on homes up to $600,000, with concessions to $800,000, plus a higher First Home Owner Grant cap. See what the changes mean for Perth buyers." },
+    { slug:"wa-first-home-buyer-changes-2026", featured:true, title: "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds", date: "8 May 2026", body: "From 7 May 2026, eligible WA first home buyers can pay no stamp duty on homes up to $600,000, with concessions to $800,000, plus a higher First Home Owner Grant cap. See what the changes mean for Perth buyers." },
     { slug:"help-to-buy-wa", title: "Help to Buy WA | Buy a Home with a 2% Deposit", date: "14 June 2026", body: "Learn how the Australian Government's Help to Buy Scheme can help eligible WA buyers purchase a home with as little as a 2% deposit. Check eligibility, income limits, property caps and more." },
     { slug:"ato-debt-lending-solutions-business-owners", title: "ATO Debt Lending Solutions for Australian Business Owners", date: "1 June 2026", body: "ATO debt is becoming more expensive for business owners. Learn how lending solutions may help pay out, consolidate or manage ATO debt more effectively than a payment arrangement." },
     { slug:"using-parents-property-as-security-first-home-buyer", title: "Using a Parent's Property as Security to Buy Your First Home", date: "1 May 2026", body: "Saving a deposit can be one of the biggest hurdles for first home buyers. A family security guarantee may allow parents to use equity in their property to help their child buy sooner, without gifting cash directly." },
@@ -1142,7 +1142,7 @@ window.MeshContent = {
   articles: {
     "wa-first-home-buyer-changes-2026": {
       title: "WA First Home Buyer Changes 2026: What the New Stamp Duty Rules Mean for You",
-      date: "11 August 2026",
+      date: "8 May 2026",
       intro: "Buying your first home in Western Australia just became a little easier. From 7 May 2026, the WA Government increased the stamp duty exemption and concession thresholds available to eligible first home buyers, while also increasing the property value cap for the First Home Owner Grant (FHOG).",
       blocks: [
         { body: [
