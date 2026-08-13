@@ -465,7 +465,7 @@ function MoneyByDesignScreen(props) {
           <div style={sx.introRight}>
             <h3 style={sx.peekTitle}>Here's what you'll see</h3>
             <div style={sx.peekCard}>
-              <MbdDonut segments={introSample} size={116} stroke={17} centerValue={8450} centerLabel="Example" />
+              <MbdDonut segments={introSample} size={116} stroke={17} centerValue={8450} centerLabel="Income" />
               <div>
                 <div style={sx.peekH}>Your breathing room</div>
                 <div style={sx.peekBig}>$870<span style={sx.peekPer}> / mo</span></div>
