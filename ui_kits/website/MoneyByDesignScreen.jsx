@@ -439,24 +439,42 @@ function MoneyByDesignScreen(props) {
     );
   }
 
-  /* ============================ INTRO ============================ */
+  /* ===================== INTRO (concept B: show the payoff) ============== */
   if (state.view === "intro") {
+    /* Illustrative sample so first-time visitors can see the kind of result
+       they'll get. Not the user's data — labelled "Example". */
+    var introSample = [
+      { key: "housing", label: "Mortgage", amount: 2750, color: "#2167a0" },
+      { key: "essentials", label: "Other essentials", amount: 2880, color: B.BUCKET_META.essentials.color },
+      { key: "lifestyle", label: "Lifestyle", amount: 575, color: B.BUCKET_META.lifestyle.color },
+      { key: "goals", label: "Goals", amount: 525, color: B.BUCKET_META.goals.color },
+      { key: "futureYou", label: "Future You", amount: 850, color: B.BUCKET_META.futureYou.color },
+      { key: "breathing", label: "Breathing room", amount: 870, color: "#cfe6f8" },
+    ];
     return Shell(
-      <Card elevation="shadow" style={sx.introCard}>
-        <p style={sx.introLead}>Get a clearer picture of what's coming in, where it's going and what you have left to work with. We'll help you map your everyday spending, goals, debts and future plans in one place.</p>
-        <div style={sx.introNote}>Start with our suggested budget split, then adjust it to suit your household.</div>
-        <div style={sx.splitRow}>
-          {B.BUCKET_ORDER.map(function (k) {
-            return (
-              <div key={k} style={sx.splitChip}>
-                <span style={{ width: 10, height: 10, borderRadius: 3, background: B.BUCKET_META[k].color, display: "inline-block" }} />
-                <b>{B.DEFAULT_BUCKETS[k]}%</b> {B.BUCKET_META[k].label}
+      <Card elevation="shadow" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.05fr .95fr" }}>
+          <div style={sx.introLeft}>
+            <Badge color="solid">Money by Design</Badge>
+            <h2 style={sx.introHeadline}>Map out your money.</h2>
+            <p style={sx.introTagline}>Build the life you want to live.</p>
+            <p style={sx.introLead}>See what's coming in, where it's going and how much breathing room you've really got, in about five minutes.</p>
+            <Button size="lg" onClick={function () { setView("step1"); }} iconRight={<window.MeshIcons.ArrowRight width={18} height={18} />}>Build My Money Plan</Button>
+            <p style={sx.introMicro}>No sign-up · saved on your device</p>
+          </div>
+          <div style={sx.introRight}>
+            <h3 style={sx.peekTitle}>Here's what you'll see</h3>
+            <div style={sx.peekCard}>
+              <MbdDonut segments={introSample} size={116} stroke={17} centerValue={8450} centerLabel="Example" />
+              <div>
+                <div style={sx.peekH}>Your breathing room</div>
+                <div style={sx.peekBig}>$870<span style={sx.peekPer}> / mo</span></div>
+                <div style={sx.peekSub}>left after everything's covered</div>
               </div>
-            );
-          })}
+            </div>
+            <p style={sx.peekBlurb}>Plus where your money goes, how your buckets compare, your mortgage share and progress on your goals.</p>
+          </div>
         </div>
-        <Button size="lg" onClick={function () { setView("step1"); }} iconRight={<window.MeshIcons.ArrowRight width={18} height={18} />}>Build My Money Plan</Button>
-        <p style={sx.privacyNote}>Your Money by Design information is saved on this device so you can come back to it later. It stays on this device unless you choose to contact Mesh Finance.</p>
       </Card>
     );
   }
@@ -971,7 +989,19 @@ var mbdStyles = {
   disclaimer: { maxWidth: 920, margin: "0 auto", padding: "0 20px 48px", fontSize: 12, lineHeight: 1.55, color: "var(--text-subtle)" },
 
   introCard: { padding: "28px 28px 30px", display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" },
-  introLead: { fontSize: 16.5, lineHeight: 1.6, color: "var(--text-body)", margin: 0 },
+  introLead: { fontSize: 16.5, lineHeight: 1.6, color: "var(--text-body)", margin: 0, maxWidth: "42ch" },
+  introLeft: { padding: "36px 34px", display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start", justifyContent: "center" },
+  introHeadline: { fontFamily: "var(--font-display)", fontSize: 32, color: "var(--navy-700)", margin: "6px 0 0", letterSpacing: "-.02em", lineHeight: 1.05, fontWeight: 700 },
+  introTagline: { fontSize: 17, color: "var(--color-primary-active)", margin: 0, fontWeight: 600 },
+  introMicro: { fontSize: 12.5, color: "var(--text-subtle)", margin: "6px 0 0" },
+  introRight: { background: "var(--navy-700)", color: "#fff", padding: "34px 32px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 },
+  peekTitle: { fontFamily: "var(--font-display)", fontSize: 19, color: "#fff", margin: 0, fontWeight: 700 },
+  peekCard: { background: "#fff", borderRadius: "var(--radius-lg)", padding: 18, display: "flex", gap: 16, alignItems: "center" },
+  peekH: { fontSize: 12, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--text-muted)", fontWeight: 700 },
+  peekBig: { fontFamily: "var(--font-display)", fontSize: 27, fontWeight: 700, color: "var(--green-600)", letterSpacing: "-.02em", lineHeight: 1.1 },
+  peekPer: { fontSize: 13, fontWeight: 500, color: "var(--text-muted)" },
+  peekSub: { fontSize: 12.5, color: "var(--text-muted)", marginTop: 2 },
+  peekBlurb: { fontSize: 14, color: "#c3cede", margin: 0, lineHeight: 1.5 },
   introNote: { fontSize: 14.5, color: "var(--color-primary-active)", background: "var(--blue-50)", padding: "10px 14px", borderRadius: "var(--radius-md)", fontWeight: 600 },
   splitRow: { display: "flex", flexWrap: "wrap", gap: 10 },
   splitChip: { display: "flex", alignItems: "center", gap: 6, fontSize: 13.5, color: "var(--text-body)", background: "var(--gray-50)", border: "1px solid var(--border-subtle)", borderRadius: 999, padding: "6px 12px" },
