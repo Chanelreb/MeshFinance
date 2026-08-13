@@ -473,7 +473,7 @@ function MoneyByDesignScreen(props) {
     ];
     return Shell(
       <Card elevation="shadow" style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.05fr .95fr" }}>
+        <div style={isMobile ? { display: "block" } : { display: "grid", gridTemplateColumns: "1.05fr .95fr" }}>
           <div style={sx.introLeft}>
             <Badge color="solid">Money by Design</Badge>
             <h2 style={sx.introHeadline}>Map out your money.</h2>
@@ -486,7 +486,7 @@ function MoneyByDesignScreen(props) {
             <h3 style={sx.peekTitle}>Here's what you'll see</h3>
             <div style={sx.peekCard}>
               <MbdDonut segments={introSample} size={116} stroke={17} centerValue={8450} centerLabel="Income" />
-              <div>
+              <div style={{ minWidth: 0 }}>
                 <div style={sx.peekH}>Your breathing room</div>
                 <div style={sx.peekBig}>$870<span style={sx.peekPer}> / mo</span></div>
                 <div style={sx.peekSub}>left after everything's covered</div>
@@ -1010,11 +1010,11 @@ var mbdStyles = {
 
   introCard: { padding: "28px 28px 30px", display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" },
   introLead: { fontSize: 16.5, lineHeight: 1.6, color: "var(--text-body)", margin: 0, maxWidth: "42ch" },
-  introLeft: { padding: "36px 34px", display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start", justifyContent: "center" },
+  introLeft: { padding: "36px 34px", display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start", justifyContent: "center", minWidth: 0 },
   introHeadline: { fontFamily: "var(--font-display)", fontSize: 32, color: "var(--navy-700)", margin: "6px 0 0", letterSpacing: "-.02em", lineHeight: 1.05, fontWeight: 700 },
   introTagline: { fontSize: 17, color: "var(--color-primary-active)", margin: 0, fontWeight: 600 },
   introMicro: { fontSize: 12.5, color: "var(--text-subtle)", margin: "6px 0 0" },
-  introRight: { background: "var(--navy-700)", color: "#fff", padding: "34px 32px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 },
+  introRight: { background: "var(--navy-700)", color: "#fff", padding: "34px 32px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16, minWidth: 0 },
   peekTitle: { fontFamily: "var(--font-display)", fontSize: 19, color: "#fff", margin: 0, fontWeight: 700 },
   peekCard: { background: "#fff", borderRadius: "var(--radius-lg)", padding: 18, display: "flex", gap: 16, alignItems: "center" },
   peekH: { fontSize: 12, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--text-muted)", fontWeight: 700 },
