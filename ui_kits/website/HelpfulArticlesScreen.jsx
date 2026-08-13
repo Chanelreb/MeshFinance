@@ -5,6 +5,22 @@ function HelpfulArticlesScreen({ onNav }) {
   const { Badge, Card, Button, Breadcrumb } = DS;
   const items = window.MeshContent.helpfulArticles;
   const isMobile = window.useIsMobile();
+  const FHB_GROUP = "First home buyer guides";
+  const grouped = items.filter(a => a.group === FHB_GROUP);
+  const rest = items.filter(a => a.group !== FHB_GROUP);
+  const sections = [
+    { label: FHB_GROUP, list: grouped },
+    { label: "More guides & articles", list: rest },
+  ];
+  const renderCard = (a, i) => (
+    <Card key={a.slug} elevation="shadow" style={{...haS.card, ...(a.featured?haS.cardFeatured:{})}} onClick={()=>onNav(a.slug)}>
+      {a.featured && <span style={haS.featBadge}>★ Featured</span>}
+      <span style={haS.date}>{a.date}</span>
+      <h3 style={haS.title}>{a.title}</h3>
+      <p style={haS.body}>{a.body}</p>
+      <span style={haS.readMore}>Read More »</span>
+    </Card>
+  );
   return (
     <div>
       <section style={haS.head}>
@@ -22,17 +38,14 @@ function HelpfulArticlesScreen({ onNav }) {
       <section style={haS.bodySection}>
       <div style={{...haS.inner, ...(isMobile ? haS.innerMobile : {})}}>
         <div style={haS.main}>
-          <div style={haS.list}>
-            {items.map((a,i)=>(
-              <Card key={i} elevation="shadow" style={{...haS.card, ...(a.featured?haS.cardFeatured:{})}} onClick={()=>onNav(a.slug)}>
-                {a.featured && <span style={haS.featBadge}>★ Featured</span>}
-                <span style={haS.date}>{a.date}</span>
-                <h3 style={haS.title}>{a.title}</h3>
-                <p style={haS.body}>{a.body}</p>
-                <span style={haS.readMore}>Read More »</span>
-              </Card>
-            ))}
-          </div>
+          {sections.map((sec)=> sec.list.length ? (
+            <div key={sec.label} style={haS.groupBlock}>
+              <h2 style={haS.groupH}>{sec.label}</h2>
+              <div style={haS.list}>
+                {sec.list.map(renderCard)}
+              </div>
+            </div>
+          ) : null)}
           <div style={haS.cta}>
             <span style={haS.ctaTxt}>Want the full story on any of these? Reach out and we'll talk it through.</span>
             <Button onClick={()=>onNav("contact")}>Get in touch</Button>
@@ -68,7 +81,10 @@ const haS = {
   main: { maxWidth:720 },
   h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
-  list: { display:"grid", gap:16, marginBottom:32 },
+  list: { display:"grid", gap:16, marginBottom:0 },
+  groupBlock: { marginBottom:36 },
+  groupH: { fontFamily:"var(--font-display)", fontSize:20, color:"var(--navy-700)", margin:"0 0 16px", fontWeight:700,
+    borderBottomWidth:1, borderBottomStyle:"solid", borderBottomColor:"var(--border-subtle)", paddingBottom:8 },
   card: { padding:26, display:"flex", flexDirection:"column", gap:6, cursor:"pointer" },
   cardFeatured: { borderLeftWidth:4, borderLeftStyle:"solid", borderLeftColor:"var(--color-primary)", background:"var(--blue-50)" },
   featBadge: { alignSelf:"flex-start", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".05em",
