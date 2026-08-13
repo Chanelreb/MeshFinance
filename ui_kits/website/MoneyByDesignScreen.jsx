@@ -1,5 +1,5 @@
 /* =============================================================================
- * Money by Design — budgeting tool screen.
+ * Money by Design, budgeting tool screen.
  * Guided 6-step wizard + results dashboard. All maths live in window.MeshBudget
  * (budget-engine.js); PDF export in window.MeshBudgetPdf (budget-pdf.js).
  * Data autosaves to localStorage on this device only.
@@ -270,27 +270,47 @@ function MbdSection(props) {
  * ===========================================================================*/
 function MbdExpenseRow(props) {
   var e = props.expense, mobile = props.mobile;
-  var monthly = window.MeshBudget.toMonthly(e.amount, e.freq);
+  var B = window.MeshBudget;
+  var monthly = B.toMonthly(e.amount, e.freq);
+  var nameEl = e.custom
+    ? <input value={e.name} onChange={function (ev) { props.onChange("name", ev.target.value); }} placeholder="Expense name"
+        aria-label="Expense name" style={{ padding: "10px 12px", border: "1px solid var(--border-default)",
+          borderRadius: "var(--radius-md)", fontSize: 14.5, fontFamily: "var(--font-body)", width: "100%", boxSizing: "border-box" }} />
+    : <span style={{ fontSize: 14.5, color: "var(--text-strong)", fontWeight: 600 }}>{e.name}</span>;
+  var remove = function (px) { return (
+    <button type="button" onClick={props.onRemove} aria-label={"Remove " + e.name}
+      style={{ background: "none", border: "none", color: "var(--text-subtle)", cursor: "pointer", fontSize: px, lineHeight: 1, padding: "0 4px" }}>×</button>
+  ); };
+
+  /* Mobile: name + remove on top, amount|frequency side by side, then bucket +
+     the monthly figure, three compact rows instead of four stacked controls. */
+  if (mobile) {
+    return (
+      <div style={{ padding: "12px 0", borderBottom: "1px solid var(--gray-100)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>{nameEl}</div>
+          {remove(24)}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <MbdMoney value={e.amount} onChange={function (v) { props.onChange("amount", v); }} ariaLabel={e.name + " amount"} />
+          <MbdFreq value={e.freq} onChange={function (v) { props.onChange("freq", v); }} ariaLabel={e.name + " frequency"} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
+          <div style={{ width: 160 }}><MbdBucketSelect value={e.bucket} onChange={function (v) { props.onChange("bucket", v); }} /></div>
+          {monthly > 0 && <span style={{ marginLeft: "auto", fontSize: 12.5, color: "var(--text-muted)" }}>{B.formatMoney(monthly)}/mo</span>}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ display: "grid", gap: 8,
-      gridTemplateColumns: mobile ? "1fr" : "minmax(0,1.5fr) 120px 130px 130px 28px", alignItems: "center",
-      padding: "8px 0", borderBottom: "1px solid var(--gray-100)" }}>
-      {e.custom
-        ? <input value={e.name} onChange={function (ev) { props.onChange("name", ev.target.value); }} placeholder="Expense name"
-            aria-label="Expense name" style={{ padding: "10px 12px", border: "1px solid var(--border-default)",
-              borderRadius: "var(--radius-md)", fontSize: 14.5, fontFamily: "var(--font-body)", width: "100%", boxSizing: "border-box" }} />
-        : <span style={{ fontSize: 14.5, color: "var(--text-strong)", fontWeight: 500 }}>{e.name}</span>}
+    <div style={{ display: "grid", gap: 8, gridTemplateColumns: "minmax(0,1.5fr) 120px 130px 130px 28px",
+      alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--gray-100)" }}>
+      {nameEl}
       <MbdMoney value={e.amount} onChange={function (v) { props.onChange("amount", v); }} ariaLabel={e.name + " amount"} />
       <MbdFreq value={e.freq} onChange={function (v) { props.onChange("freq", v); }} ariaLabel={e.name + " frequency"} />
       <MbdBucketSelect value={e.bucket} onChange={function (v) { props.onChange("bucket", v); }} />
-      {mobile
-        ? <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12.5, color: "var(--text-muted)" }}>
-            <span>{monthly > 0 ? window.MeshBudget.formatMoney(monthly) + "/mo" : ""}</span>
-            <button type="button" onClick={props.onRemove} aria-label={"Remove " + e.name}
-              style={{ background: "none", border: "none", color: "var(--text-subtle)", cursor: "pointer", fontSize: 13 }}>Remove</button>
-          </div>
-        : <button type="button" onClick={props.onRemove} aria-label={"Remove " + e.name}
-            style={{ background: "none", border: "none", color: "var(--text-subtle)", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>}
+      {remove(18)}
     </div>
   );
 }
@@ -427,10 +447,10 @@ function MoneyByDesignScreen(props) {
     return (
       <div style={sx.page}>
         <section style={sx.hero}>
-          <div style={sx.heroInner}>
+          <div style={{ ...sx.heroInner, ...(isMobile ? { padding: "24px 20px 26px" } : {}) }}>
             <Badge color="solid">Money by Design</Badge>
-            <h1 style={sx.h1}>Money by Design</h1>
-            <p style={sx.tagline}>Map out your money. Build the life you want to live.</p>
+            <h1 style={{ ...sx.h1, ...(isMobile ? { fontSize: 27 } : {}) }}>Money by Design</h1>
+            <p style={{ ...sx.tagline, ...(isMobile ? { fontSize: 15.5 } : {}) }}>Map out your money. Build the life you want to live.</p>
           </div>
         </section>
         <div style={sx.body}>{children}</div>
@@ -442,7 +462,7 @@ function MoneyByDesignScreen(props) {
   /* ===================== INTRO (concept B: show the payoff) ============== */
   if (state.view === "intro") {
     /* Illustrative sample so first-time visitors can see the kind of result
-       they'll get. Not the user's data — labelled "Example". */
+       they'll get. Not the user's data, labelled "Example". */
     var introSample = [
       { key: "housing", label: "Mortgage", amount: 2750, color: "#2167a0" },
       { key: "essentials", label: "Other essentials", amount: 2880, color: B.BUCKET_META.essentials.color },
@@ -565,14 +585,14 @@ function MoneyByDesignScreen(props) {
   /* ---------------- STEP 2: everyday spending (essentials) ---------------- */
   if (state.view === "step2") {
     var homeEmoji = state.housing === "rent" ? "🔑" : "🏠";
-    return Shell(StepFrame("Your Everyday Spending", "Fill in what you can. Leave anything that doesn't apply at $0 — you don't need to complete every field.", (
+    return Shell(StepFrame("Your Everyday Spending", "Fill in what you can. Leave anything that doesn't apply at $0, you don't need to complete every field.", (
       <div>
         <MbdSection title="Home" emoji={homeEmoji} defaultOpen>
           {mbdExpenseTable(rowsFor("home"), isMobile, changeExpense, removeExpense)}
           {state.housing === "mortgage" && (
             <div style={sx.loanPanel}>
               <div style={sx.loanPanelH}>Loan details (optional)</div>
-              <p style={sx.blockHint}>Only used for your Mortgage Check — nothing here is required.</p>
+              <p style={sx.blockHint}>Only used for your Mortgage Check, nothing here is required.</p>
               <div style={{ display: "grid", gap: 10, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr" }}>
                 <input value={state.mortgage.lender} onChange={function (e) { patch({ mortgage: Object.assign({}, state.mortgage, { lender: e.target.value }) }); }} placeholder="Current lender" aria-label="Current lender" style={sx.textInput} />
                 <MbdMoney value={state.mortgage.balance} onChange={function (v) { patch({ mortgage: Object.assign({}, state.mortgage, { balance: v }) }); }} ariaLabel="Approximate loan balance" placeholder="Loan balance" />
@@ -599,7 +619,7 @@ function MoneyByDesignScreen(props) {
 
   /* ---------------- STEP 3: lifestyle ---------------- */
   if (state.view === "step3") {
-    return Shell(StepFrame("Your Lifestyle", "The things you choose to enjoy. There's no right answer here — just what's true for you.", (
+    return Shell(StepFrame("Your Lifestyle", "The things you choose to enjoy. There's no right answer here, just what's true for you.", (
       <div>
         <MbdSection title="Lifestyle" emoji="✨" defaultOpen>{mbdExpenseTable(rowsFor("lifestyle"), isMobile, changeExpense, removeExpense)}</MbdSection>
         <button type="button" onClick={function () { addCustomExpense("lifestyle"); }} style={sx.addBtn}>+ Add another lifestyle expense</button>
@@ -683,8 +703,8 @@ function MoneyByDesignScreen(props) {
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
                   <MbdRing size={54} stroke={7} pct={gr.savedPct} color={B.BUCKET_META.goals.color} center={Math.round(gr.savedPct) + "%"} centerSize={12} />
                   <div style={{ fontSize: 13.5, color: "var(--text-body)" }}>
-                    <b>{g.name || "Goal"}</b> — {B.formatMoney(gr.saved)} saved of {B.formatMoney(gr.target)}
-                    {gr.pastDue && <div style={{ color: "var(--color-warning)", fontSize: 12.5 }}>Target date has passed — update it to see what's needed.</div>}
+                    <b>{g.name || "Goal"}</b>,{B.formatMoney(gr.saved)} saved of {B.formatMoney(gr.target)}
+                    {gr.pastDue && <div style={{ color: "var(--color-warning)", fontSize: 12.5 }}>Target date has passed, update it to see what's needed.</div>}
                   </div>
                 </div>
               )}
@@ -786,7 +806,7 @@ function MbdResults(props) {
           </div>
         </div>
         {breathing < 0 && (
-          <p style={sx.softNote}>Your current plan is using a little more than your monthly income. That gives us a useful place to start — have a look through the categories below to see where there may be room to adjust.</p>
+          <p style={sx.softNote}>Your current plan is using a little more than your monthly income. That gives us a useful place to start, have a look through the categories below to see where there may be room to adjust.</p>
         )}
       </Mbd_Card>
 
@@ -821,7 +841,7 @@ function MbdResults(props) {
 
         {state.adjustBuckets && (
           <div style={sx.adjustWrap}>
-            <p style={sx.blockHint}>These are suggested starting points. Adjust to suit your household — they need to total 100%.</p>
+            <p style={sx.blockHint}>These are suggested starting points. Adjust to suit your household, they need to total 100%.</p>
             <div style={{ display: "grid", gap: 10, gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4,1fr)" }}>
               {B.BUCKET_ORDER.map(function (k) {
                 return (
@@ -898,7 +918,7 @@ function MbdResults(props) {
               <b style={{ color: "var(--navy-700)", fontSize: 17 }}>{r.futureYou.hasDebt ? "You've got extra firepower" : "You've got breathing room"}</b>
               <p style={{ margin: "4px 0 0", color: "var(--text-body)", fontSize: 14.5 }}>
                 Based on your current plan, you have approximately <b>{B.formatMoney(breathing)} per month</b> of breathing room.
-                You could choose to put some or all of this towards {r.futureYou.hasDebt ? "your debts, " : ""}savings or other goals — it's entirely up to you.
+                You could choose to put some or all of this towards {r.futureYou.hasDebt ? "your debts, " : ""}savings or other goals, it's entirely up to you.
               </p>
             </div>
           </div>
@@ -919,16 +939,16 @@ function MbdResults(props) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <b style={{ color: "var(--navy-700)", fontSize: 16 }}>{g.name}</b>
                     <p style={{ margin: "3px 0", fontSize: 14, color: "var(--text-body)" }}>
-                      {g.complete ? "✨ You've reached this goal!" : (g.savedPct > 0 ? "✨ Look at you go — " : "🌱 Every bit counts — ")}
+                      {g.complete ? "✨ You've reached this goal!" : (g.savedPct > 0 ? "✨ Look at you go," : "🌱 Every bit counts,")}
                       {B.formatMoney(g.saved)} of {B.formatMoney(g.target)} ({Math.round(g.savedPct)}%).
                     </p>
                     {!g.complete && g.monthsLeft != null && g.monthsLeft > 0 && (
                       <p style={{ margin: 0, fontSize: 13, color: "var(--text-muted)" }}>
-                        {B.formatMoney(g.remaining)} to go over {g.monthsLeft} month{g.monthsLeft === 1 ? "" : "s"} — about <b>{B.formatMoney(g.requiredMonthly)}/month</b>.
-                        {g.contributionMonthly > 0 && (g.onTrack ? " Your planned contribution looks on track. 🎯" : " That's a little more than your current plan — worth a look.")}
+                        {B.formatMoney(g.remaining)} to go over {g.monthsLeft} month{g.monthsLeft === 1 ? "" : "s"},about <b>{B.formatMoney(g.requiredMonthly)}/month</b>.
+                        {g.contributionMonthly > 0 && (g.onTrack ? " Your planned contribution looks on track. 🎯" : " That's a little more than your current plan, worth a look.")}
                       </p>
                     )}
-                    {!g.complete && g.pastDue && <p style={{ margin: 0, fontSize: 13, color: "var(--color-warning)" }}>Your target date has passed — update it to see what's needed from here.</p>}
+                    {!g.complete && g.pastDue && <p style={{ margin: 0, fontSize: 13, color: "var(--color-warning)" }}>Your target date has passed, update it to see what's needed from here.</p>}
                   </div>
                 </div>
               );
@@ -1066,7 +1086,7 @@ var mbdStyles = {
   secondaryBtn: { background: "var(--surface-card)", border: "1.5px solid var(--border-default)", color: "var(--text-strong)", fontWeight: 600, fontSize: 15, cursor: "pointer", padding: "12px 22px", borderRadius: "var(--radius-md)", fontFamily: "var(--font-body)" },
 };
 
-/* Make the dark CTA card's heading/paragraph readable — override text colors inline where used. */
+/* Make the dark CTA card's heading/paragraph readable, override text colors inline where used. */
 mbdStyles.ctaCard = Object.assign({}, mbdStyles.ctaCard);
 
 var Button = window.MeshFinanceDesignSystem_5c98d0.Button;
