@@ -193,9 +193,34 @@
 
   var FEEDBACK_TOLERANCE = 5; // percentage points either side of target = "around"
 
-  /* Warm, non-judgemental messaging keyed off how actual% compares to target%. */
-  function feedbackFor(actualPct, targetPct) {
+  /* Warm, non-judgemental messaging keyed off how actual% compares to target%.
+   *
+   * Direction depends on the bucket. Essentials and Lifestyle are SPENDING
+   * buckets — coming in UNDER target is good (frees up room). Goals and Future
+   * You are BUILD buckets — the point is to feed them, so being under target is
+   * an opportunity to build, not a win, and coming in above is getting ahead.
+   * `key` selects the right framing; omitted → spend behaviour. */
+  function feedbackFor(actualPct, targetPct, key) {
     var diff = actualPct - targetPct;
+    var build = key === "goals" || key === "futureYou";
+
+    if (build) {
+      if (diff > FEEDBACK_TOLERANCE) {
+        return { tone: "ahead", emoji: "🙌", title: "Getting ahead",
+          message: "You're putting more than the suggested amount towards this — a great position to be in." };
+      }
+      if (diff >= -FEEDBACK_TOLERANCE) {
+        return { tone: "around", emoji: "🎯", title: "Killing it",
+          message: "You're putting a healthy share towards this, right around your suggested range." };
+      }
+      if (diff >= -15) {
+        return { tone: "build-slight", emoji: "🌱", title: "Room to build",
+          message: "You're a little under your suggested range here. Even a small regular amount towards this adds up over time." };
+      }
+      return { tone: "build", emoji: "🧭", title: "A chance to build",
+        message: "There's not much going here at the moment. When you're ready, directing even a small amount towards this is a great way to get ahead." };
+    }
+
     if (diff < -FEEDBACK_TOLERANCE) {
       return { tone: "under", emoji: "🙌", title: "Looking good",
         message: "You're using less than the suggested amount here, which may give you some extra room elsewhere." };
@@ -327,7 +352,7 @@
         targetPct: targetPct, targetAmt: targetAmt,
         actualAmt: actualAmt, actualPct: actualPct,
         diffPct: actualPct - targetPct, diffAmt: actualAmt - targetAmt,
-        feedback: feedbackFor(actualPct, targetPct),
+        feedback: feedbackFor(actualPct, targetPct, key),
       };
     });
 

@@ -91,6 +91,20 @@ ok("slight +5..10", B.feedbackFor(68, 60).tone === "slight");
 ok("notable +10..20", B.feedbackFor(75, 60).tone === "notable");
 ok("significant >20", B.feedbackFor(90, 60).tone === "significant");
 
+/* ---- build buckets (goals / future you) invert: under target ≠ "looking good" ---- */
+ok("goals 0% is NOT 'Looking good'", B.feedbackFor(0, 10, "goals").title !== "Looking good");
+ok("goals 0% flagged to build", ["build", "build-slight"].indexOf(B.feedbackFor(0, 10, "goals").tone) !== -1);
+ok("future you 0% is a chance to build", B.feedbackFor(0, 20, "futureYou").tone === "build");
+ok("future you 10 vs 20 = room to build", B.feedbackFor(10, 20, "futureYou").tone === "build-slight");
+ok("build bucket at target = around", B.feedbackFor(10, 10, "goals").tone === "around");
+ok("build bucket above target = getting ahead", B.feedbackFor(30, 20, "futureYou").tone === "ahead");
+ok("spend bucket under still 'Looking good'", B.feedbackFor(50, 60, "essentials").title === "Looking good");
+// engine wires the key through per bucket (essentials 40% here → under target)
+var fbState = B.computeResults({ incomes: [{ amount: 5000, freq: "monthly" }], expenses: [{ name: "Rent", amount: 2000, freq: "monthly", bucket: "essentials" }] }, { now: NOW });
+ok("computed goals bucket (0%) not 'Looking good'", fbState.bucketsByKey.goals.feedback.title !== "Looking good");
+ok("computed futureYou bucket (0%) not 'Looking good'", fbState.bucketsByKey.futureYou.feedback.title !== "Looking good");
+ok("computed essentials under target still 'Looking good'", fbState.bucketsByKey.essentials.feedback.title === "Looking good");
+
 /* ---- edge cases ---- */
 var empty = B.computeResults({}, { now: NOW });
 ok("empty state: income 0", empty.income.monthly === 0);

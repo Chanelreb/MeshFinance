@@ -742,7 +742,9 @@ function MbdResults(props) {
   var breathing = r.breathingRoom;
   var hasLending = r.debt.count > 0 || (state.mortgage && (B.num(state.mortgage.balance) > 0 || state.mortgage.lender));
 
-  var toneColor = { under: "var(--color-success)", around: "var(--color-success)", slight: "var(--color-primary)", notable: "var(--color-warning)", significant: "var(--color-warning)" };
+  var toneColor = { under: "var(--color-success)", around: "var(--color-success)", ahead: "var(--color-success)",
+    slight: "var(--color-primary)", "build-slight": "var(--color-primary)",
+    notable: "var(--color-warning)", significant: "var(--color-warning)", build: "var(--color-warning)" };
 
   var bucketsInvalid = !r.bucketsValid;
 
