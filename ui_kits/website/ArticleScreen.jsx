@@ -61,7 +61,7 @@ function ArticleScreen({ onNav, slug }) {
                         <tr key={r}>
                           {row.map((cell,c)=>(
                             <td key={c} style={{...artS.td, textAlign:(b.table.align&&b.table.align[c])||"left",
-                              ...(c===0?artS.tdFirst:{})}}>{cell}</td>
+                              ...(c===0?artS.tdFirst:{})}}>{rt(cell)}</td>
                           ))}
                         </tr>
                       ))}
