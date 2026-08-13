@@ -9,12 +9,20 @@ function ArticleScreen({ onNav, slug }) {
   if (!d) return null;
 
   /* Render a rich-text value: either a plain string, or an array of runs where
-     each run is a string or a { t, to } internal link. Links are real crawlable
-     <a href> that also drive client-side navigation. */
+     each run is a string, a { t, to } internal link, or a { t, href } external
+     link. Internal links drive client-side navigation; external links open in a
+     new tab. Both are real crawlable <a href>. */
   const rt = (content) => Array.isArray(content)
-    ? content.map((run, ri) => typeof run === "string" ? run
-        : <a key={ri} href={window.meshHref(run.to)} style={artS.link}
-             onClick={(e)=>{e.preventDefault(); onNav(run.to);}}>{run.t}</a>)
+    ? content.map((run, ri) => {
+        if (typeof run === "string") return run;
+        if (run.href) return (
+          <a key={ri} href={run.href} target="_blank" rel="noopener noreferrer" style={artS.link}>{run.t}</a>
+        );
+        return (
+          <a key={ri} href={window.meshHref(run.to)} style={artS.link}
+             onClick={(e)=>{e.preventDefault(); onNav(run.to);}}>{run.t}</a>
+        );
+      })
     : content;
 
   return (

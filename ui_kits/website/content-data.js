@@ -981,6 +981,7 @@ window.MeshContent = {
 
   helpfulArticles: [
     { slug:"wa-first-home-buyer-changes-2026", featured:true, title: "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds", date: "8 May 2026", body: "From 7 May 2026, eligible WA first home buyers can pay no stamp duty on homes up to $600,000, with concessions to $800,000, plus a higher First Home Owner Grant cap. See what the changes mean for Perth buyers." },
+    { slug:"600000-first-home-deposit-perth", title: "Buying a $600,000 First Home in Perth: How Much Deposit Do You Need?", date: "12 August 2026", body: "Buying a $600,000 first home in Perth? See how much deposit you may need, the 2026 WA stamp duty savings, 5% deposit options and First Home Owner Grant rules." },
     { slug:"help-to-buy-wa", title: "Help to Buy WA | Buy a Home with a 2% Deposit", date: "14 June 2026", body: "Learn how the Australian Government's Help to Buy Scheme can help eligible WA buyers purchase a home with as little as a 2% deposit. Check eligibility, income limits, property caps and more." },
     { slug:"ato-debt-lending-solutions-business-owners", title: "ATO Debt Lending Solutions for Australian Business Owners", date: "1 June 2026", body: "ATO debt is becoming more expensive for business owners. Learn how lending solutions may help pay out, consolidate or manage ATO debt more effectively than a payment arrangement." },
     { slug:"using-parents-property-as-security-first-home-buyer", title: "Using a Parent's Property as Security to Buy Your First Home", date: "1 May 2026", body: "Saving a deposit can be one of the biggest hurdles for first home buyers. A family security guarantee may allow parents to use equity in their property to help their child buy sooner, without gifting cash directly." },
@@ -1152,7 +1153,7 @@ window.MeshContent = {
         ]},
         { h: "What changed for WA first home buyers in 2026?",
           body: [
-            "The biggest change is the increase in the First Home Owner Rate of Duty, commonly referred to as the first home buyer stamp duty concession.",
+            ["The biggest change is the increase in the ", { t: "First Home Owner Rate of Duty", href: "https://www.wa.gov.au/government/publications/duties-fact-sheet-first-home-owner-rate" }, ", commonly referred to as the first home buyer stamp duty concession."],
             "For agreements entered into on or after 7 May 2026, the new thresholds are:",
           ],
           table: {
@@ -1215,7 +1216,7 @@ window.MeshContent = {
         { h: "What is the new First Home Owner Grant threshold in WA?",
           body: [
             "There has also been an important change for first home buyers purchasing or building a new home.",
-            "The WA First Home Owner Grant remains a payment of up to $10,000, but for eligible transactions commencing from 7 May 2026, the property value cap for homes located south of the 26th parallel increased from $750,000 to $800,000.",
+            [{ t: "The WA First Home Owner Grant", href: "https://www.wa.gov.au/organisation/department-of-treasury-and-finance/first-home-owner-grant-fhog" }, " remains a payment of up to $10,000, but for eligible transactions commencing from 7 May 2026, the property value cap for homes located south of the 26th parallel increased from $750,000 to $800,000."],
             "This includes the Perth metropolitan area. The existing $1 million cap for homes north of the 26th parallel remains unchanged.",
             "It's important to understand that the First Home Owner Grant is not available when purchasing an ordinary established home. It is generally available for eligible buyers purchasing or building a new home, including qualifying substantially renovated homes.",
             "So there are really two different forms of assistance to understand:",
@@ -1284,6 +1285,7 @@ window.MeshContent = {
         { h: "Related reading for first home buyers",
           body: "If a deposit is the main thing standing between you and your first home, these guides pair well with the 2026 stamp duty changes:",
           list: [
+            [{ t: "Buying a $600,000 first home in Perth: how much deposit you need", to: "600000-first-home-deposit-perth" }, ", the deposit, funds-to-complete and scheme options at this key price point."],
             [{ t: "Help to Buy scheme in WA", to: "help-to-buy-wa" }, ", a shared-equity scheme that can help eligible buyers get in with as little as a 2% deposit."],
             [{ t: "Using a parent's property as security", to: "using-parents-property-as-security-first-home-buyer" }, ", how a family guarantee can help you buy sooner without a large deposit."],
             [{ t: "Family Guarantee Home Loans", to: "family-guarantee" }, ", how a guarantor loan is structured, and how the guarantee can be released later."],
@@ -1313,6 +1315,169 @@ window.MeshContent = {
       closing: ["Ready to see what the 2026 first home buyer changes could mean for you? Use our WA Stamp Duty Calculator to estimate your purchasing costs, or ", { t: "speak with a Perth mortgage broker", to: "contact" }, " and we can work through your first home buying position with you."],
       ctaCalc: { route: "stamp-duty-calculator", label: "Try the WA Stamp Duty Calculator" },
       disclaimer: "Information is general in nature and does not take into account your personal circumstances. Government grants, concessions, lender policies and eligibility requirements can change. Information regarding WA Government first home buyer concessions is current as at August 2026. Eligibility should be confirmed for your individual circumstances before entering into a property transaction.",
+    },
+
+    "600000-first-home-deposit-perth": {
+      title: "Buying a $600,000 First Home in Perth: How Much Deposit Do You Need?",
+      date: "12 August 2026",
+      intro: "Buying a $600,000 first home in Perth has become particularly interesting in 2026.",
+      blocks: [
+        { body: [
+          "Why $600,000? Because from 7 May 2026, eligible WA first home buyers can purchase a new or established home valued up to $600,000 and pay no transfer duty, commonly called stamp duty.",
+          ["That is one of the ", { t: "2026 WA first home buyer changes", to: "wa-first-home-buyer-changes-2026" }, ", and it can make a very real difference to the amount of money you need to have available before you buy."],
+          "But stamp duty is only one part of the equation. If you're looking at a $600,000 property, you'll also need to work out your deposit, loan amount, other purchasing costs and whether you qualify for any first home buyer schemes.",
+          "Here's how the numbers can look.",
+        ]},
+        { h: "How much deposit do you need for a $600,000 home?",
+          body: [
+            "Your deposit depends on the type of loan you're applying for and the lender's requirements.",
+            "As a simple starting point:",
+          ],
+          table: {
+            headers: ["Deposit", "Deposit on $600,000", "Approx. loan before other adjustments"],
+            align: ["left", "right", "right"],
+            rows: [
+              ["5%", "$30,000", "$570,000"],
+              ["10%", "$60,000", "$540,000"],
+              ["20%", "$120,000", "$480,000"],
+            ],
+          },
+        },
+        { body: [
+          "A 20% deposit is not automatically required to buy a home.",
+          ["Some first home buyers may be able to purchase with a much smaller deposit, including through the ", { t: "Australian Government 5% Deposit Scheme", href: "https://firsthomebuyers.gov.au/" }, "."],
+          "Eligible first home buyers can use the scheme with a minimum 5% deposit, and the Government provides a guarantee to the participating lender so the borrower does not have to pay Lenders Mortgage Insurance.",
+          "For a $600,000 property, that means the minimum 5% deposit would be $30,000.",
+          "You'll still need to meet the lender's normal credit and borrowing requirements, and you may need additional funds for purchasing costs.",
+        ]},
+        { h: "What about stamp duty on a $600,000 first home?",
+          body: [
+            "This is where the 2026 changes become particularly valuable.",
+            "For eligible transactions entered into on or after 7 May 2026, WA first home buyers pay:",
+          ],
+          list: [
+            "No transfer duty on homes up to $600,000.",
+            "A concessional rate on homes from $600,001 to $800,000.",
+            "The normal applicable duty once the first home buyer concession threshold is exceeded.",
+          ],
+        },
+        { body: [
+          "So if you are eligible and purchase a $600,000 new or established home, your first home buyer transfer duty can be $0.",
+          "That's important because it means more of your savings can potentially be directed towards your deposit and other purchasing costs rather than stamp duty.",
+          ["You can use our ", { t: "WA Stamp Duty Calculator", to: "stamp-duty-calculator" }, " to compare different purchase prices and see how your upfront costs may change."],
+        ]},
+        { h: "Could I buy a $600,000 home with a 5% deposit?",
+          body: [
+            "Potentially, yes.",
+            "Under the Australian Government 5% Deposit Scheme, eligible first home buyers may be able to buy with a minimum 5% deposit without paying Lenders Mortgage Insurance.",
+            "The scheme currently has no income caps and no waiting list, although borrowers still need to meet the participating lender's lending criteria.",
+            "The current property price cap under the scheme is $850,000 for Western Australia's capital city and designated regional centres, with a $600,000 cap applying in other WA areas.",
+            "That means a $600,000 property is within the scheme's current price cap throughout WA, subject to the property and applicant meeting all other eligibility requirements.",
+          ],
+        },
+        { h: "Does a 5% deposit mean I only need $30,000?",
+          body: [
+            "Not necessarily. This is one of the most important things we explain to first home buyers.",
+            "Your deposit and your total funds required are not always the same number.",
+            "On top of your deposit, you may need to allow for costs such as:",
+          ],
+          list: [
+            "settlement and conveyancing costs",
+            "title and registration fees",
+            "building and pest inspections",
+            "lender or loan establishment fees, where applicable",
+            "adjustments at settlement",
+            "moving costs",
+            "a sensible cash buffer after settlement.",
+          ],
+        },
+        { body: [
+          "The exact amount depends on the property, lender and your circumstances.",
+          "The other thing to remember is that your lender will normally obtain a valuation of the property.",
+          "If you agree to pay $600,000 but the lender values the property lower, you may need to contribute additional funds.",
+          "This is why we prefer to work out a full funds position, rather than simply telling someone, \"You need a 5% deposit.\"",
+        ]},
+        { h: "What if I'm buying a brand-new $600,000 home?",
+          body: [
+            "This is where another first home buyer benefit may come into play.",
+            ["The ", { t: "WA First Home Owner Grant (FHOG)", href: "https://www.wa.gov.au/organisation/department-of-treasury-and-finance/first-home-owner-grant-fhog" }, " provides eligible buyers with a one-off payment of up to $10,000 when buying or building a qualifying new home."],
+            "It is not available for an ordinary established home.",
+            "From 7 May 2026, the FHOG property value cap increased to $800,000 for properties south of the 26th parallel, which includes the Perth metropolitan area.",
+            "So an eligible buyer purchasing a qualifying new home for $600,000 could potentially have access to:",
+          ],
+          list: [
+            "the WA First Home Owner Grant",
+            "the WA first home buyer stamp duty exemption",
+            "the Australian Government 5% Deposit Scheme.",
+          ],
+        },
+        { body: [
+          "That is provided they separately satisfy the eligibility criteria for each program.",
+          "These are separate schemes, and qualifying for one doesn't automatically mean you qualify for all of them.",
+        ]},
+        { h: "Can the $10,000 First Home Owner Grant be used towards my deposit?",
+          body: [
+            "It may form part of your overall funds position, depending on your transaction, when the grant is paid and the requirements of the lender.",
+            "We wouldn't recommend simply subtracting $10,000 from your required deposit and assuming that's all you need to save.",
+            "Instead, we can map out: purchase price plus purchasing costs, minus your approved loan, minus available grants, equals the funds you actually need.",
+            "That's a much more useful number when you're trying to work out when you'll be ready to buy.",
+          ],
+        },
+        { h: "What if I have more than a 5% deposit?",
+          body: [
+            "Having a larger deposit can still be worthwhile. Just because you can potentially purchase with 5% doesn't mean you necessarily should use every dollar available to increase the deposit.",
+            "There can be a balance between:",
+          ],
+          list: [
+            "reducing the size of your home loan",
+            "keeping money available after settlement",
+            "accessing a competitive home loan",
+            "having an emergency buffer",
+            "keeping funds available for furniture, repairs or other costs.",
+          ],
+        },
+        { body: [
+          "For some first home buyers, putting every cent they've saved into the property leaves them unnecessarily stretched immediately after settlement.",
+          "We can compare the different options before you decide.",
+        ]},
+        { h: "How much could I borrow for a $600,000 property?",
+          body: [
+            "Having the deposit is only one part of getting a home loan approved.",
+            "A lender will also assess your borrowing capacity based on factors including your income, existing debts and financial commitments.",
+            "For example, someone may have enough savings for a 5% deposit but only have borrowing capacity for a $500,000 loan. Someone else may comfortably qualify for the required loan but not yet have enough available funds to complete the purchase.",
+            ["That's why borrowing capacity and funds to complete need to be calculated separately. Our ", { t: "Maximum Purchase Price Calculator", to: "calc-max-purchase-price" }, " brings them together, and our ", { t: "first home buyer service", to: "first-home-buyers" }, " looks at both."],
+          ],
+        },
+        { h: "Why $600,000 is an important price point for Perth first home buyers in 2026",
+          body: [
+            "The new WA stamp duty thresholds have made $600,000 a particularly important figure for first home buyers.",
+            "An eligible buyer purchasing at $600,000 can remain within the full stamp duty exemption, whereas moving above $600,000 begins to attract concessional duty.",
+            "That doesn't mean you should automatically limit yourself to $600,000. A $620,000 or $650,000 property may still make sense if it's the right home and comfortably within your budget.",
+            ["But knowing how the costs change as you move through different price points helps you make informed offers. Our ", { t: "guide to the 2026 WA first home buyer changes", to: "wa-first-home-buyer-changes-2026" }, " breaks down the duty at each price point."],
+          ],
+        },
+        { h: "First home buyer in Perth? Work out your numbers before you start looking",
+          body: [
+            "If you're considering a $600,000 first home, the starting point isn't necessarily scrolling through property listings.",
+            "It's working out:",
+          ],
+          list: [
+            "what you can borrow",
+            "how much deposit you have",
+            "your actual funds required",
+            "whether you qualify for first home buyer assistance",
+            "what your repayments could look like",
+            "how much cash you want left after settlement.",
+          ],
+        },
+        { body: [
+          "At Mesh Finance, we help first home buyers across Perth and WA understand the full picture before they start making offers.",
+          "We can compare the available lenders and schemes, calculate your funds position and help you establish a realistic purchase range.",
+        ]},
+      ],
+      closing: ["Already saving for your first home? Explore our ", { t: "First Home Buyers", to: "first-home-buyers" }, " service, use our WA Stamp Duty Calculator, or ", { t: "contact Mesh Finance", to: "contact" }, " and we'll help you work out exactly what you're aiming for."],
+      ctaCalc: { route: "stamp-duty-calculator", label: "Try the WA Stamp Duty Calculator" },
+      disclaimer: "Information is general in nature and does not take into account your objectives, financial situation or needs. Government schemes, grants, lender policies and eligibility requirements can change. Information is current as at August 2026 and eligibility should be confirmed for your individual circumstances.",
     },
 
     "help-to-buy-wa": {
