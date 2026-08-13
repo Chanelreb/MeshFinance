@@ -847,6 +847,7 @@ window.MeshContent = {
     title: "Welcome to Mesh Finance's Calculator Hub",
     intro: "When it comes to making smart financial decisions, having the right tools at your fingertips makes all the difference. That's why we've created a suite of user-friendly calculators designed to help you take control of your mortgage, savings, and budget.",
     items: [
+      { emoji: "🎨", title: "Map Out My Money", name: "Money by Design Budget Planner", id: "money-by-design", body: "Map your income, spending, debts and goals in one place. See where your money goes, how much breathing room you have, and how it compares with a suggested budget split." },
       { emoji: "🧮", title: "What Could I Borrow?", name: "Borrowing Power Calculator", id: "calc-borrowing-power", body: "Estimate your maximum borrowing capacity based on income, expenses and commitments, with living expense figures kept up to date." },
       { emoji: "🔑", title: "What's My Ceiling?", name: "Max Purchase Price Calculator", id: "calc-max-purchase-price", body: "Estimate the most you may be able to spend on a WA home to live in, factoring in your deposit, borrowing power, stamp duty, government deposit schemes and the First Home Owner Grant." },
       { emoji: "🏠", title: "Crunch My Repayments", name: "Loan Repayment Calculator", id: "calc-loan-repayment", body: "Estimate your monthly or fortnightly repayments for a principal and interest or interest-only loan, based on your loan amount, interest rate and term." },

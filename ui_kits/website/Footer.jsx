@@ -35,6 +35,7 @@ function Footer({ onNav }) {
           </div>
         </div>
         <Col title="Calculators" items={[
+          {label:"Money by Design",id:"money-by-design"},
           {label:"Borrowing Power",id:"calc-borrowing-power"},{label:"Maximum Purchase Price",id:"calc-max-purchase-price"},{label:"Loan Repayment",id:"calc-loan-repayment"},
           {label:"Stamp Duty Calculator",id:"stamp-duty-calculator"},{label:"Saving Calculator",id:"calc-savings"},
           {label:"Extra Repayment Calculator",id:"calc-extra-repayment"},{label:"Lump Sum Repayment",id:"calc-lump-sum"},
