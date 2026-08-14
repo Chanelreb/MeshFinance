@@ -112,6 +112,11 @@ function MbdDonut(props) {
   var total = segments.reduce(function (s, x) { return s + x.amount; }, 0);
   var reduce = mbdReduceMotion();
   var acc = 0;
+  /* Centre text scales to the donut; the two lines are offset from the middle by
+     their own font size so they never crowd on a small donut. */
+  var valueSize = props.valueSize || 20;
+  var labelSize = props.labelSize || 11;
+  var cy = size / 2;
   return (
     <svg width={size} height={size} viewBox={"0 0 " + size + " " + size} role="img"
       aria-label={props.ariaLabel || "Where your money goes"} style={{ display: "block", margin: "0 auto" }}>
@@ -131,8 +136,10 @@ function MbdDonut(props) {
         return el;
       })}
       <circle cx={size / 2} cy={size / 2} r={r - stroke / 2 - 2} fill="var(--surface-card)" />
-      <text x="50%" y="44%" textAnchor="middle" style={{ fontSize: 11, letterSpacing: ".06em", fill: "var(--text-subtle)", textTransform: "uppercase", fontWeight: 700 }}>{props.centerLabel || "Income"}</text>
-      <text x="50%" y="56%" textAnchor="middle" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, fill: "var(--navy-700)" }}>
+      <text x="50%" y={cy - valueSize * 0.7} dominantBaseline="central" textAnchor="middle"
+        style={{ fontSize: labelSize, letterSpacing: ".06em", fill: "var(--text-subtle)", textTransform: "uppercase", fontWeight: 700 }}>{props.centerLabel || "Income"}</text>
+      <text x="50%" y={cy + labelSize * 0.8} dominantBaseline="central" textAnchor="middle"
+        style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: valueSize, fill: "var(--navy-700)" }}>
         {window.MeshBudget.formatMoney(props.centerValue != null ? props.centerValue : total)}
       </text>
     </svg>
@@ -485,7 +492,7 @@ function MoneyByDesignScreen(props) {
           <div style={sx.introRight}>
             <h3 style={sx.peekTitle}>Here's what you'll see</h3>
             <div style={sx.peekCard}>
-              <MbdDonut segments={introSample} size={116} stroke={17} centerValue={8450} centerLabel="Income" />
+              <MbdDonut segments={introSample} size={116} stroke={17} centerValue={8450} centerLabel="Income" valueSize={15} labelSize={9} />
               <div style={{ minWidth: 0 }}>
                 <div style={sx.peekH}>Your breathing room</div>
                 <div style={sx.peekBig}>$870<span style={sx.peekPer}> / mo</span></div>
