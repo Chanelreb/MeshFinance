@@ -88,6 +88,100 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     );
   }
 
+  if (kind === "funding-position") {
+    const { Coins, Home } = window.MeshIcons;
+    const [price, setPrice] = useState(650000);
+    const [firstHome, setFirstHome] = useState("no");
+    const [mode, setMode] = useState("deposit");
+    const [depositInput, setDepositInput] = useState(130000);
+    const [loanInput, setLoanInput] = useState(520000);
+
+    const P = Math.max(Number(price) || 0, 0);
+    // Deposit + loan always equal the purchase price; enter one, derive the other.
+    let deposit, loan;
+    if (mode === "deposit") {
+      deposit = Math.min(Math.max(Number(depositInput) || 0, 0), P);
+      loan = Math.max(P - deposit, 0);
+    } else {
+      loan = Math.min(Math.max(Number(loanInput) || 0, 0), P);
+      deposit = Math.max(P - loan, 0);
+    }
+    // WA stamp duty (reuses the tested engine); first home buyers get the FHO rate.
+    const duty = window.MeshCalc.calculateWATransferDuty({ dutiableValue: P, firstHomeOwnerRateEligible: firstHome === "yes", ownerOccupied: true });
+    const fees = 5000;
+    const cashToComplete = deposit + duty + fees; // client cash needed at settlement
+    const totalFunds = P + duty + fees;           // total funds (loan + cash)
+    const lvr = P > 0 ? (loan / P) * 100 : 0;
+
+    const FP_YESNO = [{ value: "yes", label: "Yes" }, { value: "no", label: "No" }];
+    const FP_MODE = [{ value: "deposit", label: "My deposit" }, { value: "loan", label: "My loan amount" }];
+
+    const fpRow = (label, value, strong) => (
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12,
+        padding: strong ? "12px 0 0" : "7px 0",
+        borderTop: strong ? "1px solid var(--border-subtle)" : "none", marginTop: strong ? 6 : 0 }}>
+        <span style={{ fontSize: strong ? 15 : 14, color: strong ? "var(--navy-700)" : "var(--text-muted)", fontWeight: strong ? 700 : 500 }}>{label}</span>
+        <span style={{ fontSize: strong ? 22 : 15, fontWeight: strong ? 800 : 600, color: "var(--navy-700)",
+          fontFamily: strong ? "var(--font-display)" : "inherit", letterSpacing: strong ? "-.02em" : "normal" }}>{value}</span>
+      </div>
+    );
+    const fpStat = { background: "var(--blue-50)", borderRadius: 12, padding: "13px 15px" };
+    const fpStatV = { fontSize: 22, fontWeight: 800, fontFamily: "var(--font-display)", color: "var(--navy-700)", letterSpacing: "-.02em", lineHeight: 1.1 };
+    const fpStatL = { fontSize: 12.5, color: "var(--text-muted)", fontWeight: 600, marginTop: 2 };
+
+    return (
+      <Shell onNav={onNav} badge="Calculator" title="Funding Position Calculator"
+        lead="See your funding position for a WA purchase. Enter the price and either your deposit or your loan, and we'll work out the other, plus stamp duty and costs, so you know the cash you'll need to complete.">
+        <style>{MP_STYLE_CSS}</style>
+        <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
+          <Card elevation="shadow" style={{ padding: "24px 26px" }}>
+            <div style={{ display: "grid", gap: 20 }}>
+              <MoneyField id="fp-price" label="Purchase price" value={price} onChange={setPrice}
+                helper="The price you expect to pay for the property." icon={<Home width={19} height={19}/>}/>
+              <MPToggle legend="Are you a first home buyer?" name="fp-fhb" options={FP_YESNO} value={firstHome} onChange={setFirstHome}
+                helper="First home buyers may qualify for the WA first home owner rate of duty, which can reduce or remove stamp duty."/>
+              <MPToggle legend="Which will you enter?" name="fp-mode" options={FP_MODE} value={mode} onChange={setMode}
+                helper="Enter one and we'll work out the other. Your deposit plus your loan equals the purchase price."/>
+              {mode === "deposit"
+                ? <MoneyField id="fp-deposit" label="Your deposit" value={depositInput} onChange={setDepositInput}
+                    helper="The cash you'll put towards the purchase price." icon={<Coins width={19} height={19}/>}/>
+                : <MoneyField id="fp-loan" label="Your loan amount" value={loanInput} onChange={setLoanInput}
+                    helper="The amount you plan to borrow." icon={<Coins width={19} height={19}/>}/>}
+            </div>
+          </Card>
+
+          <div style={mp.resultCard} aria-live="polite">
+            <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Coins width={24} height={24}/></span><span style={mp.legendText}>Your Funding Position</span></div>
+            <div style={{ padding: "20px 22px" }}>
+              {P <= 0 ? (
+                <p style={{ fontSize: 15, color: "var(--text-muted)", margin: 0 }}>Enter a purchase price to see your funding position.</p>
+              ) : (
+                <React.Fragment>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div style={fpStat}><div style={fpStatV}>{fmt(loan)}</div><div style={fpStatL}>Loan amount</div></div>
+                    <div style={fpStat}><div style={fpStatV}>{fmt(deposit)}</div><div style={fpStatL}>Deposit</div></div>
+                  </div>
+                  <div style={{ fontSize: 12.5, color: "var(--text-muted)", margin: "9px 0 12px" }}>Loan-to-value ratio (LVR): {lvr.toFixed(1)}%</div>
+                  {fpRow("Purchase price", fmt(P))}
+                  {fpRow("Stamp duty" + (firstHome === "yes" ? " (first home rate)" : ""), fmt(duty))}
+                  {fpRow("Fees & costs", fmt(fees))}
+                  {fpRow("Cash to complete", fmt(cashToComplete), true)}
+                  <p style={{ fontSize: 12.5, color: "var(--text-muted)", margin: "8px 0 0" }}>Your deposit plus stamp duty and costs. Total funds required, including the loan, are {fmt(totalFunds)}.</p>
+                  <div style={{ marginTop: 16 }}>
+                    <Button block size="lg" onClick={() => onNav("contact")} iconRight={<ArrowRight width={18} height={18}/>}>Check this with Mesh Finance</Button>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+          </div>
+        </div>
+        <p style={{ fontSize: 12.5, lineHeight: 1.55, color: "var(--text-subtle)", marginTop: 20 }}>
+          Stamp duty is estimated using WA transfer duty rates and your first home buyer selection. A flat $5,000 is allowed for fees and costs as a guide only, and does not include Lenders Mortgage Insurance. This is a general estimate, not a loan approval, credit assessment or quote for stamp duty. Actual duty, costs, LMI and eligibility depend on RevenueWA, your lender and your circumstances. Confirm the figures with Mesh Finance.
+        </p>
+      </Shell>
+    );
+  }
+
   if (kind === "borrowing-power") {
     return (
       <Shell onNav={onNav} badge="Calculator" title="Borrowing Power Calculator" lead="Get an idea of how much you may be able to borrow based on your income, expenses and existing commitments. Powered by Vision Abacus, so living expense benchmarks and lender figures stay up to date.">

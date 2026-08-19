@@ -39,6 +39,7 @@ const MESH_TITLES = {
   "calc-how-long": "How Long to Repay Calculator | Mesh Finance",
   "calc-offset-vs-redraw": "Offset vs Redraw Calculator | Mesh Finance",
   "calc-max-purchase-price": "Maximum Home Purchase Price Calculator | Mesh Finance",
+  "calc-funding-position": "Funding Position Calculator | Mesh Finance",
   "faqs": "FAQs | Mesh Finance",
   "knowledge-centre": "Knowledge Centre | Mesh Finance",
   "helpful-articles": "Helpful Articles | Mesh Finance",
@@ -108,6 +109,7 @@ const MESH_DESCRIPTIONS = {
   "calc-how-long": "How long to repay calculator from Mesh Finance. Work out how long it will take to pay off your loan at your chosen repayment amount.",
   "calc-offset-vs-redraw": "Offset vs redraw calculator from Mesh Finance. Compare how an offset account and a redraw facility each affect your home loan interest.",
   "calc-max-purchase-price": "Estimate the maximum price you may be able to pay for a WA owner-occupied home, factoring in your deposit, borrowing power, stamp duty, government schemes and the First Home Owner Grant.",
+  "calc-funding-position": "Work out your funding position for a WA property purchase. Enter the price and your deposit or loan, and see the other plus WA stamp duty, costs and the cash you'll need to complete.",
   "cs-families-consolidate-debt": "How Mesh Finance helped a Perth family consolidate multiple debts into one manageable home loan repayment and ease the pressure on their budget.",
   "cs-first-home-buyers-get-ready": "How Mesh Finance helped Perth first home buyers get pre-approval ready, understand grants and schemes, and buy their first home with confidence.",
   "cs-refinance-with-confidence": "How Mesh Finance helped clients refinance their home loan with confidence, compare lenders and secure a structure that suited their goals.",
@@ -189,7 +191,7 @@ function App() {
   const calcKinds = { "calc-loan-repayment":"loan-repayment", "calc-interest-only":"interest-only",
     "stamp-duty-calculator":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
     "calc-lump-sum":"lump-sum", "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw",
-    "calc-max-purchase-price":"max-purchase-price" };
+    "calc-max-purchase-price":"max-purchase-price", "calc-funding-position":"funding-position" };
 
   let content;
   if (loanSlugs.includes(route)) {
