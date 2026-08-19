@@ -1018,7 +1018,7 @@ const mp = {
   resultCard: { background: "#fff", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)", overflow: "hidden",
     display: "flex", flexDirection: "column" },
   resultLabel: { background: "linear-gradient(135deg, var(--blue-600), var(--blue-500))", color: "#fff",
-    padding: "20px 22px", fontSize: 18.5, fontWeight: 700, letterSpacing: "-.01em", lineHeight: 1.2, display: "flex", alignItems: "center" },
+    padding: "20px 22px", fontSize: 18.5, fontWeight: 700, letterSpacing: "-.01em", lineHeight: 1.2, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" },
   prompt: { padding: "24px 22px", fontSize: 15, lineHeight: 1.55, color: "var(--text-muted)", margin: 0 },
   resultBlock: { padding: "20px 22px", borderBottom: "1px solid var(--border-subtle)" },
   resultBlockHead: { fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--color-primary)", marginBottom: 6 },
