@@ -802,7 +802,7 @@ function MPResultView({ result, borrowingCapacity, totalCash, onNav }) {
   const { ArrowRight, Home } = window.MeshIcons;
   return (
     <div style={mp.resultCard} aria-live="polite">
-      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={18} height={18}/></span><span style={mp.legendText}>Your estimated maximum purchase price</span></div>
+      <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Home width={24} height={24}/></span><span style={mp.legendText}>Your Estimated Maximum Purchase Price</span></div>
       {!result.ok ? (
         <p style={mp.prompt}>{result.messages && result.messages[0]}</p>
       ) : (
@@ -977,8 +977,8 @@ const mp = {
   legendIcon: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 9,
     background: "var(--blue-50)", color: "var(--color-primary)", marginRight: 10, verticalAlign: "middle", flex: "none" },
   legendText: { verticalAlign: "middle" },
-  resultLabelIcon: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26, borderRadius: 8,
-    background: "rgba(255,255,255,0.22)", color: "#fff", marginRight: 10, verticalAlign: "middle" },
+  resultLabelIcon: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 11,
+    background: "rgba(255,255,255,0.22)", color: "#fff", marginRight: 12, verticalAlign: "middle", flex: "none" },
   helper: { fontSize: 13, lineHeight: 1.5, color: "var(--text-muted)" },
   errorText: { fontSize: 13, color: "var(--color-danger)", fontWeight: 600 },
   moneyWrap: { position: "relative", display: "flex", alignItems: "center" },
@@ -1018,7 +1018,7 @@ const mp = {
   resultCard: { background: "#fff", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)", overflow: "hidden",
     display: "flex", flexDirection: "column" },
   resultLabel: { background: "linear-gradient(135deg, var(--blue-600), var(--blue-500))", color: "#fff",
-    padding: "18px 22px", fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center" },
+    padding: "20px 22px", fontSize: 18.5, fontWeight: 700, letterSpacing: "-.01em", lineHeight: 1.2, display: "flex", alignItems: "center" },
   prompt: { padding: "24px 22px", fontSize: 15, lineHeight: 1.55, color: "var(--text-muted)", margin: 0 },
   resultBlock: { padding: "20px 22px", borderBottom: "1px solid var(--border-subtle)" },
   resultBlockHead: { fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--color-primary)", marginBottom: 6 },
