@@ -110,7 +110,10 @@ function FamilyFinanceCheckScreen({ onNav }) {
     setSending(true);
     try { await window.MeshSubmitForm(form); } catch {}
     setSending(false);
-    setStep(3);
+    /* Lead captured — send them to the dedicated booking page, which fires the
+       conversion tag on load (so a completed contact form counts even if they
+       don't go on to book a time). */
+    onNav("family-finance-check-booking");
   };
 
 
@@ -514,12 +517,11 @@ const s = {
 
 Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen });
 
-/* Thank-you page shown after a Family Finance Check booking is confirmed. */
-function FFCThankYouScreen({ onNav }) {
-  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight } = window.MeshIcons;
-  /* Fire the Google Ads and Meta conversions once when the thank-you page
-     loads (i.e. a booking has just been completed). */
+/* Booking page reached right after the Family Finance Check contact form is
+   submitted. Fires the Google Ads conversion on load — so completing the lead
+   form counts, even if the visitor doesn't go on to book a time. Shows the
+   Marketli booking widget in a landing-page-styled shell. */
+function FFCBookingScreen({ onNav }) {
   React.useEffect(() => {
     if (typeof window.gtag === "function") {
       window.gtag("event", "conversion", {
@@ -528,6 +530,48 @@ function FFCThankYouScreen({ onNav }) {
         currency: "AUD",
       });
     }
+  }, []);
+  return (
+    <div>
+      <div style={s.logoBar}>
+        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
+          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+        </a>
+        <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
+      </div>
+      <section style={s.hero}>
+        <div style={s.heroTop}>
+          <h1 style={s.h1}>Thanks! Now pick a time that suits you</h1>
+          <p style={s.heroSubhead}>Your details are with us. Book your free Family Finance Check below, online or in person, with no obligation.</p>
+        </div>
+        <div style={bk.embedWrap}>
+          <iframe src="https://marketli.app/book/embed/finance-check-in" title="Book your Family Finance Check"
+            style={bk.embed} loading="lazy"/>
+        </div>
+      </section>
+      <p style={bk.compliance}>{FFC.compliance}</p>
+    </div>
+  );
+}
+Object.assign(window, { MeshFFCBookingScreen: FFCBookingScreen });
+
+const bk = {
+  embedWrap: { maxWidth: 600, margin: "0 auto", padding: "6px 20px 44px", width: "100%" },
+  embed: { width: "100%", height: 760, border: 0, borderRadius: 16, background: "#fff",
+    boxShadow: "var(--shadow-md)", display: "block" },
+  compliance: { maxWidth: 720, margin: "0 auto", padding: "0 28px 44px", fontSize: 11.5,
+    lineHeight: 1.5, color: "var(--text-subtle)", textAlign: "center" },
+};
+
+/* Thank-you page shown after a Family Finance Check booking is confirmed. */
+function FFCThankYouScreen({ onNav }) {
+  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
+  const { ArrowRight } = window.MeshIcons;
+  /* Fire the Meta booking conversion when the thank-you page loads. The Google
+     Ads tag now fires earlier — on the booking page, i.e. when the contact form
+     is completed — so it is deliberately NOT fired again here, to avoid
+     double-counting anyone who goes on to book. */
+  React.useEffect(() => {
     if (typeof window.fbq === "function") {
       window.fbq("track", "Schedule", { value: 1.0, currency: "AUD" });
     }

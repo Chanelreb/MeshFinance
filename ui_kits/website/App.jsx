@@ -54,6 +54,7 @@ const MESH_TITLES = {
   "disclaimer": "Disclaimer | Mesh Finance",
   "family-finance-check": "Family Finance Check for Families | Mesh Finance",
   "ffc-thank-you": "Thank You | Mesh Finance",
+  "family-finance-check-booking": "Book Your Family Finance Check | Mesh Finance",
   "booking-confirmed": "You're Booked In | Mesh Finance",
   "wa-first-home-buyer-changes-2026": "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds",
   "600000-first-home-deposit-perth": "$600,000 First Home in Perth: How Much Deposit Do You Need?",
@@ -132,7 +133,7 @@ const MESH_DESCRIPTIONS = {
    and Twitter cards keep pace with client-side navigation so each route shares
    and indexes as its own page. */
 const MESH_SITE = "https://meshfinance.com.au";
-const MESH_NOINDEX = ["ffc-thank-you", "booking-confirmed"];
+const MESH_NOINDEX = ["ffc-thank-you", "booking-confirmed", "family-finance-check-booking"];
 
 function meshUpsertMeta(attr, key, value) {
   if (!value) return;
@@ -225,6 +226,7 @@ function App() {
       "disclaimer": window.MeshDisclaimerScreen,
       "family-finance-check": window.MeshFamilyFinanceCheckScreen,
       "ffc-thank-you": window.MeshFFCThankYouScreen,
+      "family-finance-check-booking": window.MeshFFCBookingScreen,
       "booking-confirmed": window.MeshThankYouScreen,
     })[route] || window.MeshHomeScreen;
     content = <Screen onNav={onNav}/>;
@@ -243,6 +245,6 @@ function App() {
   );
 }
 
-const MESH_BARE_ROUTES = ["family-finance-check", "ffc-thank-you"];
+const MESH_BARE_ROUTES = ["family-finance-check", "ffc-thank-you", "family-finance-check-booking"];
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
