@@ -530,6 +530,9 @@ function FFCBookingScreen({ onNav }) {
         currency: "AUD",
       });
     }
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "Schedule", { value: 1.0, currency: "AUD" });
+    }
   }, []);
   return (
     <div>
@@ -567,15 +570,9 @@ const bk = {
 function FFCThankYouScreen({ onNav }) {
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
-  /* Fire the Meta booking conversion when the thank-you page loads. The Google
-     Ads tag now fires earlier — on the booking page, i.e. when the contact form
-     is completed — so it is deliberately NOT fired again here, to avoid
-     double-counting anyone who goes on to book. */
-  React.useEffect(() => {
-    if (typeof window.fbq === "function") {
-      window.fbq("track", "Schedule", { value: 1.0, currency: "AUD" });
-    }
-  }, []);
+  /* Both the Google Ads and Meta conversions now fire earlier — on the booking
+     page, when the contact form is completed — so neither is fired here, to
+     avoid double-counting anyone who goes on to book. */
   return (
     <div style={ty.wrap}>
       <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={ty.logoLink} aria-label="Mesh Finance home">
