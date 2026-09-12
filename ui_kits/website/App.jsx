@@ -243,6 +243,7 @@ function App() {
       {!bare && <window.MeshHeader onNav={onNav} current={route}/>}
       <main style={{ flex:1 }}>{content}</main>
       {!bare && <window.MeshFooter onNav={onNav}/>}
+      {!bare && <window.MeshChatWidget onNav={onNav}/>}
     </div>
   );
 }
