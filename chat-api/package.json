@@ -1,0 +1,12 @@
+{
+  "name": "mesh-chat-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serverless chat backend for the Mesh Finance website (relays to Claude).",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.125.0"
+  }
+}
