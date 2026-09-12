@@ -60,6 +60,11 @@ module.exports = async function handler(req, res) {
     res.status(204).end();
     return;
   }
+  if (req.method === "GET") {
+    // Simple health check so you can eyeball that the function is live.
+    res.status(200).json({ ok: true, service: "mesh-chat-api" });
+    return;
+  }
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
