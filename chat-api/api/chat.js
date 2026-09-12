@@ -25,7 +25,7 @@ const ALLOWED_ORIGINS = [
 const MAX_MESSAGES = 30;         // messages kept per conversation
 const MAX_CHARS_PER_MSG = 2000;  // one message
 const MAX_TOTAL_CHARS = 20000;   // whole transcript
-const MAX_OUTPUT_TOKENS = 800;   // reply length cap
+const MAX_OUTPUT_TOKENS = 450;   // reply length cap (keeps chat answers short)
 
 /* Best-effort in-memory rate limit (per warm instance). Not bulletproof on
    serverless, but combined with the size + token caps it keeps the blast radius

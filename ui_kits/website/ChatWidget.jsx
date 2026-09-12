@@ -125,6 +125,43 @@ function ChatWidget({ onNav }) {
     if (onNav) onNav("contact");
   }
 
+  /* Render assistant text, turning [label](url) into clickable links. Internal
+     links (starting with "/") navigate within the app via onNav (no reload);
+     external links open in a new tab. */
+  function renderRich(text) {
+    if (!text) return null;
+    const parts = [];
+    const re = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+    let last = 0, m, key = 0;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > last) parts.push(text.slice(last, m.index));
+      const label = m[1];
+      const url = m[2];
+      if (/^https?:\/\//i.test(url)) {
+        parts.push(
+          <a key={key++} href={url} target="_blank" rel="noopener noreferrer" style={cw.link}>{label}</a>
+        );
+      } else {
+        const slug = url.replace(/^\//, "");
+        parts.push(
+          <a
+            key={key++}
+            href={url}
+            style={cw.link}
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNav) onNav(slug);
+              if (isMobile) setOpen(false);
+            }}
+          >{label}</a>
+        );
+      }
+      last = re.lastIndex;
+    }
+    if (last < text.length) parts.push(text.slice(last));
+    return parts;
+  }
+
   function fireLeadTracking() {
     try {
       if (typeof window.gtag === "function") {
@@ -255,7 +292,7 @@ function ChatWidget({ onNav }) {
                     ...(m.role === "user" ? cw.bubbleUser : cw.bubbleBot),
                   }}
                 >
-                  {m.content}
+                  {m.role === "assistant" ? renderRich(m.content) : m.content}
                   {lastIsEmptyAssistant && i === messages.length - 1 && (
                     <span style={cw.typing}>
                       <span className="mesh-dot" />
@@ -487,6 +524,10 @@ const cw = {
   },
   bubbleUser: {
     background: "var(--blue-500,#3898e0)", color: "#fff", borderBottomRightRadius: 4,
+  },
+  link: {
+    color: "var(--blue-500,#3898e0)", fontWeight: 600, textDecoration: "underline",
+    cursor: "pointer", wordBreak: "break-word",
   },
   typing: { display: "inline-flex", alignItems: "center", marginLeft: 2, verticalAlign: "middle" },
   chips: { display: "flex", flexWrap: "wrap", gap: 8, marginTop: 4 },
