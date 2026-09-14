@@ -68,6 +68,10 @@ function App() {
 
   const onNav = (id) => {
     id = MESH_ROUTE_ALIASES[id] || id;
+    /* Mark that the visitor moved within the SPA (no page reload). Used so the
+       booking page fires a Meta PageView for URL-based conversions only when it
+       was reached in-app, not on a direct load (which already fired one). */
+    window.__meshSpaNavigated = true;
     setRoute(id);
     const path = id === "home" ? "/" : "/" + id;
     if (window.location.pathname !== path) window.history.pushState({}, "", path);
