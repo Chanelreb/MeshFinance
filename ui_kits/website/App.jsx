@@ -63,15 +63,12 @@ function MeshNotFoundScreen({ onNav }) {
 }
 
 function App() {
-  const { useState, useEffect } = React;
+  const { useState, useEffect, useRef } = React;
   const [route, setRoute] = useState(meshRouteFromLocation());
+  const firstRender = useRef(true);
 
   const onNav = (id) => {
     id = MESH_ROUTE_ALIASES[id] || id;
-    /* Mark that the visitor moved within the SPA (no page reload). Used so the
-       booking page fires a Meta PageView for URL-based conversions only when it
-       was reached in-app, not on a direct load (which already fired one). */
-    window.__meshSpaNavigated = true;
     setRoute(id);
     const path = id === "home" ? "/" : "/" + id;
     if (window.location.pathname !== path) window.history.pushState({}, "", path);
@@ -145,6 +142,24 @@ function App() {
     meshUpsertMeta("name", "twitter:title", document.title);
     meshUpsertMeta("name", "twitter:description", desc);
     meshUpsertMeta("name", "robots", MESH_NOINDEX.includes(route) ? "noindex, nofollow" : "index, follow");
+
+    /* Virtual pageview for Google Tag Manager. GTM's All Pages trigger fires
+       only on a full page load, so in this single-page app it never sees in-app
+       navigation. Pushing this on each route change lets GTM fire the Meta Pixel
+       and URL-based conversions on SPA navigation (e.g. landing on the booking
+       page after the lead form). Skipped on the initial load, which GTM's own
+       All Pages trigger already covers. */
+    if (firstRender.current) {
+      firstRender.current = false;
+    } else {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "spa_pageview",
+        page_path: route === "home" ? "/" : "/" + route,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
   }, [route]);
 
   let content;

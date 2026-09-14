@@ -518,28 +518,13 @@ const s = {
 Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen });
 
 /* Booking page reached right after the Family Finance Check contact form is
-   submitted. Fires the conversions on load — so completing the lead form counts
-   as a lead even if the visitor doesn't go on to book a time. Shows the Marketli
-   booking widget in a landing-page-styled shell. */
+   submitted. Reaching this URL counts as a completed lead even if the visitor
+   doesn't go on to book a time. Conversion tracking is handled by Google Tag
+   Manager: navigating here pushes a "spa_pageview" dataLayer event (see App.jsx)
+   with page_path "/family-finance-check-booking", which GTM matches to fire the
+   Meta Pixel and the URL-based conversion. Shows the Marketli booking widget in
+   a landing-page-styled shell. */
 function FFCBookingScreen({ onNav }) {
-  React.useEffect(() => {
-    /* Google Ads conversion for the completed lead form. */
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "conversion", {
-        send_to: "AW-18158180693/nDPBCJ2ykNgcENWyv9JD",
-        value: 1.0,
-        currency: "AUD",
-      });
-    }
-    /* Meta: fire a PageView for this URL so a URL-based custom conversion
-       ("URL contains /family-finance-check-booking") registers as a lead. In a
-       single-page app no PageView fires on in-app navigation, so we fire one
-       here. Only when reached via in-app navigation, because on a direct load
-       the base pixel already fired a PageView for this URL. */
-    if (window.__meshSpaNavigated && typeof window.fbq === "function") {
-      window.fbq("track", "PageView");
-    }
-  }, []);
   return (
     <div>
       <div style={s.logoBar}>

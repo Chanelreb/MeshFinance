@@ -54,23 +54,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   * { box-sizing: border-box; }
   img { max-width: 100%; }
 </style>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1364666885761207');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1364666885761207&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+<!-- Meta Pixel is loaded and managed in Google Tag Manager (the "Meta - Pixel"
+     Custom HTML tag), so it is intentionally NOT hardcoded here to avoid loading
+     the pixel twice. SPA navigations are pushed to the dataLayer as the
+     "spa_pageview" event (see App.jsx) for GTM to act on. -->
 <!-- LocalBusiness / FinancialService structured data for local SEO -->
 <script type="application/ld+json">
 {

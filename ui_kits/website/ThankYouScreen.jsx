@@ -1,23 +1,12 @@
 /* Shared "booking confirmed" thank-you page. Every Calendly booking outside the
    Family Finance Check campaign (homepage hero form, contact page) redirects
-   here after the booking is confirmed. Fires the Google Ads and Meta
-   conversions once on load. Rendered as a normal page (header + footer shown). */
+   here after the booking is confirmed. Conversion tracking is handled by Google
+   Tag Manager via the "spa_pageview" dataLayer event pushed on navigation to
+   this route (page_path "/booking-confirmed"; see App.jsx). Rendered as a normal
+   page (header + footer shown). */
 function ThankYouScreen({ onNav }) {
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
-
-  React.useEffect(() => {
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "conversion", {
-        send_to: "AW-18158180693/nDPBCJ2ykNgcENWyv9JD",
-        value: 1.0,
-        currency: "AUD",
-      });
-    }
-    if (typeof window.fbq === "function") {
-      window.fbq("track", "Schedule", { value: 1.0, currency: "AUD" });
-    }
-  }, []);
 
   return (
     <div style={tyx.wrap}>

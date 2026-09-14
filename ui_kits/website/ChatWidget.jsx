@@ -163,19 +163,12 @@ function ChatWidget({ onNav }) {
   }
 
   function fireLeadTracking() {
+    /* Chat lead conversion is handled by Google Tag Manager. The chat form
+       submit doesn't change the URL, so we push a dedicated dataLayer event
+       ("chat_lead") that GTM can fire a conversion on. */
     try {
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "conversion", {
-          send_to: "AW-18158180693/nDPBCJ2ykNgcENWyv9JD",
-          value: 1.0,
-          currency: "AUD",
-        });
-      }
-    } catch {}
-    try {
-      if (typeof window.fbq === "function") {
-        window.fbq("track", "Lead", { value: 1.0, currency: "AUD" });
-      }
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "chat_lead" });
     } catch {}
   }
 
