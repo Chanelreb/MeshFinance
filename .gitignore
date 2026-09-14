@@ -2,5 +2,6 @@ node_modules/
 dist/
 ui_kits/website/app.min.js
 ui_kits/website/index.prod.html
+ui_kits/website/routes/
 .DS_Store
 Thumbs.db
