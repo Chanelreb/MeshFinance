@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /ffc-thank-you
+Disallow: /booking-confirmed
+Disallow: /family-finance-check-booking
 
 Sitemap: https://meshfinance.com.au/sitemap.xml

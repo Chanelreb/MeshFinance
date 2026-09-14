@@ -1,7 +1,31 @@
 /* FAQ page, real site FAQs in a single accordion. */
 function FAQScreen({ onNav }) {
+  const { useEffect } = React;
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Accordion, Badge, Button, Card, Breadcrumb } = DS;
+
+  /* FAQPage structured data (JSON-LD) built from the site's FAQ list. */
+  useEffect(() => {
+    const faqs = (window.MeshContent && window.MeshContent.faqs) || [];
+    const toText = (a) => Array.isArray(a) ? a.join(" ") : (a || "");
+    const data = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((it) => ({
+        "@type": "Question",
+        "name": it.question,
+        "acceptedAnswer": { "@type": "Answer", "text": toText(it.answer) },
+      })),
+    };
+    const prev = document.getElementById("mesh-faq-schema");
+    if (prev) prev.remove();
+    const el = document.createElement("script");
+    el.type = "application/ld+json";
+    el.id = "mesh-faq-schema";
+    el.textContent = JSON.stringify(data);
+    document.head.appendChild(el);
+    return () => { const e = document.getElementById("mesh-faq-schema"); if (e) e.remove(); };
+  }, []);
   /* Answers may be a string or an array of paragraphs; render arrays as
      spaced <p> elements so multi-paragraph answers read cleanly. */
   const items = window.MeshContent.faqs.map((it) => ({

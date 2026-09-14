@@ -1,11 +1,54 @@
 /* Article detail, data-driven from window.MeshContent.articles[slug].
    Sidebar duplicates the full article list for quick navigation. */
 function ArticleScreen({ onNav, slug }) {
+  const { useEffect } = React;
   const DS = window.MeshFinanceDesignSystem_5c98d0;
   const { Breadcrumb, Badge, Button, Card } = DS;
   const d = window.MeshContent.articles[slug];
   const all = window.MeshContent.helpfulArticles;
   const isMobile = window.useIsMobile();
+
+  /* Article structured data (JSON-LD) for rich results. Injected per article
+     and cleaned up on unmount or when navigating to another article. */
+  useEffect(() => {
+    if (!d) return;
+    const site = (typeof MESH_SITE !== "undefined" && MESH_SITE) || window.location.origin;
+    const url = site + "/" + slug;
+    const desc = (typeof MESH_DESCRIPTIONS !== "undefined" && MESH_DESCRIPTIONS[slug]) || d.intro || "";
+    let iso = "";
+    try {
+      const dt = new Date(d.date);
+      if (!isNaN(dt.getTime())) {
+        const p = (n) => String(n).padStart(2, "0");
+        iso = dt.getFullYear() + "-" + p(dt.getMonth() + 1) + "-" + p(dt.getDate());
+      }
+    } catch {}
+    const data = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": d.title,
+      "description": desc,
+      "image": site + "/assets/hero-home.jpg",
+      "author": { "@type": "Person", "name": "Chanel Rebello" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Mesh Finance",
+        "logo": { "@type": "ImageObject", "url": site + "/assets/mesh-logo.png" },
+      },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": url },
+      "url": url,
+    };
+    if (iso) { data.datePublished = iso; data.dateModified = iso; }
+    const prev = document.getElementById("mesh-article-schema");
+    if (prev) prev.remove();
+    const el = document.createElement("script");
+    el.type = "application/ld+json";
+    el.id = "mesh-article-schema";
+    el.textContent = JSON.stringify(data);
+    document.head.appendChild(el);
+    return () => { const e = document.getElementById("mesh-article-schema"); if (e) e.remove(); };
+  }, [slug]);
+
   if (!d) return null;
 
   /* Render a rich-text value: either a plain string, or an array of runs where
