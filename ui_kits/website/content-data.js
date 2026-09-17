@@ -5,6 +5,7 @@ window.MeshContent = {
   nav: [
     { id: "financial-toolkit", label: "What We Finance", children: [
       { id: "home-loans", label: "Home Loans" },
+      { id: "refinance-home-loans", label: "Refinancing" },
       { id: "investment-home-loans", label: "Investment Home Loans" },
       { id: "bad-credit-home-loans", label: "Bad Credit Home Loans" },
       { id: "personal-loans", label: "Personal Loans" },
@@ -590,6 +591,41 @@ window.MeshContent = {
         { label: "Try Our Online Calculators", id: "calculator-hub" },
         { label: "Check My Credit Score", id: "my-credit-file" },
         { label: "What's My Property Worth?", id: "property-profile-report" },
+      ],
+    },
+
+    "refinance-home-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Refinance Your Home Loan in Perth",
+      metaTitle: "Refinance Home Loans Perth | Home Loan Refinancing | Mesh Finance",
+      metaDescription: "Thinking about refinancing your home loan? Mesh Finance compares refinance options across a wide panel of lenders in Perth, for a sharper rate, to access equity or to consolidate debt. Our service is free.",
+      imgAlt: "Perth homeowner reviewing home loan refinancing options with a mortgage broker",
+      intro: "Your home loan isn't set and forget. Interest rates, lender pricing and your own circumstances all change, and the loan that suited you a few years ago may not be the best fit today. As a Perth mortgage broker, Mesh Finance reviews your current home loan and compares refinancing options across a wide panel of lenders, so you can see whether a sharper rate, a better structure, or access to your equity could be working harder for you.",
+      blocks: [
+        { h: "What does refinancing actually mean?", body: "Refinancing simply means replacing your existing home loan with a new one, either with your current lender or a different one. It isn't always about chasing the lowest rate. The right move depends on what you're trying to achieve, and sometimes the best outcome is staying put on better terms." },
+        { h: "Common reasons Perth homeowners refinance", list: [
+          "A sharper interest rate, lenders price loans differently and pricing changes often, so a loan that was competitive a few years ago may not be today.",
+          "Access your equity, tap into the value you've built to renovate, invest or fund a large expense.",
+          "Consolidate debt, roll higher-interest debts like credit cards, personal loans and car loans into your home loan to simplify repayments and ease cash flow.",
+          "Better loan features, an offset account, redraw, or a fixed, variable or split structure that suits how you manage your money.",
+          "Changing circumstances, a growing family, a new job, going self-employed or a change in income can call for a different loan.",
+          "Coming off a fixed rate, a good moment to review before you roll onto the lender's standard variable rate.",
+        ]},
+        { h: "What we look at when we review your loan", body: "A lower advertised rate isn't the whole picture. We compare your current rate, repayments, fees, offset and redraw features, loan structure and the cost of switching against suitable options from our lender panel. Sometimes refinancing clearly makes sense, sometimes your current lender is still competitive, and sometimes we can simply approach them for a better deal. The point is to check rather than assume." },
+        { h: "Is refinancing worth the cost?", body: "Refinancing can involve costs such as discharge fees, settlement fees and government charges, and stretching your loan over a longer term can increase the total interest you pay even when the monthly repayment drops. We factor all of that in and show you the real numbers, so a refinance only goes ahead if it genuinely leaves you better off, and we can structure it to keep your loan term on track." },
+      ],
+      faqs: [
+        { q: "How do I know if I should refinance?", a: "If it's been a couple of years since you last reviewed your home loan, it's worth a look. We compare your current loan against suitable options and only recommend refinancing if the numbers clearly work in your favour." },
+        { q: "Does refinancing cost me anything to use Mesh Finance?", a: "Our service is free to you, the lender pays us a commission once your loan settles and we disclose it upfront. Refinancing itself can involve lender and government fees, which we factor into whether it's worthwhile." },
+        { q: "Can I access my equity when I refinance?", a: "Often, yes. If your property has grown in value you may be able to access usable equity as part of a refinance, subject to your borrowing capacity and the lender's policy. We work out both before making any plans." },
+        { q: "Will refinancing extend my loan term?", a: "It can, and stretching a loan over a longer term can increase the total interest you pay. We can structure a refinance to keep your term on track, so you get breathing room without paying more over the life of the loan." },
+      ],
+      links: [
+        { label: "Perth Property Values & Home Loan Review", id: "perth-home-loan-equity-review" },
+        { label: "Offset vs Redraw Calculator", id: "calc-offset-vs-redraw" },
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+        { label: "Debt Consolidation", id: "debt-consolidation-loans" },
+        { label: "Try Our Online Calculators", id: "calculator-hub" },
       ],
     },
 

@@ -76,7 +76,7 @@ function App() {
   };
 
   /* Route classification, used for rendering, per-page titles and 404 handling. */
-  const loanSlugs = ["home-loans","investment-home-loans","bad-credit-home-loans","personal-loans","car-loans","leisure-loans","debt-consolidation-loans"];
+  const loanSlugs = ["home-loans","refinance-home-loans","investment-home-loans","bad-credit-home-loans","personal-loans","car-loans","leisure-loans","debt-consolidation-loans"];
   const caseStudySlugs = window.MeshContent.caseStudies || {};
   const calcKinds = { "calc-loan-repayment":"loan-repayment", "calc-interest-only":"interest-only",
     "stamp-duty-calculator":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
