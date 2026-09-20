@@ -262,8 +262,8 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
                   <p style={{ fontSize: 12.5, color: "var(--text-muted)", margin: "10px 0 0" }}>Going above 80% can unlock more of your equity but usually means paying Lenders Mortgage Insurance (LMI), which adds a cost.</p>
 
                   <div style={{ marginTop: 16, display: "grid", gap: 10 }}>
-                    <Button block size="lg" onClick={() => onNav("property-profile-report")} iconRight={<ArrowRight width={18} height={18}/>}>Do you know what your property is really worth?</Button>
-                    <Button block variant="secondary" size="lg" onClick={() => onNav("contact")}>Talk to Mesh Finance about your equity</Button>
+                    <Button block size="lg" onClick={() => onNav("property-profile-report")} iconRight={<ArrowRight width={18} height={18}/>} style={{ whiteSpace: "normal", lineHeight: 1.3, height: "auto", textAlign: "center" }}>Do you know what your property is really worth?</Button>
+                    <Button block variant="secondary" size="lg" onClick={() => onNav("contact")} style={{ whiteSpace: "normal", lineHeight: 1.3, height: "auto", textAlign: "center" }}>Talk to Mesh Finance about your equity</Button>
                   </div>
                 </React.Fragment>
               )}
