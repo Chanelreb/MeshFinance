@@ -1379,18 +1379,22 @@ window.MeshContent = {
         { h: "How much deposit do you need for a $600,000 home?",
           body: [
             "Your deposit depends on the type of loan you're applying for and the lender's requirements.",
-            "As a simple starting point:",
+            "As a simple starting point, here's the deposit at a few common levels, and the cash you'd want to have ready up front:",
           ],
           table: {
-            headers: ["Deposit", "Deposit on $600,000", "Approx. loan before other adjustments"],
+            headers: ["Deposit", "Deposit on a $600,000 home", "Approx. cash you'd need up front"],
             align: ["left", "right", "right"],
             rows: [
-              ["5%", "$30,000", "$570,000"],
-              ["10%", "$60,000", "$540,000"],
-              ["20%", "$120,000", "$480,000"],
+              ["5%", "$30,000", "~$35,000"],
+              ["10%", "$60,000", "~$65,000"],
+              ["20%", "$120,000", "~$125,000"],
             ],
           },
         },
+        { body: [
+          "On top of your deposit, you'll need funds for costs. We typically allow around $5,000 to cover things like settlement and Landgate registration fees. Even eligible first home buyers who pay no stamp duty still have these costs, so the cash you need up front is your deposit plus costs, not just the deposit.",
+          ["Your loan would be roughly the purchase price minus your deposit, around $570,000, $540,000 or $480,000 in the examples above, but the number to plan around is the cash you need up front. Our ", { t: "Funding Position calculator", to: "calc-funding-position" }, " works out your exact position, deposit, costs and loan, for any purchase price."],
+        ]},
         { body: [
           "A 20% deposit is not automatically required to buy a home.",
           ["Some first home buyers may be able to purchase with a much smaller deposit, including through the ", { t: "Australian Government 5% Deposit Scheme", href: "https://firsthomebuyers.gov.au/" }, "."],
