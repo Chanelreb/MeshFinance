@@ -909,6 +909,9 @@ const MP_SCHEME_TOGGLE = [
 const MP_YESNO = [
   { value: "yes", label: "Yes" }, { value: "no", label: "No" }, { value: "unsure", label: "Unsure" },
 ];
+const MP_YESNO_2 = [
+  { value: "yes", label: "Yes" }, { value: "no", label: "No" },
+];
 const MP_PATHWAY_WARNING = {
   SCHEME_2: "To use this option you must be an eligible single parent or single legal guardian and meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
   SCHEME_5: "To use this option you must meet all Housing Australia and participating-lender requirements. Eligibility is confirmed by Housing Australia and your lender, not by this tool.",
@@ -939,6 +942,14 @@ function mpRows(d, showScheme, borrowingCapacity, totalCash) {
   if (showScheme && d.schemeCap) list.push(["Scheme property-price cap", mfmt(d.schemeCap)]);
   if (d.remainingCash > 0) list.push(["Remaining unused cash", mfmt(d.remainingCash)]);
   return list;
+}
+
+/* One-line recap of the step 1 choices, shown on step 2. */
+function mpRecap(s) {
+  const loc = (MP_LOCATION_OPTIONS.find((o) => o.value === s.location) || {}).label;
+  const typ = (MP_TYPE_OPTIONS.find((o) => o.value === s.propertyType) || {}).label;
+  const sch = s.pathway === "SCHEME_5" ? "5% scheme" : s.pathway === "SCHEME_2" ? "2% scheme" : "Standard lending";
+  return [loc, typ, sch].filter(Boolean).join(" · ");
 }
 
 function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, totalCash }) {
@@ -1069,7 +1080,9 @@ function useMaxPurchaseInputs() {
     borrowingCapacity: borrowingCapacity || 0,
     totalCash: totalCash || 0,
     location, propertyType, pathway,
-    firstHomeDutyEligibility: dutyElig,
+    // 5% scheme users are first home buyers, so the WA first home owner rate of
+    // stamp duty applies automatically (no separate duty question needed).
+    firstHomeDutyEligibility: pathway === "SCHEME_5" ? "yes" : dutyElig,
     fhogEligibility: isNew ? fhogElig : "no",
     otherPurchaseCosts: otherCosts == null ? MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts : otherCosts,
   }), [borrowingCapacity, totalCash, location, propertyType, pathway, dutyElig, fhogElig, otherCosts, isNew, MeshCalc]);
@@ -1099,10 +1112,10 @@ function MPCostsToggle({ idPrefix, otherCosts, setOtherCosts }) {
   );
 }
 
-/* ----- Option A: single-page, two-column ----- */
+/* Two-step flow: step 1 = property + eligibility, step 2 = numbers + live estimate. */
 function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
-  const { Alert } = window.MeshFinanceDesignSystem_5c98d0;
-  const { Building, Coins, MapPin, Home, Shield, Key, Star } = window.MeshIcons;
+  const { Alert, Button } = window.MeshFinanceDesignSystem_5c98d0;
+  const { Building, Coins, MapPin, Home, Shield, Key, Star, ArrowRight } = window.MeshIcons;
   // These glyphs fill their 24x24 box by different amounts, so a fixed size
   // makes some look smaller than others. Per-icon sizes even out the optical
   // footprint so every chip's icon looks the same size.
@@ -1110,22 +1123,29 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
   const ic = (I) => { const px = MP_ICON_SIZE.get(I) || 18; return <I width={px} height={px}/>; };
   const isMobile = window.useIsMobile();
   const s = useMaxPurchaseInputs();
+  const [step, setStep] = React.useState(1);
   const [touched, setTouched] = React.useState(false);
   const capError = touched && !s.borrowingCapacity ? "Enter your borrowing capacity to see an estimate." : null;
   const cashError = touched && !s.totalCash ? "Enter the cash you have available." : null;
+  const goStep = (n) => { setStep(n); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+  const stepPill = (n, label) => (
+    <div style={{ ...mp.stepPill, ...(step === n ? mp.stepPillOn : {}) }}>
+      <span style={{ ...mp.stepNum, ...(step === n ? mp.stepNumOn : {}) }}>{n}</span>{label}
+    </div>
+  );
 
   return (
     <Shell onNav={onNav} badge="Calculator" title="Maximum Home Purchase Price Calculator" lead={MP_LEAD}>
       <style>{MP_STYLE_CSS}</style>
-      <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
-        <div style={mp.inputsCard}>
-          <span style={mp.startHere}>Start here <span aria-hidden="true">↓</span></span>
-          <MoneyField id="mp-borrow" label="How much can you borrow?" icon={ic(Building)}
-            helper="Enter the maximum home loan amount you have been told you may be able to borrow."
-            value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
-          <MoneyField id="mp-cash" label="How much cash do you have available?" icon={ic(Coins)}
-            helper="Include the funds you're comfortable using towards your deposit and purchase costs. We'll split it between the deposit, stamp duty and costs for you."
-            value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
+      <div style={mp.steps}>
+        {stepPill(1, "Property & eligibility")}
+        <span style={mp.stepDivider} aria-hidden="true"/>
+        {stepPill(2, "Your numbers & estimate")}
+      </div>
+
+      {step === 1 ? (
+        <div style={mp.stepCard}>
           <MPToggle legend="Where is the property?" name="mp-location" icon={ic(MapPin)} options={MP_LOCATION_OPTIONS} value={s.location} onChange={s.setLocation}
             note="Scheme price caps can depend on the exact suburb and postcode. Confirm the applicable cap with Mesh Finance."/>
           <MPToggle legend="What type of home is it?" name="mp-type" icon={ic(Home)} options={MP_TYPE_OPTIONS} value={s.propertyType} onChange={s.setPropertyType}/>
@@ -1133,22 +1153,48 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
             Buying land, building a home or considering a house and land package? These purchases need a more tailored
             calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
           </Alert>
-          <MPToggle legend="Are you eligible for either of these government schemes?" name="mp-scheme" icon={ic(Shield)} options={MP_SCHEME_TOGGLE} value={s.pathway} onChange={s.setPathway}
+          <MPToggle legend="Are you eligible for the 5% or 2% scheme?" name="mp-scheme" icon={ic(Shield)} options={MP_SCHEME_TOGGLE} value={s.pathway} onChange={s.setPathway}
             helper="These federal schemes let eligible buyers get in with a smaller deposit and no LMI. Not sure? Choose “No / not sure” and we'll use standard lending."/>
           {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
-          <MPToggle legend="Are you eligible for the WA first home owner rate of stamp duty?" name="mp-duty" icon={ic(Key)} options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
-            helper="This is separate from the schemes above. You can qualify for one and not the other."/>
+
+          {s.pathway === "SCHEME_5" && (
+            <Alert variant="info">As a first home buyer using the 5% scheme, you'll qualify for the WA first home owner rate of stamp duty, so we've applied it for you.</Alert>
+          )}
+          {s.pathway === "SCHEME_2" && (
+            <MPToggle legend="Are you also a first home buyer?" name="mp-fhb" icon={ic(Key)} options={MP_YESNO_2} value={s.dutyElig} onChange={s.setDutyElig}
+              helper="The 2% scheme is for single parents and guardians, who aren't always first home buyers. First home buyers also qualify for the WA first home owner rate of stamp duty, which we'll apply."/>
+          )}
+          {s.pathway === "STANDARD" && (
+            <MPToggle legend="Are you eligible for the WA first home owner rate of stamp duty?" name="mp-duty" icon={ic(Key)} options={MP_YESNO} value={s.dutyElig} onChange={s.setDutyElig}
+              helper="First home buyers who meet the WA criteria may pay reduced or no stamp duty."/>
+          )}
+
           {s.isNew && (
             <MPToggle legend="Are you eligible for the $10,000 WA First Home Owner Grant?" name="mp-fhog" icon={ic(Star)} options={MP_YESNO} value={s.fhogElig} onChange={s.setFhogElig}
-              helper="The grant can add to your available funds, but it can't count towards a scheme's minimum deposit."/>
+              helper="The grant applies to newly built homes and can add to your available funds. It can't count towards a scheme's minimum deposit."/>
           )}
-          <MPCostsToggle idPrefix="mp" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
-        </div>
 
-        <div style={mp.resultCol}>
-          <MPResultView result={s.result} borrowingCapacity={s.borrowingCapacity} totalCash={s.totalCash} onNav={onNav}/>
+          <Button block size="lg" onClick={() => goStep(2)} iconRight={<ArrowRight width={18} height={18}/>}>Continue to your estimate</Button>
         </div>
-      </div>
+      ) : (
+        <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
+          <div style={mp.inputsCard}>
+            <button type="button" onClick={() => goStep(1)} style={mp.backLink}>← Back to eligibility</button>
+            <MoneyField id="mp-borrow" label="How much can you borrow?" icon={ic(Building)}
+              helper="Enter the maximum home loan amount you have been told you may be able to borrow."
+              value={s.borrowingCapacity} onChange={(v) => { s.setBorrowingCapacity(v); setTouched(true); }} error={capError} placeholder="e.g. 600,000"/>
+            <MoneyField id="mp-cash" label="How much cash do you have available?" icon={ic(Coins)}
+              helper="Include the funds you're comfortable using towards your deposit and purchase costs. We'll split it between the deposit, stamp duty and costs for you."
+              value={s.totalCash} onChange={(v) => { s.setTotalCash(v); setTouched(true); }} error={cashError} placeholder="e.g. 90,000"/>
+            <MPCostsToggle idPrefix="mp" otherCosts={s.otherCosts} setOtherCosts={s.setOtherCosts}/>
+            <div style={mp.recap}>{mpRecap(s)}</div>
+          </div>
+
+          <div style={mp.resultCol}>
+            <MPResultView result={s.result} borrowingCapacity={s.borrowingCapacity} totalCash={s.totalCash} onNav={onNav}/>
+          </div>
+        </div>
+      )}
 
       <MPDisclaimers lastReviewed={s.lastReviewed}/>
     </Shell>
@@ -1169,6 +1215,19 @@ const MP_STYLE_CSS = `
 const mp = {
   layout: { display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,420px)", gap: 28, alignItems: "start", marginBottom: 28 },
   layoutMobile: { gridTemplateColumns: "minmax(0,1fr)", gap: 22 },
+  steps: { display: "flex", alignItems: "center", gap: 10, marginBottom: 22, flexWrap: "wrap" },
+  stepPill: { display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13.5, fontWeight: 600, color: "var(--text-muted)" },
+  stepPillOn: { color: "var(--navy-700)" },
+  stepNum: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 24, height: 24, borderRadius: "50%",
+    background: "var(--blue-50)", color: "var(--text-muted)", fontSize: 13, fontWeight: 700, flex: "none" },
+  stepNumOn: { background: "var(--color-primary)", color: "#fff" },
+  stepDivider: { flex: "0 1 40px", height: 2, background: "var(--border-subtle)", borderRadius: 2 },
+  stepCard: { display: "flex", flexDirection: "column", gap: 24, background: "#fff",
+    borderRadius: "var(--radius-lg)", border: "1px solid var(--border-subtle)", boxShadow: "0 1px 3px rgba(16,42,67,0.06)",
+    padding: "26px 24px", maxWidth: 680, margin: "0 auto 28px" },
+  backLink: { alignSelf: "flex-start", background: "none", border: "none", padding: 0, cursor: "pointer",
+    color: "var(--color-primary)", fontWeight: 600, fontSize: 14, marginBottom: 2 },
+  recap: { fontSize: 13, color: "var(--text-muted)", borderTop: "1px solid var(--border-subtle)", paddingTop: 12, marginTop: 2 },
   inputs: { display: "flex", flexDirection: "column", gap: 22 },
   inputsCard: { display: "flex", flexDirection: "column", gap: 24, background: "#fff",
     borderRadius: "var(--radius-lg)", border: "1px solid var(--border-subtle)", boxShadow: "0 1px 3px rgba(16,42,67,0.06)", padding: "26px 24px" },
