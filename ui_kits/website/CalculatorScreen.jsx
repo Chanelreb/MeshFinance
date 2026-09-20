@@ -864,7 +864,7 @@ function MPRadioGroup({ legend, name, options, value, onChange, helper, note }) 
 }
 
 /* Segmented pill toggle (radiogroup) — friendlier than a stack of radio cards
-   for yes/no/unsure and the scheme choice. The native radio is visually hidden
+   for yes/no and the scheme choice. The native radio is visually hidden
    but keeps keyboard focus, surfaced by .mpx-pill:focus-within in the scoped
    <style> block. */
 function MPToggle({ legend, name, options, value, onChange, helper, note, icon }) {
@@ -904,10 +904,10 @@ const MP_TYPE_OPTIONS = [
 const MP_SCHEME_TOGGLE = [
   { value: "SCHEME_5", label: "Yes, 5% scheme", sub: "first home buyer" },
   { value: "SCHEME_2", label: "Yes, 2% scheme", sub: "single parent or guardian" },
-  { value: "STANDARD", label: "No / not sure", sub: "standard lending" },
+  { value: "STANDARD", label: "No", sub: "standard lending" },
 ];
 const MP_YESNO = [
-  { value: "yes", label: "Yes" }, { value: "no", label: "No" }, { value: "unsure", label: "Unsure" },
+  { value: "yes", label: "Yes" }, { value: "no", label: "No" },
 ];
 const MP_YESNO_2 = [
   { value: "yes", label: "Yes" }, { value: "no", label: "No" },
@@ -1072,8 +1072,8 @@ function useMaxPurchaseInputs() {
   const [location, setLocation] = React.useState("PERTH_CAPITAL_CITY");
   const [propertyType, setPropertyType] = React.useState("ESTABLISHED_HOME");
   const [pathway, setPathway] = React.useState("SCHEME_5");
-  const [dutyElig, setDutyElig] = React.useState("unsure");
-  const [fhogElig, setFhogElig] = React.useState("unsure");
+  const [dutyElig, setDutyElig] = React.useState("no");
+  const [fhogElig, setFhogElig] = React.useState("no");
   const [otherCosts, setOtherCosts] = React.useState(MeshCalc.CALC_CONFIG.defaultOtherPurchaseCosts);
   const isNew = propertyType === "NEW_COMPLETED_HOME";
   const result = React.useMemo(() => MeshCalc.calculateMaximumPurchasePrice({
@@ -1154,7 +1154,7 @@ function MaxPurchasePriceCalculator({ onNav, contactUrl = "/contact" }) {
             calculation. <a href={contactUrl} onClick={(e) => { e.preventDefault(); onNav("contact"); }} style={mp.link}>Contact Mesh Finance</a> for a personalised estimate.
           </Alert>
           <MPToggle legend="Are you eligible for the 5% or 2% scheme?" name="mp-scheme" icon={ic(Shield)} options={MP_SCHEME_TOGGLE} value={s.pathway} onChange={s.setPathway}
-            helper="These federal schemes let eligible buyers get in with a smaller deposit and no LMI. Not sure? Choose “No / not sure” and we'll use standard lending."/>
+            helper="These federal schemes let eligible buyers get in with a smaller deposit and no LMI. If neither applies, choose No and we'll use standard lending."/>
           {MP_PATHWAY_WARNING[s.pathway] && <Alert variant="warning">{MP_PATHWAY_WARNING[s.pathway]}</Alert>}
 
           {s.pathway === "SCHEME_5" && (
