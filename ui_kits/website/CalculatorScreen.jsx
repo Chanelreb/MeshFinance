@@ -182,6 +182,115 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     );
   }
 
+  if (kind === "equity") {
+    const { Coins, Home, ArrowRight } = window.MeshIcons;
+    const [value, setValue] = useState(750000);
+    const [loan, setLoan] = useState(450000);
+
+    const V = Math.max(Number(value) || 0, 0);
+    const L = Math.max(Number(loan) || 0, 0);
+    const totalEquity = V - L;
+    const usable80 = Math.max(V * 0.8 - L, 0);
+    const usable90 = Math.max(V * 0.9 - L, 0);
+    const lvr = V > 0 ? (L / V) * 100 : 0;
+    const hasEquity = V > 0 && totalEquity > 0;
+
+    // Stacked bar: how the property value splits (fractions that sum to 1).
+    const loanFrac = V > 0 ? Math.min(L / V, 1) : 0;
+    const usable80Frac = V > 0 ? Math.max(0, 0.8 - L / V) : 0;
+    const reserveFrac = Math.max(0, 1 - loanFrac - usable80Frac);
+
+    const pct = (n) => n.toFixed(1) + "%";
+    const eqStat = { background: "var(--blue-50)", borderRadius: 12, padding: "13px 15px" };
+    const eqStatV = { fontSize: 22, fontWeight: 800, fontFamily: "var(--font-display)", color: "var(--navy-700)", letterSpacing: "-.02em", lineHeight: 1.1 };
+    const eqStatL = { fontSize: 12.5, color: "var(--text-muted)", fontWeight: 600, marginTop: 2 };
+    const seg = (w, bg) => ({ width: (w * 100) + "%", background: bg, height: "100%" });
+    const legendRow = (color, label, amount) => (
+      <div style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 13 }}>
+        <span style={{ width: 12, height: 12, borderRadius: 3, background: color, flex: "none" }}/>
+        <span style={{ color: "var(--text-body)", flex: 1 }}>{label}</span>
+        <span style={{ fontWeight: 700, color: "var(--navy-700)" }}>{amount}</span>
+      </div>
+    );
+
+    return (
+      <Shell onNav={onNav} badge="Calculator" title="Home Equity Calculator"
+        lead="See how much equity you have in your home, and how much of it you may actually be able to use. Enter your property value and current loan balance.">
+        <style>{MP_STYLE_CSS}</style>
+        <div style={{ ...mp.layout, ...(isMobile ? mp.layoutMobile : {}) }}>
+          <Card elevation="shadow" style={{ padding: "24px 26px" }}>
+            <div style={{ display: "grid", gap: 20 }}>
+              <MoneyField id="eq-value" label="Estimated property value" value={value} onChange={setValue}
+                helper="What your property is worth today. Not sure? Get a free property report below." icon={<Home width={19} height={19}/>}/>
+              <MoneyField id="eq-loan" label="Current loan balance" value={loan} onChange={setLoan}
+                helper="How much you still owe on your home loan." icon={<Coins width={19} height={19}/>}/>
+            </div>
+          </Card>
+
+          <div style={mp.resultCard} aria-live="polite">
+            <div style={mp.resultLabel}><span style={mp.resultLabelIcon} aria-hidden="true"><Coins width={24} height={24}/></span><span style={mp.legendText}>Your Equity</span></div>
+            <div style={{ padding: "20px 22px" }}>
+              {V <= 0 ? (
+                <p style={{ fontSize: 15, color: "var(--text-muted)", margin: 0 }}>Enter your property value to see your equity.</p>
+              ) : !hasEquity ? (
+                <p style={{ fontSize: 15, color: "var(--text-muted)", margin: 0 }}>Your loan balance is currently the same as or more than the property value, so there isn't usable equity yet. As you pay your loan down or your property grows in value, equity builds.</p>
+              ) : (
+                <React.Fragment>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div style={eqStat}><div style={eqStatV}>{fmt(totalEquity)}</div><div style={eqStatL}>Total equity</div></div>
+                    <div style={eqStat}><div style={eqStatV}>{pct(lvr)}</div><div style={eqStatL}>Current LVR</div></div>
+                  </div>
+
+                  <div style={{ marginTop: 16 }}>
+                    <div style={{ display: "flex", height: 34, borderRadius: 8, overflow: "hidden", border: "1px solid var(--border-subtle)" }}>
+                      <div style={seg(loanFrac, "var(--navy-700)")}/>
+                      <div style={seg(usable80Frac, "var(--green-500)")}/>
+                      <div style={seg(reserveFrac, "var(--amber-500)")}/>
+                    </div>
+                    <div style={{ display: "grid", gap: 6, marginTop: 12 }}>
+                      {legendRow("var(--navy-700)", "Owed to your lender", fmt(Math.min(L, V)))}
+                      {legendRow("var(--green-500)", "Usable equity (to 80% LVR)", fmt(usable80))}
+                      {legendRow("var(--amber-500)", "Held back by the lender", fmt(reserveFrac * V))}
+                    </div>
+                    <p style={{ fontSize: 12.5, color: "var(--text-muted)", margin: "10px 0 0" }}>You can't use 100% of your equity. Lenders keep a buffer and generally lend up to 80% of the property's value without LMI.</p>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 16 }}>
+                    <div style={eqStat}><div style={eqStatV}>{fmt(usable80)}</div><div style={eqStatL}>Usable equity to 80% LVR</div></div>
+                    <div style={eqStat}><div style={eqStatV}>{fmt(usable90)}</div><div style={eqStatL}>Usable equity to 90% LVR (LMI likely)</div></div>
+                  </div>
+                  <p style={{ fontSize: 12.5, color: "var(--text-muted)", margin: "10px 0 0" }}>Going above 80% can unlock more of your equity but usually means paying Lenders Mortgage Insurance (LMI), which adds a cost.</p>
+
+                  <div style={{ marginTop: 16, display: "grid", gap: 10 }}>
+                    <Button block size="lg" onClick={() => onNav("property-profile-report")} iconRight={<ArrowRight width={18} height={18}/>}>Do you know what your property is really worth?</Button>
+                    <Button block variant="secondary" size="lg" onClick={() => onNav("contact")}>Talk to Mesh Finance about your equity</Button>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <Card elevation="shadow" style={{ padding: "24px 26px", marginTop: 4 }}>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "var(--navy-700)", margin: "0 0 10px" }}>What is home equity?</h2>
+          <p style={{ fontSize: 15, lineHeight: 1.65, color: "var(--text-body)", margin: "0 0 12px" }}>
+            Equity is the share of your property you actually own. It's simply your property's value minus what you still owe on your home loan. If your home is worth $750,000 and you owe $450,000, your total equity is $300,000.
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.65, color: "var(--text-body)", margin: "0 0 12px" }}>
+            Here's the part many people miss: you usually can't use all of it. Lenders keep a buffer and generally lend up to 80% of your property's value without Lenders Mortgage Insurance. So your <strong>usable equity</strong> is 80% of the value minus your loan, not the full amount. You can sometimes access more, up to around 90%, by paying LMI, which lets you use more of your equity but adds a cost.
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.65, color: "var(--text-body)", margin: 0 }}>
+            Usable equity can help you renovate, invest, consolidate debt or buy your next property, subject to your borrowing capacity and the lender's assessment. To see how it could work for you, read our guide to <a href={window.meshHref("perth-home-loan-equity-review")} onClick={(e)=>{e.preventDefault();onNav("perth-home-loan-equity-review");}} style={{ color: "var(--color-primary)", fontWeight: 600 }}>reviewing your home loan and equity</a>, or about <a href={window.meshHref("refinance-home-loans")} onClick={(e)=>{e.preventDefault();onNav("refinance-home-loans");}} style={{ color: "var(--color-primary)", fontWeight: 600 }}>refinancing</a>.
+          </p>
+        </Card>
+
+        <p style={{ fontSize: 12.5, lineHeight: 1.55, color: "var(--text-subtle)", marginTop: 20 }}>
+          This is a general estimate, not a loan approval or a property valuation. Usable equity assumes lending to 80% LVR (or 90% with LMI) less your loan balance, but the amount you can actually borrow also depends on your income, expenses, other debts, borrowing capacity, the lender's valuation and policy, and LMI costs. Confirm your position with Mesh Finance.
+        </p>
+      </Shell>
+    );
+  }
+
   if (kind === "borrowing-power") {
     return (
       <Shell onNav={onNav} badge="Calculator" title="Borrowing Power Calculator" lead="Get an idea of how much you may be able to borrow based on your income, expenses and existing commitments. Powered by Vision Abacus, so living expense benchmarks and lender figures stay up to date.">
