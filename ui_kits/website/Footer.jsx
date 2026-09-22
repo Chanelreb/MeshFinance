@@ -44,7 +44,8 @@ function Footer({ onNav }) {
           {label:"FAQ's",id:"faqs"},{label:"Knowledge Centre",id:"knowledge-centre"},
           {label:"Helpful Articles",id:"helpful-articles"},{label:"My Credit File",id:"my-credit-file"},
           {label:"Property Profile Report",id:"property-profile-report"},
-          {label:"Family Guarantee Home Loans",id:"family-guarantee"}]}/>
+          {label:"Family Guarantee Home Loans",id:"family-guarantee"},
+          {label:"Financial Hardship Support",id:"financial-hardship-support"}]}/>
         <div>
           <h5 style={ft.h}>Get in touch</h5>
           <ul style={ft.ul}>

@@ -94,6 +94,7 @@ function App() {
     "knowledge-centre": window.MeshKnowledgeCentreScreen,
     "helpful-articles": window.MeshHelpfulArticlesScreen,
     "my-credit-file": window.MeshMyCreditFileScreen,
+    "financial-hardship-support": window.MeshHardshipSupportScreen,
     "property-profile-report": window.MeshPropertyProfileReportScreen,
     "request-report": window.MeshRequestReportScreen,
     "referral-hub": window.MeshReferralHubScreen,

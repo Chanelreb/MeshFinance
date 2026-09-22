@@ -1151,6 +1151,95 @@ window.MeshContent = {
     note: "The information above is general in nature and does not constitute financial, legal or credit-repair advice. Loan approval remains subject to lender assessment, lending criteria and your individual circumstances.",
   },
 
+  hardshipSupport: {
+    title: "Financial Hardship Support and Free Resources",
+    intro: [
+      "If you've spoken with us and we've been unable to find a lending solution for you right now, please know there are still places you can turn to for help.",
+      "Sometimes refinancing, consolidating debts or accessing equity simply isn't possible, or isn't the right option for your circumstances. That doesn't mean you're out of options.",
+      "Below are trusted free and confidential services in Australia that can help you understand your situation, deal with creditors and lenders, and work out what your next steps could be.",
+    ],
+    helplines: [
+      { name: "National Debt Helpline", number: "1800 007 007", tel: "tel:1800007007", web: { a: "ndh.org.au", href: "https://ndh.org.au/" } },
+      { name: "Small Business Debt Helpline", number: "1800 413 828", tel: "tel:1800413828" },
+      { name: "1800 FULL STOP", number: "1800 385 578", tel: "tel:1800385578", web: { a: "fullstop.org.au", href: "https://fullstop.org.au/" } },
+    ],
+    sections: [
+      { h: "National Debt Helpline", blocks: [
+        { p: "If you're struggling with mortgage repayments, credit cards, personal loans or other debts, the National Debt Helpline is a great place to start. It provides free, independent and confidential financial counselling." },
+        { p: "A financial counsellor can help you:" },
+        { list: [
+          "Understand your financial position",
+          "Work through your debts and repayments",
+          "Explore options with your lenders and creditors",
+          "Negotiate payment arrangements where appropriate",
+          "Understand your rights",
+          "Work out practical next steps",
+        ]},
+        { phone: { label: "National Debt Helpline", number: "1800 007 007", tel: "tel:1800007007", web: { a: "ndh.org.au", href: "https://ndh.org.au/" } } },
+        { p: "There is no cost to speak with a financial counsellor." },
+      ]},
+      { h: "Speak with your lender's hardship team", blocks: [
+        { p: "If you're having trouble making your mortgage, personal loan or credit card repayments, contact your lender as early as possible. Most lenders have a dedicated financial hardship team." },
+        { p: "Depending on your circumstances, they may be able to discuss options such as:" },
+        { list: [
+          "Temporary changes to your repayments",
+          "A repayment arrangement",
+          "Extending the loan term",
+          "Temporarily reducing repayments",
+          "Other hardship assistance based on your individual circumstances",
+        ]},
+        { p: "You do not need to wait until you have missed several repayments before asking for help. If you're worried that you may not be able to make an upcoming repayment, it can be worth contacting them early." },
+      ]},
+      { h: "Small Business Debt Helpline", blocks: [
+        { p: "Running a business can bring its own financial pressures. If you're a small business owner or sole trader struggling with business debts, cash flow, ATO debt or other financial commitments, the Small Business Debt Helpline provides free specialist assistance." },
+        { p: "They can help with issues including:" },
+        { list: [
+          "ATO and tax debt",
+          "Business loans",
+          "Credit cards and other debts",
+          "Cash flow difficulties",
+          "Leases",
+          "Suppliers and creditors",
+          "Personal debts connected with your business",
+          "Understanding your options if the business is under financial pressure",
+        ]},
+        { phone: { label: "Small Business Debt Helpline", number: "1800 413 828", tel: "tel:1800413828" } },
+        { p: "This service is free and confidential." },
+      ]},
+      { h: "Full Stop Australia", blocks: [
+        { p: "Sometimes financial hardship can be connected to circumstances that go beyond money. If you're experiencing domestic or family violence, financial abuse, sexual violence or another situation where you need specialist support, Full Stop Australia provides free and confidential trauma-specialist counselling." },
+        { p: "Support is available 24 hours a day, seven days a week, for people who have been impacted as well as people supporting someone else." },
+        { phone: { label: "1800 FULL STOP", number: "1800 385 578", tel: "tel:1800385578", web: { a: "fullstop.org.au", href: "https://fullstop.org.au/" } } },
+      ]},
+      { h: "You may be able to come back to us later", blocks: [
+        { p: "Just because we haven't been able to find a suitable finance option today doesn't necessarily mean that will always be the case. Things can change." },
+        { p: "You may:" },
+        { list: [
+          "Reduce or clear some debts",
+          "Get repayments back on track",
+          "Build savings",
+          "Increase your income",
+          "Return to work",
+          "Resolve an outstanding tax debt",
+          "Improve your credit position",
+          "Build more equity in your property",
+        ]},
+        { p: "If your circumstances change, you're always welcome to come back and speak with us again. We can reassess your position and let you know whether there are lending options available at that time." },
+      ]},
+      { h: "You don't have to work it all out yourself", blocks: [
+        { p: "Financial stress can feel overwhelming, particularly when you're not sure what the next step should be." },
+        { p: "If Mesh Finance isn't able to provide a lending solution, we encourage you to use the free support services above. Getting the right help early can often give you a clearer picture of your options and a practical way forward." },
+        { p: "We're always happy to have the conversation, even when lending isn't the answer." },
+      ]},
+    ],
+    cta: {
+      heading: "If your circumstances change",
+      sub: "You're always welcome to come back and speak with the Mesh Finance team. We can reassess your position when the time is right.",
+      button: "Get in touch",
+    },
+    note: "The services listed above are independent of Mesh Finance and are provided for your information only. This page is general in nature and does not constitute financial, legal or counselling advice. If you or someone else is in immediate danger, call 000.",
+  },
+
   propertyProfileReport: {
     title: "Property Valuation Services with CoreLogic Reports",
     subtitle: "Empowering Your Property Decisions with Accurate Valuation Insights",
