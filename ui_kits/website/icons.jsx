@@ -10,6 +10,7 @@ const Home = I(<><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M
 const Building = I(<><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></>);
 const Key = I(<><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2L20 3M17 6l2 2M14 9l2 2"/></>);
 const Coins = I(<><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></>);
+const Calculator = I(<><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01"/></>);
 const Car = I(<><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z"/><circle cx="7" cy="16" r="1.2"/><circle cx="17" cy="16" r="1.2"/></>);
 const Refi = I(<><path d="M4 9a8 8 0 0 1 14-4l2 2M20 15a8 8 0 0 1-14 4l-2-2"/><path d="M17 3v4h-4M7 21v-4h4"/></>);
 const Shield = I(<><path d="M12 3l7 3v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></>);
@@ -31,5 +32,5 @@ const Instagram = I(<><rect x="3" y="3" width="18" height="18" rx="5"/><circle c
 const Linkedin = (props)=>(<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" {...props}><path d="M6.5 8.5H4V20h2.5V8.5zM5.2 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM20 13.6c0-2.7-1.5-4-3.4-4-1.5 0-2.2.8-2.6 1.4V8.5H11.5V20H14v-6c0-1.3.6-2 1.6-2s1.4.8 1.4 2.1V20H20v-6.4z"/></svg>);
 
 Object.assign(window, {
-  MeshIcons: { Home, Building, Key, Coins, Car, Refi, Shield, Caravan, Phone, Mail, MapPin, Clock, Star, Check, ArrowRight, Menu, Close, ChevronDown, Quote, Users, Facebook, Instagram, Linkedin }
+  MeshIcons: { Home, Building, Key, Coins, Calculator, Car, Refi, Shield, Caravan, Phone, Mail, MapPin, Clock, Star, Check, ArrowRight, Menu, Close, ChevronDown, Quote, Users, Facebook, Instagram, Linkedin }
 });

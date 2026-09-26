@@ -1012,6 +1012,7 @@ window.MeshContent = {
   ],
 
   knowledgeCentre: [
+    { title: "Calculators & Tools", body: "Free calculators for repayments, borrowing power, stamp duty, equity, maximum purchase price and more.", id: "calculator-hub", icon: "Calculator", cta: "Open calculators" },
     { title: "Property Profile Report", body: "CoreLogic valuation reports to understand what your property, or your next one, is really worth.", id: "property-profile-report", icon: "Home", cta: "Get a report" },
     { title: "My Credit File", body: "What's in your credit file, and how to keep it healthy.", id: "my-credit-file", icon: "Shield", cta: "Learn more" },
     { title: "Helpful Articles", body: "Guides on schemes, grants and lending, kept current.", id: "helpful-articles", icon: "Star", cta: "Read articles" },
