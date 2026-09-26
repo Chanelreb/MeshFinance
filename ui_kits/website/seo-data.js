@@ -87,6 +87,7 @@
       "referral-hub": "Refer a friend to Mesh Finance. If someone you know needs a home loan or finance in Perth, connect them with a broker who will look after them.",
       "home-loans": "Home loans made simple with Mesh Finance. We compare 40+ lenders to find a competitive home loan structured around your goals, across Perth and WA.",
       "refinance-home-loans": "Refinance your home loan with Mesh Finance, Perth mortgage brokers. We compare refinancing options across a wide panel of lenders for a sharper rate, to access equity or to consolidate debt.",
+      "construction-home-loans": "Building a new home in Perth? Mesh Finance compares construction home loans across a wide panel of lenders, from land and construction to progress payments. Our service is free.",
       "first-home-buyers": "First home buyer help in WA. Mesh Finance guides you through grants, schemes, deposits and pre-approval so you can buy your first home with confidence.",
       "ato-debt": "ATO tax debt loans through Mesh Finance. Consolidate ATO, private and solicitor debt into a manageable solution and get your finances back on track.",
       "family-finance-check": "Feeling stretched by credit cards, Afterpay, car loans and home loan repayments? Book a Family Finance Check with Mesh Finance and review your debt consolidation options.",

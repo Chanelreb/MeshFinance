@@ -6,6 +6,7 @@ window.MeshContent = {
     { id: "financial-toolkit", label: "What We Finance", children: [
       { id: "home-loans", label: "Home Loans" },
       { id: "refinance-home-loans", label: "Refinancing" },
+      { id: "construction-home-loans", label: "Construction Home Loans" },
       { id: "investment-home-loans", label: "Investment Home Loans" },
       { id: "bad-credit-home-loans", label: "Bad Credit Home Loans" },
       { id: "personal-loans", label: "Personal Loans" },
@@ -629,6 +630,54 @@ window.MeshContent = {
       ],
     },
 
+    "construction-home-loans": {
+      eyebrow: "Financial Toolkit",
+      title: "Construction Home Loans in Perth",
+      metaTitle: "Construction Home Loans Perth | Building a New Home | Mesh Finance",
+      metaDescription: "Building a new home in Perth? Mesh Finance compares construction home loans across a wide panel of lenders, from land and construction to progress payments. Our service is free.",
+      imgAlt: "New home under construction in Perth with a mortgage broker reviewing the build finance",
+      intro: "Building a new home is exciting, but the finance behind it works differently to a standard home loan. Instead of one lump sum at settlement, a construction loan releases funds in stages as your build progresses. As a Perth mortgage broker, Mesh Finance compares construction home loans across a wide panel of lenders and guides you through each step, from your land and building contract to the final progress payment, so the funding keeps pace with your builder and you always know where you stand.",
+      blocks: [
+        { h: "What is a construction home loan?", body: "A construction home loan is designed for building a new home rather than buying an established one. Because the property is built over several months, the lender doesn't hand over the full loan at once. Funds are drawn down in stages that line up with your builder's fixed-price contract, and you're generally only charged interest on the amount released so far. Once your home is finished, the loan usually converts to a standard principal and interest home loan." },
+        { h: "How progress payments work", body: "Most residential builds are funded across a set of standard stages. As each stage is completed, your builder invoices, the lender checks the work and then releases that portion of the loan. A typical build looks like this:" },
+        { h: "The usual construction stages", list: [
+          "Deposit, the initial payment to get your build underway.",
+          "Slab or base, once the foundation and concrete slab are laid.",
+          "Frame, when the frame is up and approved.",
+          "Lockup, once external walls, windows and doors are in and the home can be locked.",
+          "Fit-out or fixing, covering internal fixtures, cabinetry, plaster and the like.",
+          "Completion, the final payment at practical completion, when your home is ready to move into.",
+        ]},
+        { h: "Interest-only while you build", body: "During construction you generally make interest-only repayments, calculated only on the funds drawn down so far, not the full loan. That keeps repayments lower while the home is being built, which helps if you're also paying rent in the meantime. Once the build is complete, the loan typically reverts to principal and interest so you start paying it down." },
+        { h: "Land and construction, or house-and-land", body: "Whether you've already bought a block, are buying land and building separately, or are going with a house-and-land package, a construction loan can be structured around your situation. If you're purchasing the land too, we help you line up the land settlement and the construction funding so the two work together rather than tripping over each other." },
+        { h: "What lenders look for", list: [
+          "A fixed-price building contract with a licensed, registered builder.",
+          "Council-approved plans and specifications for the build.",
+          "A valuation done on an as-if-complete basis, so the lender values the finished home.",
+          "Your deposit or the equity in your land, plus the borrowing capacity to service the full loan once it's complete.",
+          "Adequate builder's insurance and the right approvals in place before funds are released.",
+        ]},
+        { h: "Costs to plan for beyond the build price", body: "The build contract isn't always the whole story. Site costs, connections, landscaping, driveways, fencing and window coverings can sit outside a fixed-price contract, so it's worth budgeting a contingency. We also factor in that you may be paying rent as well as loan interest during the build, and we make sure the numbers still stack up comfortably before you commit." },
+        { h: "First home buyers building a new home", body: "Building can be a great path for first home buyers, and building or buying a brand-new home is exactly what the WA First Home Owner Grant is designed for. We check every grant, scheme and stamp duty concession you may be entitled to and factor them into your plan from the start." },
+        { h: "How Mesh Finance helps with your build", body: "Construction lending has more moving parts than a standard purchase, and that's where a broker earns their keep. We compare construction loans across our lender panel, handle the paperwork and progress-payment requests, and coordinate with you and your builder so each drawdown happens on time. You get one clear point of contact from your first conversation right through to the final payment and beyond." },
+      ],
+      faqs: [
+        { q: "How is a construction loan different from a normal home loan?", a: "A standard home loan is paid out in full when you settle on an existing property. A construction loan is released in stages as your build progresses, and you usually pay interest only on the funds drawn so far. Once the home is finished, it typically converts to a normal principal and interest loan." },
+        { q: "Do I make full repayments while my home is being built?", a: "Generally no. During construction you make interest-only repayments on the amount drawn down at each stage, not the full loan, which keeps repayments lower while you build. Full principal and interest repayments usually start once the build is complete." },
+        { q: "How much deposit do I need to build a home?", a: "It depends on the lender and whether you already own the land. If you do, the equity in your block can count toward your contribution. We'll model your deposit, land equity and borrowing capacity together so you know exactly where you stand before you sign a building contract." },
+        { q: "Can I get a construction loan as a first home buyer?", a: "Yes, and building a new home is exactly what the WA First Home Owner Grant is aimed at. We check the grant, the Home Guarantee Scheme and any stamp duty concessions against your situation and build them into your plan." },
+        { q: "Does using Mesh Finance for a construction loan cost me anything?", a: "No. Our service is free to you, the lender pays us a commission once your loan settles and we disclose it upfront." },
+      ],
+      links: [
+        { label: "First Home Buyers Guide", id: "first-home-buyers" },
+        { label: "First Home Owner Grant WA 2026", id: "first-home-owner-grant-wa-2026" },
+        { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
+        { label: "Maximum Purchase Price Calculator", id: "calc-max-purchase-price" },
+        { label: "Try Our Online Calculators", id: "calculator-hub" },
+      ],
+      closing: "Planning to build? Reach out to Mesh Finance and we'll help you structure the right construction home loan and keep the funding on track from your first drawdown to the final payment.",
+    },
+
     "investment-home-loans": {
       eyebrow: "Financial Toolkit",
       title: "Investment Home Loans for Perth Property Investors",
@@ -867,6 +916,7 @@ window.MeshContent = {
     intro: "At Mesh Finance, we make borrowing simple, tailored, and supportive. Whether you're dreaming of a new home, expanding your business, hitting the road in a new car or caravan, or consolidating debt for a fresh start, our loan options are designed to mesh with your life goals.",
     items: [
       { title: "Home Loans", body: "Make homeownership a reality with competitive rates and personalised support.", id: "home-loans" },
+      { title: "Construction Home Loans", body: "Finance a new build with staged progress payments that keep pace with your builder.", id: "construction-home-loans" },
       { title: "Investment Home Loans", body: "Grow your portfolio with the right structure and lender.", id: "investment-home-loans" },
       { title: "First Home Buyer Scheme Loans", body: "Grants, guarantee schemes and stamp-duty concessions to get you into your first home sooner, with a smaller deposit.", id: "first-home-buyers" },
       { title: "Bad Credit Home Loans", body: "A compassionate, non-judgmental approach when life got complicated.", id: "bad-credit-home-loans" },
