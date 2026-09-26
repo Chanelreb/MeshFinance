@@ -44,7 +44,7 @@ function KnowledgeCentreScreen({ onNav }) {
               const a = accents[i % accents.length];
               const Icon = I[it.icon] || I.Star;
               return (
-                <div key={i} className="kc-card" style={{...kcS.card, "--kc-accent":a.bg}} onClick={()=>onNav(it.id)}>
+                <div key={i} className="kc-card" style={{...kcS.card, ...(isMobile ? kcS.cardMobile : kcS.cardDesktop), "--kc-accent":a.bg}} onClick={()=>onNav(it.id)}>
                   <div className="kc-icon" style={{...kcS.iconWrap, background:a.soft, boxShadow:`0 0 0 6px ${a.ring}`}}>
                     <Icon width={24} height={24} style={{color:a.bg}}/>
                   </div>
@@ -70,11 +70,14 @@ const kcS = {
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
   h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
-  grid: { display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:22 },
-  gridMobile: { gridTemplateColumns:"1fr" },
+  grid: { display:"flex", flexWrap:"wrap", justifyContent:"center", gap:22 },
+  gridMobile: { flexDirection:"column", alignItems:"stretch" },
   card: { padding:"32px 26px 26px", cursor:"pointer", display:"flex", flexDirection:"column", gap:14,
     background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)",
-    boxShadow:"0 1px 2px rgba(15,32,66,.06)", height:"100%" },
+    boxShadow:"0 1px 2px rgba(15,32,66,.06)" },
+  /* Desktop: 3 per row, so the remaining tiles centre on the row below. */
+  cardDesktop: { flex:"0 1 calc(33.333% - 15px)", maxWidth:"calc(33.333% - 15px)" },
+  cardMobile: { width:"100%" },
   iconWrap: { width:52, height:52, borderRadius:"var(--radius-md)", display:"flex", alignItems:"center",
     justifyContent:"center", marginBottom:28 },
   cardTitle: { fontFamily:"var(--font-display)", fontSize:18, color:"var(--navy-700)", margin:0, fontWeight:700 },
