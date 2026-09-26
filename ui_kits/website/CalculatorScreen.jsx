@@ -1,5 +1,5 @@
 /* Calculators, interactive tools driven by a `kind` prop.
-   kind: "loan-repayment" | "interest-only" | "stamp-duty" | "borrowing-power" | "savings" | "extra-repayment" | "lump-sum" | "how-long" | "offset-vs-redraw"
+   kind: "loan-repayment" | "interest-only" | "stamp-duty" | "borrowing-power" | "savings" | "extra-repayment" | "how-long" | "offset-vs-redraw"
    Slider = range slider + typed number input (module scope so inputs keep focus across re-renders). */
 function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
   const DS = window.MeshFinanceDesignSystem_5c98d0;
@@ -311,18 +311,19 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
     const [rate, setRate] = useState(6.2);
     const [term, setTerm] = useState(30);
     const [extra, setExtra] = useState(300);
+    const [lump, setLump] = useState(20000);
     const r = rate/100/12; const n = term*12;
     const baseRepay = r>0 ? amount * r / (1-Math.pow(1+r,-n)) : amount/n;
     const withExtra = baseRepay + extra;
-    // amortize with extra to find months to payoff
-    let bal = amount, months = 0;
+    // amortize with the lump sum applied up front and extra added each month
+    let bal = amount - lump, months = 0;
     while (bal > 0 && months < 900) { bal = bal*(1+r) - withExtra; months++; }
-    const yearsSaved = Math.max(0, (term*12 - months) / 12);
+    const yearsSaved = Math.max(0, (n - months) / 12);
     const interestBase = baseRepay*n - amount;
-    const interestWithExtra = withExtra*months - amount;
-    const interestSaved = Math.max(0, interestBase - interestWithExtra);
+    const interestNew = withExtra*months + lump - amount;
+    const interestSaved = Math.min(interestBase, Math.max(0, interestBase - interestNew));
     return (
-      <Shell onNav={onNav} badge="Calculator" title="Extra Repayment Calculator" lead="Extra payments, big savings, see how making additional repayments can reduce your loan term and interest."
+      <Shell onNav={onNav} badge="Calculator" title="Extra & Lump Sum Repayment Calculator" lead="See how paying a little extra each month, adding a one-off lump sum, or doing both, can cut years and interest off your loan."
         note="This is an indicative estimate only and not an offer of credit.">
         <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
           <Card elevation="shadow" style={{padding:28}}>
@@ -330,10 +331,11 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
             <Slider label="Interest rate" value={rate} set={setRate} min={4} max={9} step={0.1} suffix="% p.a."/>
             <Slider label="Loan term" value={term} set={setTerm} min={10} max={30} step={1} suffix="years"/>
             <Slider label="Extra monthly repayment" value={extra} set={setExtra} min={0} max={2000} step={50} prefix="$"/>
+            <Slider label="One-off lump sum" value={lump} set={setLump} min={0} max={200000} step={5000} prefix="$"/>
           </Card>
           <ResultCard onNav={onNav} label="You could save" big={`${yearsSaved.toFixed(1)} years`}
             sub={`and ${fmt(interestSaved)} in interest`}
-            stats={[{v:fmt(withExtra),l:"New monthly repayment"},{v:fmt(baseRepay),l:"Original repayment"}]}/>
+            stats={[{v:fmt(withExtra),l:"New monthly repayment"},{v:fmt(lump),l:"One-off lump sum applied"}]}/>
         </div>
       </Shell>
     );
@@ -360,37 +362,6 @@ function CalculatorScreen({ onNav, kind = "loan-repayment" }) {
             sub={`You'll have contributed ${fmt(contributed)}`}
             stats={[{v:fmt(fv-contributed),l:"Interest earned"},{v:fmt(contributed),l:"Total deposited"}]}
             ctaLabel="Talk to a broker about your goals"/>
-        </div>
-      </Shell>
-    );
-  }
-
-  if (kind === "lump-sum") {
-    const [amount, setAmount] = useState(500000);
-    const [rate, setRate] = useState(6.2);
-    const [term, setTerm] = useState(30);
-    const [lump, setLump] = useState(20000);
-    const r = rate/100/12; const n = term*12;
-    const repay = r>0 ? amount * r / (1-Math.pow(1+r,-n)) : amount/n;
-    let bal = amount - lump, months = 0;
-    while (bal > 0 && months < 900) { bal = bal*(1+r) - repay; months++; }
-    const yearsSaved = Math.max(0, (n - months) / 12);
-    const interestBase = repay*n - amount;
-    const interestWithLump = repay*months - (amount-lump);
-    const interestSaved = Math.max(0, interestBase - interestWithLump);
-    return (
-      <Shell onNav={onNav} badge="Calculator" title="Lump Sum Repayment Calculator" lead="Put a lump sum to work, see how a one-off payment against your loan cuts your term and interest bill."
-        note="This is an indicative estimate only and not an offer of credit.">
-        <div style={{...c.layout, ...(isMobile ? c.layoutMobile : {})}}>
-          <Card elevation="shadow" style={{padding:28}}>
-            <Slider label="Loan amount" value={amount} set={setAmount} min={100000} max={2000000} step={10000} prefix="$"/>
-            <Slider label="Interest rate" value={rate} set={setRate} min={4} max={9} step={0.1} suffix="% p.a."/>
-            <Slider label="Loan term" value={term} set={setTerm} min={10} max={30} step={1} suffix="years"/>
-            <Slider label="Lump sum payment" value={lump} set={setLump} min={0} max={200000} step={5000} prefix="$"/>
-          </Card>
-          <ResultCard onNav={onNav} label="You could save" big={`${yearsSaved.toFixed(1)} years`}
-            sub={`and ${fmt(interestSaved)} in interest`}
-            stats={[{v:fmt(repay),l:"Repayment stays the same"},{v:fmt(lump),l:"Lump sum applied"}]}/>
         </div>
       </Shell>
     );

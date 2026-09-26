@@ -12,6 +12,7 @@
     aliases: {
       "calc-stamp-duty": "stamp-duty-calculator",
       "contact-us": "contact",
+      "calc-lump-sum": "calc-extra-repayment",
     },
 
     /* Routes that must never be indexed (thank-you / booking confirmation). */
@@ -33,8 +34,7 @@
       "stamp-duty-calculator": "Stamp Duty Calculator | Mesh Finance",
       "calc-borrowing-power": "Borrowing Power Calculator | Mesh Finance",
       "calc-savings": "Saving Calculator | Mesh Finance",
-      "calc-extra-repayment": "Extra Repayment Calculator | Mesh Finance",
-      "calc-lump-sum": "Lump Sum Repayment Calculator | Mesh Finance",
+      "calc-extra-repayment": "Extra & Lump Sum Repayment Calculator | Mesh Finance",
       "calc-how-long": "How Long to Repay Calculator | Mesh Finance",
       "calc-offset-vs-redraw": "Offset vs Redraw Calculator | Mesh Finance",
       "calc-max-purchase-price": "Maximum Home Purchase Price Calculator | Mesh Finance",
@@ -111,8 +111,7 @@
       "stamp-duty-calculator": "Stamp duty calculator for WA property from Mesh Finance. Estimate stamp duty and government fees on your next home or investment purchase.",
       "calc-borrowing-power": "Borrowing power calculator from Mesh Finance. Estimate how much you may be able to borrow for a home loan based on your income and expenses.",
       "calc-savings": "Savings calculator from Mesh Finance. See how regular deposits and interest grow your home deposit over time and plan your path to buying.",
-      "calc-extra-repayment": "Extra repayment calculator from Mesh Finance. See how paying a little extra each month can cut years and interest off your home loan.",
-      "calc-lump-sum": "Lump sum repayment calculator from Mesh Finance. See how a one-off payment reduces your home loan balance, interest and loan term.",
+      "calc-extra-repayment": "Extra and lump sum repayment calculator from Mesh Finance. See how paying a little extra each month, a one-off lump sum, or both, can cut years and interest off your home loan.",
       "calc-how-long": "How long to repay calculator from Mesh Finance. Work out how long it will take to pay off your loan at your chosen repayment amount.",
       "calc-offset-vs-redraw": "Offset vs redraw calculator from Mesh Finance. Compare how an offset account and a redraw facility each affect your home loan interest.",
       "calc-max-purchase-price": "Estimate the maximum price you may be able to pay for a WA owner-occupied home, factoring in your deposit, borrowing power, stamp duty, government schemes and the First Home Owner Grant.",

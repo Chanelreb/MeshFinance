@@ -80,7 +80,7 @@ function App() {
   const caseStudySlugs = window.MeshContent.caseStudies || {};
   const calcKinds = { "calc-loan-repayment":"loan-repayment", "calc-interest-only":"interest-only",
     "stamp-duty-calculator":"stamp-duty", "calc-borrowing-power":"borrowing-power", "calc-savings":"savings", "calc-extra-repayment":"extra-repayment",
-    "calc-lump-sum":"lump-sum", "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw",
+    "calc-how-long":"how-long", "calc-offset-vs-redraw":"offset-vs-redraw",
     "calc-max-purchase-price":"max-purchase-price", "calc-funding-position":"funding-position", "equity-calculator":"equity" };
   const screenMap = {
     "financial-toolkit": window.MeshFinancialToolkitScreen,

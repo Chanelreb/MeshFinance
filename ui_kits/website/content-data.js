@@ -174,7 +174,7 @@ window.MeshContent = {
       relatedLinks: [
         { label: "Debt Consolidation Loans", id: "debt-consolidation-loans" },
         { label: "Bad Credit Home Loans", id: "bad-credit-home-loans" },
-        { label: "Extra Repayment Calculator", id: "calc-extra-repayment" },
+        { label: "Extra & Lump Sum Repayments Calculator", id: "calc-extra-repayment" },
       ],
       closing: "Mesh Finance, your finance partner through every stage of life.",
     },
@@ -492,7 +492,7 @@ window.MeshContent = {
       relatedLinks: [
         { label: "Debt Consolidation Loans", id: "debt-consolidation-loans" },
         { label: "Home Loans", id: "home-loans" },
-        { label: "Extra Repayment Calculator", id: "calc-extra-repayment" },
+        { label: "Extra & Lump Sum Repayments Calculator", id: "calc-extra-repayment" },
       ],
       closing: "Mesh Finance, your finance partner through every stage of life.",
     },
@@ -863,7 +863,7 @@ window.MeshContent = {
       links: [
         { label: "ATO Tax Debt Loans", id: "ato-debt" },
         { label: "Bad Credit Home Loans", id: "bad-credit-home-loans" },
-        { label: "Extra Repayment Calculator", id: "calc-extra-repayment" },
+        { label: "Extra & Lump Sum Repayments Calculator", id: "calc-extra-repayment" },
       ],
       closing: "Ready to simplify your finances? Reach out and let's build a consolidation plan that works for you.",
     },
@@ -941,8 +941,7 @@ window.MeshContent = {
       { emoji: "🏠", title: "Crunch My Repayments", name: "Loan Repayment Calculator", id: "calc-loan-repayment", body: "Estimate your monthly or fortnightly repayments for a principal and interest or interest-only loan, based on your loan amount, interest rate and term." },
       { emoji: "💸", title: "Stamp Duty Decoder", name: "Stamp Duty Calculator", id: "stamp-duty-calculator", body: "Know exactly how much you'll need to budget for based on your state, property value, and buyer type." },
       { emoji: "🐷", title: "Grow My Savings", name: "Saving Calculator", id: "calc-savings", body: "See how a regular deposit and interest rate can grow your savings balance over time." },
-      { emoji: "💵", title: "Extra Payments, Big Savings", name: "Extra Repayment Calculator", id: "calc-extra-repayment", body: "See how making additional repayments on your loan can save you money and reduce your loan term." },
-      { emoji: "💰", title: "Put a Lump Sum to Work", name: "Lump Sum Repayment Calculator", id: "calc-lump-sum", body: "See how a one-off lump sum payment can cut your loan term and interest bill." },
+      { emoji: "💵", title: "Extra & Lump Sum Repayments", name: "Extra & Lump Sum Repayment Calculator", id: "calc-extra-repayment", body: "See how paying extra each month, adding a one-off lump sum, or doing both, can cut your loan term and interest bill." },
       { emoji: "⏳", title: "How Long to Repay?", name: "How Long to Repay Calculator", id: "calc-how-long", body: "Find out how long it'll take to pay off your loan at a given repayment amount." },
       { emoji: "⚖️", title: "Offset or Redraw?", name: "Offset vs Redraw Calculator", id: "calc-offset-vs-redraw", body: "Compare a loan with an offset account against a cheaper redraw-only loan, and find your break-even offset balance." },
     ],
