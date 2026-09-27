@@ -23,7 +23,8 @@ function CalculatorHubScreen({ onNav }) {
         <div style={calcHubS.inner}>
           <div style={{...calcHubS.grid, ...(isMobile ? calcHubS.gridMobile : {})}}>
             {d.items.map((it,i)=>(
-              <Card key={i} elevation="shadow" padded={false} style={calcHubS.card}
+              <Card key={i} elevation="shadow" padded={false}
+                style={{...calcHubS.card, ...(isMobile ? calcHubS.cardMobile : calcHubS.cardDesktop)}}
                 onClick={()=>onNav(it.id)}>
                 <div style={calcHubS.cardInner}>
                   <span style={calcHubS.emoji}>{it.emoji}</span>
@@ -50,9 +51,12 @@ const calcHubS = {
   inner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"0 28px" },
   h1: { fontSize:38, margin:0, color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:0, maxWidth:720 },
-  grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20, marginBottom:36 },
-  gridMobile: { gridTemplateColumns:"1fr" },
+  grid: { display:"flex", flexWrap:"wrap", justifyContent:"center", gap:20, marginBottom:36 },
+  gridMobile: { flexDirection:"column", alignItems:"stretch" },
   card: { cursor:"pointer", display:"flex", flexDirection:"column" },
+  /* Desktop: 3 per row, so a short final row (e.g. 2 tiles) centres itself. */
+  cardDesktop: { flex:"0 1 calc(33.333% - 14px)", maxWidth:"calc(33.333% - 14px)" },
+  cardMobile: { width:"100%" },
   cardInner: { flex:1, display:"flex", flexDirection:"column", padding:26 },
   emoji: { fontSize:28, lineHeight:1, height:34, display:"flex", alignItems:"center", justifyContent:"center", alignSelf:"center", marginBottom:10 },
   cardTitle: { fontFamily:"var(--font-display)", fontSize:18, lineHeight:1.25, color:"var(--navy-700)", margin:"0 0 3px", fontWeight:700,
