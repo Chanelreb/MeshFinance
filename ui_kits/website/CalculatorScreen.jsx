@@ -761,10 +761,10 @@ const info = {
  * =========================================================================*/
 const mfmt = (n) => "$" + Math.round(isFinite(n) ? n : 0).toLocaleString("en-AU");
 const mpct = (x) => (isFinite(x) ? (x * 100).toFixed(1) : "0.0") + "%";
-/* Indicative monthly principal-and-interest repayment: 30-year term at 6% p.a. */
+/* Indicative monthly principal-and-interest repayment: 30-year term at 6.5% p.a. */
 const mpMonthlyRepayment = (loan) => {
   if (!(loan > 0)) return 0;
-  const r = 0.06 / 12, n = 360;
+  const r = 0.065 / 12, n = 360;
   return loan * r / (1 - Math.pow(1 + r, -n));
 };
 
@@ -942,7 +942,7 @@ function MPResultBlock({ d, heading, subheading, scheme, borrowingCapacity, tota
           {repay > 0 && (
             <div style={mp.repayBox}>
               <span style={mp.repayValue}>≈ {mfmt(repay)} <span style={mp.repayPer}>/ month</span></span>
-              <span style={mp.repayCaption}>Indicative repayment on a ${mfmt(d.totalLoan).slice(1)} loan over 30 years, principal and interest at 6% p.a.</span>
+              <span style={mp.repayCaption}>Indicative repayment on a ${mfmt(d.totalLoan).slice(1)} loan over 30 years, principal and interest at 6.5% p.a.</span>
             </div>
           )}
           <button type="button" aria-expanded={open} aria-controls={"mp-detail-" + (scheme ? "scheme" : "std")}
