@@ -18,13 +18,18 @@ function LenderStrip() {
         .mesh-lender-track{ display:flex; width:max-content; align-items:center;
           animation:mesh-lender-scroll 55s linear infinite; }
         .mesh-lender-strip:hover .mesh-lender-track{ animation-play-state:paused; }
-        .mesh-lender-logo{ height:40px; width:auto; object-fit:contain; margin-right:60px;
-          filter:grayscale(1); opacity:.62; transition:filter .25s ease, opacity .25s ease; flex:none; }
-        .mesh-lender-logo:hover{ filter:none; opacity:1; }
+        /* Normalise by HEIGHT so every logo sits at the same cap height and on one
+           baseline; width flows naturally. A max-width stops the few ultra-wide
+           wordmarks from dominating. All logos are vertically centred in the row. */
+        .mesh-lender-item{ flex:none; height:52px; margin-right:44px;
+          display:flex; align-items:center; justify-content:center; }
+        .mesh-lender-logo{ max-height:38px; max-width:250px; width:auto; height:auto; object-fit:contain;
+          filter:grayscale(1); opacity:.62; transition:filter .25s ease, opacity .25s ease; }
+        .mesh-lender-item:hover .mesh-lender-logo{ filter:none; opacity:1; }
         @keyframes mesh-lender-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
         @media (prefers-reduced-motion: reduce){
           .mesh-lender-track{ animation:none; flex-wrap:wrap; justify-content:center; width:auto; }
-          .mesh-lender-logo{ margin:14px 30px; }
+          .mesh-lender-item{ margin:8px 22px; }
         }
       `}</style>
       <div style={ls.inner}>
@@ -32,8 +37,10 @@ function LenderStrip() {
         <div className="mesh-lender-strip">
           <div className="mesh-lender-track">
             {row.map((l, i) => (
-              <img key={i} className="mesh-lender-logo" src={"../../assets/lenders/" + l.file}
-                alt={l.name} loading="lazy" draggable="false"/>
+              <div key={i} className="mesh-lender-item">
+                <img className="mesh-lender-logo" src={"../../assets/lenders/" + l.file}
+                  alt={l.name} loading="lazy" draggable="false"/>
+              </div>
             ))}
           </div>
         </div>
