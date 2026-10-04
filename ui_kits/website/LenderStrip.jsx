@@ -1,0 +1,52 @@
+/* Accredited-lender logo strip. A single row of logos scrolling continuously,
+   greyscale by default and full colour on hover (the whole row pauses on hover).
+   Data from window.MeshContent.lenders; logos in assets/lenders/. Rendered as the
+   last section of the homepage, just above the footer. */
+function LenderStrip() {
+  const lenders = window.MeshContent.lenders || [];
+  /* Duplicate the set so the track can loop seamlessly: the animation shifts by
+     exactly one copy's width (-50%), and each logo carries its own right margin
+     so both halves are identical (no half-gap seam at the wrap point). */
+  const row = lenders.concat(lenders);
+
+  return (
+    <section style={ls.wrap} aria-label="Lenders Mesh Finance is accredited with">
+      <style>{`
+        .mesh-lender-strip{ overflow:hidden; position:relative;
+          -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); }
+        .mesh-lender-track{ display:flex; width:max-content; align-items:center;
+          animation:mesh-lender-scroll 55s linear infinite; }
+        .mesh-lender-strip:hover .mesh-lender-track{ animation-play-state:paused; }
+        .mesh-lender-logo{ height:40px; width:auto; object-fit:contain; margin-right:60px;
+          filter:grayscale(1); opacity:.62; transition:filter .25s ease, opacity .25s ease; flex:none; }
+        .mesh-lender-logo:hover{ filter:none; opacity:1; }
+        @keyframes mesh-lender-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+        @media (prefers-reduced-motion: reduce){
+          .mesh-lender-track{ animation:none; flex-wrap:wrap; justify-content:center; width:auto; }
+          .mesh-lender-logo{ margin:14px 30px; }
+        }
+      `}</style>
+      <div style={ls.inner}>
+        <p style={ls.eyebrow}>Proudly accredited with 25+ lenders</p>
+        <div className="mesh-lender-strip">
+          <div className="mesh-lender-track">
+            {row.map((l, i) => (
+              <img key={i} className="mesh-lender-logo" src={"../../assets/lenders/" + l.file}
+                alt={l.name} loading="lazy" draggable="false"/>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const ls = {
+  wrap: { background: "#fff", padding: "44px 0", borderTop: "1px solid var(--border-subtle)" },
+  inner: { maxWidth: "var(--container-max)", margin: "0 auto", padding: "0 28px" },
+  eyebrow: { textAlign: "center", fontSize: 13, fontWeight: 700, letterSpacing: ".08em",
+    textTransform: "uppercase", color: "var(--text-muted)", margin: "0 0 26px" },
+};
+
+Object.assign(window, { MeshLenderStrip: LenderStrip });

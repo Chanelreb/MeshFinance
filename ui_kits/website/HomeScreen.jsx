@@ -148,6 +148,9 @@ function HomeScreen({ onNav }) {
           <Button size="lg" variant="secondary" onClick={()=>onNav("contact")}>Book Appointment</Button>
         </div>
       </section>
+
+      {/* ACCREDITED LENDERS, scrolling strip just above the footer */}
+      <window.MeshLenderStrip/>
     </div>
   );
 }
