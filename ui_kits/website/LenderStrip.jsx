@@ -36,12 +36,18 @@ function LenderStrip() {
         <p style={ls.eyebrow}>Proudly accredited with 25+ lenders</p>
         <div className="mesh-lender-strip">
           <div className="mesh-lender-track">
-            {row.map((l, i) => (
-              <div key={i} className="mesh-lender-item">
-                <img className="mesh-lender-logo" src={"../../assets/lenders/" + l.file}
-                  alt={l.name} loading="lazy" draggable="false"/>
-              </div>
-            ))}
+            {row.map((l, i) => {
+              /* Per-logo optical sizing: `scale` nudges an individual logo up or
+                 down from the shared 38px / 250px caps without touching the rest. */
+              const s = l.scale || 1;
+              const sized = s !== 1 ? { maxHeight: (38 * s) + "px", maxWidth: (250 * s) + "px" } : null;
+              return (
+                <div key={i} className="mesh-lender-item">
+                  <img className="mesh-lender-logo" src={"../../assets/lenders/" + l.file}
+                    alt={l.name} loading="lazy" draggable="false" style={sized}/>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
