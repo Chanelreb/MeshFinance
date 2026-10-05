@@ -23,9 +23,7 @@ function LenderStrip() {
            wordmarks from dominating. All logos are vertically centred in the row. */
         .mesh-lender-item{ flex:none; height:52px; margin-right:44px;
           display:flex; align-items:center; justify-content:center; }
-        .mesh-lender-logo{ max-height:38px; max-width:250px; width:auto; height:auto; object-fit:contain;
-          filter:grayscale(1); opacity:.62; transition:filter .25s ease, opacity .25s ease; }
-        .mesh-lender-item:hover .mesh-lender-logo{ filter:none; opacity:1; }
+        .mesh-lender-logo{ max-height:38px; max-width:250px; width:auto; height:auto; object-fit:contain; }
         @keyframes mesh-lender-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
         @media (prefers-reduced-motion: reduce){
           .mesh-lender-track{ animation:none; flex-wrap:wrap; justify-content:center; width:auto; }
