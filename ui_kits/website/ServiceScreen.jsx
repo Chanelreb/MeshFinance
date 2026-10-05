@@ -26,7 +26,7 @@ function ServiceScreen({ onNav }) {
               <p style={svcS.lead}>For first home buyers the process of purchasing a home can be overwhelming. From saving for a deposit to navigating the complex world of loans and financing, it can be difficult to know where to start. There are a range of First Home Buyer benefits available to help young Australians into their first home.</p>
               <Button size="lg" onClick={()=>onNav("contact")}>Book in for a First Home Q&A</Button>
             </div>
-            <div style={svcS.headImg} role="img" aria-label="A young couple relaxing on the sofa playing video games in their home">
+            <div style={{...svcS.headImg, ...(isMobile ? svcS.headImgMobile : {})}} role="img" aria-label="A young couple relaxing on the sofa playing video games in their home">
               <img src="../../assets/fhb.jpg" alt="A young couple relaxing on the sofa playing video games in their home" style={svcS.headImgTag}/>
             </div>
           </div>
@@ -103,9 +103,14 @@ const svcS = {
   headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px" },
   headRow: { marginTop:18, display:"grid", gridTemplateColumns:"1.1fr .9fr", gap:40, alignItems:"center" },
   headRowMobile: { gridTemplateColumns:"1fr", gap:24 },
-  headImg: { aspectRatio:"4/3", borderRadius:16, overflow:"hidden",
+  headImg: { aspectRatio:"4/3",
     display:"flex", alignItems:"center", justifyContent:"center" },
-  headImgTag: { width:"100%", height:"100%", objectFit:"cover", display:"block" },
+  /* Mobile: much smaller and centred so the hero doesn't push content down. */
+  headImgMobile: { maxWidth:230, margin:"6px auto 0" },
+  /* Soft radial mask feathers the edges into the page instead of a hard square. */
+  headImgTag: { width:"100%", height:"100%", objectFit:"cover", display:"block",
+    WebkitMaskImage:"radial-gradient(ellipse 110% 110% at 50% 46%, #000 64%, transparent 100%)",
+    maskImage:"radial-gradient(ellipse 110% 110% at 50% 46%, #000 64%, transparent 100%)" },
   h1: { fontSize:42, lineHeight:1.15, margin:"18px 0 14px", minHeight:97, color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:18, lineHeight:1.55, color:"var(--text-body)", margin:"0 0 28px", maxWidth:560 },
   body: { padding:"56px 0 80px" },
