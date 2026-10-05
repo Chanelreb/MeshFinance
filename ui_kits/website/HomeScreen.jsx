@@ -119,7 +119,6 @@ function HomeScreen({ onNav }) {
         <div className="mesh-home-stats">
           <StatCard tone="navy" value="17" label="Years experience"/>
           <StatCard tone="navy" value="500+" label="Loans settled"/>
-          <StatCard tone="navy" value="40+" label="Lenders compared"/>
           <StatCard tone="navy" value="5.0★" label="Google rating"/>
           <StatCard tone="navy" value={<span>9<span className="mesh-dash">–</span>5</span>} label="Mon–Fri, & after hours"/>
         </div>
