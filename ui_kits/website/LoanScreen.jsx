@@ -71,6 +71,9 @@ function LoanScreen({ onNav, slug }) {
         </div>
       </section>
 
+      {/* ACCREDITED LENDERS, strip under the hero */}
+      <window.MeshLenderStrip/>
+
       <section style={loanS.body}>
         <div style={{...loanS.bodyInner, ...(isMobile ? loanS.bodyInnerMobile : {})}}>
           <div style={loanS.main}>

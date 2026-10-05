@@ -33,6 +33,9 @@ function ServiceScreen({ onNav }) {
         </div>
       </section>
 
+      {/* ACCREDITED LENDERS, strip under the hero */}
+      <window.MeshLenderStrip/>
+
       <section style={svcS.body}>
         <div style={{...svcS.bodyInner, ...(isMobile ? svcS.bodyInnerMobile : {})}}>
           <div style={svcS.main}>

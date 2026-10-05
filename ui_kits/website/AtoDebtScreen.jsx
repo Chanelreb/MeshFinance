@@ -33,6 +33,9 @@ function AtoDebtScreen({ onNav }) {
         </div>
       </section>
 
+      {/* ACCREDITED LENDERS, strip under the hero */}
+      <window.MeshLenderStrip/>
+
       <section style={aS.body}>
         <div style={{...aS.bodyInner, ...(isMobile ? aS.bodyInnerMobile : {})}}>
           <h2 style={aS.h2}>Our loan features</h2>

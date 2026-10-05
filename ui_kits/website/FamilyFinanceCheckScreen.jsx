@@ -204,6 +204,9 @@ function FamilyFinanceCheckScreen({ onNav }) {
         </div>
       </section>
 
+      {/* ACCREDITED LENDERS, strip under the hero */}
+      <window.MeshLenderStrip/>
+
       {/* GOOGLE REVIEWS */}
       <section style={s.reviewsBand}>
         <div style={s.reviewsInner}><GoogleReviews/></div>
