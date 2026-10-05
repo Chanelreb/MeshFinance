@@ -103,17 +103,20 @@ function HomeScreen({ onNav }) {
           .mesh-home-stats .mesh-stat{ text-align:center; align-items:center; }
           .mesh-home-stats .mesh-stat__value{ white-space:nowrap; }
           .mesh-home-stats .mesh-dash{ font-size:.62em; font-weight:600; vertical-align:middle; margin:0 .08em; opacity:.7; }
-          /* On small screens keep all five on one row by shrinking, not wrapping. */
+          /* Tablet: keep one row but a little tighter. */
           @media (max-width:860px){
-            .mesh-home-stats{ gap:6px; padding:16px 12px; }
+            .mesh-home-stats{ gap:12px; padding:18px 16px; }
             .mesh-home-stats .mesh-stat{ padding:6px 4px; gap:3px; }
-            .mesh-home-stats .mesh-stat__value{ font-size:21px; }
-            .mesh-home-stats .mesh-stat__label{ font-size:10px; line-height:1.25; }
+            .mesh-home-stats .mesh-stat__value{ font-size:24px; }
+            .mesh-home-stats .mesh-stat__label{ font-size:11px; line-height:1.25; }
           }
-          @media (max-width:430px){
-            .mesh-home-stats{ gap:4px; }
-            .mesh-home-stats .mesh-stat__value{ font-size:18px; }
-            .mesh-home-stats .mesh-stat__label{ font-size:9px; }
+          /* Phone: a tidy 2x2 grid instead of four cramped columns. */
+          @media (max-width:560px){
+            .mesh-home-stats{ display:grid; grid-template-columns:1fr 1fr; justify-content:stretch;
+              gap:22px 12px; padding:26px 24px; max-width:390px; }
+            .mesh-home-stats .mesh-stat{ padding:0; }
+            .mesh-home-stats .mesh-stat__value{ font-size:27px; }
+            .mesh-home-stats .mesh-stat__label{ font-size:12.5px; line-height:1.3; }
           }
         `}</style>
         <div className="mesh-home-stats">
