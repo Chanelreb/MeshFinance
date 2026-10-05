@@ -31,7 +31,7 @@ function LenderStrip() {
         }
       `}</style>
       <div style={ls.inner}>
-        <p style={ls.eyebrow}>Proudly accredited with 25+ lenders</p>
+        <p style={ls.eyebrow}>Proudly accredited with 40+ lenders</p>
         <div className="mesh-lender-strip">
           <div className="mesh-lender-track">
             {row.map((l, i) => {
