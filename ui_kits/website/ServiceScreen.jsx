@@ -26,8 +26,8 @@ function ServiceScreen({ onNav }) {
               <p style={svcS.lead}>For first home buyers the process of purchasing a home can be overwhelming. From saving for a deposit to navigating the complex world of loans and financing, it can be difficult to know where to start. There are a range of First Home Buyer benefits available to help young Australians into their first home.</p>
               <Button size="lg" onClick={()=>onNav("contact")}>Book in for a First Home Q&A</Button>
             </div>
-            <div style={svcS.headImg} role="img" aria-label="A young couple holding hands with moving boxes over their heads in their new empty home">
-              <img src="../../assets/firsthomebuyers.jpg" alt="A young couple holding hands with moving boxes over their heads in their new empty home" style={svcS.headImgTag}/>
+            <div style={svcS.headImg} role="img" aria-label="A young couple relaxing on the sofa playing video games in their home">
+              <img src="../../assets/fhb.jpg" alt="A young couple relaxing on the sofa playing video games in their home" style={svcS.headImgTag}/>
             </div>
           </div>
         </div>
