@@ -9,7 +9,9 @@ function AtoDebtScreen({ onNav }) {
 
   return (
     <div>
-      <section style={aS.head}>
+      <section style={{...aS.head, ...(isMobile ? aS.headMobile : {})}}
+        role="img" aria-label="Managing ATO tax debt at a desk with invoices and a calculator">
+        <div style={{...aS.headOverlay, ...(isMobile ? aS.headOverlayMobile : {})}}/>
         <div style={{...aS.headInner, ...(isMobile ? aS.headInnerMobile : {})}}>
           <div style={aS.headCopy}>
             <Breadcrumb items={[
@@ -25,11 +27,6 @@ function AtoDebtScreen({ onNav }) {
               <Button size="lg" onClick={()=>onNav("contact")}>Apply now</Button>
             </div>
           </div>
-          {!isMobile && (
-            <div style={aS.headImg}>
-              <img src="../../assets/atodebtloans.png" alt="Managing ATO tax debt" style={aS.headImgTag}/>
-            </div>
-          )}
         </div>
       </section>
 
@@ -83,13 +80,20 @@ function AtoDebtScreen({ onNav }) {
 }
 
 const aS = {
-  head: { background:"var(--blue-50)" },
-  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"32px 28px 48px",
-    display:"grid", gridTemplateColumns:"1.1fr .9fr", gap:40, alignItems:"center" },
-  headInnerMobile: { gridTemplateColumns:"1fr", padding:"28px 20px 36px", gap:24 },
-  headCopy: { display:"flex", flexDirection:"column", gap:10, alignItems:"flex-start" },
-  headImg: { aspectRatio:"4/3", borderRadius:16, overflow:"hidden", boxShadow:"var(--shadow-md)" },
-  headImgTag: { width:"100%", height:"100%", objectFit:"cover", display:"block" },
+  /* Hero image is the section background (same treatment as First Home Buyers).
+     Desktop: a left-to-right gradient fades blue-50 over the copy and lets the
+     photo bleed in on the right. Mobile: the photo is the full background under
+     a lighter top-weighted scrim so the copy stays readable. */
+  head: { position:"relative", overflow:"hidden",
+    background:"var(--blue-50) url(../../assets/atodebtloans.png) right 22%/cover no-repeat" },
+  headMobile: { background:"var(--blue-50) url(../../assets/atodebtloans.png) 80% 25%/cover no-repeat" },
+  headOverlay: { position:"absolute", inset:0,
+    background:"linear-gradient(90deg, var(--blue-50) 0%, var(--blue-50) 38%, rgba(234,244,252,.9) 55%, rgba(234,244,252,.45) 78%, rgba(234,244,252,.08) 100%)" },
+  headOverlayMobile: { background:"linear-gradient(180deg, rgba(234,244,252,.95) 0%, rgba(234,244,252,.78) 46%, rgba(234,244,252,.4) 100%)" },
+  headInner: { position:"relative", maxWidth:"var(--container-max)", margin:"0 auto",
+    padding:"32px 28px 64px", minHeight:380, boxSizing:"border-box" },
+  headInnerMobile: { padding:"28px 20px 40px", minHeight:0 },
+  headCopy: { display:"flex", flexDirection:"column", gap:10, alignItems:"flex-start", maxWidth:600 },
   h1: { fontSize:38, lineHeight:1.15, margin:"6px 0 0", color:"var(--navy-700)", letterSpacing:"-.02em" },
   subtitle: { fontSize:18, color:"var(--color-primary)", fontWeight:600, margin:0 },
   lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"6px 0 0" },
