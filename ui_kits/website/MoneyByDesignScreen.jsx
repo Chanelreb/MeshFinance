@@ -49,6 +49,14 @@ function mbdReconcile(expenses, flags) {
   return out;
 }
 
+/* A fresh investment property with its holding costs pre-seeded from the engine. */
+function mbdSeedInvestment() {
+  var C = window.MeshBudget.INVESTMENT_COSTS;
+  return { id: mbdId(), name: "", rent: { amount: "", freq: "weekly" },
+    loan: { repayment: "", freq: "monthly", lender: "", balance: "", rate: "" },
+    costs: C.map(function (c) { return { key: c.name, name: c.name, amount: "", freq: c.freq }; }) };
+}
+
 function mbdDefaultState() {
   return {
     view: "intro",
@@ -57,6 +65,8 @@ function mbdDefaultState() {
     housing: "",
     hasKids: false,
     hasPets: false,
+    hasInvestment: false,
+    investments: [],
     mortgage: { lender: "", balance: "", rate: "" },
     expenses: [],
     debts: [],
@@ -405,6 +415,37 @@ function MoneyByDesignScreen(props) {
   }
   function removeDebt(id) { setState(function (s) { return Object.assign({}, s, { debts: s.debts.filter(function (d) { return d.id !== id; }) }); }); }
 
+  /* ---- investment properties ---- */
+  function setInvestmentFlag(on) {
+    setState(function (s) {
+      var next = Object.assign({}, s, { hasInvestment: on });
+      if (on && !(s.investments || []).length) next.investments = [mbdSeedInvestment()];
+      return next;
+    });
+  }
+  function addInvestment() { setState(function (s) { return Object.assign({}, s, { investments: (s.investments || []).concat([mbdSeedInvestment()]) }); }); }
+  function removeInvestment(id) { setState(function (s) { return Object.assign({}, s, { investments: s.investments.filter(function (p) { return p.id !== id; }) }); }); }
+  /* path is "name" or a dotted pair like "rent.amount" / "loan.lender" */
+  function changeInvestment(id, path, v) {
+    setState(function (s) {
+      return Object.assign({}, s, { investments: s.investments.map(function (p) {
+        if (p.id !== id) return p;
+        var parts = path.split(".");
+        if (parts.length === 1) { var o = {}; o[parts[0]] = v; return Object.assign({}, p, o); }
+        var sub = Object.assign({}, p[parts[0]]); sub[parts[1]] = v;
+        var o2 = {}; o2[parts[0]] = sub; return Object.assign({}, p, o2);
+      }) });
+    });
+  }
+  function changeInvestmentCost(id, key, field, v) {
+    setState(function (s) {
+      return Object.assign({}, s, { investments: s.investments.map(function (p) {
+        if (p.id !== id) return p;
+        return Object.assign({}, p, { costs: p.costs.map(function (c) { if (c.key !== key) return c; var o = {}; o[field] = v; return Object.assign({}, c, o); }) });
+      }) });
+    });
+  }
+
   /* ---- goals ---- */
   function addGoal() {
     setState(function (s) {
@@ -570,12 +611,12 @@ function MoneyByDesignScreen(props) {
 
         <div>
           <h3 style={sx.blockH}>What does your household look like?</h3>
-          <p style={sx.blockHint}>Housing</p>
+          <p style={sx.blockHint}>Your housing situation</p>
           <MbdToggle legend="Housing" mobile={isMobile} value={state.housing}
             onChange={function (v) { setFlags({ housing: v }); }} options={B.HOUSING_OPTIONS.map(function (o) { return { value: o.value, label: o.label }; })} />
         </div>
 
-        <div style={{ display: "grid", gap: 18, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr" }}>
+        <div style={{ display: "grid", gap: 18, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr" }}>
           <div style={sx.toggleCard}>
             <div><div style={sx.toggleCardH}>👶 Do you have kids?</div><div style={sx.blockHint}>We'll only show child-related expenses if you do.</div></div>
             <MbdYesNo value={state.hasKids ? "yes" : "no"} onChange={function (v) { setFlags({ hasKids: v === "yes" }); }} />
@@ -583,6 +624,10 @@ function MoneyByDesignScreen(props) {
           <div style={sx.toggleCard}>
             <div><div style={sx.toggleCardH}>🐾 Do you have pets?</div><div style={sx.blockHint}>We'll only show pet expenses if you do.</div></div>
             <MbdYesNo value={state.hasPets ? "yes" : "no"} onChange={function (v) { setFlags({ hasPets: v === "yes" }); }} />
+          </div>
+          <div style={sx.toggleCard}>
+            <div><div style={sx.toggleCardH}>🏘️ Do you have an investment property?</div><div style={sx.blockHint}>We'll add rental income and investment-property costs so your numbers stay accurate.</div></div>
+            <MbdYesNo value={state.hasInvestment ? "yes" : "no"} onChange={function (v) { setInvestmentFlag(v === "yes"); }} />
           </div>
         </div>
       </div>
@@ -612,6 +657,69 @@ function MoneyByDesignScreen(props) {
             </div>
           )}
         </MbdSection>
+        {state.hasInvestment && (
+          <MbdSection title="Investment property" emoji="🏘️" hint="rent in, loan and costs out" defaultOpen>
+            <p style={sx.blockHint}>Each property is its own stream, so rent stays out of your household income and only the net result flows into your budget.</p>
+            {(state.investments || []).map(function (p, i) {
+              var pr = (results.investment && results.investment.properties.filter(function (x) { return x.id === p.id; })[0]) || null;
+              return (
+                <div key={p.id} style={sx.debtCard}>
+                  <div style={{ display: "grid", gap: 10, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr" }}>
+                    <label style={sx.miniLabel}>Property name (optional)
+                      <input value={p.name} onChange={function (e) { changeInvestment(p.id, "name", e.target.value); }} placeholder={"Investment property " + (i + 1)} style={sx.textInput} />
+                    </label>
+                    <label style={sx.miniLabel}>Rental income
+                      <MbdMoney value={p.rent.amount} onChange={function (v) { changeInvestment(p.id, "rent.amount", v); }} ariaLabel="Rental income" />
+                    </label>
+                    <label style={sx.miniLabel}>Rent frequency
+                      <MbdFreq value={p.rent.freq} onChange={function (v) { changeInvestment(p.id, "rent.freq", v); }} ariaLabel="Rent frequency" />
+                    </label>
+                    <label style={sx.miniLabel}>Investment loan repayment
+                      <MbdMoney value={p.loan.repayment} onChange={function (v) { changeInvestment(p.id, "loan.repayment", v); }} ariaLabel="Investment loan repayment" />
+                    </label>
+                    <label style={sx.miniLabel}>Repayment frequency
+                      <MbdFreq value={p.loan.freq} onChange={function (v) { changeInvestment(p.id, "loan.freq", v); }} ariaLabel="Repayment frequency" />
+                    </label>
+                  </div>
+                  <div style={sx.loanPanel}>
+                    <div style={sx.loanPanelH}>Loan details (optional)</div>
+                    <p style={sx.blockHint}>Only used if you'd like us to review your investment lending.</p>
+                    <div style={{ display: "grid", gap: 10, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr" }}>
+                      <input value={p.loan.lender} onChange={function (e) { changeInvestment(p.id, "loan.lender", e.target.value); }} placeholder="Current lender" aria-label="Investment loan lender" style={sx.textInput} />
+                      <MbdMoney value={p.loan.balance} onChange={function (v) { changeInvestment(p.id, "loan.balance", v); }} ariaLabel="Investment loan balance" placeholder="Loan balance" />
+                      <div style={{ position: "relative" }}>
+                        <input value={p.loan.rate} onChange={function (e) { changeInvestment(p.id, "loan.rate", e.target.value); }} placeholder="Interest rate" inputMode="decimal" aria-label="Investment loan interest rate" style={{ ...sx.textInput, paddingRight: 28 }} />
+                        <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }}>%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: 14 }}>
+                    <div style={sx.loanPanelH}>Holding costs</div>
+                    <p style={sx.blockHint}>Leave anything that doesn't apply at $0.</p>
+                    {p.costs.map(function (c) {
+                      return (
+                        <div key={c.key} style={{ display: "grid", gap: 8, gridTemplateColumns: isMobile ? "1fr 1fr" : "minmax(0,1.5fr) 140px 150px", alignItems: "center", padding: "6px 0", borderBottom: "1px solid var(--gray-100)" }}>
+                          <span style={{ fontSize: 14.5, color: "var(--text-strong)", fontWeight: 600, gridColumn: isMobile ? "1 / -1" : "auto" }}>{c.name}</span>
+                          <MbdMoney value={c.amount} onChange={function (v) { changeInvestmentCost(p.id, c.key, "amount", v); }} ariaLabel={c.name + " amount"} />
+                          <MbdFreq value={c.freq} onChange={function (v) { changeInvestmentCost(p.id, c.key, "freq", v); }} ariaLabel={c.name + " frequency"} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {pr && (pr.rentMonthly > 0 || pr.outMonthly > 0) && (
+                    <div style={sx.debtSummary}>
+                      <div><span style={sx.dsLabel}>Rent in</span><b>{B.formatMoney(pr.rentMonthly)}/mo</b></div>
+                      <div><span style={sx.dsLabel}>Loan + costs out</span><b>{B.formatMoney(pr.outMonthly)}/mo</b></div>
+                      <div><span style={sx.dsLabel}>Net</span><b style={{ color: pr.netMonthly >= 0 ? "var(--green-600)" : "var(--navy-700)" }}>{pr.netMonthly >= 0 ? "+" : "−"}{B.formatMoney(Math.abs(pr.netMonthly))}/mo</b></div>
+                    </div>
+                  )}
+                  {state.investments.length > 1 && <button type="button" onClick={function () { removeInvestment(p.id); }} style={sx.removeInline}>Remove property</button>}
+                </div>
+              );
+            })}
+            <button type="button" onClick={addInvestment} style={sx.addBtn}>+ Add another property</button>
+          </MbdSection>
+        )}
         <MbdSection title="Household" emoji="💡">{mbdExpenseTable(rowsFor("household"), isMobile, changeExpense, removeExpense)}</MbdSection>
         <MbdSection title="Transport" emoji="🚗" defaultOpen={false}>{mbdExpenseTable(rowsFor("transport"), isMobile, changeExpense, removeExpense)}</MbdSection>
         <MbdSection title="Health" emoji="➕" defaultOpen={false}>{mbdExpenseTable(rowsFor("health"), isMobile, changeExpense, removeExpense)}</MbdSection>
@@ -785,7 +893,7 @@ function MbdBreakdownBucket(props) {
 function MbdResults(props) {
   var state = props.state, r = props.results, isMobile = props.isMobile, B = props.B, sx = props.sx, onNav = props.onNav;
   var breathing = r.breathingRoom;
-  var hasLending = r.debt.count > 0 || (state.mortgage && (B.num(state.mortgage.balance) > 0 || state.mortgage.lender));
+  var hasLending = r.debt.count > 0 || (state.mortgage && (B.num(state.mortgage.balance) > 0 || state.mortgage.lender)) || (r.investment && r.investment.hasLoan);
 
   var toneColor = { under: "var(--color-success)", around: "var(--color-success)", ahead: "var(--color-success)",
     slight: "var(--color-primary)", "build-slight": "var(--color-primary)",
@@ -912,6 +1020,34 @@ function MbdResults(props) {
             </div>
           )}
           <p style={sx.smallPrint}>Housing-cost rules of thumb (you may have heard "around 30%") are general guides only and can use different income definitions. What matters more is your actual percentage, what's left after essentials, and your overall breathing room.</p>
+        </Mbd_Card>
+      )}
+
+      {/* Investment property: its own stream, shown net, never in the buckets */}
+      {r.investment && (r.investment.rentMonthly > 0 || r.investment.outMonthly > 0) && (
+        <Mbd_Card>
+          <h3 style={sx.sectionH}>Your investment {r.investment.count > 1 ? "properties" : "property"}</h3>
+          <div style={{ display: "grid", gap: 14, gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr" }}>
+            <div style={sx.statCard}><span style={sx.statLabel}>Rent in</span><span style={sx.statValue}>{B.formatMoney(r.investment.rentMonthly)}<span style={sx.perMo}> / month</span></span></div>
+            <div style={sx.statCard}><span style={sx.statLabel}>Loan + costs out</span><span style={sx.statValue}>{B.formatMoney(r.investment.outMonthly)}<span style={sx.perMo}> / month</span></span></div>
+            <div style={{ ...sx.statCard, background: r.investment.isShortfall ? "var(--amber-50)" : "var(--green-50)", borderColor: r.investment.isShortfall ? "var(--amber-600)" : "var(--green-500)" }}>
+              <span style={sx.statLabel}>Net cash flow</span>
+              <span style={{ ...sx.statValue, color: r.investment.isShortfall ? "var(--amber-600)" : "var(--green-600)" }}>{r.investment.isShortfall ? "−" : "+"}{B.formatMoney(Math.abs(r.investment.netMonthly))}<span style={sx.perMo}> / month</span></span>
+            </div>
+          </div>
+          <p style={{ fontSize: 15, color: "var(--text-body)", margin: "14px 0 0" }}>
+            {r.investment.isShortfall
+              ? <span>After rent, your investment {r.investment.count > 1 ? "properties cost" : "property costs"} you about <b>{B.formatMoney(r.investment.shortfall)} a month</b> to hold. That shortfall is counted as an outgoing in your budget above.</span>
+              : <span>After the loan and costs, your investment {r.investment.count > 1 ? "properties put" : "property puts"} about <b>{B.formatMoney(r.investment.surplus)} a month</b> back in your pocket, which is included in your breathing room.</span>}
+          </p>
+          {r.investment.count > 1 && (
+            <div style={{ display: "grid", gap: 6, marginTop: 12 }}>
+              {r.investment.properties.map(function (p) {
+                return <div key={p.id} style={sx.breakdownLine}><span>{p.name}</span><span style={{ color: p.netMonthly >= 0 ? "var(--green-600)" : "var(--navy-700)", fontWeight: 600 }}>{p.netMonthly >= 0 ? "+" : "−"}{B.formatMoney(Math.abs(p.netMonthly))}/mo</span></div>;
+              })}
+            </div>
+          )}
+          <p style={sx.smallPrint}>Rent is kept separate from your household income so your bucket targets aren't inflated. Negative gearing can have tax implications, which are worth discussing with your accountant. This is general information only.</p>
         </Mbd_Card>
       )}
 

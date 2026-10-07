@@ -66,6 +66,19 @@
 
   var GOAL_PRESETS = ["Home deposit", "Holiday", "Renovation", "New car", "Emergency fund", "Wedding", "Christmas", "Education", "Investment", "Other"];
 
+  /* Investment property holding costs, seeded per property when the toggle is
+   * on. These sit OUTSIDE the four buckets: the property is its own stream. */
+  var INVESTMENT_COSTS = [
+    { name: "Council rates", freq: "quarterly" },
+    { name: "Water rates", freq: "quarterly" },
+    { name: "Landlord insurance", freq: "annually" },
+    { name: "Property management fees", freq: "monthly" },
+    { name: "Strata fees", freq: "quarterly" },
+    { name: "Repairs / maintenance", freq: "monthly" },
+    { name: "Land tax", freq: "annually" },
+  ];
+  var INVESTMENT_COLOR = "#e0a132";
+
   /* Default expense catalogue. Each item: { name, bucket, housing?, freq? }.
    * The screen assembles the starting expense list from these groups based on
    * the household toggles. Bucket is a sensible default the user can override. */
@@ -329,6 +342,35 @@
       breakdown.goals.push({ name: g.name || "Goal", monthly: m, goal: true });
     });
 
+    /* Investment properties → each is its own stream: rent in, loan + holding
+     * costs out. Rent is deliberately kept OUT of household income so the bucket
+     * targets aren't inflated by gross rent, and the property never sits in a
+     * bucket. Only the NET flows into the budget: a shortfall is a real monthly
+     * outgoing (shown as its own chart slice), a surplus adds to breathing room.
+     * Counted exactly once. */
+    var investment = null;
+    if (state.hasInvestment && (state.investments || []).length) {
+      var props = state.investments.map(function (p, i) {
+        var rentM = toMonthly(p.rent && p.rent.amount, p.rent && p.rent.freq);
+        var loanM = toMonthly(p.loan && p.loan.repayment, p.loan && p.loan.freq);
+        var costsM = (p.costs || []).reduce(function (s, c) { return s + toMonthly(c.amount, c.freq); }, 0);
+        var meta = p.loan || {};
+        return { id: p.id, name: p.name || ("Investment property " + (i + 1)),
+          rentMonthly: rentM, loanMonthly: loanM, costsMonthly: costsM, outMonthly: loanM + costsM,
+          netMonthly: rentM - loanM - costsM,
+          hasLoan: loanM > 0 || num(meta.balance) > 0 || !!meta.lender,
+          meta: { lender: meta.lender || "", balance: num(meta.balance), rate: meta.rate || "" } };
+      });
+      var sumOf = function (k) { return props.reduce(function (s, x) { return s + x[k]; }, 0); };
+      var net = sumOf("netMonthly");
+      investment = { count: props.length, properties: props,
+        rentMonthly: sumOf("rentMonthly"), loanMonthly: sumOf("loanMonthly"), costsMonthly: sumOf("costsMonthly"), outMonthly: sumOf("outMonthly"),
+        netMonthly: net, isShortfall: net < 0, shortfall: net < 0 ? -net : 0, surplus: net > 0 ? net : 0,
+        hasLoan: props.some(function (x) { return x.hasLoan; }) };
+    }
+    var investShortfall = investment ? investment.shortfall : 0;
+    var investSurplus = investment ? investment.surplus : 0;
+
     /* Bucket actuals: expenses in that bucket + the dedicated stream */
     var actual = {
       essentials: expenseByBucket.essentials,
@@ -338,8 +380,8 @@
     };
 
     var totalExpenses = expenseByBucket.essentials + expenseByBucket.lifestyle + expenseByBucket.goals + expenseByBucket.futureYou;
-    var outgoings = totalExpenses + debtMonthly + goalMonthly; // each stream counted exactly once
-    var breathingRoom = incomeMonthly - outgoings;
+    var outgoings = totalExpenses + debtMonthly + goalMonthly + investShortfall; // each stream counted exactly once
+    var breathingRoom = incomeMonthly - outgoings + investSurplus;
 
     /* Per-bucket comparison vs suggested target */
     var bucketResults = BUCKET_ORDER.map(function (key) {
@@ -373,13 +415,15 @@
     /* "Where your money goes" chart — mortgage/rent pulled out of Essentials for
      * display only (otherEssentials + housing === essentials actual). */
     var otherEssentials = Math.max(actual.essentials - housingMonthly, 0);
-    var chartBase = incomeMonthly > 0 ? incomeMonthly : outgoings;
+    // A positively-geared property's surplus widens the pie so slices still sum to 100%.
+    var chartBase = (incomeMonthly > 0 ? incomeMonthly : outgoings) + investSurplus;
     var rawSegments = [
       { key: "housing", label: housing ? housing.label : "Housing", amount: housingMonthly, color: HOUSING_COLOR },
       { key: "essentials", label: "Other essentials", amount: otherEssentials, color: BUCKET_META.essentials.color },
       { key: "lifestyle", label: "Lifestyle", amount: actual.lifestyle, color: BUCKET_META.lifestyle.color },
       { key: "goals", label: "Goals", amount: actual.goals, color: BUCKET_META.goals.color },
       { key: "futureYou", label: "Future You", amount: actual.futureYou, color: BUCKET_META.futureYou.color },
+      { key: "investment", label: "Investment property", amount: investShortfall, color: INVESTMENT_COLOR },
       { key: "breathing", label: "Breathing room", amount: breathingRoom > 0 ? breathingRoom : 0, color: BREATHING_COLOR },
     ];
     var segments = rawSegments.filter(function (s) { return s.amount > 0.005; }).map(function (s) {
@@ -404,6 +448,7 @@
       bucketsByKey: bucketResults.reduce(function (o, b) { o[b.key] = b; return o; }, {}),
       bucketsValid: bucketsValid, bucketsTotalPct: bucketsTotalPct,
       housing: housing,
+      investment: investment,
       debt: { totalBalance: debtBalance, monthlyRepayments: debtMonthly, pctOfIncome: pctOf(debtMonthly, incomeMonthly), count: debtCount },
       goals: goalsResults,
       futureYou: futureYou,
@@ -433,6 +478,8 @@
     HOUSING_OPTIONS: HOUSING_OPTIONS,
     DEBT_TYPES: DEBT_TYPES,
     GOAL_PRESETS: GOAL_PRESETS,
+    INVESTMENT_COSTS: INVESTMENT_COSTS,
+    INVESTMENT_COLOR: INVESTMENT_COLOR,
     CATALOG: CATALOG,
     FEEDBACK_TOLERANCE: FEEDBACK_TOLERANCE,
     num: num,

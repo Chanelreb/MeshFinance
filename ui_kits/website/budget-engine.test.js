@@ -133,5 +133,48 @@ ok("zero income: bucket % finite (not Infinity)", isFinite(zeroIncomeGoals.bucke
 var badBuckets = B.computeResults({ incomes: [{ amount: 5000, freq: "monthly" }], buckets: { essentials: 70, lifestyle: 10, goals: 10, futureYou: 20 } }, { now: NOW });
 ok("buckets not 100 flagged invalid", badBuckets.bucketsValid === false && badBuckets.bucketsTotalPct === 110);
 
+/* ---- investment property: own stream, net only, never in the buckets ---- */
+var invBase = {
+  incomes: [{ amount: 6000, freq: "monthly" }],
+  expenses: [{ name: "Rent", amount: 2000, freq: "monthly", bucket: "essentials", housing: true }],
+  hasInvestment: true,
+  investments: [{
+    id: "p1", name: "Unit",
+    rent: { amount: 500, freq: "weekly" },
+    loan: { repayment: 2200, freq: "monthly", lender: "Bank", balance: 400000, rate: "6.1" },
+    costs: [{ name: "Council rates", amount: 600, freq: "quarterly" }, { name: "Landlord insurance", amount: 1200, freq: "annually" }],
+  }],
+};
+var inv = B.computeResults(invBase, { now: NOW });
+var rentM = 500 * 52 / 12, loanM = 2200, costsM = 600 * 4 / 12 + 1200 / 12; // 200 + 100
+var netM = rentM - loanM - costsM; // negative → shortfall
+ok("investment: rent monthly", near(inv.investment.rentMonthly, rentM));
+ok("investment: costs monthly", near(inv.investment.costsMonthly, costsM));
+ok("investment: net = rent − loan − costs", near(inv.investment.netMonthly, netM));
+ok("investment: shortfall flagged", inv.investment.isShortfall === true && near(inv.investment.shortfall, -netM));
+ok("investment: rent NOT in household income", near(inv.income.monthly, 6000));
+ok("investment: shortfall is an outgoing", near(inv.totals.outgoings, 2000 + (-netM)));
+ok("investment: breathing = income − outgoings", near(inv.breathingRoom, 6000 - inv.totals.outgoings));
+ok("investment: buckets exclude it", near(inv.buckets.reduce(function (s, b) { return s + b.actualAmt; }, 0), 2000));
+var invSeg = inv.chart.segments.filter(function (s) { return s.key === "investment"; })[0];
+ok("investment: own chart slice = shortfall", !!invSeg && near(invSeg.amount, -netM));
+ok("investment: has loan → lending hook", inv.investment.hasLoan === true);
+
+// positively geared: surplus adds to breathing room, no chart slice, not "spending"
+var invPos = B.computeResults(Object.assign({}, invBase, { investments: [{ id: "p2", rent: { amount: 800, freq: "weekly" }, loan: { repayment: 1500, freq: "monthly" }, costs: [] }] }), { now: NOW });
+var posNet = 800 * 52 / 12 - 1500;
+ok("investment: surplus net", near(invPos.investment.netMonthly, posNet) && invPos.investment.isShortfall === false);
+ok("investment: surplus adds to breathing", near(invPos.breathingRoom, 6000 - 2000 + posNet));
+ok("investment: no slice when surplus", invPos.chart.segments.every(function (s) { return s.key !== "investment"; }));
+ok("investment: surplus not counted as spending", near(invPos.totals.outgoings, 2000));
+var posSegTotal = invPos.chart.segments.reduce(function (s, x) { return s + x.amount; }, 0);
+ok("investment: surplus pie still sums to its base", near(posSegTotal, invPos.chart.base, 0.1));
+
+// multiple properties sum; toggle off ignores everything
+var invTwo = B.computeResults(Object.assign({}, invBase, { investments: invBase.investments.concat([{ id: "p3", rent: { amount: 400, freq: "weekly" }, loan: { repayment: 1000, freq: "monthly" }, costs: [] }]) }), { now: NOW });
+ok("investment: two properties counted", invTwo.investment.count === 2 && near(invTwo.investment.rentMonthly, rentM + 400 * 52 / 12));
+var invOff = B.computeResults(Object.assign({}, invBase, { hasInvestment: false }), { now: NOW });
+ok("investment: toggle off → ignored", invOff.investment === null && near(invOff.breathingRoom, 4000));
+
 console.log("\n" + passed + " passed, " + failed + " failed");
 process.exit(failed ? 1 : 0);

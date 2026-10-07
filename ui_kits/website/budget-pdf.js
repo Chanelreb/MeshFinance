@@ -164,6 +164,23 @@
       para("The ~30% marker is a general guide only and may use different income definitions.", 8.5, C.muted);
     }
 
+    /* ---- Investment property (own stream, shown net) ---- */
+    if (results.investment && (results.investment.rentMonthly > 0 || results.investment.outMonthly > 0)) {
+      var inv = results.investment;
+      heading("Your investment " + (inv.count > 1 ? "properties" : "property"));
+      para("Rent in: " + B.formatMoney(inv.rentMonthly) + " /mo    ·    Loan and costs out: " + B.formatMoney(inv.outMonthly) + " /mo    ·    Net: " + (inv.isShortfall ? "-" : "+") + B.formatMoney(Math.abs(inv.netMonthly)) + " /mo", 10, C.gray);
+      para(inv.isShortfall
+        ? "After rent, holding the property costs about " + B.formatMoney(inv.shortfall) + " a month, counted as an outgoing in your budget."
+        : "After the loan and costs, the property puts about " + B.formatMoney(inv.surplus) + " a month back in your pocket, included in your breathing room.", 9, C.muted);
+      if (inv.count > 1) {
+        inv.properties.forEach(function (p) {
+          pageBreak(6); font("normal", 9.5); color(C.gray); doc.text(p.name, M + 2, y);
+          doc.text((p.netMonthly >= 0 ? "+" : "-") + B.formatMoney(Math.abs(p.netMonthly)) + " /mo", M + CW, y, { align: "right" }); y += 5;
+        });
+      }
+      para("Rent is kept separate from household income. Negative gearing can have tax implications worth discussing with your accountant.", 8.5, C.muted);
+    }
+
     /* ---- Debt summary ---- */
     if (results.debt.count > 0) {
       heading("Your debts");
