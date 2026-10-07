@@ -53,9 +53,14 @@ function LoanScreen({ onNav, slug }) {
 
   return (
     <div>
-      <section style={loanS.head}>
-        <div style={{...loanS.headInner, ...(isMobile ? loanS.headInnerMobile : {})}}>
-          <div style={loanS.headCopy}>
+      <section style={{...loanS.head, ...(d.hero ? { ...loanS.headWithImg,
+            backgroundImage: "url(../../assets/" + d.hero.image + ")",
+            backgroundPosition: isMobile ? (d.hero.posMobile || "center") : (d.hero.pos || "right center"),
+            backgroundSize: (!isMobile && d.hero.size) ? d.hero.size : "cover" } : {})}}
+        {...(d.hero ? { role: "img", "aria-label": d.imgAlt } : {})}>
+        {d.hero && <div style={{...loanS.headOverlay, ...(isMobile ? loanS.headOverlayMobile : {})}}/>}
+        <div style={{...loanS.headInner, ...(isMobile ? loanS.headInnerMobile : {}), ...(d.hero && !isMobile ? loanS.headInnerImg : {})}}>
+          <div style={{...loanS.headCopy, ...(d.hero ? loanS.headCopyImg : {})}}>
             <Breadcrumb items={[
               {label:"Home",href:"#",onClick:(e)=>{e.preventDefault();onNav("home");}},
               {label:d.eyebrow,href:"#",onClick:(e)=>{e.preventDefault();onNav("financial-toolkit");}},
@@ -162,9 +167,20 @@ function LoanScreen({ onNav, slug }) {
 
 const loanS = {
   head: { background:"var(--blue-50)" },
-  headInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px" },
+  /* Optional hero photo as the section background, set per page via
+     loans[slug].hero (same treatment as First Home Buyers / ATO Debt). Desktop
+     fades blue-50 over the copy so the photo bleeds in on the right; mobile shows
+     the photo under a light top-weighted scrim. Pages without `hero` keep the
+     plain blue-50 hero. */
+  headWithImg: { position:"relative", overflow:"hidden", backgroundColor:"var(--blue-50)", backgroundRepeat:"no-repeat" },
+  headOverlay: { position:"absolute", inset:0,
+    background:"linear-gradient(90deg, var(--blue-50) 0%, var(--blue-50) 38%, rgba(234,244,252,.9) 55%, rgba(234,244,252,.45) 78%, rgba(234,244,252,.08) 100%)" },
+  headOverlayMobile: { background:"linear-gradient(180deg, rgba(234,244,252,.95) 0%, rgba(234,244,252,.78) 46%, rgba(234,244,252,.4) 100%)" },
+  headInner: { position:"relative", maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px 48px" },
+  headInnerImg: { minHeight:380, boxSizing:"border-box", padding:"24px 28px 64px" },
   headInnerMobile: { padding:"20px 20px 32px" },
   headCopy: { display:"flex", flexDirection:"column", gap:16, alignItems:"flex-start", maxWidth:760 },
+  headCopyImg: { maxWidth:600 },
   h1: { fontSize:40, lineHeight:1.15, margin:"6px 0 8px", color:"var(--navy-700)", letterSpacing:"-.02em" },
   lead: { fontSize:17, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 6px", maxWidth:640 },
   heroBtns: { display:"flex", gap:12, marginTop:6 },

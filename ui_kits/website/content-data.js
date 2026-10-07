@@ -600,7 +600,11 @@ window.MeshContent = {
       title: "Refinance Your Home Loan in Perth",
       metaTitle: "Refinance Home Loans Perth | Home Loan Refinancing | Mesh Finance",
       metaDescription: "Thinking about refinancing your home loan? Mesh Finance compares refinance options across a wide panel of lenders in Perth, for a sharper rate, to access equity or to consolidate debt. Our service is free.",
-      imgAlt: "Perth homeowner reviewing home loan refinancing options with a mortgage broker",
+      imgAlt: "Perth homeowner at her kitchen bench reviewing her home loan on a laptop",
+      /* Hero photo as the section background (see LoanScreen). Portrait image
+         with a centred subject: zoom slightly and anchor left so she sits in the
+         visible right zone on desktop; centred on mobile. */
+      hero: { image: "hero-refinance.jpg", pos: "left 22%", size: "135% auto", posMobile: "50% 25%" },
       intro: "Your home loan isn't set and forget. Interest rates, lender pricing and your own circumstances all change, and the loan that suited you a few years ago may not be the best fit today. As a Perth mortgage broker, Mesh Finance reviews your current home loan and compares refinancing options across a wide panel of lenders, so you can see whether a sharper rate, a better structure, or access to your equity could be working harder for you.",
       blocks: [
         { h: "What does refinancing actually mean?", body: "Refinancing simply means replacing your existing home loan with a new one, either with your current lender or a different one. It isn't always about chasing the lowest rate. The right move depends on what you're trying to achieve, and sometimes the best outcome is staying put on better terms." },
@@ -683,7 +687,8 @@ window.MeshContent = {
       title: "Investment Home Loans for Perth Property Investors",
       metaTitle: "Investment Home Loans Perth | Mesh Finance",
       metaDescription: "Build your property portfolio with investment home loans compared across multiple lenders by Mesh Finance, Perth mortgage brokers. Interest-only, equity release and more.",
-      imgAlt: "Investor inspecting a Perth rental property",
+      imgAlt: "Aerial view of a coastal town with beachside homes beside the sea",
+      hero: { image: "hero-investment-loans.jpg", pos: "right 50%", posMobile: "75% 50%" },
       intro: "Investing in property is one of the most effective ways to build wealth over time, and as Perth mortgage brokers we're here to guide you on your journey. With our expert support, flexible investment loan options, and strategies tailored to your financial goals, we'll help you maximise your opportunities in the property market.",
       blocks: [
         { h: "Why Invest in Property with Mesh Finance?", numbered: [
@@ -748,7 +753,8 @@ window.MeshContent = {
       title: "Personal Loans for Perth Borrowers",
       metaTitle: "Personal Loans Perth | Compare Lenders | Mesh Finance",
       metaDescription: "Personal loans for weddings, renovations, medical costs and more. Mesh Finance compares Perth personal loan options across lenders while protecting your credit score.",
-      imgAlt: "Perth couple planning a renovation funded by a personal loan",
+      imgAlt: "Coffee, a magazine and a laptop on a desk, planning the next goal",
+      hero: { image: "hero-personal-loans.jpg", pos: "right 50%", posMobile: "30% 50%" },
       intro: "When life calls for a financial lift, whether for a wedding, holiday, home renovation, or unexpected medical expense, Mesh Finance is here to help. As Perth finance brokers we compare personal loan options across lenders, with a straightforward approach that prioritises your financial wellbeing and peace of mind.",
       blocks: [
         { h: "Why Choose a Broker for Your Personal Loan?", body: "Using a broker isn't just convenient, it's one of the best ways to protect your credit score. Applying through a broker helps you avoid the pitfalls of multiple credit checks. With access to a variety of lenders and personalised guidance, we always act in your best interest." },
