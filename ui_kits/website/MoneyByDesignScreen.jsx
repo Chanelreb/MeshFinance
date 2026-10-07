@@ -31,7 +31,7 @@ function mbdSeedGroup(group, housing) {
 /* Keep expenses in sync with the household toggles, preserving anything the user
  * has already entered (matched by key) and never dropping custom rows. */
 function mbdReconcile(expenses, flags) {
-  var desired = ["home", "household", "transport", "health", "lifestyle"];
+  var desired = ["home", "household", "transport", "health", "lifestyle", "occasions"];
   if (flags.hasKids) desired.push("kids");
   if (flags.hasPets) desired.push("pets");
   var byKey = {};
@@ -54,7 +54,24 @@ function mbdSeedInvestment() {
   var C = window.MeshBudget.INVESTMENT_COSTS;
   return { id: mbdId(), name: "", rent: { amount: "", freq: "weekly" },
     loan: { repayment: "", freq: "monthly", lender: "", balance: "", rate: "" },
-    costs: C.map(function (c) { return { key: c.name, name: c.name, amount: "", freq: c.freq }; }) };
+    costs: C.map(function (c) { return { key: c.name, name: c.name, amount: "", freq: c.freq, hint: c.hint || "" }; }) };
+}
+
+/* Bring a saved property's cost list up to date with the catalogue: add any
+ * newly introduced rows (e.g. Vacancy allowance) and backfill hints, while
+ * never touching amounts the user has entered. */
+function mbdReconcileInvestmentCosts(investments) {
+  var C = window.MeshBudget.INVESTMENT_COSTS;
+  return (investments || []).map(function (p) {
+    var existing = (p.costs || []).map(function (c) {
+      var src = C.filter(function (x) { return x.name === c.key; })[0];
+      return (src && src.hint && !c.hint) ? Object.assign({}, c, { hint: src.hint }) : c;
+    });
+    var have = {}; existing.forEach(function (c) { have[c.key] = true; });
+    var missing = C.filter(function (c) { return !have[c.name]; })
+      .map(function (c) { return { key: c.name, name: c.name, amount: "", freq: c.freq, hint: c.hint || "" }; });
+    return Object.assign({}, p, { costs: existing.concat(missing) });
+  });
 }
 
 function mbdDefaultState() {
@@ -83,7 +100,14 @@ function mbdLoad() {
     var s = JSON.parse(raw);
     if (!s || typeof s !== "object") return null;
     var d = mbdDefaultState();
-    return Object.assign(d, s, { buckets: Object.assign({}, d.buckets, s.buckets || {}) });
+    var m = Object.assign(d, s, { buckets: Object.assign({}, d.buckets, s.buckets || {}) });
+    /* Catalogue can grow between visits (new groups / cost rows): reconcile a
+       saved budget on load so additions appear without losing anything entered. */
+    if (m.expenses && m.expenses.length) {
+      m.expenses = mbdReconcile(m.expenses, { housing: m.housing, hasKids: m.hasKids, hasPets: m.hasPets });
+    }
+    m.investments = mbdReconcileInvestmentCosts(m.investments);
+    return m;
   } catch (e) { return null; }
 }
 
@@ -699,7 +723,10 @@ function MoneyByDesignScreen(props) {
                     {p.costs.map(function (c) {
                       return (
                         <div key={c.key} style={{ display: "grid", gap: 8, gridTemplateColumns: isMobile ? "1fr 1fr" : "minmax(0,1.5fr) 140px 150px", alignItems: "center", padding: "6px 0", borderBottom: "1px solid var(--gray-100)" }}>
-                          <span style={{ fontSize: 14.5, color: "var(--text-strong)", fontWeight: 600, gridColumn: isMobile ? "1 / -1" : "auto" }}>{c.name}</span>
+                          <span style={{ gridColumn: isMobile ? "1 / -1" : "auto", minWidth: 0 }}>
+                            <span style={{ display: "block", fontSize: 14.5, color: "var(--text-strong)", fontWeight: 600 }}>{c.name}</span>
+                            {c.hint && <span style={{ display: "block", fontSize: 12, color: "var(--text-muted)", lineHeight: 1.35, marginTop: 2 }}>{c.hint}</span>}
+                          </span>
                           <MbdMoney value={c.amount} onChange={function (v) { changeInvestmentCost(p.id, c.key, "amount", v); }} ariaLabel={c.name + " amount"} />
                           <MbdFreq value={c.freq} onChange={function (v) { changeInvestmentCost(p.id, c.key, "freq", v); }} ariaLabel={c.name + " frequency"} />
                         </div>
@@ -737,6 +764,10 @@ function MoneyByDesignScreen(props) {
     return Shell(StepFrame("Your Lifestyle", "The things you choose to enjoy. There's no right answer here, just what's true for you.", (
       <div>
         <MbdSection title="Lifestyle" emoji="✨" defaultOpen>{mbdExpenseTable(rowsFor("lifestyle"), isMobile, changeExpense, removeExpense)}</MbdSection>
+        <MbdSection title="Occasions and seasonal" emoji="🎁" hint="buffer the big once-a-year moments" defaultOpen>
+          <p style={sx.blockHint}>Enter what these usually cost you for the year and we'll spread it into a monthly amount to set aside, so Christmas or the school holidays never catch you out.</p>
+          {mbdExpenseTable(rowsFor("occasions"), isMobile, changeExpense, removeExpense)}
+        </MbdSection>
         <button type="button" onClick={function () { addCustomExpense("lifestyle"); }} style={sx.addBtn}>+ Add another lifestyle expense</button>
         {state.expenses.filter(function (e) { return e.custom && e.bucket === "lifestyle"; }).length > 0 &&
           <div style={{ marginTop: 8 }}>{mbdExpenseTable(state.expenses.filter(function (e) { return e.custom && e.bucket === "lifestyle"; }), isMobile, changeExpense, removeExpense)}</div>}

@@ -76,6 +76,7 @@
     { name: "Strata fees", freq: "quarterly" },
     { name: "Repairs / maintenance", freq: "monthly" },
     { name: "Land tax", freq: "annually" },
+    { name: "Vacancy allowance", freq: "annually", hint: "e.g. 2 to 4 weeks of rent a year, left at $0 if you'd rather not buffer for it" },
   ];
   var INVESTMENT_COLOR = "#e0a132";
 
@@ -137,6 +138,14 @@
       { name: "Shopping", bucket: "lifestyle", freq: "monthly" },
       { name: "Personal care", bucket: "lifestyle", freq: "monthly" },
       { name: "Hobbies", bucket: "lifestyle", freq: "monthly" },
+    ],
+    /* Big once-a-year moments. Entered annually, the engine spreads them into a
+     * monthly buffer (e.g. $1,200 Christmas → $100/mo set aside). */
+    occasions: [
+      { name: "Christmas", bucket: "lifestyle", freq: "annually" },
+      { name: "Birthdays and gifts", bucket: "lifestyle", freq: "annually" },
+      { name: "School holidays", bucket: "lifestyle", freq: "annually" },
+      { name: "Other celebrations and events", bucket: "lifestyle", freq: "annually" },
     ],
     kids: [
       { name: "Childcare", bucket: "essentials", freq: "weekly" },

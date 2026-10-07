@@ -176,5 +176,14 @@ ok("investment: two properties counted", invTwo.investment.count === 2 && near(i
 var invOff = B.computeResults(Object.assign({}, invBase, { hasInvestment: false }), { now: NOW });
 ok("investment: toggle off → ignored", invOff.investment === null && near(invOff.breathingRoom, 4000));
 
+/* ---- catalogue additions: vacancy allowance + seasonal buffers ---- */
+ok("vacancy allowance is a holding cost", B.INVESTMENT_COSTS.some(function (c) { return c.name === "Vacancy allowance" && c.freq === "annually"; }));
+ok("occasions group exists", Array.isArray(B.CATALOG.occasions) && B.CATALOG.occasions.length === 4);
+ok("occasions are annual lifestyle buffers", B.CATALOG.occasions.every(function (c) { return c.bucket === "lifestyle" && c.freq === "annually"; }));
+ok("occasions include Christmas, birthdays, school holidays", ["Christmas", "Birthdays and gifts", "School holidays"].every(function (n) { return B.CATALOG.occasions.some(function (c) { return c.name === n; }); }));
+// an annual occasion buffers into a monthly amount (never a lump in one month)
+var xmas = B.computeResults({ incomes: [{ amount: 5000, freq: "monthly" }], expenses: [{ name: "Christmas", amount: 1200, freq: "annually", bucket: "lifestyle" }] }, { now: NOW });
+ok("$1,200 Christmas → $100/mo lifestyle buffer", near(xmas.bucketsByKey.lifestyle.actualAmt, 100));
+
 console.log("\n" + passed + " passed, " + failed + " failed");
 process.exit(failed ? 1 : 0);
