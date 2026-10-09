@@ -639,7 +639,8 @@ window.MeshContent = {
       title: "Construction Home Loans in Perth",
       metaTitle: "Construction Home Loans Perth | Building a New Home | Mesh Finance",
       metaDescription: "Building a new home in Perth? Mesh Finance compares construction home loans across a wide panel of lenders, from land and construction to progress payments. Our service is free.",
-      imgAlt: "New home under construction in Perth with a mortgage broker reviewing the build finance",
+      imgAlt: "A street of newly built homes in a new estate at dusk",
+      hero: { image: "hero-construction.jpg", pos: "right 50%", posMobile: "60% 50%" },
       intro: "Building a new home is exciting, but the finance behind it works differently to a standard home loan. Instead of one lump sum at settlement, a construction loan releases funds in stages as your build progresses. As a Perth mortgage broker, Mesh Finance compares construction home loans across a wide panel of lenders and guides you through each step, from your land and building contract to the final progress payment, so the funding keeps pace with your builder and you always know where you stand.",
       blocks: [
         { h: "What is a construction home loan?", body: "A construction home loan is designed for building a new home rather than buying an established one. Because the property is built over several months, the lender doesn't hand over the full loan at once. Funds are drawn down in stages that line up with your builder's fixed-price contract, and you're generally only charged interest on the amount released so far. Once your home is finished, the loan usually converts to a standard principal and interest home loan." },
