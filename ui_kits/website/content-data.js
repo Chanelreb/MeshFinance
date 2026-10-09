@@ -718,8 +718,8 @@ window.MeshContent = {
       title: "Bad Credit Home Loans in Perth: Helping You Move Forward",
       metaTitle: "Bad Credit Home Loans Perth | Mesh Finance",
       metaDescription: "Bad credit, arrears or tax debt? Mesh Finance are Perth home loan brokers who work with specialist lenders to find bad credit home loans, judgement-free.",
-      imgAlt: "A fan of credit cards resting on a laptop keyboard",
-      hero: { image: "hero-bad-credit.jpg", pos: "right 50%", posMobile: "55% 50%" },
+      imgAlt: "Person on a couch sorting through bills with a calculator, phone and credit card",
+      hero: { image: "hero-debt-consolidation.jpg", pos: "right 50%", posMobile: "65% 50%" },
       intro: "At Mesh Finance, we understand that life can be unpredictable. Unexpected expenses, job changes, or health issues can sometimes impact your credit history. If you have a less-than-perfect credit score, you're not alone, and you're certainly not out of options.",
       blocks: [
         { h: "How Can We Help? We've assisted clients with:", list: [
@@ -853,8 +853,8 @@ window.MeshContent = {
       title: "Debt Consolidation Loans in Perth",
       metaTitle: "Debt Consolidation Loans Perth | Mesh Finance",
       metaDescription: "Roll credit cards, personal loans and other debts into one repayment. Mesh Finance are Perth brokers who compare debt consolidation loans across lenders, judgement-free.",
-      imgAlt: "Person on a couch sorting through bills with a calculator, phone and credit card",
-      hero: { image: "hero-debt-consolidation.jpg", pos: "right 50%", posMobile: "65% 50%" },
+      imgAlt: "A fan of credit cards resting on a laptop keyboard",
+      hero: { image: "hero-bad-credit.jpg", pos: "right 50%", posMobile: "55% 50%" },
       intro: "Managing multiple debts is costly and stressful. Mesh Finance helps Perth borrowers combine outstanding balances into one simplified loan, making it easier to track and manage your finances, and often cheaper too.",
       blocks: [
         { h: "Streamlined Debt Consolidation", body: "A single monthly repayment at a potentially lower interest rate can make a world of difference in keeping your finances under control." },
