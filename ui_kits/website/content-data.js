@@ -604,7 +604,7 @@ window.MeshContent = {
       imgAlt: "Perth homeowner at her kitchen bench reviewing her home loan on a laptop",
       /* Hero photo as the section background (see LoanScreen). Pre-built as a 3:1
          banner with the subject on the right, so plain cover works at any width. */
-      hero: { image: "hero-refinance.jpg", pos: "right 50%", posMobile: "77% 45%" },
+      hero: { image: "hero-refinance-v2.jpg", pos: "right 50%", posMobile: "77% 45%" },
       intro: "Your home loan isn't set and forget. Interest rates, lender pricing and your own circumstances all change, and the loan that suited you a few years ago may not be the best fit today. As a Perth mortgage broker, Mesh Finance reviews your current home loan and compares refinancing options across a wide panel of lenders, so you can see whether a sharper rate, a better structure, or access to your equity could be working harder for you.",
       blocks: [
         { h: "What does refinancing actually mean?", body: "Refinancing simply means replacing your existing home loan with a new one, either with your current lender or a different one. It isn't always about chasing the lowest rate. The right move depends on what you're trying to achieve, and sometimes the best outcome is staying put on better terms." },
