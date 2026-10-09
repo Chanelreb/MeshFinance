@@ -820,7 +820,8 @@ window.MeshContent = {
       title: "Caravan, Boat and Leisure Loans in Perth",
       metaTitle: "Caravan & Boat Loans Perth | Leisure Finance | Mesh Finance",
       metaDescription: "Finance your caravan, motorhome, boat or jetski with leisure loans compared across lenders by Mesh Finance, Perth finance brokers. New or used, flexible terms.",
-      imgAlt: "Family towing a caravan out of Perth for a WA road trip",
+      imgAlt: "4WDs and campers set up on a wide WA beach with the ocean beyond",
+      hero: { image: "hero-leisure-loans.jpg", pos: "right 50%", posMobile: "40% 60%" },
       intro: "Ready to hit the road or the water? Whether it's a caravan, motorhome, boat or jetski, Mesh Finance makes financing your next adventure simple, comparing leisure loan options across lenders with flexible terms built around how you'll actually use it.",
       blocks: [
         { h: "Why Choose Mesh Finance for Your Leisure Loan?", list: [
@@ -849,7 +850,8 @@ window.MeshContent = {
       title: "Debt Consolidation Loans in Perth",
       metaTitle: "Debt Consolidation Loans Perth | Mesh Finance",
       metaDescription: "Roll credit cards, personal loans and other debts into one repayment. Mesh Finance are Perth brokers who compare debt consolidation loans across lenders, judgement-free.",
-      imgAlt: "Perth borrower simplifying multiple debts into a single repayment",
+      imgAlt: "Person on a couch sorting through bills with a calculator, phone and credit card",
+      hero: { image: "hero-debt-consolidation.jpg", pos: "right 50%", posMobile: "65% 50%" },
       intro: "Managing multiple debts is costly and stressful. Mesh Finance helps Perth borrowers combine outstanding balances into one simplified loan, making it easier to track and manage your finances, and often cheaper too.",
       blocks: [
         { h: "Streamlined Debt Consolidation", body: "A single monthly repayment at a potentially lower interest rate can make a world of difference in keeping your finances under control." },
