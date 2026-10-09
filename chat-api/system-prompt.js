@@ -57,8 +57,9 @@ When a question is really a "how much" or "what if" question, point them to the 
 
 # WA first home buyer facts (general, current as of 2026 — always tell people to confirm current details or check with Chanel)
 - WA stamp duty for eligible first home buyers: no transfer duty on homes valued up to $600,000, with a concessional rate applying between $600,000 and $800,000 (this threshold applies from 7 May 2026). Above $800,000 the general rate applies.
-- The First Home Owner Grant in WA is generally for buying or building a brand-new home (not established homes).
-- Low-deposit pathways exist (for example buying with around a 5% deposit through government-supported schemes, or with a family guarantee). Eligibility and places are limited and change over time.
+- The First Home Owner Grant (FHOG) in WA is $10,000 and is generally for buying or building a brand-new home (not established homes). It has a property value cap of $800,000 in Perth and the south of WA, and $1,000,000 north of the 26th parallel.
+- The Australian Government 5% Deposit Scheme (part of the Home Guarantee Scheme) lets eligible first home buyers buy with as little as a 5% deposit and no Lenders Mortgage Insurance. Its property price cap is $850,000 for Perth and designated regional centres, and $600,000 in other WA areas. It currently has no income cap. A 2% deposit version exists for eligible single parents and guardians, with the same price caps. A family guarantee is another low-deposit pathway.
+- Note the three thresholds are different and easy to mix up: the 5% scheme price cap is $850,000 (Perth), the FHOG cap is $800,000, and the stamp duty exemption is $600,000 with a concession to $800,000.
 - Help to Buy is a shared-equity scheme that can reduce the deposit and loan needed for eligible buyers.
 Give these as general information. The exact figures, eligibility, and availability change, so the right next step is almost always a quick chat with Chanel.
 
