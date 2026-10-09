@@ -601,10 +601,9 @@ window.MeshContent = {
       metaTitle: "Refinance Home Loans Perth | Home Loan Refinancing | Mesh Finance",
       metaDescription: "Thinking about refinancing your home loan? Mesh Finance compares refinance options across a wide panel of lenders in Perth, for a sharper rate, to access equity or to consolidate debt. Our service is free.",
       imgAlt: "Perth homeowner at her kitchen bench reviewing her home loan on a laptop",
-      /* Hero photo as the section background (see LoanScreen). Portrait image
-         with a centred subject: zoom slightly and anchor left so she sits in the
-         visible right zone on desktop; centred on mobile. */
-      hero: { image: "hero-refinance.jpg", pos: "left 22%", size: "135% auto", posMobile: "50% 25%" },
+      /* Hero photo as the section background (see LoanScreen). Pre-built as a 3:1
+         banner with the subject on the right, so plain cover works at any width. */
+      hero: { image: "hero-refinance.jpg", pos: "right 50%", posMobile: "77% 45%" },
       intro: "Your home loan isn't set and forget. Interest rates, lender pricing and your own circumstances all change, and the loan that suited you a few years ago may not be the best fit today. As a Perth mortgage broker, Mesh Finance reviews your current home loan and compares refinancing options across a wide panel of lenders, so you can see whether a sharper rate, a better structure, or access to your equity could be working harder for you.",
       blocks: [
         { h: "What does refinancing actually mean?", body: "Refinancing simply means replacing your existing home loan with a new one, either with your current lender or a different one. It isn't always about chasing the lowest rate. The right move depends on what you're trying to achieve, and sometimes the best outcome is staying put on better terms." },
@@ -787,7 +786,8 @@ window.MeshContent = {
       title: "Car Loans in Perth, New, Used, Dealer or Private",
       metaTitle: "Car Loans Perth | New & Used Vehicle Finance | Mesh Finance",
       metaDescription: "Get behind the wheel sooner with car loans compared across lenders by Mesh Finance, Perth finance brokers. New or used, dealer or private sale, pre-approval available.",
-      imgAlt: "New car buyer collecting keys at a Perth dealership",
+      imgAlt: "4WDs and campers set up on a wide WA beach with the ocean beyond",
+      hero: { image: "hero-leisure-loans.jpg", pos: "right 50%", posMobile: "40% 60%" },
       intro: "Looking to purchase a car in Perth? Whether it's a new or used vehicle, from a dealership or a private seller, Mesh Finance makes it easy to get behind the wheel with tailored car loan options compared across lenders, secured or unsecured, we have you covered.",
       blocks: [
         { h: "Why Choose Mesh Finance for Your Car Loan?", numbered: [
