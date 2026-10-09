@@ -560,7 +560,8 @@ window.MeshContent = {
       title: "Home Loans in Perth, Compared and Tailored to You",
       metaTitle: "Home Loan Broker Perth | Compare Home Loans | Mesh Finance",
       metaDescription: "Compare home loans across a wide panel of lenders with Mesh Finance, your Perth mortgage broker. First home buyers, upgraders and refinancers welcome. Our service is free.",
-      imgAlt: "Perth couple reviewing home loan options with their mortgage broker",
+      imgAlt: "A family carrying moving boxes into their new empty home",
+      hero: { image: "hero-home-loans.jpg", pos: "right 50%", posMobile: "60% 50%" },
       intro: "Purchasing a home is one of the most significant decisions you'll make, and the right loan matters as much as the right property. As a Perth home loan broker with over a decade in the Australian mortgage industry, Mesh Finance compares home loans across a wide panel of lenders and guides you through the process with expertise, empathy, and the personalised support you deserve.",
       blocks: [
         { h: "Why Use a Mortgage Broker in Perth?", body: "Every homebuyer has unique goals and financial circumstances, and no single bank suits everyone. As your mortgage broker, we compare home loans from a wide range of lenders on your behalf, so you see options a branch will never show you, without the credit-score damage of applying to lenders one by one. Our non-judgemental approach, tailored solutions and deep knowledge of the Perth property market set us apart." },
