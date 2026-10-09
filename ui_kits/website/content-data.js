@@ -716,7 +716,8 @@ window.MeshContent = {
       title: "Bad Credit Home Loans in Perth: Helping You Move Forward",
       metaTitle: "Bad Credit Home Loans Perth | Mesh Finance",
       metaDescription: "Bad credit, arrears or tax debt? Mesh Finance are Perth home loan brokers who work with specialist lenders to find bad credit home loans, judgement-free.",
-      imgAlt: "Perth homeowner getting a fresh start after credit difficulties",
+      imgAlt: "A fan of credit cards resting on a laptop keyboard",
+      hero: { image: "hero-bad-credit.jpg", pos: "right 50%", posMobile: "55% 50%" },
       intro: "At Mesh Finance, we understand that life can be unpredictable. Unexpected expenses, job changes, or health issues can sometimes impact your credit history. If you have a less-than-perfect credit score, you're not alone, and you're certainly not out of options.",
       blocks: [
         { h: "How Can We Help? We've assisted clients with:", list: [
