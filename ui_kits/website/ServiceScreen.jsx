@@ -101,7 +101,7 @@ const svcS = {
      in on the right. On mobile the photo is the full background behind the text,
      under a lighter top-weighted scrim so the copy stays readable. */
   head: { position:"relative", overflow:"hidden",
-    background:"var(--blue-50) url(../../assets/fhb.jpg) right 30%/cover no-repeat" },
+    background:"var(--blue-50) url(../../assets/hero-fhb-v2.jpg) right 50%/cover no-repeat" },
   headMobile: { background:"var(--blue-50) url(../../assets/fhb.jpg) center 28%/cover no-repeat" },
   headOverlay: { position:"absolute", inset:0,
     background:"linear-gradient(90deg, var(--blue-50) 0%, var(--blue-50) 38%, rgba(234,244,252,.9) 55%, rgba(234,244,252,.45) 78%, rgba(234,244,252,.08) 100%)" },
