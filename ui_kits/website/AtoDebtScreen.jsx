@@ -85,7 +85,7 @@ const aS = {
      photo bleed in on the right. Mobile: the photo is the full background under
      a lighter top-weighted scrim so the copy stays readable. */
   head: { position:"relative", overflow:"hidden",
-    background:"var(--blue-50) url(../../assets/atodebtloans.png) right 22%/cover no-repeat" },
+    background:"var(--blue-50) url(../../assets/hero-ato-v2.jpg) right 50%/cover no-repeat" },
   headMobile: { background:"var(--blue-50) url(../../assets/atodebtloans.png) 80% 25%/cover no-repeat" },
   headOverlay: { position:"absolute", inset:0,
     background:"linear-gradient(90deg, var(--blue-50) 0%, var(--blue-50) 38%, rgba(234,244,252,.9) 55%, rgba(234,244,252,.45) 78%, rgba(234,244,252,.08) 100%)" },
