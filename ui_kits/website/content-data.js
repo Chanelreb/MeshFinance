@@ -1114,6 +1114,7 @@ window.MeshContent = {
     { slug:"first-home-owner-grant-wa-2026", group:"First home buyer guides", title: "First Home Owner Grant WA 2026: The Complete Guide for First Home Buyers", date: "13 August 2026", body: "How the WA First Home Owner Grant works in 2026: the $10,000 grant, the new $800,000 Perth property cap, who qualifies, and how it fits with stamp duty and the 5% Deposit Scheme." },
     { slug:"buy-first-home-perth-5-percent-deposit", group:"First home buyer guides", title: "Buying Your First Home in Perth With a 5% Deposit: How It Works in 2026", date: "13 August 2026", body: "Can you buy a first home in Perth with a 5% deposit? Learn how the Australian Government 5% Deposit Scheme works, who may qualify and how much you need." },
     { slug:"600000-first-home-deposit-perth", group:"First home buyer guides", title: "Buying a $600,000 First Home in Perth: How Much Deposit Do You Need?", date: "12 August 2026", body: "Buying a $600,000 first home in Perth? See how much deposit you may need, the 2026 WA stamp duty savings, 5% deposit options and First Home Owner Grant rules." },
+    { slug:"ai-home-loan-advice-australia", title: "Can AI Help With Your Home Loan? What It Can and Can't Tell You", date: "13 October 2026", body: "AI is a great way to research home loans, but it cannot always see lender policy or how it applies to you. Why getting your research checked by a broker still matters." },
     { slug:"christmas-budget-tips-perth", title: "Only 10 Weekends Until Christmas. Is Your Budget Ready?", date: "12 October 2026", body: "Simple Christmas budgeting tips for Perth families: set a budget, save each payday, trim subscriptions, review insurance and bills, and check your home loan before December." },
     { slug:"refinance-home-loan-perth-rate-rise-2026", title: "Home Loan Rates Are Rising Again: Is It Time to Review Your Perth Mortgage?", date: "5 October 2026", body: "The RBA raised the cash rate again in September 2026 and lenders are lifting variable rates. What it means for Perth homeowners, and how to check whether your mortgage is still competitive." },
     { slug:"how-to-use-home-equity", title: "How to Use Your Home Equity: A Guide for Perth Homeowners", date: "20 September 2026", body: "What home equity is, how much of it you can actually use, and the main ways to put it to work, renovations, investment, your next home or debt consolidation. Includes how to work out yours." },
@@ -1369,6 +1370,61 @@ window.MeshContent = {
 
   // Full article bodies, block-structured like the loan pages (h/body/list/table).
   articles: {
+    "ai-home-loan-advice-australia": {
+      title: "Can AI Help With Your Home Loan? What It Can and Can't Tell You",
+      date: "13 October 2026",
+      intro: "AI is great for research. Lender policy and real-world structuring still need to be checked.",
+      blocks: [
+        { h: "AI is a great place to start",
+          body: [
+            "AI has made researching home loans much easier.",
+            "You can ask questions about deposits, refinancing, offset accounts, first home buyer schemes, borrowing capacity and lender features and get a useful explanation in seconds.",
+            "That is a good thing. We would much rather speak with a client who has done some research and understands the basics.",
+            "But there is an important difference between researching a home loan and knowing whether that loan will actually work for your situation.",
+          ],
+        },
+        { h: "AI does not always see the full lender policy",
+          body: [
+            "Most AI tools rely heavily on publicly available information: lender websites, product pages, fact sheets and general lending information.",
+            "But lenders also have detailed policies that are not always obvious from their customer-facing websites. These can cover things like:",
+          ],
+          list: ["how your income is assessed", "overtime, bonuses and allowances", "self-employed income", "existing debts", "construction lending", "cash-out limits", "property restrictions", "credit requirements", "how much money you need to contribute."],
+        },
+        { body: ["Two lenders can look very similar online but assess the same client very differently."] },
+        { h: "Getting approved does not always mean you have the right loan",
+          body: [
+            "We recently saw this with a client who had done their own research using AI and then went directly to a bank. They got the loan approved and settled.",
+            "The problem came later. Once the build was underway, they realised the lender's structure and requirements meant they did not have enough money available to complete the build as planned.",
+            "The issue was not simply \"Can I get this loan?\" The real question should have been \"Will this loan allow me to complete what I am trying to do?\"",
+            "Those are very different questions.",
+          ],
+        },
+        { h: "This is where a mortgage broker can help",
+          body: "A broker can take the information you have found and check it against:",
+          list: ["your actual financial position", "current lender policy", "borrowing capacity", "deposit and funds required", "the property you are buying", "what you want to achieve next."],
+        },
+        { body: [
+          "Sometimes the lender you found will be a great option. Sometimes another lender will suit you better.",
+          "And sometimes one small policy detail changes the whole answer.",
+        ]},
+        { h: "The best way to use AI for your home loan",
+          body: [
+            "Use AI to learn. Use it to understand terminology, compare ideas and work out what questions to ask.",
+            "Then have the important information checked before you make a final decision.",
+            "You can come to us and say: \"I've been researching this lender and I think this option could work. Can you check it?\" That is actually a great place to start.",
+            "We can take your research, look at the full picture and make sure the loan works beyond just getting an approval.",
+          ],
+        },
+        { h: "Looking for home loan advice in Perth?",
+          body: [
+            ["At Mesh Finance, we help clients ", { t: "buying", to: "home-loans" }, ", ", { t: "building", to: "construction-home-loans" }, " and ", { t: "refinancing", to: "refinance-home-loans" }, " across Perth understand which lending options actually suit their circumstances."],
+            "AI can help you get informed. A qualified mortgage broker can help you turn that information into the right next step.",
+          ],
+        },
+      ],
+      closing: "Use AI to research. Then get it fact-checked before you commit.",
+      disclaimer: "Information is general in nature and does not take into account your objectives, financial situation or needs. AI-generated information can be incomplete or outdated, and lender policies can change. Always confirm lending requirements for your individual circumstances before making a financial decision.",
+    },
     "christmas-budget-tips-perth": {
       title: "Only 10 Weekends Until Christmas. Is Your Budget Ready?",
       date: "12 October 2026",
