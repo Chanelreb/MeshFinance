@@ -16,7 +16,7 @@
     },
 
     /* Routes that must never be indexed (thank-you / booking confirmation). */
-    noindex: ["ffc-thank-you", "booking-confirmed", "family-finance-check-booking"],
+    noindex: ["ffc-thank-you", "booking-confirmed", "family-finance-check-booking", "fhb-thank-you", "first-home-buyer-plan-booking"],
 
     /* Titles for screens that don't set their own (LoanScreen and
        CaseStudyScreen manage their own titles from content-data.js). */
@@ -56,6 +56,9 @@
       "family-finance-check": "Family Finance Check for Families | Mesh Finance",
       "ffc-thank-you": "Thank You | Mesh Finance",
       "family-finance-check-booking": "Book Your Family Finance Check | Mesh Finance",
+      "first-home-buyer-plan": "First Home Buyer Plan for Perth Buyers | Mesh Finance",
+      "fhb-thank-you": "Thank You | Mesh Finance",
+      "first-home-buyer-plan-booking": "Book Your First Home Buyer Plan | Mesh Finance",
       "booking-confirmed": "You're Booked In | Mesh Finance",
       "wa-first-home-buyer-changes-2026": "WA First Home Buyer Changes 2026: New Stamp Duty & FHOG Thresholds",
       "600000-first-home-deposit-perth": "$600,000 First Home in Perth: How Much Deposit Do You Need?",
@@ -93,6 +96,7 @@
       "first-home-buyers": "First home buyer help in WA. Mesh Finance guides you through grants, schemes, deposits and pre-approval so you can buy your first home with confidence.",
       "ato-debt": "ATO tax debt loans through Mesh Finance. Consolidate ATO, private and solicitor debt into a manageable solution and get your finances back on track.",
       "family-finance-check": "Feeling stretched by credit cards, Afterpay, car loans and home loan repayments? Book a Family Finance Check with Mesh Finance and review your debt consolidation options.",
+      "first-home-buyer-plan": "Buying your first home in Perth? Book a free First Home Buyer Plan with Mesh Finance: your borrowing power, the deposit you need, the 5% scheme, grants and stamp duty, explained clearly.",
       "family-guarantee": "Family guarantee home loans with Mesh Finance. A parent's property as security can help first home buyers buy sooner with a smaller deposit and avoid LMI.",
       "investment-home-loans": "Investment property loans with Mesh Finance. We help Perth investors structure borrowing, compare 40+ lenders and grow a property portfolio with confidence.",
       "bad-credit-home-loans": "Bad credit home loans in Perth. Defaults, arrears or a low credit score? Mesh Finance works with specialist lenders to find a path to home ownership.",

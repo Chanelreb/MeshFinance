@@ -3,5 +3,7 @@ Allow: /
 Disallow: /ffc-thank-you
 Disallow: /booking-confirmed
 Disallow: /family-finance-check-booking
+Disallow: /fhb-thank-you
+Disallow: /first-home-buyer-plan-booking
 
 Sitemap: https://meshfinance.com.au/sitemap.xml

@@ -106,6 +106,9 @@ function App() {
     "family-finance-check": window.MeshFamilyFinanceCheckScreen,
     "ffc-thank-you": window.MeshFFCThankYouScreen,
     "family-finance-check-booking": window.MeshFFCBookingScreen,
+    "first-home-buyer-plan": window.MeshFirstHomeBuyerPlanScreen,
+    "fhb-thank-you": window.MeshFHBPThankYouScreen,
+    "first-home-buyer-plan-booking": window.MeshFHBPBookingScreen,
     "booking-confirmed": window.MeshThankYouScreen,
   };
   const isArticle = !!window.MeshContent.articles[route];
@@ -193,6 +196,7 @@ function App() {
   );
 }
 
-const MESH_BARE_ROUTES = ["family-finance-check", "ffc-thank-you", "family-finance-check-booking"];
+const MESH_BARE_ROUTES = ["family-finance-check", "ffc-thank-you", "family-finance-check-booking",
+  "first-home-buyer-plan", "fhb-thank-you", "first-home-buyer-plan-booking"];
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
