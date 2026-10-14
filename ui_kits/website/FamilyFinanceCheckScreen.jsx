@@ -528,6 +528,8 @@ Object.assign(window, { MeshFamilyFinanceCheckScreen: FamilyFinanceCheckScreen }
    Meta Pixel and the URL-based conversion. Shows the Marketli booking widget in
    a landing-page-styled shell. */
 function FFCBookingScreen({ onNav }) {
+  /* Meta "Lead" conversion, fired directly (window.MeshMetaEvent in forms.js) so it does not rely on a GTM trigger. */
+  React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Lead", { content_name: "Family Finance Check" }); }, []);
   return (
     <div>
       <div style={s.logoBar}>
@@ -562,6 +564,7 @@ const bk = {
 
 /* Thank-you page shown after a Family Finance Check booking is confirmed. */
 function FFCThankYouScreen({ onNav }) {
+  React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "Family Finance Check" }); }, []);
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
   /* Both the Google Ads and Meta conversions now fire earlier — on the booking

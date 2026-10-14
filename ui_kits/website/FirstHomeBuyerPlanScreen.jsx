@@ -488,6 +488,8 @@ Object.assign(window, { MeshFirstHomeBuyerPlanScreen: FirstHomeBuyerPlanScreen }
    App.jsx) with page_path "/first-home-buyer-plan-booking", which GTM can
    match to fire the Meta Pixel and a URL-based conversion for this campaign. */
 function FHBPBookingScreen({ onNav }) {
+  /* Meta "Lead" conversion, fired directly (window.MeshMetaEvent in forms.js) so it does not rely on a GTM trigger. */
+  React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Lead", { content_name: "First Home Buyer Plan" }); }, []);
   const fs = fhbS;
   return (
     <div>
@@ -524,6 +526,7 @@ const fhbBk = {
 /* Thank-you page shown after a First Home Buyer Plan booking is confirmed.
    No conversion fires here: it already fired on the booking page. */
 function FHBPThankYouScreen({ onNav }) {
+  React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "First Home Buyer Plan" }); }, []);
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
   return (
