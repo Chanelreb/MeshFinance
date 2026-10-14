@@ -18,12 +18,13 @@ Object.assign(window, { MeshSubmitForm: submitMeshForm });
 /* Meta (Facebook) conversion events for the campaign landing pages.
    The pixel library itself is loaded by Google Tag Manager, but the Lead and
    Schedule events are fired from here so conversions never depend on a GTM
-   trigger being set up. Two pixel IDs are known for this site: the one Chanel
-   supplied from Events Manager (1364666885761207) and the one GTM's "Meta -
-   Pixel" tag loads (1298807639047990). Each event is sent to both so the ad
-   account sees it whichever dataset its campaigns use. Once the correct one is
-   confirmed, drop the other from MESH_META_PIXELS. */
-const MESH_META_PIXELS = ["1364666885761207", "1298807639047990"];
+   trigger being set up. 1364666885761207 is the Mesh Finance dataset in
+   Chanel's Events Manager (confirmed 14 Oct 2026). GTM's own "Meta - Pixel"
+   tag loads a different ID, 1298807639047990, which is not in her account;
+   that tag should be repointed or removed inside GTM. Standard events only:
+   the dataset is in a restricted category, so Meta drops custom parameters
+   and URL paths. */
+const MESH_META_PIXELS = ["1364666885761207"];
 
 function meshMetaEvent(eventName, params) {
   const fire = () => {
