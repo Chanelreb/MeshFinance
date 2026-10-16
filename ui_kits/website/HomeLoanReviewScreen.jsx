@@ -494,14 +494,14 @@ function HLRBookingScreen({ onNav }) {
   const fs = hlrS;
   return (
     <div>
-      <div style={fs.logoBar}>
-        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={fs.logoLink} aria-label="Mesh Finance home">
-          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
-        </a>
-        <a href="mailto:hello@meshfinance.com.au" style={fs.logoBarEmail}>hello@meshfinance.com.au</a>
-      </div>
       <section style={fs.hero}>
-        <div style={fs.heroTop}>
+        <div style={fs.logoBar}>
+          <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={fs.logoLink} aria-label="Mesh Finance home">
+            <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+          </a>
+          <a href="mailto:hello@meshfinance.com.au" style={fs.logoBarEmail}>hello@meshfinance.com.au</a>
+        </div>
+          <div style={fs.heroTop}>
           <h1 style={fs.h1}>Thanks! Now pick a time that suits you</h1>
           <p style={fs.heroSubhead}>Your details are with us. Book your free Home Loan Review below, online or in person, with no obligation.</p>
         </div>
@@ -568,16 +568,16 @@ function HLRThankYouScreen({ onNav }) {
   const ty = hlrTy;
   return (
     <div>
-      <div style={fs.logoBar}>
-        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={fs.logoLink} aria-label="Mesh Finance home">
-          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
-        </a>
-        <a href="mailto:hello@meshfinance.com.au" style={fs.logoBarEmail}>hello@meshfinance.com.au</a>
-      </div>
 
       {/* CONFIRMATION + WHAT HAPPENS NEXT */}
       <section style={fs.hero}>
-        <div style={fs.heroTop}>
+        <div style={fs.logoBar}>
+          <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={fs.logoLink} aria-label="Mesh Finance home">
+            <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+          </a>
+          <a href="mailto:hello@meshfinance.com.au" style={fs.logoBarEmail}>hello@meshfinance.com.au</a>
+        </div>
+          <div style={fs.heroTop}>
           <div style={ty.tick} aria-hidden="true">✓</div>
           <h1 style={fs.h1}>{HLR_THANKS.h1}</h1>
           <p style={fs.heroSubhead}>{HLR_THANKS.sub}</p>

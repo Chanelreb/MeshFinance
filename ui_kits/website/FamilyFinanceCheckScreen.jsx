@@ -532,14 +532,14 @@ function FFCBookingScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Lead", { content_name: "Family Finance Check" }); }, []);
   return (
     <div>
-      <div style={s.logoBar}>
-        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
-          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
-        </a>
-        <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
-      </div>
       <section style={s.hero}>
-        <div style={s.heroTop}>
+        <div style={s.logoBar}>
+          <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
+            <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+          </a>
+          <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
+        </div>
+          <div style={s.heroTop}>
           <h1 style={s.h1}>Thanks! Now pick a time that suits you</h1>
           <p style={s.heroSubhead}>Your details are with us. Book your free Family Finance Check below, online or in person, with no obligation.</p>
         </div>
