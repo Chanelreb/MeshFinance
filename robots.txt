@@ -5,5 +5,7 @@ Disallow: /booking-confirmed
 Disallow: /family-finance-check-booking
 Disallow: /fhb-thank-you
 Disallow: /first-home-buyer-plan-booking
+Disallow: /hlr-thank-you
+Disallow: /home-loan-review-booking
 
 Sitemap: https://meshfinance.com.au/sitemap.xml
