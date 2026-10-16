@@ -524,42 +524,144 @@ const hlrBk = {
     lineHeight: 1.5, color: "var(--text-subtle)", textAlign: "center" },
 };
 
-/* Thank-you page shown after a Home Loan Review booking is confirmed.
-   No conversion fires here: it already fired on the booking page. */
+/* Thank-you page shown after a Home Loan Review booking is confirmed (Marketli
+   should redirect here after the booking is made). Confirms the booking, sets
+   expectations for the review, makes the case for using a broker, and shows
+   Google reviews. Fires the Meta "Schedule" event; the Lead already fired on
+   the booking page. */
+const HLR_THANKS = {
+  h1: "You're booked in. Thank you!",
+  sub: "Your Home Loan Review is confirmed. A calendar invite is on its way to your inbox, with a reminder before we chat.",
+  next: {
+    h: "What happens next",
+    steps: [
+      { t: "Check your inbox", b: "Your calendar invite has the time and the meeting details. If you need to change it, just reply to that email." },
+      { t: "Have these handy if you can", b: "Your latest home loan statement or banking app, a rough idea of what your home is worth, and any other loans or cards. If you don't have them, don't stress. We can work from what you know." },
+      { t: "Your review", b: "We'll look at what you're paying now, compare it against 40+ lenders, and walk you through whether staying, renegotiating or refinancing makes the most sense, with the numbers in front of you." },
+    ],
+  },
+  benefits: {
+    h: "Why Perth homeowners use a broker",
+    lead: "A broker works for you, not for a bank. Here's what that means in practice.",
+    items: [
+      { t: "We check your rate every 3 to 6 months", b: "Your loan isn't set and forget. We review your rate regularly and go back to your lender to negotiate a better deal, so you don't have to." },
+      { t: "40+ lenders, one conversation", b: "We compare your loan against a panel of banks and specialist lenders, not just the one you happen to be with." },
+      { t: "No cost to you", b: "Our service is free. The lender pays us once your loan settles, and we disclose that upfront." },
+      { t: "We do the paperwork", b: "Application, discharge and settlement. We manage the switch end to end and keep you updated along the way." },
+      { t: "The right structure, not just the rate", b: "Offset, redraw, fixed and variable splits. We make sure the loan suits the way you actually live." },
+      { t: "A real person who knows your loan", b: "One broker from start to finish. Call or message Chanel directly whenever something changes." },
+    ],
+  },
+  reviewsH: "What our clients say",
+  reviewsLead: "Real reviews from Perth families and homeowners we've helped.",
+};
+
 function HLRThankYouScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "Home Loan Review" }); }, []);
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight } = window.MeshIcons;
+  const { ArrowRight, Refi, Building, Coins, Check, Shield, Users } = window.MeshIcons;
+  const isMobile = window.useIsMobile();
+  const icons = [Refi, Building, Coins, Check, Shield, Users];
+  const fs = hlrS;
+  const ty = hlrTy;
   return (
-    <div style={hlrTy.wrap}>
-      <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={hlrTy.logoLink} aria-label="Mesh Finance home">
-        <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:36, display:"block"}}/>
-      </a>
-      <div style={hlrTy.card}>
-        <div style={hlrTy.tick} aria-hidden="true">✓</div>
-        <h1 style={hlrTy.h1}>You're booked in. Thank you!</h1>
-        <p style={hlrTy.lead}>Your Home Loan Review is confirmed. Keep an eye on your inbox for a calendar invite with all the details, plus a reminder before we chat.</p>
-        <p style={hlrTy.sub}>Looking forward to taking a proper look at your home loan.</p>
-        <div style={hlrTy.sign}>Chanel Rebello, Mesh Finance</div>
-        <Button size="lg" onClick={()=>onNav("home")} iconRight={<ArrowRight width={18} height={18}/>}>Explore Mesh Finance</Button>
+    <div>
+      <div style={fs.logoBar}>
+        <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={fs.logoLink} aria-label="Mesh Finance home">
+          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+        </a>
+        <a href="mailto:hello@meshfinance.com.au" style={fs.logoBarEmail}>hello@meshfinance.com.au</a>
       </div>
+
+      {/* CONFIRMATION + WHAT HAPPENS NEXT */}
+      <section style={fs.hero}>
+        <div style={fs.heroTop}>
+          <div style={ty.tick} aria-hidden="true">✓</div>
+          <h1 style={fs.h1}>{HLR_THANKS.h1}</h1>
+          <p style={fs.heroSubhead}>{HLR_THANKS.sub}</p>
+        </div>
+        <div style={ty.nextWrap}>
+          <div style={ty.nextCard}>
+            <h2 style={ty.nextH}>{HLR_THANKS.next.h}</h2>
+            <ol style={ty.nextList}>
+              {HLR_THANKS.next.steps.map((st,i)=>(
+                <li key={i} style={ty.nextItem}>
+                  <span style={{...fs.stepNum, flex:"none", margin:0}}>{i+1}</span>
+                  <div>
+                    <div style={ty.nextT}>{st.t}</div>
+                    <div style={ty.nextB}>{st.b}</div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ACCREDITED LENDERS */}
+      <window.MeshLenderStrip/>
+
+      {/* WHY USE A BROKER */}
+      <section style={fs.bodyWhite}>
+        <div style={fs.wide}>
+          <h2 style={{...fs.h2, marginBottom:10}}>{HLR_THANKS.benefits.h}</h2>
+          <p style={{...fs.p, marginBottom:30}}>{HLR_THANKS.benefits.lead}</p>
+          <div style={{...ty.benefitGrid, ...(isMobile ? fs.grid1 : {})}}>
+            {HLR_THANKS.benefits.items.map((it,i)=>{
+              const Icon = icons[i % icons.length];
+              return (
+                <div key={i} style={{...ty.benefitCard, ...(i===0 ? ty.benefitCardLead : {})}}>
+                  <span style={ty.benefitIcon}><Icon width={22} height={22}/></span>
+                  <h3 style={ty.benefitT}>{it.t}</h3>
+                  <p style={fs.cardBody}>{it.b}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* GOOGLE REVIEWS */}
+      <section style={fs.bodyTint}>
+        <div style={fs.wide}>
+          <h2 style={{...fs.h2, marginBottom:10}}>{HLR_THANKS.reviewsH}</h2>
+          <p style={{...fs.p, marginBottom:24}}>{HLR_THANKS.reviewsLead}</p>
+          <HLRGoogleReviews/>
+        </div>
+      </section>
+
+      {/* SIGN-OFF */}
+      <section style={fs.bodyWhite}>
+        <div style={{...fs.narrow, textAlign:"center"}}>
+          <p style={{...fs.p, fontWeight:600, color:"var(--navy-700)"}}>Looking forward to taking a proper look at your home loan.</p>
+          <p style={ty.sign}>Chanel Rebello, Mesh Finance</p>
+          <Button size="lg" onClick={()=>onNav("home")} iconRight={<ArrowRight width={18} height={18}/>}>Explore Mesh Finance</Button>
+          <p style={{...fs.compliance, marginTop:36}}>{HLR.compliance}</p>
+        </div>
+      </section>
     </div>
   );
 }
 Object.assign(window, { MeshHLRThankYouScreen: HLRThankYouScreen });
 
 const hlrTy = {
-  wrap: { minHeight:"100vh", background:"var(--blue-50)", display:"flex", flexDirection:"column",
-    alignItems:"center", padding:"28px 20px 60px" },
-  logoLink: { display:"inline-flex", alignItems:"center", alignSelf:"flex-start", maxWidth:"var(--container-max)",
-    width:"100%", margin:"0 auto 40px" },
-  card: { background:"#fff", borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-md)", maxWidth:560,
-    width:"100%", margin:"auto", padding:"44px 40px", textAlign:"center",
-    display:"flex", flexDirection:"column", alignItems:"center", gap:0 },
   tick: { width:64, height:64, borderRadius:"50%", background:"var(--color-success)", color:"#fff", fontSize:32,
-    display:"flex", alignItems:"center", justifyContent:"center", marginBottom:20 },
-  h1: { fontSize:30, lineHeight:1.2, margin:"0 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 12px" },
-  sub: { fontSize:15.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 6px" },
-  sign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"0 0 24px" },
+    display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 4px", boxShadow:"var(--shadow-md)" },
+  nextWrap: { maxWidth:720, margin:"0 auto", padding:"14px 28px 52px" },
+  nextCard: { background:"#fff", borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-lg)", padding:"26px 28px" },
+  nextH: { fontFamily:"var(--font-display)", fontSize:21, color:"var(--navy-700)", margin:"0 0 18px", fontWeight:700 },
+  nextList: { listStyle:"none", margin:0, padding:0, display:"grid", gap:18 },
+  nextItem: { display:"flex", gap:14, alignItems:"flex-start" },
+  nextT: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:16, color:"var(--navy-700)", marginBottom:4 },
+  nextB: { fontSize:15, lineHeight:1.6, color:"var(--text-body)" },
+
+  benefitGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:18 },
+  benefitCard: { padding:"26px 24px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)",
+    boxShadow:"var(--shadow-sm)" },
+  benefitCardLead: { borderColor:"var(--color-primary)", boxShadow:"0 0 0 1px var(--color-primary), var(--shadow-md)" },
+  benefitIcon: { width:42, height:42, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)", color:"var(--color-primary)",
+    display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14 },
+  benefitT: { fontFamily:"var(--font-display)", fontSize:16.5, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
+
+  sign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"0 0 22px", textAlign:"center" },
 };
