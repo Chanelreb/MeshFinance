@@ -537,7 +537,7 @@ const HLR_THANKS = {
     steps: [
       { t: "Check your inbox", b: "Your calendar invite has the time and the meeting details. If you need to change it, just reply to that email." },
       { t: "Have these handy if you can", b: "The details of your current home loan, or just your banking app, plus any other loans or cards. If you don't have them handy, don't stress. We can work from what you know." },
-      { t: "Your review", b: "We'll look at what you're paying now, compare it against 40+ lenders, and walk you through whether staying, renegotiating or refinancing makes the most sense, with the numbers in front of you." },
+      { t: "Your review", b: "A casual chat, nothing formal. We find out where you're at, what you'd like your loan to do for you, and whether we can help. It's also a chance for both of us to see if we're a good fit." },
     ],
   },
   benefits: {
