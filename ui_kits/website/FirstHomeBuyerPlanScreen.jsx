@@ -527,6 +527,8 @@ const fhbBk = {
    No conversion fires here: it already fired on the booking page. */
 function FHBPThankYouScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "First Home Buyer Plan" }); }, []);
+  /* If Marketli redirects here inside its booking iframe, take over the whole window. */
+  React.useEffect(() => { if (window.top !== window.self) { try { window.top.location.href = window.location.href; } catch (e) {} } }, []);
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
   return (

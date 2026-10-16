@@ -78,8 +78,8 @@ const HLR = {
   compliance: "Any information provided is general only and does not take into account your personal objectives, financial situation or needs. Refinancing may not be suitable for everyone and may involve costs. Loan approval is subject to lender assessment, eligibility criteria and credit approval. Fees, charges and lending conditions may apply. Figures quoted are examples only.",
 };
 
-/* PLACEHOLDER: swap for the Home Loan Review booking link once Chanel sends it. */
-const HLR_BOOKING_EMBED = "https://marketli.app/book/embed/finance-check-in";
+/* Marketli booking page for this campaign (embed variant of marketli.app/book/home-loan-review). */
+const HLR_BOOKING_EMBED = "https://marketli.app/book/embed/home-loan-review";
 const HLR_CALENDLY_URL = "https://calendly.com/chanel-fqxz/intro_to_mesh?hide_event_type_details=1&hide_gdpr_banner=1&text_color=102a43&primary_color=3898e0";
 
 function HomeLoanReviewScreen({ onNav }) {
@@ -558,6 +558,8 @@ const HLR_THANKS = {
 
 function HLRThankYouScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "Home Loan Review" }); }, []);
+  /* If Marketli redirects here inside its booking iframe, take over the whole window. */
+  React.useEffect(() => { if (window.top !== window.self) { try { window.top.location.href = window.location.href; } catch (e) {} } }, []);
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight, Refi, Building, Coins, Check, Shield, Users } = window.MeshIcons;
   const isMobile = window.useIsMobile();

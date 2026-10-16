@@ -565,6 +565,8 @@ const bk = {
 /* Thank-you page shown after a Family Finance Check booking is confirmed. */
 function FFCThankYouScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "Family Finance Check" }); }, []);
+  /* If Marketli redirects here inside its booking iframe, take over the whole window. */
+  React.useEffect(() => { if (window.top !== window.self) { try { window.top.location.href = window.location.href; } catch (e) {} } }, []);
   const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   const { ArrowRight } = window.MeshIcons;
   /* Both the Google Ads and Meta conversions now fire earlier — on the booking
