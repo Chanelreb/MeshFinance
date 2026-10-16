@@ -548,7 +548,7 @@ const HLR_THANKS = {
       { t: "A long-term partnership, not a one-off", b: "Once you're part of the Mesh family, we're with you for the long haul. A heads-up before your fixed rate ends. A plan when you want to renovate, upgrade or buy an investment. A quick answer when you have a question years after settlement. And when your kids are ready for their first home, we're here for them too." },
       { t: "40+ lenders and products, one conversation", b: "We compare your loan against a panel of 40+ lenders and their products, not just the one you happen to be with." },
       { t: "We do the paperwork", b: "Application, discharge and settlement. We manage the switch end to end and keep you updated along the way." },
-      { t: "The right structure, not just the rate", b: "Offset, redraw, fixed and variable splits. We make sure the loan suits the way you actually live." },
+      { t: "The right structure, not just the rate", b: "Offset, redraw, fixed and variable splits. We explain what each one means for you, so you can make an informed decision and end up with a loan that suits the way you actually live." },
       { t: "A real person who knows your loan", b: "One broker from start to finish. Call or message Chanel directly whenever something changes." },
     ],
   },
