@@ -73,7 +73,7 @@ const HLR = {
     { q: "Will refinancing affect my credit score?", a: "A refinance application is recorded on your credit file like any other credit enquiry. One well-prepared application has minimal impact. What hurts is applying to several lenders at once, which is exactly what a broker helps you avoid." },
     { q: "Can I refinance if my situation has changed?", a: "Possibly. Lenders assess your current income, expenses and the value of your property. If you're self-employed, have recently changed jobs, or your property value has moved, the right lender matters. We know which lenders suit which situations." },
     { q: "Do I have to refinance after the review?", a: "No. The review is free and there is no obligation. If staying with your current lender is the better outcome, we'll tell you that." },
-    { q: "What does the Home Loan Review cost?", a: "Nothing. If you do refinance, the new lender pays us a commission once the loan settles, and we disclose that upfront." },
+    { q: "What does the Home Loan Review cost?", a: "The review itself is free. In most cases the lender pays us a commission once your loan settles. If a fee ever applies to your situation, we tell you upfront, before you commit to anything." },
   ],
   compliance: "Any information provided is general only and does not take into account your personal objectives, financial situation or needs. Refinancing may not be suitable for everyone and may involve costs. Loan approval is subject to lender assessment, eligibility criteria and credit approval. Fees, charges and lending conditions may apply. Figures quoted are examples only.",
 };
@@ -536,7 +536,7 @@ const HLR_THANKS = {
     h: "What happens next",
     steps: [
       { t: "Check your inbox", b: "Your calendar invite has the time and the meeting details. If you need to change it, just reply to that email." },
-      { t: "Have these handy if you can", b: "Your latest home loan statement or banking app, a rough idea of what your home is worth, and any other loans or cards. If you don't have them, don't stress. We can work from what you know." },
+      { t: "Have these handy if you can", b: "The details of your current home loan, or just your banking app, plus any other loans or cards. If you don't have them handy, don't stress. We can work from what you know." },
       { t: "Your review", b: "We'll look at what you're paying now, compare it against 40+ lenders, and walk you through whether staying, renegotiating or refinancing makes the most sense, with the numbers in front of you." },
     ],
   },
@@ -545,8 +545,8 @@ const HLR_THANKS = {
     lead: "A broker works for you, not for a bank. Here's what that means in practice.",
     items: [
       { t: "We check your rate every 3 to 6 months", b: "Your loan isn't set and forget. We review your rate regularly and go back to your lender to negotiate a better deal, so you don't have to." },
-      { t: "40+ lenders, one conversation", b: "We compare your loan against a panel of banks and specialist lenders, not just the one you happen to be with." },
-      { t: "No cost to you", b: "Our service is free. The lender pays us once your loan settles, and we disclose that upfront." },
+      { t: "A long-term partnership, not a one-off", b: "Once you're part of the Mesh family, we're with you for the long haul. A heads-up before your fixed rate ends. A plan when you want to renovate, upgrade or buy an investment. A quick answer when you have a question years after settlement. And when your kids are ready for their first home, we're here for them too." },
+      { t: "40+ lenders and products, one conversation", b: "We compare your loan against a panel of 40+ lenders and their products, not just the one you happen to be with." },
       { t: "We do the paperwork", b: "Application, discharge and settlement. We manage the switch end to end and keep you updated along the way." },
       { t: "The right structure, not just the rate", b: "Offset, redraw, fixed and variable splits. We make sure the loan suits the way you actually live." },
       { t: "A real person who knows your loan", b: "One broker from start to finish. Call or message Chanel directly whenever something changes." },
@@ -558,12 +558,12 @@ const HLR_THANKS = {
 
 function HLRThankYouScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "Home Loan Review" }); }, []);
+  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   /* If Marketli redirects here inside its booking iframe, take over the whole window. */
   React.useEffect(() => { if (window.top !== window.self) { try { window.top.location.href = window.location.href; } catch (e) {} } }, []);
-  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight, Refi, Building, Coins, Check, Shield, Users } = window.MeshIcons;
+  const { ArrowRight, Refi, Star, Building, Check, Shield, Users } = window.MeshIcons;
   const isMobile = window.useIsMobile();
-  const icons = [Refi, Building, Coins, Check, Shield, Users];
+  const icons = [Refi, Star, Building, Check, Shield, Users];
   const fs = hlrS;
   const ty = hlrTy;
   return (
@@ -612,7 +612,7 @@ function HLRThankYouScreen({ onNav }) {
             {HLR_THANKS.benefits.items.map((it,i)=>{
               const Icon = icons[i % icons.length];
               return (
-                <div key={i} style={{...ty.benefitCard, ...(i===0 ? ty.benefitCardLead : {})}}>
+                <div key={i} style={{...ty.benefitCard, ...(i<2 ? ty.benefitCardLead : {})}}>
                   <span style={ty.benefitIcon}><Icon width={22} height={22}/></span>
                   <h3 style={ty.benefitT}>{it.t}</h3>
                   <p style={fs.cardBody}>{it.b}</p>
