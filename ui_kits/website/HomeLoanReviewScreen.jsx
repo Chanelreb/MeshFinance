@@ -612,7 +612,7 @@ function HLRThankYouScreen({ onNav }) {
             {HLR_THANKS.benefits.items.map((it,i)=>{
               const Icon = icons[i % icons.length];
               return (
-                <div key={i} style={{...ty.benefitCard, ...(i<2 ? ty.benefitCardLead : {})}}>
+                <div key={i} style={ty.benefitCard}>
                   <span style={ty.benefitIcon}><Icon width={22} height={22}/></span>
                   <h3 style={ty.benefitT}>{it.t}</h3>
                   <p style={fs.cardBody}>{it.b}</p>
@@ -660,7 +660,6 @@ const hlrTy = {
   benefitGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:18 },
   benefitCard: { padding:"26px 24px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)",
     boxShadow:"var(--shadow-sm)" },
-  benefitCardLead: { borderColor:"var(--color-primary)", boxShadow:"0 0 0 1px var(--color-primary), var(--shadow-md)" },
   benefitIcon: { width:42, height:42, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)", color:"var(--color-primary)",
     display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14 },
   benefitT: { fontFamily:"var(--font-display)", fontSize:16.5, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
