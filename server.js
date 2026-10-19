@@ -100,7 +100,10 @@ const server = http.createServer((req, res) => {
       return send(res, 200, INDEX_HTML);
     }
     const route = routeFromPath(urlPath);
-    if (route === "home") return send(res, 200, INDEX_HTML);
+    if (route === "home") {
+      const homePage = path.join(ROUTES_DIR, "home.html");
+      return send(res, 200, fs.existsSync(homePage) ? homePage : INDEX_HTML);
+    }
     const pf = path.join(ROUTES_DIR, route + ".html");
     if (pf.startsWith(ROUTES_DIR + path.sep) && fs.existsSync(pf)) {
       return send(res, 200, pf);

@@ -55,7 +55,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script type="text/babel" src="../../_ds_bundle.local.jsx"></script>
 <style>
   body { margin: 0; background: var(--surface-page); }
-  #root { min-height: 100vh; }
+  #root:not(:empty) { min-height: 100vh; }
+  /* Build-time rendered page content (see build.js): the phone or desktop
+     copy shows according to the same 860px breakpoint the app uses in JS,
+     until the live app mounts and removes #ssr. */
+  .ssr-mobile { display: none; }
+  @media (max-width: 860px) { .ssr-desktop { display: none; } .ssr-mobile { display: block; } }
   * { box-sizing: border-box; }
   img { max-width: 100%; }
 </style>

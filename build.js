@@ -125,6 +125,115 @@ global.window = stubWindow;
 require(path.join(WEB, "content-data.js"));
 const MeshContent = stubWindow.MeshContent || {};
 
+/* 5b. Prerender page CONTENT, not just head tags. The compiled bundle is run
+ *    inside a Node vm sandbox that stands in for the browser (a stub document,
+ *    storage, location, viewport), then each route is rendered with
+ *    react-dom/server. Because layout breakpoints are decided in JS
+ *    (useIsMobile), every route is rendered twice, at a desktop and a phone
+ *    width, and both are placed in the HTML; a media query in index.html shows
+ *    the right one. The live app mounts into #root as before and removes the
+ *    static copy in a layout effect (see App.jsx), so the swap is invisible.
+ *    Any route that fails to render just ships without static content. */
+process.env.NODE_ENV = "production";
+const vm = require("vm");
+const React = require("react");
+const ReactDOMServer = require("react-dom/server");
+
+function makeSandbox(innerWidth) {
+  const noop = function () {};
+  const el = function (tag) {
+    return { tagName: String(tag || "div").toUpperCase(), id: "", style: {}, dataset: {}, children: [], childNodes: [], innerHTML: "", textContent: "", content: "", value: "",
+      setAttribute: noop, getAttribute: function () { return null; }, removeAttribute: noop, hasChildNodes: function () { return false; },
+      appendChild: noop, removeChild: noop, insertBefore: noop, remove: noop, addEventListener: noop, removeEventListener: noop,
+      querySelector: function () { return null; }, querySelectorAll: function () { return []; }, closest: function () { return null; },
+      getBoundingClientRect: function () { return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 }; },
+      classList: { add: noop, remove: noop, contains: function () { return false; }, toggle: noop }, focus: noop, blur: noop, click: noop,
+      scrollIntoView: noop, getContext: function () { return null; } };
+  };
+  const document = { head: el(), body: el(), documentElement: el(), title: "", cookie: "", readyState: "complete", referrer: "",
+    getElementById: function () { return null; }, querySelector: function () { return null; }, querySelectorAll: function () { return []; },
+    getElementsByTagName: function () { return [el()]; }, createElement: el, createTextNode: function () { return {}; },
+    addEventListener: noop, removeEventListener: noop, fonts: { ready: Promise.resolve(), check: function () { return true; } },
+    activeElement: null, visibilityState: "visible" };
+  /* Components inject their CSS with document.createElement("style") when the
+     bundle loads (guarded by an id check). Collect those so the static copy is
+     styled before any script runs; the live app finds the ids and skips them. */
+  const styles = [];
+  document.head.appendChild = function (node) {
+    if (node && node.tagName === "STYLE" && node.textContent) styles.push({ id: node.id || "", css: node.textContent });
+  };
+  document.getElementById = function (id) { return styles.some(function (st) { return st.id === id; }) ? el("style") : null; };
+  const storage = { length: 0, getItem: function () { return null; }, setItem: noop, removeItem: noop, clear: noop, key: function () { return null; } };
+  const sb = {
+    React: React,
+    ReactDOM: { createRoot: function () { return { render: noop, unmount: noop }; }, hydrateRoot: function () { return { render: noop }; } },
+    document: document, localStorage: storage, sessionStorage: storage,
+    location: { pathname: "/", search: "", hash: "", href: seo.site + "/", origin: seo.site, hostname: "meshfinance.com.au", host: "meshfinance.com.au", protocol: "https:" },
+    navigator: { userAgent: "Mozilla/5.0 (prerender)", language: "en-AU", languages: ["en-AU"], clipboard: {}, onLine: true, platform: "" },
+    history: { pushState: noop, replaceState: noop, back: noop, state: null, length: 1 },
+    screen: { width: innerWidth, height: 900 },
+    innerWidth: innerWidth, innerHeight: 900, outerWidth: innerWidth, devicePixelRatio: 1, scrollY: 0, scrollX: 0, pageYOffset: 0,
+    matchMedia: function () { return { matches: false, media: "", addEventListener: noop, removeEventListener: noop, addListener: noop, removeListener: noop }; },
+    getComputedStyle: function () { return { getPropertyValue: function () { return ""; } }; },
+    addEventListener: noop, removeEventListener: noop, dispatchEvent: noop, scrollTo: noop, scroll: noop, scrollBy: noop, alert: noop, open: noop, print: noop,
+    requestAnimationFrame: function () { return 0; }, cancelAnimationFrame: noop,
+    setTimeout: function () { return 0; }, clearTimeout: noop, setInterval: function () { return 0; }, clearInterval: noop, queueMicrotask: noop,
+    performance: { now: function () { return 0; }, getEntriesByType: function () { return []; }, mark: noop, measure: noop },
+    console: { log: noop, warn: noop, error: noop, info: noop, debug: noop },
+    URL: URL, URLSearchParams: URLSearchParams, TextEncoder: TextEncoder, TextDecoder: TextDecoder, structuredClone: structuredClone,
+    fetch: function () { return Promise.reject(new Error("no network at build time")); },
+    IntersectionObserver: function () { return { observe: noop, unobserve: noop, disconnect: noop }; },
+    ResizeObserver: function () { return { observe: noop, unobserve: noop, disconnect: noop }; },
+    MutationObserver: function () { return { observe: noop, disconnect: noop, takeRecords: function () { return []; } }; },
+    Image: function () { return el(); }, HTMLElement: function () {}, Element: function () {}, Node: function () {}, Event: function () {}, CustomEvent: function () {},
+    FormData: function () { return { append: noop, get: function () { return null; } }; }, Blob: function () {}, File: function () {},
+    dataLayer: [], fbq: noop, gtag: noop, Calendly: undefined,
+  };
+  sb.window = sb; sb.self = sb; sb.globalThis = sb; sb.top = sb; sb.parent = sb; sb.frames = sb;
+  sb.__ssrStyles = styles;
+  return vm.createContext(sb);
+}
+
+const PRERENDER_SCRIPTS = ["content-data.js", "seo-data.js", "responsive.js", "forms.js", "calculator-engine.js", "budget-engine.js", "budget-pdf.js"];
+function loadSandbox(innerWidth) {
+  const ctx = makeSandbox(innerWidth);
+  PRERENDER_SCRIPTS.forEach(function (f) {
+    vm.runInContext(fs.readFileSync(path.join(WEB, f), "utf8"), ctx, { filename: f });
+  });
+  vm.runInContext(bundle + "\nwindow.__MeshApp = App;", ctx, { filename: "app.min.js" });
+  if (typeof ctx.__MeshApp !== "function") throw new Error("prerender: App component not found in the bundle");
+  return ctx;
+}
+
+const SSR_WIDTHS = { desktop: 1280, mobile: 390 };
+const ssrCtx = {};
+Object.keys(SSR_WIDTHS).forEach(function (k) { ssrCtx[k] = loadSandbox(SSR_WIDTHS[k]); });
+
+const ssrFailures = [];
+function renderVariant(ctx, route) {
+  ctx.location.pathname = route === "home" ? "/" : "/" + route;
+  ctx.location.href = seo.site + ctx.location.pathname;
+  return ReactDOMServer.renderToString(React.createElement(ctx.__MeshApp));
+}
+function ssrBlock(route) {
+  try {
+    const d = renderVariant(ssrCtx.desktop, route);
+    const m = renderVariant(ssrCtx.mobile, route);
+    return '<div id="ssr"><div class="ssr-desktop">' + d + '</div><div class="ssr-mobile">' + m + "</div></div>\n";
+  } catch (e) {
+    ssrFailures.push(route + ": " + (e && e.message ? e.message.split("\n")[0] : e));
+    return "";
+  }
+}
+const ssrStyleTags = ssrCtx.desktop.__ssrStyles
+  .map(function (st) { return "<style" + (st.id ? ' id="' + st.id + '"' : "") + ">" + st.css + "</style>"; })
+  .join("\n");
+function injectSsr(html, route) {
+  return html
+    .replace("</head>", ssrStyleTags + "\n</head>")
+    .replace('<div id="root"></div>', ssrBlock(route) + '<div id="root"></div>');
+}
+
 function esc(s) {
   return String(s == null ? "" : s)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -196,6 +305,7 @@ function applyMeta(html, route) {
     .replace(/(<meta property="og:description" content=")[^"]*(")/, "$1" + desc + "$2")
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, "$1" + title + "$2")
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/, "$1" + desc + "$2");
+  out = injectSsr(out, route);
   const ld = jsonLdFor(route, url, m);
   if (ld) {
     /* Match the id the runtime uses so the app replaces (not duplicates) it. */
@@ -229,11 +339,24 @@ routeSet.forEach(function (route) {
   prerendered++;
 });
 
-const notFound = outHtml
+const notFound = injectSsr(outHtml, "this-page-does-not-exist")
   .replace(/[ \t]*<link rel="preload"[^>]*data-home-only[^>]*\/>\r?\n/g, "")
   .replace(/<title>[\s\S]*?<\/title>/, "<title>Page not found | Mesh Finance</title>")
   .replace("</head>", '<meta name="robots" content="noindex, nofollow" />\n</head>');
 fs.writeFileSync(path.join(ROUTES_DIR, "404.html"), notFound);
-log(`prerendered ${prerendered} routes + 404 to ui_kits/website/routes/`);
+
+/* Home page, with its content rendered in: the production index.html (or
+ * index.prod.html locally) plus routes/home.html so server.js can serve the
+ * same file in local dev. */
+const homeHtml = injectSsr(outHtml, "home");
+fs.writeFileSync(htmlTarget, homeHtml);
+fs.writeFileSync(path.join(ROUTES_DIR, "home.html"), homeHtml);
+prerendered++;
+
+log(`prerendered ${prerendered} routes + 404 to ui_kits/website/routes/ (content rendered at desktop and phone widths, ${ssrCtx.desktop.__ssrStyles.length} component stylesheets inlined)`);
+if (ssrFailures.length) {
+  log("WARNING: " + ssrFailures.length + " route(s) shipped without static content:");
+  ssrFailures.forEach(function (f) { log("  " + f); });
+}
 
 log("done");

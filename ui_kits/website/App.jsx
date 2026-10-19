@@ -149,6 +149,16 @@ function App() {
   const needsGlobals = calcKinds[route] ? ["MeshCalc"]
     : route === "money-by-design" ? ["MeshBudget", "MeshBudgetPdf"] : [];
   const globalsReady = needsGlobals.every((n) => !!window[n]);
+
+  /* The build bakes a static copy of the page into #ssr so it paints before
+     any script runs. Remove it in the same frame the live app first renders
+     real content (a layout effect runs before paint), so there is no flash. */
+  const { useLayoutEffect } = React;
+  useLayoutEffect(() => {
+    if (!globalsReady) return;
+    const ssr = document.getElementById("ssr");
+    if (ssr) ssr.remove();
+  }, [globalsReady]);
   const [, bump] = useState(0);
   useEffect(() => {
     if (globalsReady) return;
