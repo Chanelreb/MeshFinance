@@ -43,9 +43,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Mesh Finance | Perth Mortgage & Finance Broker" />
 <meta name="twitter:description" content="Mesh Finance is a Perth mortgage and finance broker helping with home loans, refinancing, investment, asset finance and debt consolidation." />
 <meta name="twitter:image" content="https://meshfinance.com.au/assets/hero-home.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" href="../../styles.css" />
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<!-- Homepage hero: preloaded so the browser fetches it before the app renders
+     (build.js strips these from every other route). -->
+<link rel="preload" as="image" href="/assets/hero-home-v2.webp" media="(min-width: 861px)" data-home-only />
+<link rel="preload" as="image" href="/assets/hero-home-mobile-v2.webp" media="(max-width: 860px)" data-home-only />
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script type="text/babel" src="../../_ds_bundle.local.jsx"></script>
 <style>
@@ -101,14 +106,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div id="root"></div>
+<!-- Scripts are deferred: the HTML parses and paints first, then everything runs in
+     order. calculator-engine.js, budget-engine.js and budget-pdf.js are no longer
+     loaded here; App.jsx fetches them on demand for the calculator and Money by
+     Design routes (see MESH_LAZY_SCRIPTS). -->
+<script defer src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script type="text/babel" src="icons.jsx"></script>
-<script src="content-data.js"></script>
-<script src="seo-data.js"></script>
-<script src="responsive.js"></script>
-<script src="forms.js"></script>
-<script src="calculator-engine.js"></script>
-<script src="budget-engine.js"></script>
-<script src="budget-pdf.js"></script>
+<script defer src="content-data.js"></script>
+<script defer src="seo-data.js"></script>
+<script defer src="responsive.js"></script>
+<script defer src="forms.js"></script>
 <script type="text/babel" src="Header.jsx"></script>
 <script type="text/babel" src="Footer.jsx"></script>
 <script type="text/babel" src="LenderStrip.jsx"></script>

@@ -133,7 +133,7 @@ function FamilyFinanceCheckScreen({ onNav }) {
       <section style={s.hero}>
         <div style={s.logoBar}>
           <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
-            <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+            <img src="../../assets/mesh-logo-v2.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
           </a>
           <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
         </div>
@@ -372,7 +372,7 @@ const s = {
   logoBarEmail: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:14.5, color:"var(--navy-700)",
     textDecoration:"none", wordBreak:"break-all" },
 
-  hero: { background:"linear-gradient(rgba(234,244,252,0.72), rgba(234,244,252,0.82)), url(../../assets/officebackground.jpeg) 62% 38%/130% no-repeat" },
+  hero: { background:"linear-gradient(rgba(234,244,252,0.72), rgba(234,244,252,0.82)), url(../../assets/officebackground-v2.webp) 62% 38%/130% no-repeat" },
   heroTop: { maxWidth:720, margin:"0 auto", padding:"36px 28px 10px",
     display:"flex", flexDirection:"column", gap:14, alignItems:"center", textAlign:"center" },
   heroStack: { maxWidth:640, margin:"0 auto", padding:"8px 28px 52px",
@@ -535,7 +535,7 @@ function FFCBookingScreen({ onNav }) {
       <section style={s.hero}>
         <div style={s.logoBar}>
           <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={s.logoLink} aria-label="Mesh Finance home">
-            <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+            <img src="../../assets/mesh-logo-v2.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
           </a>
           <a href="mailto:hello@meshfinance.com.au" style={s.logoBarEmail}>hello@meshfinance.com.au</a>
         </div>
@@ -575,7 +575,7 @@ function FFCThankYouScreen({ onNav }) {
   return (
     <div style={ty.wrap}>
       <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={ty.logoLink} aria-label="Mesh Finance home">
-        <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:36, display:"block"}}/>
+        <img src="../../assets/mesh-logo-v2.png" alt="Mesh Finance" style={{height:36, display:"block"}}/>
       </a>
       <div style={ty.card}>
         <div style={ty.tick} aria-hidden="true">✓</div>

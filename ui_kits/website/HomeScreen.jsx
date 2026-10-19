@@ -38,7 +38,7 @@ function HomeScreen({ onNav }) {
   return (
     <div>
       {/* HERO */}
-      <section style={h.hero}>
+      <section style={{...h.hero, ...(isMobile ? h.heroMobile : {})}}>
         <div style={h.heroOverlay}/>
         <div style={{...h.heroInner, ...(isMobile ? h.heroInnerMobile : {})}}>
           <div style={h.heroCopy}>
@@ -217,7 +217,9 @@ function GoogleReviews() {
 }
 
 const h = {
-  hero: { position:"relative", background:"url(../../assets/hero-home.jpg) center/cover no-repeat" },
+  /* WebP at two sizes (preloaded from index.html); the original JPEG stays for og:image. */
+  hero: { position:"relative", background:"url(../../assets/hero-home-v2.webp) center/cover no-repeat" },
+  heroMobile: { background:"url(../../assets/hero-home-mobile-v2.webp) center/cover no-repeat" },
   reviewsBand: { background:"#fff", borderBottom:"1px solid var(--border-subtle)" },
   reviewsInner: { maxWidth:"var(--container-max)", margin:"0 auto", padding:"24px 28px" },
   heroOverlay: { position:"absolute", inset:0,

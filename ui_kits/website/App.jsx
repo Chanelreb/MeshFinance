@@ -30,6 +30,33 @@ const MESH_DESCRIPTIONS = MESH_SEO.descriptions || {};
 const MESH_SITE = MESH_SEO.site || "https://meshfinance.com.au";
 const MESH_NOINDEX = MESH_SEO.noindex || [];
 
+/* Scripts that only some routes need. They are not in index.html; the App loads
+   them the first time a route that needs them is rendered (and shows a blank
+   main area for the few hundred ms it takes). Keyed by the window global each
+   file defines, so an already-present engine is never fetched twice. */
+const MESH_LAZY_SCRIPTS = {
+  MeshCalc: "calculator-engine.js",
+  MeshBudget: "budget-engine.js",
+  MeshBudgetPdf: "budget-pdf.js",
+};
+const meshLazyLoading = {};
+function meshEnsureGlobals(names) {
+  const v = (document.querySelector('meta[name="mesh-build"]') || {}).content;
+  return Promise.all(names.map((name) => {
+    if (window[name]) return Promise.resolve();
+    if (!meshLazyLoading[name]) {
+      meshLazyLoading[name] = new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = MESH_LAZY_SCRIPTS[name] + (v ? "?v=" + v : "");
+        s.onload = resolve;
+        s.onerror = () => { delete meshLazyLoading[name]; reject(new Error("Failed to load " + s.src)); };
+        document.body.appendChild(s);
+      });
+    }
+    return meshLazyLoading[name];
+  }));
+}
+
 function meshUpsertMeta(attr, key, value) {
   if (!value) return;
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -115,6 +142,21 @@ function App() {
     "booking-confirmed": window.MeshThankYouScreen,
   };
   const isArticle = !!window.MeshContent.articles[route];
+
+  /* On-demand engines: calculators need MeshCalc, Money by Design needs the
+     budget engine and its PDF export. Render nothing for that route until the
+     script has arrived (a no-op when it is already on the page). */
+  const needsGlobals = calcKinds[route] ? ["MeshCalc"]
+    : route === "money-by-design" ? ["MeshBudget", "MeshBudgetPdf"] : [];
+  const globalsReady = needsGlobals.every((n) => !!window[n]);
+  const [, bump] = useState(0);
+  useEffect(() => {
+    if (globalsReady) return;
+    let live = true;
+    meshEnsureGlobals(needsGlobals).then(() => { if (live) bump((n) => n + 1); })
+      .catch((e) => { console.error(e); if (live) bump((n) => n + 1); });
+    return () => { live = false; };
+  }, [route, globalsReady]);
   const known = route === "home" || loanSlugs.includes(route) || !!caseStudySlugs[route]
     || !!calcKinds[route] || isArticle || !!screenMap[route];
 
@@ -172,6 +214,8 @@ function App() {
   let content;
   if (!known) {
     content = <MeshNotFoundScreen onNav={onNav}/>;
+  } else if (!globalsReady) {
+    content = <div style={{ minHeight:"60vh" }} aria-busy="true"/>;
   } else if (loanSlugs.includes(route)) {
     content = <window.MeshLoanScreen onNav={onNav} slug={route}/>;
   } else if (caseStudySlugs[route]) {

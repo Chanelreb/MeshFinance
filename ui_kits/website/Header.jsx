@@ -43,7 +43,7 @@ function Header({ onNav, current }) {
     <header style={hdr.bar}>
       <div style={hdr.inner}>
         <a href="/" onClick={(e)=>{e.preventDefault();go("home");}} style={hdr.logoWrap}>
-          <img src="../../assets/mesh-logo.png" alt="Mesh Finance" style={{height:38,display:"block"}}/>
+          <img src="../../assets/mesh-logo-v2.png" alt="Mesh Finance" width="95" height="38" style={{height:38,width:"auto",display:"block"}}/>
         </a>
 
         {!isMobile && (

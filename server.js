@@ -41,19 +41,24 @@ const MIME = {
   ".webp": "image/webp",
 };
 
-function send(res, status, filePath) {
+function send(res, status, filePath, versioned) {
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.writeHead(404);
       return res.end("Not found");
     }
-    /* App code/markup changes often, so make browsers revalidate HTML/JS/CSS
-       (304 when unchanged). Static media can cache for a day. */
+    /* HTML always revalidates (304 when unchanged). Scripts and stylesheets
+       requested with the build's ?v= query (see build.js) are immutable for a
+       year, since any change produces a new URL; without it they revalidate.
+       Images and fonts use versioned filenames, so they can cache for a week. */
     const ext = path.extname(filePath).toLowerCase();
-    const revalidate = [".html", ".js", ".jsx", ".css", ".json", ".xml"].includes(ext);
+    const code = [".js", ".jsx", ".css", ".json"].includes(ext);
+    const revalidate = ext === ".html" || ext === ".xml" || (code && !versioned);
     res.writeHead(status, {
       "Content-Type": MIME[ext] || "application/octet-stream",
-      "Cache-Control": revalidate ? "no-cache" : "public, max-age=86400",
+      "Cache-Control": revalidate ? "no-cache"
+        : versioned ? "public, max-age=31536000, immutable"
+        : "public, max-age=604800",
     });
     res.end(data);
   });
@@ -71,9 +76,11 @@ function routeFromPath(urlPath) {
 }
 
 const server = http.createServer((req, res) => {
-  let urlPath;
+  let urlPath, versioned = false;
   try {
-    urlPath = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
+    const u = new URL(req.url, "http://localhost");
+    urlPath = decodeURIComponent(u.pathname);
+    versioned = u.searchParams.has("v");
   } catch {
     res.writeHead(400);
     return res.end("Bad request");
@@ -111,7 +118,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(403);
     return res.end("Forbidden");
   }
-  send(res, 200, filePath);
+  send(res, 200, filePath, versioned);
 });
 
 server.listen(PORT, () => {

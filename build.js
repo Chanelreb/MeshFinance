@@ -64,17 +64,41 @@ for (const src of babelSrcs) {
 
 /* 3. Production index.html: production React, no Babel, no per-file
  *    <script type=text/babel> tags — just the plain data scripts and app.min.js. */
+/* Cache-busting version: a hash over every local script and stylesheet the page
+ *    loads. Appended as ?v= to their URLs so server.js can serve them with a
+ *    one-year cache and any change still reaches browsers immediately. */
+const crypto = require("crypto");
+const VERSIONED = ["content-data.js", "seo-data.js", "responsive.js", "forms.js",
+  "calculator-engine.js", "budget-engine.js", "budget-pdf.js",
+  "vendor/react.production.min.js", "vendor/react-dom.production.min.js"];
+const vHash = crypto.createHash("md5");
+VERSIONED.forEach(f => vHash.update(fs.readFileSync(path.join(WEB, f))));
+vHash.update(bundle);
+["styles.css", "tokens/fonts.css", "tokens/colors.css", "tokens/typography.css", "tokens/spacing.css", "tokens/base.css"]
+  .forEach(f => vHash.update(fs.readFileSync(path.join(ROOT, f))));
+const BUILD_V = vHash.digest("hex").slice(0, 10);
+
 let outHtml = srcHtml
-  .replace("react.development.js", "react.production.min.js")
-  .replace("react-dom.development.js", "react-dom.production.min.js")
-  // strip Subresource Integrity from the React tags (hashes were for the dev files)
-  .replace(/<script\s+src="[^"]*react[^"]*"[^>]*><\/script>/g, m => m.replace(/\s+integrity="[^"]*"/, ""))
+  // self-hosted production React (no third-party origin, no render-blocking head scripts)
+  .replace(/<script defer src="https:\/\/unpkg\.com\/react@18\.3\.1\/umd\/react\.development\.js"[^>]*><\/script>/,
+    '<script defer src="vendor/react.production.min.js?v=' + BUILD_V + '"></script>')
+  .replace(/<script defer src="https:\/\/unpkg\.com\/react-dom@18\.3\.1\/umd\/react-dom\.development\.js"[^>]*><\/script>/,
+    '<script defer src="vendor/react-dom.production.min.js?v=' + BUILD_V + '"></script>')
+  // versioned URLs for the local data scripts and the stylesheet
+  .replace(/<script defer src="((?:content-data|seo-data|responsive|forms)\.js)"><\/script>/g, '<script defer src="$1?v=' + BUILD_V + '"></script>')
+  .replace('<link rel="stylesheet" href="../../styles.css" />', '<link rel="stylesheet" href="../../styles.css?v=' + BUILD_V + '" />')
+  // the app reads this to version the scripts it loads on demand
+  .replace("</head>", '<meta name="mesh-build" content="' + BUILD_V + '" />\n</head>')
   // drop the in-browser Babel compiler
   .replace(/\s*<script src="https:\/\/unpkg\.com\/@babel\/standalone[^"]*"[^>]*><\/script>/g, "")
   // drop every JSX script tag (design-system bundle, icons, screens, App)
   .replace(/\s*<script type="text\/babel"[^>]*><\/script>/g, "")
   // load the compiled bundle last, after the plain data scripts
-  .replace("</body>", '<script src="app.min.js"></script>\n</body>');
+  .replace("</body>", '<script defer src="app.min.js?v=' + BUILD_V + '"></script>\n</body>');
+
+if (/unpkg\.com\/react/.test(outHtml)) {
+  throw new Error("index.html transform left the unpkg React tags behind");
+}
 
 if (/text\/babel/.test(outHtml) || /standalone/.test(outHtml)) {
   throw new Error("index.html transform left Babel references behind");
@@ -87,7 +111,7 @@ const htmlTarget = IN_CI ? INDEX : path.join(WEB, "index.prod.html");
 fs.writeFileSync(htmlTarget, outHtml);
 
 const kb = (Buffer.byteLength(bundle) / 1024).toFixed(0);
-log(`wrote ui_kits/website/app.min.js (${kb} KB)`);
+log(`wrote ui_kits/website/app.min.js (${kb} KB), build version ${BUILD_V}`);
 log(`wrote ${path.relative(ROOT, htmlTarget)}${IN_CI ? " (in place)" : " (dev index.html left untouched)"}`);
 
 /* 5. Prerender per-route HTML. Non-JS crawlers and social scrapers (Facebook,
@@ -163,6 +187,7 @@ function applyMeta(html, route) {
   const title = esc(m.title);
   const desc = esc(m.desc);
   let out = html
+    .replace(/[ \t]*<link rel="preload"[^>]*data-home-only[^>]*\/>\r?\n/g, "")
     .replace(/<title>[\s\S]*?<\/title>/, "<title>" + title + "</title>")
     .replace(/(<meta name="description"[^>]*\scontent=")[^"]*(")/, "$1" + desc + "$2")
     .replace(/(<link rel="canonical" href=")[^"]*(")/, "$1" + url + "$2")
@@ -205,6 +230,7 @@ routeSet.forEach(function (route) {
 });
 
 const notFound = outHtml
+  .replace(/[ \t]*<link rel="preload"[^>]*data-home-only[^>]*\/>\r?\n/g, "")
   .replace(/<title>[\s\S]*?<\/title>/, "<title>Page not found | Mesh Finance</title>")
   .replace("</head>", '<meta name="robots" content="noindex, nofollow" />\n</head>');
 fs.writeFileSync(path.join(ROUTES_DIR, "404.html"), notFound);
