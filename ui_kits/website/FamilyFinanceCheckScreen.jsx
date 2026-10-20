@@ -562,46 +562,144 @@ const bk = {
     lineHeight: 1.5, color: "var(--text-subtle)", textAlign: "center" },
 };
 
-/* Thank-you page shown after a Family Finance Check booking is confirmed. */
+/* Thank-you page shown after a Family Finance Check booking is confirmed (Marketli
+   should redirect here after the booking is made). Confirms the booking, sets
+   expectations for the review, makes the case for using a broker, and shows
+   Google reviews. Fires the Meta "Schedule" event; the Lead already fired on
+   the booking page. */
+const FFC_THANKS = {
+  h1: "You're booked in. Thank you!",
+  sub: "Your Family Finance Check is confirmed. A calendar invite is on its way to your inbox, with a reminder before we chat.",
+  next: {
+    h: "What happens next",
+    steps: [
+      { t: "Check your inbox", b: "Your calendar invite has the time and the meeting details. If you need to change it, just reply to that email." },
+      { t: "Have these handy if you can", b: "A rough idea of what you owe and to whom: your home loan, cards, car loan, Afterpay or personal loans, or just your banking app. If you don't have it all handy, don't stress. We can work from what you know." },
+      { t: "Your check", b: "A casual chat, nothing formal. We find out where you're at, what's feeling tight each month, and whether bringing things together could actually help. It's also a chance for both of us to see if we're a good fit." },
+    ],
+  },
+  benefits: {
+    h: "Why Perth homeowners use a broker",
+    lead: "A broker works for you, not for a bank. Here's what that means in practice.",
+    items: [
+      { t: "A long-term partnership, not a one-off", b: "Once you're part of the Mesh family, we're with you for the long haul. A heads-up before your fixed rate ends. A plan when you want to renovate, upgrade or buy an investment. A quick answer when you have a question years after settlement. And when your kids are ready for their first home, we're here for them too." },
+      { t: "The right structure, not just the rate", b: "Offset, redraw, fixed and variable splits. We explain what each one means for you, so you can make an informed decision and end up with a loan that suits the way you actually live." },
+      { t: "We check your rate every 3 to 6 months", b: "Your loan isn't set and forget. We review your rate regularly and go back to your lender to negotiate a better deal, so you don't have to." },
+      { t: "40+ lenders and products, one conversation", b: "We compare your loan against a panel of 40+ lenders and their products, not just the one you happen to be with." },
+      { t: "We do the paperwork", b: "Application, discharge and settlement. We manage the switch end to end and keep you updated along the way." },
+      { t: "A real person who knows your loan", b: "One broker from start to finish. Call or message Chanel directly whenever something changes." },
+    ],
+  },
+  reviewsH: "What our clients say",
+  reviewsLead: "Real reviews from Perth families and homeowners we've helped.",
+};
+
 function FFCThankYouScreen({ onNav }) {
   React.useEffect(() => { window.MeshMetaEvent && window.MeshMetaEvent("Schedule", { content_name: "Family Finance Check" }); }, []);
+  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
   /* If Marketli redirects here inside its booking iframe, take over the whole window. */
   React.useEffect(() => { if (window.top !== window.self) { try { window.top.location.href = window.location.href; } catch (e) {} } }, []);
-  const { Button } = window.MeshFinanceDesignSystem_5c98d0;
-  const { ArrowRight } = window.MeshIcons;
-  /* Both the Google Ads and Meta conversions now fire earlier — on the booking
-     page, when the contact form is completed — so neither is fired here, to
-     avoid double-counting anyone who goes on to book. */
+  const { ArrowRight, Refi, Star, Building, Check, Shield, Users } = window.MeshIcons;
+  const isMobile = window.useIsMobile();
+  const icons = [Star, Shield, Refi, Building, Check, Users];
+  const fs = s;
   return (
-    <div style={ty.wrap}>
-      <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={ty.logoLink} aria-label="Mesh Finance home">
-        <img src="../../assets/mesh-logo-v2.png" alt="Mesh Finance" style={{height:36, display:"block"}}/>
-      </a>
-      <div style={ty.card}>
-        <div style={ty.tick} aria-hidden="true">✓</div>
-        <h1 style={ty.h1}>You're booked in. Thank you!</h1>
-        <p style={ty.lead}>Your Family Finance Check is confirmed. Keep an eye on your inbox for a calendar invite with all the details, plus a reminder before we chat.</p>
-        <p style={ty.sub}>Looking forward to helping you find a calmer, more manageable way forward.</p>
-        <div style={ty.sign}>Chanel Rebello, Mesh Finance</div>
-        <Button size="lg" onClick={()=>onNav("home")} iconRight={<ArrowRight width={18} height={18}/>}>Explore Mesh Finance</Button>
-      </div>
+    <div>
+
+      {/* CONFIRMATION + WHAT HAPPENS NEXT */}
+      <section style={fs.hero}>
+        <div style={fs.logoBar}>
+          <a href="/" onClick={(e)=>{e.preventDefault();onNav("home");}} style={fs.logoLink} aria-label="Mesh Finance home">
+            <img src="../../assets/mesh-logo-v2.png" alt="Mesh Finance" style={{height:34, display:"block"}}/>
+          </a>
+          <a href="mailto:hello@meshfinance.com.au" style={fs.logoBarEmail}>hello@meshfinance.com.au</a>
+        </div>
+          <div style={fs.heroTop}>
+          <div style={ty.tick} aria-hidden="true">✓</div>
+          <h1 style={fs.h1}>{FFC_THANKS.h1}</h1>
+          <p style={fs.heroSubhead}>{FFC_THANKS.sub}</p>
+        </div>
+        <div style={ty.nextWrap}>
+          <div style={ty.nextCard}>
+            <h2 style={ty.nextH}>{FFC_THANKS.next.h}</h2>
+            <ol style={ty.nextList}>
+              {FFC_THANKS.next.steps.map((st,i)=>(
+                <li key={i} style={ty.nextItem}>
+                  <span style={{...fs.stepNum, flex:"none", margin:0}}>{i+1}</span>
+                  <div>
+                    <div style={ty.nextT}>{st.t}</div>
+                    <div style={ty.nextB}>{st.b}</div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ACCREDITED LENDERS */}
+      <window.MeshLenderStrip/>
+
+      {/* WHY USE A BROKER */}
+      <section style={fs.bodyWhite}>
+        <div style={fs.wide}>
+          <h2 style={{...fs.h2, marginBottom:10}}>{FFC_THANKS.benefits.h}</h2>
+          <p style={{...fs.p, marginBottom:30}}>{FFC_THANKS.benefits.lead}</p>
+          <div style={{...ty.benefitGrid, ...(isMobile ? fs.grid1 : {})}}>
+            {FFC_THANKS.benefits.items.map((it,i)=>{
+              const Icon = icons[i % icons.length];
+              return (
+                <div key={i} style={ty.benefitCard}>
+                  <span style={ty.benefitIcon}><Icon width={22} height={22}/></span>
+                  <h3 style={ty.benefitT}>{it.t}</h3>
+                  <p style={fs.cardBody}>{it.b}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* GOOGLE REVIEWS */}
+      <section style={fs.bodyTint}>
+        <div style={fs.wide}>
+          <h2 style={{...fs.h2, marginBottom:10}}>{FFC_THANKS.reviewsH}</h2>
+          <p style={{...fs.p, marginBottom:24}}>{FFC_THANKS.reviewsLead}</p>
+          <GoogleReviews/>
+        </div>
+      </section>
+
+      {/* SIGN-OFF */}
+      <section style={fs.bodyWhite}>
+        <div style={{...fs.narrow, textAlign:"center"}}>
+          <p style={{...fs.p, fontWeight:600, color:"var(--navy-700)"}}>Looking forward to helping you find a calmer, more manageable way forward.</p>
+          <p style={ty.sign}>Chanel Rebello, Mesh Finance</p>
+          <Button size="lg" onClick={()=>onNav("home")} iconRight={<ArrowRight width={18} height={18}/>}>Explore Mesh Finance</Button>
+          <p style={{...fs.compliance, marginTop:36}}>{FFC.compliance}</p>
+        </div>
+      </section>
     </div>
   );
 }
 Object.assign(window, { MeshFFCThankYouScreen: FFCThankYouScreen });
 
 const ty = {
-  wrap: { minHeight:"100vh", background:"var(--blue-50)", display:"flex", flexDirection:"column",
-    alignItems:"center", padding:"28px 20px 60px" },
-  logoLink: { display:"inline-flex", alignItems:"center", alignSelf:"flex-start", maxWidth:"var(--container-max)",
-    width:"100%", margin:"0 auto 40px" },
-  card: { background:"#fff", borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-md)", maxWidth:560,
-    width:"100%", margin:"auto", padding:"44px 40px", textAlign:"center",
-    display:"flex", flexDirection:"column", alignItems:"center", gap:0 },
   tick: { width:64, height:64, borderRadius:"50%", background:"var(--color-success)", color:"#fff", fontSize:32,
-    display:"flex", alignItems:"center", justifyContent:"center", marginBottom:20 },
-  h1: { fontSize:30, lineHeight:1.2, margin:"0 0 12px", color:"var(--navy-700)", letterSpacing:"-.02em" },
-  lead: { fontSize:16.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 12px" },
-  sub: { fontSize:15.5, lineHeight:1.6, color:"var(--text-body)", margin:"0 0 6px" },
-  sign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"0 0 24px" },
+    display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 4px", boxShadow:"var(--shadow-md)" },
+  nextWrap: { maxWidth:720, margin:"0 auto", padding:"14px 28px 52px" },
+  nextCard: { background:"#fff", borderRadius:"var(--radius-lg)", boxShadow:"var(--shadow-lg)", padding:"26px 28px" },
+  nextH: { fontFamily:"var(--font-display)", fontSize:21, color:"var(--navy-700)", margin:"0 0 18px", fontWeight:700 },
+  nextList: { listStyle:"none", margin:0, padding:0, display:"grid", gap:18 },
+  nextItem: { display:"flex", gap:14, alignItems:"flex-start" },
+  nextT: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:16, color:"var(--navy-700)", marginBottom:4 },
+  nextB: { fontSize:15, lineHeight:1.6, color:"var(--text-body)" },
+
+  benefitGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:18 },
+  benefitCard: { padding:"26px 24px", background:"#fff", borderRadius:"var(--radius-lg)", border:"1px solid var(--border-subtle)",
+    boxShadow:"var(--shadow-sm)" },
+  benefitIcon: { width:42, height:42, borderRadius:"var(--radius-md)", background:"var(--color-primary-soft)", color:"var(--color-primary)",
+    display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14 },
+  benefitT: { fontFamily:"var(--font-display)", fontSize:16.5, color:"var(--navy-700)", margin:"0 0 8px", fontWeight:700 },
+
+  sign: { fontFamily:"var(--font-display)", fontWeight:700, fontSize:15, color:"var(--navy-700)", margin:"0 0 22px", textAlign:"center" },
 };
