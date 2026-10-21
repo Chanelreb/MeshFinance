@@ -118,6 +118,40 @@ if (/unpkg\.com\/react/.test(outHtml)) {
   throw new Error("index.html transform left the unpkg React tags behind");
 }
 
+/* 3b. Script scheduling. Lighthouse showed the hero's Largest Contentful Paint
+ *    waiting ~3 s behind script execution on a slow phone: deferred scripts run
+ *    as soon as they arrive, and on a throttled CPU that is several seconds of
+ *    long tasks during which the already-loaded hero cannot be painted. The
+ *    production page therefore loads the app scripts from a small bootloader
+ *    that waits until the browser has reported its first contentful paint (the
+ *    Paint Timing API), the hero image is decoded and the fonts are ready, all
+ *    capped at 3 s, lets one more frame through, then injects the scripts in
+ *    order. On a fast connection that keeps the first paint ahead of script
+ *    work, which is what Lighthouse's simulation attributes LCP to. Google
+ *    Tag Manager and the Google tag are loaded after the app, so tracking no
+ *    longer competes with the page for bandwidth and main-thread time. The
+ *    dataLayer and gtag() queue stay inline, so nothing is lost. */
+const bootSrcs = [];
+outHtml = outHtml.replace(/[ \t]*<script defer src="([^"]+)"><\/script>\r?\n?/g, (m, src) => { bootSrcs.push(src); return ""; });
+if (bootSrcs.length < 5) throw new Error("bootloader: expected the deferred app scripts, found " + bootSrcs.length);
+outHtml = outHtml
+  .replace(/<script>\(function\(w,d,s,l,i\)\{w\[l\]=w\[l\]\|\|\[\];[\s\S]*?\}\)\(window,document,'script','dataLayer','GTM-MXZSGZDP'\);<\/script>/,
+    (m) => "<script>window.__meshLoadTags=function(){" + m.slice("<script>".length, -"</script>".length)
+      + "var g=document.createElement('script');g.async=true;g.src='https://www.googletagmanager.com/gtag/js?id=AW-18158180693';document.head.appendChild(g);};</script>")
+  .replace(/[ \t]*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=AW-18158180693"><\/script>\r?\n?/, "");
+if (!/__meshLoadTags/.test(outHtml)) throw new Error("bootloader: GTM snippet not found");
+const bootloader = "<script>(function(){var S=" + JSON.stringify(bootSrcs) + ";"
+  + "function run(){var i=0;(function next(){if(i>=S.length){if(window.__meshLoadTags)setTimeout(window.__meshLoadTags,0);return;}"
+  + "var s=document.createElement('script');s.src=S[i++];s.async=false;s.onload=next;s.onerror=next;document.body.appendChild(s);})();}"
+  + "var started=false;function go(){if(started)return;started=true;requestAnimationFrame(function(){setTimeout(run,50);});}"
+  + "var waits=[];try{var links=document.querySelectorAll('link[rel=\"preload\"][as=\"image\"]');"
+  + "for(var k=0;k<links.length;k++){var l=links[k];if(!l.media||(window.matchMedia&&window.matchMedia(l.media).matches)){var im=new Image();im.src=l.href;waits.push(im.decode?im.decode():new Promise(function(r){im.onload=r;im.onerror=r;}));break;}}"
+  + "if(document.fonts&&document.fonts.ready)waits.push(document.fonts.ready);}catch(e){}"
+  + "try{waits.push(new Promise(function(r){var po=new PerformanceObserver(function(l){if(l.getEntries().some(function(e){return e.name==='first-contentful-paint';})){po.disconnect();r();}});po.observe({type:'paint',buffered:true});}));}catch(e){}"
+  + "Promise.all(waits.map(function(w){return w.catch(function(){});})).then(go,go);setTimeout(go,3000);"
+  + "})();</script>";
+outHtml = outHtml.replace("</body>", bootloader + "\n</body>");
+
 if (/text\/babel/.test(outHtml) || /standalone/.test(outHtml)) {
   throw new Error("index.html transform left Babel references behind");
 }
@@ -237,7 +271,10 @@ function ssrBlock(route) {
   try {
     const d = renderVariant(ssrCtx.desktop, route);
     const m = renderVariant(ssrCtx.mobile, route);
-    return '<div id="ssr"><div class="ssr-desktop">' + d + '</div><div class="ssr-mobile">' + m + "</div></div>\n";
+    return '<div id="ssr"><div class="ssr-mobile">' + m + '</div>'
+      + '<template id="ssr-desktop-tpl"><div class="ssr-desktop">' + d + '</div></template>'
+      + "<script>(function(){try{if(!window.matchMedia('(max-width: 860px)').matches){var s=document.getElementById('ssr'),t=document.getElementById('ssr-desktop-tpl'),m=s.querySelector('.ssr-mobile');if(t&&m){s.replaceChild(t.content.firstElementChild,m);}}var t2=document.getElementById('ssr-desktop-tpl');if(t2)t2.remove();}catch(e){}})();</script>"
+      + "</div>\n";
   } catch (e) {
     ssrFailures.push(route + ": " + (e && e.message ? e.message.split("\n")[0] : e));
     return "";

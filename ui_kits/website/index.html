@@ -59,8 +59,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Build-time rendered page content (see build.js): the phone or desktop
      copy shows according to the same 860px breakpoint the app uses in JS,
      until the live app mounts and removes #ssr. */
-  .ssr-mobile { display: none; }
-  @media (max-width: 860px) { .ssr-desktop { display: none; } .ssr-mobile { display: block; } }
+  /* Only one baked copy is in the live DOM at a time: the build swaps in the
+     desktop copy on wide screens before first paint. */
   * { box-sizing: border-box; }
   img { max-width: 100%; }
 </style>
