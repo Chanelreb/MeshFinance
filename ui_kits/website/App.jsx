@@ -258,4 +258,31 @@ const MESH_BARE_ROUTES = ["family-finance-check", "ffc-thank-you", "family-finan
   "first-home-buyer-plan", "fhb-thank-you", "first-home-buyer-plan-booking",
   "home-loan-review", "hlr-thank-you", "home-loan-review-booking"];
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+/* Mount. The build bakes a rendered copy of the page into #ssr (a desktop and
+   a phone variant). When the live app can render the same tree straight away,
+   React adopts (hydrates) the matching copy rather than drawing a second one,
+   so the browser's first paint of the hero stays the one that counts for
+   Largest Contentful Paint. Routes that must wait for an on-demand engine, and
+   pages without a baked copy, mount into #root as before and the static copy
+   is removed on first render (see the layout effect in App). */
+(function mountMeshApp() {
+  const rootEl = document.getElementById("root");
+  const ssr = document.getElementById("ssr");
+  const route = meshRouteFromLocation();
+  const needsEngine = /^calc-/.test(route) || ["stamp-duty-calculator", "equity-calculator", "money-by-design"].includes(route);
+  const wantMobile = window.innerWidth <= 860;
+  const copy = ssr && ssr.querySelector(wantMobile ? ".ssr-mobile" : ".ssr-desktop");
+  if (copy && copy.firstElementChild && !needsEngine && ReactDOM.hydrateRoot) {
+    const other = ssr.querySelector(wantMobile ? ".ssr-desktop" : ".ssr-mobile");
+    if (other) other.remove();
+    ssr.id = "ssr-live";
+    if (rootEl) rootEl.remove();
+    copy.removeAttribute("class");
+    copy.id = "root";
+    ReactDOM.hydrateRoot(copy, <App/>, {
+      onRecoverableError: (err) => { console.warn("Mesh: hydration fell back to a client render on /" + route, err && err.message); },
+    });
+    return;
+  }
+  ReactDOM.createRoot(rootEl).render(<App/>);
+})();
