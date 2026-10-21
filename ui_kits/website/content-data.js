@@ -599,7 +599,7 @@ window.MeshContent = {
     "refinance-home-loans": {
       eyebrow: "Financial Toolkit",
       title: "Refinance Your Home Loan in Perth",
-      metaTitle: "Refinance Home Loans Perth | Home Loan Refinancing | Mesh Finance",
+      metaTitle: "Refinance Your Home Loan in Perth | Mesh Finance",
       metaDescription: "Thinking about refinancing your home loan? Mesh Finance compares refinance options across a wide panel of lenders in Perth, for a sharper rate, to access equity or to consolidate debt. Our service is free.",
       imgAlt: "Perth homeowner at her kitchen bench reviewing her home loan on a laptop",
       /* Hero photo as the section background (see LoanScreen). Pre-built as a 3:1
@@ -850,12 +850,12 @@ window.MeshContent = {
 
     "debt-consolidation-loans": {
       eyebrow: "Financial Toolkit",
-      title: "Debt Consolidation Loans in Perth",
-      metaTitle: "Debt Consolidation Loans Perth | Mesh Finance",
+      title: "Debt Consolidation Home Loans in Perth",
+      metaTitle: "Debt Consolidation Home Loan Perth | Mesh Finance",
       metaDescription: "Roll credit cards, personal loans and other debts into one repayment. Mesh Finance are Perth brokers who compare debt consolidation loans across lenders, judgement-free.",
       imgAlt: "A fan of credit cards resting on a laptop keyboard",
       hero: { image: "hero-bad-credit.jpg", pos: "right 50%", posMobile: "55% 50%" },
-      intro: "Managing multiple debts is costly and stressful. Mesh Finance helps Perth borrowers combine outstanding balances into one simplified loan, making it easier to track and manage your finances, and often cheaper too.",
+      intro: "Managing multiple debts is costly and stressful. Mesh Finance helps Perth borrowers combine credit cards, personal loans and other balances into one simplified repayment, often through a debt consolidation home loan, making your finances easier to manage and often cheaper too.",
       blocks: [
         { h: "Streamlined Debt Consolidation", body: "A single monthly repayment at a potentially lower interest rate can make a world of difference in keeping your finances under control." },
         { h: "What We Help Consolidate", list: [
@@ -2522,6 +2522,7 @@ window.MeshContent = {
         { h: "What Costs Are Not Covered?", list: ["Stamp duty (if applicable).", "Settlement and conveyancing costs.", "Building and pest inspections.", "Valuation fees.", "Mortgage registration fees.", "Home and building insurance.", "Any other purchase-related expenses."] },
         { h: "Important Things to Know", body: "The Help to Buy Scheme has a limited number of places available each year. Applicants cannot participate in multiple government shared equity schemes simultaneously. Before making offers on properties or attending auctions, buyers should obtain both lender and scheme approval." },
         { h: "Is Help to Buy Right for You?", body: "The Help to Buy Scheme can be an excellent solution for buyers who have a stable income but are struggling to save a traditional deposit. However, because the Government shares in future property value growth, it's important to understand both the benefits and long-term implications before proceeding." },
+        { body: [["Not sure which scheme fits? Our ", { t: "first home buyer guide for WA", to: "first-home-buyers" }, " compares the options, and the ", { t: "maximum purchase price calculator", to: "calc-max-purchase-price" }, " shows what you could afford under each."]] },
       ],
       closing: "Ready to Find Out If You Qualify? Contact the Mesh Finance team today, we'll assess your situation, explain your options, and help you determine the most suitable path into home ownership.",
     },
@@ -3174,6 +3175,7 @@ window.MeshContent = {
           "Have recently completed, or are working through, a Small Business Restructure.",
           "Need flexible income verification options because your financials are not straightforward.",
         ]},
+        { body: [["See how we help on our ", { t: "ATO debt loans page", to: "ato-debt" }, ", or ", { t: "book a confidential chat", to: "contact" }, " whenever you're ready."]] },
       ],
       closing: ["If cash flow is the bigger picture, our guide to ", { t: "small business cash flow finance", to: "small-business-cash-flow-finance-ato-tax-debt" }, " covers the options. Or get in touch with Mesh Finance for a confidential, no-obligation chat about your ATO debt options."],
     },
@@ -3188,6 +3190,7 @@ window.MeshContent = {
         { h: "Why first home buyers consider a guarantor loan", list: ["Buy sooner, rather than waiting years to save a larger deposit.", "Avoid Lender's Mortgage Insurance, saving thousands of dollars.", "Keep more of your own savings for moving costs, furniture or an emergency buffer.", "Access a loan structure that wouldn't otherwise be available with your current deposit."] },
         { h: "What are the risks?", body: "If the borrower can't meet loan repayments, the lender may seek repayment from the guarantor for the guaranteed portion. It may also affect the guarantor's future borrowing capacity. It's important the guarantee is limited where possible, and guarantors should get independent legal advice." },
         { h: "Can the guarantee be removed later?", body: "Yes, in many cases, once there's enough equity in the property (from loan reduction, value growth, or both), the borrower may refinance or ask the lender to reassess and release the guarantor, subject to approval." },
+        { body: [["Read more about ", { t: "family guarantee home loans", to: "family-guarantee" }, ", see our ", { t: "first home buyer guide", to: "first-home-buyers" }, ", or check your ", { t: "borrowing power", to: "calc-borrowing-power" }, " before you talk to your parents."]] },
       ],
       closing: "A family security guarantee can be a helpful way to enter the property market sooner, but it needs to be set up carefully. Get in touch with Mesh Finance for a no-obligation chat.",
     },
@@ -3216,6 +3219,7 @@ window.MeshContent = {
           "Work with a broker early, not every bank participates in the scheme.",
           "Plan your timing, applications need to be lodged after 1 October 2025 to use the higher cap.",
         ]},
+        { body: [["Start with our ", { t: "first home buyer guide for WA", to: "first-home-buyers" }, ". If you're building, see ", { t: "construction home loans", to: "construction-home-loans" }, ", and use the ", { t: "stamp duty calculator", to: "stamp-duty-calculator" }, " to see what you would pay."]] },
       ],
       closing: "For Perth buyers, these changes to the Home Guarantee Scheme are a game-changer. If you've been holding off because prices were too high, this may be the perfect time to revisit your buying plans.",
     },
@@ -3238,6 +3242,7 @@ window.MeshContent = {
           "❌ May delay legitimate credit applications, you'll need to lift the ban before a lender can assess a new application.",
         ]},
         { h: "Tips to Stay Protected", list: ["Monitor your credit report regularly with all agencies.", "Use ID protection tools that alert you to data breaches.", "Report fraud quickly, file a police report and notify your bank immediately."] },
+        { body: [["Our ", { t: "guide to your credit file", to: "my-credit-file" }, " explains how to read your report, and if past issues are holding you back, see ", { t: "bad credit home loans", to: "bad-credit-home-loans" }, "."]] },
       ],
       closing: "Placing a credit ban is free, quick, and one of the most effective steps you can take to protect yourself from identity theft. If your situation changes, you can easily remove the ban online.",
     },

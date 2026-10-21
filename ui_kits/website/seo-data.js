@@ -21,10 +21,10 @@
     /* Titles for screens that don't set their own (LoanScreen and
        CaseStudyScreen manage their own titles from content-data.js). */
     titles: {
-      "home": "Mesh Finance | Perth Mortgage & Finance Broker",
+      "home": "Mortgage Broker Perth | Home Loans & Refinancing | Mesh Finance",
       "financial-toolkit": "Financial Toolkit | Mesh Finance",
       "who-we-help": "Who We Help | Mesh Finance",
-      "first-home-buyers": "WA First Home Buyers | Mesh Finance",
+      "first-home-buyers": "First Home Buyer WA | Grants, Schemes & Pre-Approval | Mesh Finance",
       "family-guarantee": "Family Guarantee Home Loans | Mesh Finance",
       "ato-debt": "ATO Debt Loans | Mesh Finance",
       "calculator-hub": "Calculator Hub | Mesh Finance",
@@ -69,7 +69,7 @@
       "buy-first-home-perth-5-percent-deposit": "Buying a First Home in Perth With a 5% Deposit | 2026 Guide",
       "help-to-buy-wa": "Help to Buy WA: Buy With a 2% Deposit | Mesh Finance",
       "mortgage-broker-market-share-australia-2026": "Mortgage Brokers Now Arrange 81.6% of Australian Home Loans",
-      "upgrade-home-perth": "Is Now a Good Time to Upgrade Your Home in Perth?",
+      "upgrade-home-perth": "Buying and Selling a House in Perth: Is Now the Time to Upgrade? | Mesh Finance",
       "ai-home-loan-advice-australia": "Can AI Help With Your Home Loan? What It Can and Can't Tell You",
       "christmas-budget-tips-perth": "Christmas Budget Tips for Perth Families | Get Ready Early",
       "refinance-home-loan-perth-rate-rise-2026": "Refinance Home Loan Perth: What the Latest Rate Rise Means",
@@ -85,7 +85,7 @@
 
     /* Per-page meta descriptions. Routes without an entry keep the default. */
     descriptions: {
-      "home": "Mesh Finance is a Perth mortgage and finance broker helping with home loans, refinancing, investment, first home buyers, asset finance and debt consolidation.",
+      "home": "Mesh Finance is a Perth mortgage broker helping with home loans, refinancing, first home buyers, investment property, debt consolidation and asset finance. Free, no-obligation chat.",
       "financial-toolkit": "Explore the finance we arrange at Mesh Finance — home, investment, first home buyer, bad credit, car, personal and debt consolidation loans across Perth.",
       "who-we-help": "See how Mesh Finance helps Perth clients — first home buyers, refinancers, investors, families consolidating debt and borrowers after a bank says no.",
       "about-us": "Meet the Mesh Finance team — founder and finance broker Chanel Rebello, mortgage analyst Jason Varischetti and mortgage broker assistant Kerwin Tansio.",
@@ -98,7 +98,7 @@
       "home-loans": "Home loans made simple with Mesh Finance. We compare 40+ lenders to find a competitive home loan structured around your goals, across Perth and WA.",
       "refinance-home-loans": "Refinance your home loan with Mesh Finance, Perth mortgage brokers. We compare refinancing options across a wide panel of lenders for a sharper rate, to access equity or to consolidate debt.",
       "construction-home-loans": "Building a new home in Perth? Mesh Finance compares construction home loans across a wide panel of lenders, from land and construction to progress payments. Our service is free.",
-      "first-home-buyers": "First home buyer help in WA. Mesh Finance guides you through grants, schemes, deposits and pre-approval so you can buy your first home with confidence.",
+      "first-home-buyers": "First home buyer in WA? Mesh Finance, Perth mortgage brokers, guide you through the First Home Owner Grant, the 5% Deposit Scheme, stamp duty concessions and pre-approval so you can buy with confidence.",
       "ato-debt": "ATO tax debt loans through Mesh Finance. Consolidate ATO, private and solicitor debt into a manageable solution and get your finances back on track.",
       "family-finance-check": "Feeling stretched by credit cards, Afterpay, car loans and home loan repayments? Book a Family Finance Check with Mesh Finance and review your debt consolidation options.",
       "first-home-buyer-plan": "Buying your first home in Perth? Book a free First Home Buyer Plan with Mesh Finance: your borrowing power, the deposit you need, the 5% scheme, grants and stamp duty, explained clearly.",
@@ -109,7 +109,7 @@
       "personal-loans": "Personal loans arranged by Mesh Finance for cars, renovations, travel or consolidating debt. Compare competitive rates and flexible terms across Perth.",
       "car-loans": "Car and vehicle finance with Mesh Finance. Compare lenders for competitive rates on new or used cars, novated leases and business vehicles in Perth.",
       "leisure-loans": "Leisure and lifestyle finance from Mesh Finance — caravans, boats, motorbikes and camper trailers. Compare lenders for a loan that suits your budget.",
-      "debt-consolidation-loans": "Debt consolidation loans with Mesh Finance. Roll credit cards, personal loans and other debts into one manageable repayment and take back control of your budget.",
+      "debt-consolidation-loans": "Debt consolidation home loans with Mesh Finance, Perth mortgage brokers. Roll credit cards, personal loans and other debts into one manageable repayment and take back control of your budget.",
       "knowledge-centre": "The Mesh Finance Knowledge Centre — guides, tools and articles on home loans, refinancing, credit and property to help you make informed decisions.",
       "helpful-articles": "Helpful articles from Mesh Finance on home loans, first home buyer schemes, refinancing, credit files and property across Perth and Western Australia.",
       "my-credit-file": "Learn how to check your credit report and score in Australia for free, understand what affects them and how to fix errors, with Mesh Finance.",
@@ -141,7 +141,7 @@
       "buy-first-home-perth-5-percent-deposit": "Can you buy a first home in Perth with a 5% deposit? Learn how the Australian Government 5% Deposit Scheme works, who may qualify and how much you need.",
       "help-to-buy-wa": "The Australian Government's Help to Buy shared equity scheme has arrived in WA. Mesh Finance explains how you may buy with as little as a 2% deposit.",
       "mortgage-broker-market-share-australia-2026": "Mortgage brokers now facilitate 81.6% of new Australian home loans. Find out why more borrowers are choosing a mortgage broker and what to look for when comparing home loans.",
-      "upgrade-home-perth": "Thinking about upgrading your home in Perth? See what changing market conditions could mean for selling, buying, finance and your next move.",
+      "upgrade-home-perth": "Buying and selling a house in Perth to upgrade? See what changing market conditions mean for your sale, your next purchase, your finance, and whether to sell first or buy first.",
       "ai-home-loan-advice-australia": "AI can help you research home loans, but it cannot always see lender policy or how it applies to you. Here's why a mortgage broker still matters.",
       "christmas-budget-tips-perth": "Only 10 weekends until Christmas. Simple budgeting tips for Perth families, including checking your home loan, insurance and everyday spending before December.",
       "refinance-home-loan-perth-rate-rise-2026": "Home loan rates are rising again. See what the latest RBA rate increase means for Perth homeowners and whether it is time to refinance or review your mortgage.",

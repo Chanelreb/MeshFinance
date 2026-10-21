@@ -44,7 +44,7 @@ function HomeScreen({ onNav }) {
           <div style={h.heroCopy}>
             <Badge color="blue" dot>Perth, Western Australia</Badge>
             <h1 style={{...h.h1, ...(isMobile ? h.h1Mobile : {})}}>Your finance partner through every stage of life.</h1>
-            <p style={h.lead}>From buying your first home to refinancing, investing or simply getting a better deal, we help you make confident decisions with clear advice and genuine support.</p>
+            <p style={h.lead}>From buying your first home to refinancing, investing or simply getting a better deal, our Perth mortgage brokers help you make confident decisions with clear advice and genuine support.</p>
             <div style={{...h.heroBtns, ...(isMobile ? h.heroBtnsMobile : {})}}>
               <Button size="lg" onClick={()=>onNav("financial-toolkit")} iconRight={<ArrowRight width={18} height={18}/>}>Explore the toolkit</Button>
             </div>
