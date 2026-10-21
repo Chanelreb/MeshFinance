@@ -127,6 +127,7 @@ function App() {
     "referral-hub": window.MeshReferralHubScreen,
     "contact": window.MeshContactScreen,
     "about-us": window.MeshAboutScreen,
+    "areas-we-serve": window.MeshAreasScreen,
     "privacy-policy": window.MeshPrivacyPolicyScreen,
     "terms-conditions": window.MeshTermsConditionsScreen,
     "disclaimer": window.MeshDisclaimerScreen,

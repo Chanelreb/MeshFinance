@@ -31,6 +31,7 @@ window.MeshContent = {
     { id: "contact", label: "Connect With Us", children: [
       { id: "about-us", label: "About Us" },
       { id: "referral-hub", label: "Referral Hub" },
+      { id: "areas-we-serve", label: "Areas We Serve" },
       { id: "contact", label: "Contact Us" },
     ]},
   ],
