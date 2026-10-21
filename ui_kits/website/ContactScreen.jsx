@@ -35,7 +35,7 @@ function CalendlyEmbed({ onScheduled }) {
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
   }, [onScheduled]);
-  return <div ref={ref} style={{ minWidth: 280, height: 660 }} aria-label="Book a time with Mesh Finance" />;
+  return <div ref={ref} style={{ minWidth: 280, height: 660 }} role="region" aria-label="Book a time with Mesh Finance" />;
 }
 
 function ContactScreen({ onNav }) {
@@ -135,7 +135,7 @@ function ContactScreen({ onNav }) {
                 <Field label="Phone"><Input name="phone" type="tel" placeholder="04xx xxx xxx"/></Field>
               </div>
               <Field label="Finance Required">
-                <Select name="financeRequired" placeholder="Select Loan Type" defaultValue="">
+                <Select name="financeRequired" aria-label="Finance required" placeholder="Select Loan Type" defaultValue="">
                   <option>Home Loan</option><option>Car Loan</option><option>Caravan Loan</option>
                   <option>Debt Consolidation</option><option>Personal Loan</option><option>Bad Credit Loan</option>
                 </Select>

@@ -349,13 +349,13 @@ function HLRCalendlyEmbed({ prefill, onScheduled }) {
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
   }, [onScheduled]);
-  return <div ref={ref} style={{ minWidth: 260, height: 700 }} aria-label="Book a time with Mesh Finance"/>;
+  return <div ref={ref} style={{ minWidth: 260, height: 700 }} role="region" aria-label="Book a time with Mesh Finance"/>;
 }
 
 /* Industry-body logo with a labelled fallback. */
 function HLRAssocLogo({ src, label }) {
   const [failed, setFailed] = React.useState(false);
-  if (failed) return <span style={hlrS.logoBadge} aria-label={label}>{label}</span>;
+  if (failed) return <span style={hlrS.logoBadge}>{label}</span>;
   return <img src={src} alt={label} style={hlrS.logoImg} onError={()=>setFailed(true)}/>;
 }
 
@@ -371,7 +371,7 @@ function HLRGoogleReviews() {
     sc.defer = true;
     el.appendChild(sc);
   }, []);
-  return <div ref={ref} aria-label="Google reviews for Mesh Finance"/>;
+  return <div ref={ref} role="region" aria-label="Google reviews for Mesh Finance"/>;
 }
 
 /* Styles: a copy of the Family Finance Check landing styles so the two

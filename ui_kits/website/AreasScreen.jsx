@@ -92,7 +92,7 @@ function AreasScreen({ onNav }) {
                 <h2 style={arS.h2}>{r.h}</h2>
               </div>
               {r.body.map((p, j) => <p key={j} style={arS.p}>{p}</p>)}
-              <div style={arS.chips} aria-label={"Suburbs we serve in " + r.h}>
+              <div style={arS.chips} role="group" aria-label={"Suburbs we serve in " + r.h}>
                 {r.suburbs.map((sName, j) => <span key={j} style={arS.chip}>{sName}</span>)}
               </div>
               <div style={arS.linkRow}>

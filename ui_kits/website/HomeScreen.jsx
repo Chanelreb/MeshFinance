@@ -73,7 +73,7 @@ function HomeScreen({ onNav }) {
                     <Field label="Phone" required><Input name="phone" type="tel" required placeholder="04xx xxx xxx"/></Field>
                   </div>
                   <Field label="Finance Required">
-                    <Select name="financeRequired" placeholder="Select Loan Type" defaultValue="">
+                    <Select name="financeRequired" aria-label="Finance required" placeholder="Select Loan Type" defaultValue="">
                       <option>Home Loan</option><option>Investment Loan</option><option>First Home Buyer</option>
                       <option>Debt Consolidation</option><option>Car / Caravan Loan</option><option>Personal Loan</option>
                       <option>Review my existing loans</option>
@@ -198,7 +198,7 @@ function HomeCalendlyEmbed({ prefill, onScheduled }) {
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
   }, [onScheduled]);
-  return <div ref={ref} style={{ minWidth: 260, height: 620 }} aria-label="Book a time with Mesh Finance"/>;
+  return <div ref={ref} style={{ minWidth: 260, height: 620 }} role="region" aria-label="Book a time with Mesh Finance"/>;
 }
 
 /* Google reviews banner, loads the Trustindex widget once and renders it into this container. */
@@ -213,7 +213,7 @@ function GoogleReviews() {
     s.defer = true;
     el.appendChild(s);
   }, []);
-  return <div ref={ref} aria-label="Google reviews for Mesh Finance"/>;
+  return <div ref={ref} role="region" aria-label="Google reviews for Mesh Finance"/>;
 }
 
 const h = {
