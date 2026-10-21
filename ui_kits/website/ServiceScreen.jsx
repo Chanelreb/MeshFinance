@@ -24,7 +24,7 @@ function ServiceScreen({ onNav }) {
           <div style={svcS.headCopy}>
             <Badge color="solid">First Home Buyers</Badge>
             <h1 style={svcS.h1}>First Home Buyers in WA</h1>
-            <p style={svcS.lead}>For first home buyers the process of purchasing a home can be overwhelming. From saving for a deposit to navigating the complex world of loans and financing, it can be difficult to know where to start. There are a range of First Home Buyer benefits available to help young Australians into their first home.</p>
+            <p style={svcS.lead}>For first home buyers in Perth and across WA, the process of purchasing a home can be overwhelming. We compare first home buyer loans across 40+ lenders and check every grant and scheme you qualify for. From saving for a deposit to navigating the complex world of loans and financing, it can be difficult to know where to start. There are a range of First Home Buyer benefits available to help young Australians into their first home.</p>
             <Button size="lg" onClick={()=>onNav("contact")}>Book in for a First Home Q&A</Button>
           </div>
         </div>

@@ -86,6 +86,27 @@ const server = http.createServer((req, res) => {
     return res.end("Bad request");
   }
 
+  /* One address per page. Search Console showed the site indexed under both
+     www and non-www hosts, with and without trailing slashes, and at legacy
+     WordPress URLs. Send all of those to the canonical address with a 301 so
+     Google consolidates them. Static assets are left alone. */
+  const host = String(req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim().toLowerCase();
+  const query = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+  if (/^www\.meshfinance\.com\.au$/.test(host)) {
+    res.writeHead(301, { Location: "https://meshfinance.com.au" + urlPath + query });
+    return res.end();
+  }
+  if (!path.extname(urlPath)) {
+    const stripped = urlPath.length > 1 ? urlPath.replace(/\/+$/, "") : urlPath;
+    const seg = stripped.replace(/^\//, "");
+    const canon = seg === "home" || ALIASES[seg] === "home" ? "" : ALIASES[seg];
+    const target = canon !== undefined ? "/" + canon : stripped;
+    if (target !== urlPath) {
+      res.writeHead(301, { Location: target + query });
+      return res.end();
+    }
+  }
+
   /* Never serve dotfiles or dot-directories (.git, .claude, .gitignore, …).
      This also blocks path-traversal segments (../). */
   if (urlPath.split("/").some((seg) => seg.startsWith("."))) {

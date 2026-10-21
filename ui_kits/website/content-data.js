@@ -558,7 +558,7 @@ window.MeshContent = {
     "home-loans": {
       eyebrow: "Financial Toolkit",
       title: "Home Loans in Perth, Compared and Tailored to You",
-      metaTitle: "Home Loan Broker Perth | Compare Home Loans | Mesh Finance",
+      metaTitle: "Home Loans Perth | Home Loan Broker Comparing 40+ Lenders | Mesh Finance",
       metaDescription: "Compare home loans across a wide panel of lenders with Mesh Finance, your Perth mortgage broker. First home buyers, upgraders and refinancers welcome. Our service is free.",
       imgAlt: "A family carrying moving boxes into their new empty home",
       hero: { image: "hero-home-loans.jpg", pos: "right 50%", posMobile: "60% 50%" },
@@ -588,6 +588,7 @@ window.MeshContent = {
         { q: "Does using a home loan broker cost me anything?", a: "No. Our service is free to you, the lender pays us a commission once your loan settles, and we disclose it upfront." },
       ],
       links: [
+        { label: "Home Equity Calculator", id: "equity-calculator" },
         { label: "First Home Buyers Guide", id: "first-home-buyers" },
         { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
         { label: "Try Our Online Calculators", id: "calculator-hub" },
@@ -685,9 +686,9 @@ window.MeshContent = {
 
     "investment-home-loans": {
       eyebrow: "Financial Toolkit",
-      title: "Investment Home Loans for Perth Property Investors",
-      metaTitle: "Investment Home Loans Perth | Mesh Finance",
-      metaDescription: "Build your property portfolio with investment home loans compared across multiple lenders by Mesh Finance, Perth mortgage brokers. Interest-only, equity release and more.",
+      title: "Investment Property Loans in Perth, from a Broker Who Compares 40+ Lenders",
+      metaTitle: "Investment Property Mortgage Broker Perth | Investment Home Loans | Mesh Finance",
+      metaDescription: "Looking for an investment property mortgage broker in Perth? Mesh Finance compares investment home loans across 40+ lenders: interest-only, offset accounts, using equity for your deposit and structuring a portfolio.",
       imgAlt: "Aerial view of a coastal town with beachside homes beside the sea",
       hero: { image: "hero-investment-loans.jpg", pos: "right 50%", posMobile: "75% 50%" },
       intro: "Investing in property is one of the most effective ways to build wealth over time, and as Perth mortgage brokers we're here to guide you on your journey. With our expert support, flexible investment loan options, and strategies tailored to your financial goals, we'll help you maximise your opportunities in the property market.",
@@ -699,13 +700,18 @@ window.MeshContent = {
           { t: "Access to Competitive Rates and Diverse Lenders", b: "We partner with a wide range of lenders to bring you competitive rates and exclusive deals, often better than a single bank." },
         ]},
         { h: "How Mesh Finance Simplifies Your Investment Experience", body: "Investment loans can be more complex than standard home loans, but that's where our expertise shines, bank-beating deals and specialised investment advice. We handle the research and loan applications for you, so you avoid multiple credit inquiries, and with pre-approval you can confidently search for your next property." },
+        { h: "Why use an investment property mortgage broker in Perth?", body: ["Banks assess investors differently from owner-occupiers: rental income is shaded, interest-only periods are capped, and some lenders limit how many properties they will fund. An investment mortgage broker knows which lenders suit a first investment property and which suit a growing portfolio, so your loan is structured for the next purchase, not just this one.","Mesh Finance is a Perth investment property mortgage broker comparing investment home loans across 40+ lenders. We look at your usable equity, your borrowing power with rental income included, and whether interest-only or principal and interest makes sense for your plan, then handle the application through to settlement."] },
       ],
       faqs: [
+        { q: "Do I need an investment property mortgage broker, or can I just go to my bank?", a: "You can go direct, but your bank will only show you its own investment loans and its own policy on rental income, interest-only terms and portfolio limits. A broker compares that against 40+ lenders and structures the loan with your next property in mind. There is no cost to you for the comparison." },
+        { q: "Can I use the equity in my home to buy an investment property in Perth?", a: "Often, yes. Lenders will usually let you borrow against up to 80% of your home's value without lenders mortgage insurance, and the released equity can fund the deposit and costs on an investment property. Our equity calculator gives you a quick estimate, and we confirm the figure with a lender valuation." },
         { q: "How much deposit do I need for an investment property?", a: "Many lenders want 10 to 20 percent, but if you own property already you may be able to use equity instead of cash. We'll model both paths for you." },
         { q: "Should I choose interest-only or principal and interest?", a: "Interest-only boosts short-term cash flow while principal and interest reduces debt faster. The right choice depends on your strategy, tax position and how long you plan to hold." },
         { q: "Can you compare investment loans across lenders?", a: "Yes. We compare rates, structures and investor policies across our lender panel, which often turns up sharper deals than any single bank offers." },
       ],
       links: [
+        { label: "Home Equity Calculator", id: "equity-calculator" },
+        { label: "Refinance to Release Equity", id: "refinance-home-loans" },
         { label: "Borrowing Power Calculator", id: "calc-borrowing-power" },
         { label: "Interest Only Calculator", id: "calc-interest-only" },
         { label: "Home Loans", id: "home-loans" },
@@ -786,9 +792,9 @@ window.MeshContent = {
 
     "car-loans": {
       eyebrow: "Financial Toolkit",
-      title: "Car Loans in Perth, New, Used, Dealer or Private",
-      metaTitle: "Car Loans Perth | New & Used Vehicle Finance | Mesh Finance",
-      metaDescription: "Get behind the wheel sooner with car loans compared across lenders by Mesh Finance, Perth finance brokers. New or used, dealer or private sale, pre-approval available.",
+      title: "Car Loans and Chattel Mortgages in Perth",
+      metaTitle: "Car Loans & Chattel Mortgage Perth | Vehicle Finance | Mesh Finance",
+      metaDescription: "Car loans and chattel mortgages in Perth for new, used, dealer and private-sale vehicles. Mesh Finance compares personal car loans and business vehicle finance across lenders, secured or unsecured.",
       imgAlt: "4WDs and campers set up on a wide WA beach with the ocean beyond",
       hero: { image: "hero-leisure-loans.jpg", pos: "right 50%", posMobile: "40% 60%" },
       intro: "Looking to purchase a car in Perth? Whether it's a new or used vehicle, from a dealership or a private seller, Mesh Finance makes it easy to get behind the wheel with tailored car loan options compared across lenders, secured or unsecured, we have you covered.",
@@ -804,8 +810,10 @@ window.MeshContent = {
           "Balloons and Residuals Available, keep monthly payments low.",
           "All-Aged Vehicles Accepted, finance cars of any age.",
         ]},
+        { h: "Chattel mortgage for business vehicles", body: ["If the vehicle is mainly for business use, a chattel mortgage is often the better structure. The business owns the vehicle from day one, the lender takes a mortgage over it as security, and the business can usually claim the GST on the purchase price upfront along with interest and depreciation. Balloon payments are available to keep repayments down.","We arrange chattel mortgages in Perth for sole traders, partnerships and companies, for cars, utes, vans and light trucks, and compare lender rates and balloon options so the finance fits your cash flow."] },
       ],
       faqs: [
+        { q: "What is a chattel mortgage?", a: "A chattel mortgage is business vehicle finance. Your business owns the vehicle, the lender holds a mortgage over it as security, and you may be able to claim the GST upfront and deduct interest and depreciation. It suits vehicles used mostly for business; for personal use, a standard car loan is usually the right fit." },
         { q: "Can I get a car loan for a private sale?", a: "Yes. We arrange finance for private-seller purchases as well as dealership buys, and we handle the extra paperwork private sales involve." },
         { q: "What is a balloon payment on a car loan?", a: "A balloon is a lump sum left to the end of the loan, which lowers your monthly repayments. It suits buyers who upgrade regularly or expect a future payout, and we'll model whether it works for you." },
         { q: "Should I get pre-approved before car shopping?", a: "It's the strongest position to buy from. Pre-approval sets your budget, speeds up settlement and gives you real negotiating power at the dealership." },
@@ -820,9 +828,9 @@ window.MeshContent = {
 
     "leisure-loans": {
       eyebrow: "Financial Toolkit",
-      title: "Caravan, Boat and Leisure Loans in Perth",
-      metaTitle: "Caravan & Boat Loans Perth | Leisure Finance | Mesh Finance",
-      metaDescription: "Finance your caravan, motorhome, boat or jetski with leisure loans compared across lenders by Mesh Finance, Perth finance brokers. New or used, flexible terms.",
+      title: "Jet Ski, Boat and Caravan Loans in Perth",
+      metaTitle: "Jet Ski Finance, Boat & Caravan Loans Perth | Mesh Finance",
+      metaDescription: "Jet ski finance, boat loans and caravan loans in Perth. Mesh Finance compares leisure loans across lenders for new, used and private-sale purchases, with flexible terms and fast pre-approval.",
       imgAlt: "4WDs and campers set up on a wide WA beach with the ocean beyond",
       hero: { image: "hero-leisure-loans.jpg", pos: "right 50%", posMobile: "40% 60%" },
       intro: "Ready to hit the road or the water? Whether it's a caravan, motorhome, boat or jetski, Mesh Finance makes financing your next adventure simple, comparing leisure loan options across lenders with flexible terms built around how you'll actually use it.",
@@ -835,8 +843,10 @@ window.MeshContent = {
         ]},
         { h: "Flexible Loan Terms", body: "Choose a term that suits your budget, with balloon or residual payment options available to keep regular repayments manageable." },
         { h: "Bank-Beating Deals from a Range of Lenders", body: "We partner with multiple lenders to find competitive rates and terms, and by comparing on your behalf, we help protect your credit score from unnecessary enquiries." },
+        { h: "Jet ski finance in Perth", body: ["Jet ski loans work much like car loans: the jet ski (and trailer) secures the loan, terms usually run from two to seven years, and you can buy new from a dealer or used from a private seller. Lenders look at the age and value of the craft, your income and your credit history, and some will finance the trailer, registration and safety gear in the same loan.","We compare jet ski finance across lenders who are comfortable with personal watercraft, so you are not relying on one bank's view. Pre-approval is usually quick, which matters when the right jet ski comes up for sale."] },
       ],
       faqs: [
+        { q: "Can I get finance for a jet ski?", a: "Yes. Jet ski finance is a secured leisure loan, typically over two to seven years, for new or used personal watercraft bought from a dealer or a private seller. Some lenders will include the trailer and safety equipment in the loan amount." },
         { q: "Can I finance a used caravan or boat from a private seller?", a: "Yes. We finance leisure assets of any age from dealers or private sellers, and we sort the inspection and paperwork requirements lenders attach to private sales." },
         { q: "Are caravan loan rates higher than car loan rates?", a: "They're often similar for secured loans on newer assets. Rates vary with the asset's age and the loan structure, which is exactly what we compare across lenders for you." },
         { q: "Can I keep repayments low with a balloon payment?", a: "Usually, yes. Balloon and residual options are available on most leisure loans, trading a lump sum at the end for lower regular repayments." },

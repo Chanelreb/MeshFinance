@@ -10,6 +10,15 @@
 
     /* Legacy / SEO-friendly URL aliases -> canonical route id. */
     aliases: {
+      /* Legacy WordPress URLs still showing in Search Console (server.js 301s them). */
+      "services": "financial-toolkit",
+      "family-guarantee-home-loans": "family-guarantee",
+      "extra-repayment-calculator": "calc-extra-repayment",
+      "home-loan-offset-calculator": "calc-offset-vs-redraw",
+      "budget-planner": "money-by-design",
+      "lenders-mortgage-insurance": "first-home-buyers",
+      "home-dark": "home",
+      "customer-cabinet-2": "home",
       "calc-stamp-duty": "stamp-duty-calculator",
       "contact-us": "contact",
       "calc-lump-sum": "calc-extra-repayment",
@@ -24,7 +33,7 @@
       "home": "Mortgage Broker Perth | Home Loans & Refinancing | Mesh Finance",
       "financial-toolkit": "Financial Toolkit | Mesh Finance",
       "who-we-help": "Who We Help | Mesh Finance",
-      "first-home-buyers": "First Home Buyer WA | Grants, Schemes & Pre-Approval | Mesh Finance",
+      "first-home-buyers": "First Home Buyer Loans Perth & WA | Grants & Schemes | Mesh Finance",
       "family-guarantee": "Family Guarantee Home Loans | Mesh Finance",
       "ato-debt": "ATO Debt Loans | Mesh Finance",
       "calculator-hub": "Calculator Hub | Mesh Finance",
