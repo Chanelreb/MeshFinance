@@ -285,8 +285,8 @@ function HomeLoanReviewScreen({ onNav }) {
             <p style={fs.aboutTitle}>{HLR.about.title}</p>
             <p style={fs.aboutLicence}>{HLR.about.licence}</p>
             <div style={fs.aboutLogos}>
-              <span style={fs.logoChip}><HLRAssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
-              <span style={fs.logoChip}><HLRAssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
+              <span style={fs.logoChip}><HLRAssocLogo src="../../assets/afca-logo-v2.png" label="AFCA"/></span>
+              <span style={fs.logoChip}><HLRAssocLogo src="../../assets/fbaa-stacked-v2.jpg" label="FBAA"/></span>
             </div>
           </div>
           <div style={fs.aboutMapCol}>

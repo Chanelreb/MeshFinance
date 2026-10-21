@@ -16,11 +16,11 @@ function Footer({ onNav }) {
     <footer style={ft.wrap}>
       <div style={{...ft.inner, ...(isMobile ? ft.innerMobile : {})}}>
         <div style={ft.brandCol}>
-          <img src="../../assets/mesh-logo-white.png" alt="Mesh Finance" style={{height:46}}/>
+          <img src="../../assets/mesh-logo-white-v2.png" alt="Mesh Finance" style={{height:46}}/>
           <p style={ft.licence}>Credit Representative Number 506123 is authorised under Australian Credit Licence Number 384704.</p>
           <div style={ft.accred}>
-            <span style={ft.accredChip}><img src="../../assets/afca-logo-hi-res.png" alt="AFCA member" style={ft.accredImg}/></span>
-            <span style={ft.accredChip}><img src="../../assets/fbaa-logo-transparent.png" alt="FBAA Accredited Member" style={ft.accredImg}/></span>
+            <span style={ft.accredChip}><img src="../../assets/afca-logo-v2.png" alt="AFCA member" style={ft.accredImg}/></span>
+            <span style={ft.accredChip}><img src="../../assets/fbaa-logo-v2.png" alt="FBAA Accredited Member" style={ft.accredImg}/></span>
           </div>
           <div style={ft.social}>
             {[

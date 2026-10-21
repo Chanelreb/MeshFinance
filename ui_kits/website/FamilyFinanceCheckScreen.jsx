@@ -272,8 +272,8 @@ function FamilyFinanceCheckScreen({ onNav }) {
             <p style={s.aboutTitle}>{FFC.about.title}</p>
             <p style={s.aboutLicence}>{FFC.about.licence}</p>
             <div style={s.aboutLogos}>
-              <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-hi-res.png" label="AFCA"/></span>
-              <span style={s.logoChip}><AssocLogo src="../../assets/FBAA-ACCREDITED-STACKED-LOGO-.jpg" label="FBAA"/></span>
+              <span style={s.logoChip}><AssocLogo src="../../assets/afca-logo-v2.png" label="AFCA"/></span>
+              <span style={s.logoChip}><AssocLogo src="../../assets/fbaa-stacked-v2.jpg" label="FBAA"/></span>
             </div>
           </div>
           <div style={s.aboutMapCol}>

@@ -78,6 +78,22 @@ vHash.update(bundle);
   .forEach(f => vHash.update(fs.readFileSync(path.join(ROOT, f))));
 const BUILD_V = vHash.digest("hex").slice(0, 10);
 
+/* Resolve @import "x.css" lines in a stylesheet (relative to ROOT) and return
+ * one flat CSS string, comments stripped and whitespace collapsed. */
+function inlineCss(rel, seen) {
+  seen = seen || new Set();
+  const file = path.join(ROOT, rel);
+  if (seen.has(file)) return "";
+  seen.add(file);
+  const dir = path.dirname(rel);
+  const css = fs.readFileSync(file, "utf8")
+    .replace(/@import\s+(?:url\()?["']?([^"')]+)["']?\)?\s*;/g, (m, target) => {
+      if (/^https?:/.test(target)) return m;
+      return inlineCss(path.join(dir, target).replace(/\\/g, "/"), seen);
+    });
+  return css.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s+/g, " ").replace(/\s*([{}:;,])\s*/g, "$1").trim();
+}
+
 let outHtml = srcHtml
   // self-hosted production React (no third-party origin, no render-blocking head scripts)
   .replace(/<script defer src="https:\/\/unpkg\.com\/react@18\.3\.1\/umd\/react\.development\.js"[^>]*><\/script>/,
@@ -86,7 +102,9 @@ let outHtml = srcHtml
     '<script defer src="vendor/react-dom.production.min.js?v=' + BUILD_V + '"></script>')
   // versioned URLs for the local data scripts and the stylesheet
   .replace(/<script defer src="((?:content-data|seo-data|responsive|forms)\.js)"><\/script>/g, '<script defer src="$1?v=' + BUILD_V + '"></script>')
-  .replace('<link rel="stylesheet" href="../../styles.css" />', '<link rel="stylesheet" href="../../styles.css?v=' + BUILD_V + '" />')
+  // styles.css only @imports the five small token files; inline the lot so the
+  // first paint does not wait on six sequential stylesheet requests.
+  .replace('<link rel="stylesheet" href="../../styles.css" />', '<style>' + inlineCss("styles.css") + '</style>')
   // the app reads this to version the scripts it loads on demand
   .replace("</head>", '<meta name="mesh-build" content="' + BUILD_V + '" />\n</head>')
   // drop the in-browser Babel compiler

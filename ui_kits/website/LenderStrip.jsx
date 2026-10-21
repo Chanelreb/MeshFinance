@@ -41,7 +41,7 @@ function LenderStrip() {
               const sized = s !== 1 ? { maxHeight: (38 * s) + "px", maxWidth: (250 * s) + "px" } : null;
               return (
                 <div key={i} className="mesh-lender-item">
-                  <img className="mesh-lender-logo" src={"../../assets/lenders/" + l.file}
+                  <img className="mesh-lender-logo" src={"../../assets/lenders-v2/" + l.file}
                     alt={l.name} loading="lazy" draggable="false" style={sized}/>
                 </div>
               );

@@ -50,7 +50,8 @@ function send(res, status, filePath, versioned) {
     /* HTML always revalidates (304 when unchanged). Scripts and stylesheets
        requested with the build's ?v= query (see build.js) are immutable for a
        year, since any change produces a new URL; without it they revalidate.
-       Images and fonts use versioned filenames, so they can cache for a week. */
+       Images and fonts get new filenames when they change (v2, v3), so they
+       can cache for a year. */
     const ext = path.extname(filePath).toLowerCase();
     const code = [".js", ".jsx", ".css", ".json"].includes(ext);
     const revalidate = ext === ".html" || ext === ".xml" || (code && !versioned);
@@ -58,7 +59,7 @@ function send(res, status, filePath, versioned) {
       "Content-Type": MIME[ext] || "application/octet-stream",
       "Cache-Control": revalidate ? "no-cache"
         : versioned ? "public, max-age=31536000, immutable"
-        : "public, max-age=604800",
+        : "public, max-age=31536000, immutable",
     });
     res.end(data);
   });

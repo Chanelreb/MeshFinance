@@ -43,14 +43,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Mortgage Broker Perth | Home Loans & Refinancing | Mesh Finance" />
 <meta name="twitter:description" content="Mesh Finance is a Perth mortgage broker helping with home loans, refinancing, first home buyers, investment property, debt consolidation and asset finance. Free, no-obligation chat." />
 <meta name="twitter:image" content="https://meshfinance.com.au/assets/hero-home.jpg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" />
+<!-- Fonts are self-hosted (see tokens/fonts.css); preload both so text renders in the brand fonts straight away. -->
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/montserrat-latin.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/worksans-latin.woff2" crossorigin />
 <link rel="stylesheet" href="../../styles.css" />
 <!-- Homepage hero: preloaded so the browser fetches it before the app renders
      (build.js strips these from every other route). -->
-<link rel="preload" as="image" href="/assets/hero-home-v2.webp" media="(min-width: 861px)" data-home-only />
-<link rel="preload" as="image" href="/assets/hero-home-mobile-v2.webp" media="(max-width: 860px)" data-home-only />
+<link rel="preload" as="image" href="/assets/hero-home-v2.webp" media="(min-width: 861px)" fetchpriority="high" data-home-only />
+<link rel="preload" as="image" href="/assets/hero-home-mobile-v2.webp" media="(max-width: 860px)" fetchpriority="high" data-home-only />
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script type="text/babel" src="../../_ds_bundle.local.jsx"></script>
 <style>
