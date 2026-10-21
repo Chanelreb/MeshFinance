@@ -207,6 +207,22 @@ function FamilyFinanceCheckScreen({ onNav }) {
       {/* ACCREDITED LENDERS, strip under the hero */}
       <window.MeshLenderStrip/>
 
+      {/* PROCESS */}
+      <section style={s.bodyTint}>
+        <div style={s.wide}>
+          <h2 style={{...s.h2, textAlign:"center", marginBottom:28}}>{FFC.process.h}</h2>
+          <div style={{...s.stepGrid, ...(isMobile ? s.grid1 : {})}}>
+            {FFC.process.steps.map((st,i)=>(
+              <div key={i} style={s.stepCard}>
+                <span style={s.stepNum}>{i+1}</span>
+                <h3 style={s.stepTitle}>{st.t}</h3>
+                <p style={s.cardBody}>{st.b}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* GOOGLE REVIEWS */}
       <section style={s.reviewsBand}>
         <div style={s.reviewsInner}><GoogleReviews/></div>
@@ -234,22 +250,6 @@ function FamilyFinanceCheckScreen({ onNav }) {
           <p style={s.p}>{FFC.forWhom.lead}</p>
           <CheckList items={FFC.forWhom.list}/>
           <p style={{...s.p, fontWeight:600, color:"var(--navy-700)"}}>{FFC.forWhom.closing}</p>
-        </div>
-      </section>
-
-      {/* PROCESS */}
-      <section style={s.bodyTint}>
-        <div style={s.wide}>
-          <h2 style={{...s.h2, textAlign:"center", marginBottom:28}}>{FFC.process.h}</h2>
-          <div style={{...s.stepGrid, ...(isMobile ? s.grid1 : {})}}>
-            {FFC.process.steps.map((st,i)=>(
-              <div key={i} style={s.stepCard}>
-                <span style={s.stepNum}>{i+1}</span>
-                <h3 style={s.stepTitle}>{st.t}</h3>
-                <p style={s.cardBody}>{st.b}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
