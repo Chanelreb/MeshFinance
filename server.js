@@ -14,6 +14,12 @@ const WEB = path.join(ROOT, "ui_kits", "website");
 const INDEX_HTML = path.join(WEB, "index.html");
 const ROUTES_DIR = path.join(WEB, "routes");
 const NOT_FOUND_HTML = path.join(ROUTES_DIR, "404.html");
+/* robots.txt lives inside the website folder rather than at the repository
+   root: the host's staging-to-live promotion skips a root-level robots.txt
+   (a common safeguard so a staging file cannot block production), which left
+   production answering 404 for it. */
+const ROBOTS_TXT = path.join(WEB, "robots.txt");
+const FAVICON = path.join(ROOT, "assets", "favicon.png");
 const routesAvailable = fs.existsSync(ROUTES_DIR);
 
 /* Shared route aliases + no-index list (same file the app and build use). */
@@ -54,7 +60,7 @@ function send(res, status, filePath, versioned) {
        can cache for a year. */
     const ext = path.extname(filePath).toLowerCase();
     const code = [".js", ".jsx", ".css", ".json"].includes(ext);
-    const revalidate = ext === ".html" || ext === ".xml" || (code && !versioned);
+    const revalidate = ext === ".html" || ext === ".xml" || ext === ".txt" || (code && !versioned);
     res.writeHead(status, {
       "Content-Type": MIME[ext] || "application/octet-stream",
       "Cache-Control": revalidate ? "no-cache"
@@ -136,6 +142,10 @@ const server = http.createServer((req, res) => {
     /* Genuinely unknown: real 404. */
     return send(res, 404, fs.existsSync(NOT_FOUND_HTML) ? NOT_FOUND_HTML : INDEX_HTML);
   }
+
+  /* Well-known root files. */
+  if (urlPath === "/robots.txt") return send(res, 200, ROBOTS_TXT);
+  if (urlPath === "/favicon.ico") return send(res, 200, FAVICON);
 
   /* Real files with an extension. */
   const filePath = path.normalize(path.join(ROOT, urlPath));
