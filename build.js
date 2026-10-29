@@ -353,13 +353,13 @@ function applyMeta(html, route) {
   let out = html
     .replace(/[ \t]*<link rel="preload"[^>]*data-home-only[^>]*\/>\r?\n/g, "")
     .replace(/<title>[\s\S]*?<\/title>/, "<title>" + title + "</title>")
-    .replace(/(<meta name="description"[^>]*\scontent=")[^"]*(")/, "$1" + desc + "$2")
-    .replace(/(<link rel="canonical" href=")[^"]*(")/, "$1" + url + "$2")
-    .replace(/(<meta property="og:url" content=")[^"]*(")/, "$1" + url + "$2")
-    .replace(/(<meta property="og:title" content=")[^"]*(")/, "$1" + title + "$2")
-    .replace(/(<meta property="og:description" content=")[^"]*(")/, "$1" + desc + "$2")
-    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, "$1" + title + "$2")
-    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, "$1" + desc + "$2");
+    .replace(/(<meta name="description"[^>]*\scontent=")[^"]*(")/, (_, a, b) => a + desc + b)
+    .replace(/(<link rel="canonical" href=")[^"]*(")/, (_, a, b) => a + url + b)
+    .replace(/(<meta property="og:url" content=")[^"]*(")/, (_, a, b) => a + url + b)
+    .replace(/(<meta property="og:title" content=")[^"]*(")/, (_, a, b) => a + title + b)
+    .replace(/(<meta property="og:description" content=")[^"]*(")/, (_, a, b) => a + desc + b)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, (_, a, b) => a + title + b)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, (_, a, b) => a + desc + b);
   out = injectSsr(out, route);
   const ld = jsonLdFor(route, url, m);
   if (ld) {
