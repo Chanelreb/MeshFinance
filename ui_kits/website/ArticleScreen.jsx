@@ -72,7 +72,10 @@ function ArticleScreen({ onNav, slug }) {
     <div>
       <section style={artS.head}>
         <div style={artS.headInner}>
-          <Breadcrumb items={[{label:"Home",href:"#"},{label:"Helpful Articles",href:"#"},{label:d.title}]}/>
+          <Breadcrumb items={[
+            {label:"Home", href:window.meshHref("home"), onClick:(e)=>{e.preventDefault();onNav("home");}},
+            {label:"Helpful Articles", href:window.meshHref("helpful-articles"), onClick:(e)=>{e.preventDefault();onNav("helpful-articles");}},
+            {label:d.title}]}/>
           <Badge color="blue" dot>{d.date}</Badge>
           <h1 style={artS.h1}>{d.title}</h1>
           {d.subtitle && <p style={artS.subtitle}>{d.subtitle}</p>}
@@ -149,14 +152,14 @@ function ArticleScreen({ onNav, slug }) {
             <h3 style={artS.sideH}>Helpful Articles</h3>
             <div style={artS.sideList}>
               {all.map((a,i)=>(
-                <a key={i} href="#" onClick={(e)=>{e.preventDefault();onNav(a.slug);}}
+                <a key={i} href={window.meshHref(a.slug)} onClick={(e)=>{e.preventDefault();onNav(a.slug);}}
                   style={{...artS.sideItem, ...(a.slug===slug?artS.sideItemActive:{})}}>
                   <span style={artS.sideDate}>{a.date}</span>
                   <span style={artS.sideTitle}>{a.title}</span>
                 </a>
               ))}
             </div>
-            <a href="#" onClick={(e)=>{e.preventDefault();onNav("helpful-articles");}} style={artS.sideAll}>View all articles →</a>
+            <a href={window.meshHref("helpful-articles")} onClick={(e)=>{e.preventDefault();onNav("helpful-articles");}} style={artS.sideAll}>View all articles →</a>
           </Card>
         </aside>
       </div>

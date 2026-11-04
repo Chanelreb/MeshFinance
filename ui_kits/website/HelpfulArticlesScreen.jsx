@@ -12,13 +12,16 @@ function HelpfulArticlesScreen({ onNav }) {
     { label: FHB_GROUP, list: grouped },
     { label: "More guides & articles", list: rest },
   ];
+  /* Real links (crawlable hrefs) that still navigate in-app; the click stops at
+     the link so the card's own handler does not navigate a second time. */
+  const go = (slug) => (e) => { e.preventDefault(); e.stopPropagation(); onNav(slug); };
   const renderCard = (a, i) => (
     <Card key={a.slug} elevation="shadow" style={{...haS.card, ...(a.featured?haS.cardFeatured:{})}} onClick={()=>onNav(a.slug)}>
       {a.featured && <span style={haS.featBadge}>★ Featured</span>}
       <span style={haS.date}>{a.date}</span>
-      <h3 style={haS.title}>{a.title}</h3>
+      <h3 style={haS.title}><a href={window.meshHref(a.slug)} style={haS.titleLink} onClick={go(a.slug)}>{a.title}</a></h3>
       <p style={haS.body}>{a.body}</p>
-      <span style={haS.readMore}>Read More »</span>
+      <a href={window.meshHref(a.slug)} style={haS.readMore} onClick={go(a.slug)} aria-label={"Read more: " + a.title}>Read More »</a>
     </Card>
   );
   return (
@@ -57,7 +60,7 @@ function HelpfulArticlesScreen({ onNav }) {
             <h3 style={haS.sideH}>Helpful Articles</h3>
             <div style={haS.sideList}>
               {items.map((a,i)=>(
-                <a key={i} href="#" onClick={(e)=>{e.preventDefault();onNav(a.slug);}} style={haS.sideItem}>
+                <a key={i} href={window.meshHref(a.slug)} onClick={(e)=>{e.preventDefault();onNav(a.slug);}} style={haS.sideItem}>
                   <span style={haS.sideDate}>{a.date}</span>
                   <span style={haS.sideTitle}>{a.title}</span>
                 </a>
@@ -91,8 +94,9 @@ const haS = {
     color:"var(--color-primary)", background:"#fff", padding:"3px 10px", borderRadius:999, marginBottom:4 },
   date: { fontSize:12.5, color:"var(--text-subtle)", fontWeight:600, textTransform:"uppercase", letterSpacing:".04em" },
   title: { fontFamily:"var(--font-display)", fontSize:19, color:"var(--navy-700)", margin:"2px 0 4px", fontWeight:700 },
+  titleLink: { color:"inherit", textDecoration:"none" },
   body: { fontSize:15, color:"var(--text-body)", lineHeight:1.55, margin:0 },
-  readMore: { fontSize:13.5, fontWeight:600, color:"var(--color-primary)", marginTop:4 },
+  readMore: { fontSize:13.5, fontWeight:600, color:"var(--color-primary)", marginTop:4, textDecoration:"none", alignSelf:"flex-start" },
   cta: { padding:"22px 28px", background:"var(--blue-50)", borderRadius:"var(--radius-lg)",
     display:"flex", alignItems:"center", justifyContent:"space-between", gap:20, flexWrap:"wrap" },
   ctaTxt: { fontFamily:"var(--font-display)", fontWeight:600, fontSize:16, color:"var(--navy-700)" },
